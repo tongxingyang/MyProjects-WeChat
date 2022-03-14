@@ -1,0 +1,170 @@
+{
+  "ver": "2.1.4",
+  "importer": "fbx",
+  "imported": true,
+  "uuid": "5ad5cef4-7f9a-427e-a98b-60c9ac697fdd",
+  "files": [],
+  "subMetas": {
+    "060b1": {
+      "importer": "gltf-mesh",
+      "uuid": "5ad5cef4-7f9a-427e-a98b-60c9ac697fdd@060b1",
+      "displayName": "",
+      "id": "060b1",
+      "name": "Tree_2.mesh",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "c34e7": {
+      "importer": "gltf-embeded-image",
+      "uuid": "5ad5cef4-7f9a-427e-a98b-60c9ac697fdd@c34e7",
+      "displayName": "",
+      "id": "c34e7",
+      "name": "贴图 #5.image",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.3",
+      "imported": true,
+      "files": [
+        ".png",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "181cb": {
+      "importer": "gltf-embeded-image",
+      "uuid": "5ad5cef4-7f9a-427e-a98b-60c9ac697fdd@181cb",
+      "displayName": "",
+      "id": "181cb",
+      "name": "贴图 #4.image",
+      "userData": {
+        "gltfIndex": 1
+      },
+      "ver": "1.0.3",
+      "imported": true,
+      "files": [
+        ".png",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "eb794": {
+      "importer": "texture",
+      "uuid": "5ad5cef4-7f9a-427e-a98b-60c9ac697fdd@eb794",
+      "displayName": "",
+      "id": "eb794",
+      "name": "贴图 #5.texture",
+      "userData": {
+        "wrapModeS": "repeat",
+        "wrapModeT": "repeat",
+        "minfilter": "linear",
+        "magfilter": "linear",
+        "mipfilter": "none",
+        "anisotropy": 0,
+        "isUuid": false,
+        "imageUuidOrDatabaseUri": "db://assets/Texture/Tree_2.png"
+      },
+      "ver": "1.0.21",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "442db": {
+      "importer": "texture",
+      "uuid": "5ad5cef4-7f9a-427e-a98b-60c9ac697fdd@442db",
+      "displayName": "",
+      "id": "442db",
+      "name": "贴图 #4.texture",
+      "userData": {
+        "wrapModeS": "repeat",
+        "wrapModeT": "repeat",
+        "minfilter": "linear",
+        "magfilter": "linear",
+        "mipfilter": "none",
+        "anisotropy": 0,
+        "isUuid": false,
+        "imageUuidOrDatabaseUri": "db://assets/Texture/Tree_2.png"
+      },
+      "ver": "1.0.21",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "c31ac": {
+      "importer": "gltf-material",
+      "uuid": "5ad5cef4-7f9a-427e-a98b-60c9ac697fdd@c31ac",
+      "displayName": "",
+      "id": "c31ac",
+      "name": "Tree_2.material",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.14",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "d665e": {
+      "importer": "gltf-scene",
+      "uuid": "5ad5cef4-7f9a-427e-a98b-60c9ac697fdd@d665e",
+      "displayName": "",
+      "id": "d665e",
+      "name": "Tree_2.prefab",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.12",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    }
+  },
+  "userData": {
+    "imageMetas": [
+      {
+        "name": "贴图 #5",
+        "remap": "db://assets/Texture/Tree_2.png",
+        "uri": "5ad5cef4-7f9a-427e-a98b-60c9ac697fdd@c34e7"
+      },
+      {
+        "name": "贴图 #4",
+        "remap": "db://assets/Texture/Tree_2.png",
+        "uri": "5ad5cef4-7f9a-427e-a98b-60c9ac697fdd@181cb"
+      }
+    ],
+    "legacyFbxImporter": false,
+    "redirect": "5ad5cef4-7f9a-427e-a98b-60c9ac697fdd@d665e",
+    "assetFinder": {
+      "meshes": [
+        "5ad5cef4-7f9a-427e-a98b-60c9ac697fdd@060b1"
+      ],
+      "skeletons": [],
+      "textures": [
+        "5ad5cef4-7f9a-427e-a98b-60c9ac697fdd@eb794",
+        "5ad5cef4-7f9a-427e-a98b-60c9ac697fdd@442db"
+      ],
+      "materials": [
+        "5ad5cef4-7f9a-427e-a98b-60c9ac697fdd@c31ac"
+      ],
+      "scenes": [
+        "5ad5cef4-7f9a-427e-a98b-60c9ac697fdd@d665e"
+      ]
+    }
+  }
+}

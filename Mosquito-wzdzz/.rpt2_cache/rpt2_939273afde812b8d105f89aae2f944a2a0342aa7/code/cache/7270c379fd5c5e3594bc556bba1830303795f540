@@ -1,0 +1,7 @@
+{
+  "code": "import GameLogic from \"../GameLogic\";\r\nimport WxApi from \"../../Libs/WxApi\";\r\nexport default class Runner extends Laya.Script {\r\n    constructor() {\r\n        super();\r\n        this.myOwner = null;\r\n        this.hadColl = false;\r\n    }\r\n    onAwake() {\r\n        this.myOwner = this.owner;\r\n    }\r\n    onDisable() {\r\n    }\r\n    checkColl() {\r\n        if (this.hadColl) {\r\n            return;\r\n        }\r\n        let myPos = this.myOwner.transform.position.clone();\r\n        let mPos = GameLogic.Share._mosquitoNode.transform.position.clone();\r\n        myPos.y = 0;\r\n        mPos.y = 0;\r\n        if (Laya.Vector3.distance(myPos, mPos) < 2) {\r\n            this.hadColl = true;\r\n            WxApi.DoVibrate();\r\n            GameLogic.Share.updateMosquitoNum(GameLogic.Share._mosquitoNode.numChildren - 20);\r\n        }\r\n    }\r\n    onUpdate() {\r\n        this.checkColl();\r\n    }\r\n}\r\n",
+  "references": [
+    "E:/FDProjects/Projects/Mosquito-wzdzz/src/Crl/GameLogic.ts",
+    "E:/FDProjects/Projects/Mosquito-wzdzz/src/Libs/WxApi.ts"
+  ]
+}

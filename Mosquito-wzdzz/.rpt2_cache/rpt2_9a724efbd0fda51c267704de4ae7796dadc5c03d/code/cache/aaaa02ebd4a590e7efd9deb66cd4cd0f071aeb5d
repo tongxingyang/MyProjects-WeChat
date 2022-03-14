@@ -1,0 +1,13 @@
+{
+  "code": "import Box1 from \"./FanDong/Box1\";\r\nimport Box2 from \"./FanDong/Box2\";\r\nimport FinishUI from \"./View/FinishUI\";\r\nimport FixNodeY from \"./Libs/FixNodeY\";\r\nimport GameUI from \"./View/GameUI\";\r\nimport LoadingUI from \"./View/LoadingUI\";\r\nimport StartUI from \"./View/StartUI\";\r\nimport ScaleLoop from \"./Libs/ScaleLoop\";\r\nexport default class GameConfig {\r\n    constructor() {\r\n    }\r\n    static init() {\r\n        var reg = Laya.ClassUtils.regClass;\r\n        reg(\"FanDong/Box1.ts\", Box1);\r\n        reg(\"FanDong/Box2.ts\", Box2);\r\n        reg(\"View/FinishUI.ts\", FinishUI);\r\n        reg(\"Libs/FixNodeY.ts\", FixNodeY);\r\n        reg(\"View/GameUI.ts\", GameUI);\r\n        reg(\"View/LoadingUI.ts\", LoadingUI);\r\n        reg(\"View/StartUI.ts\", StartUI);\r\n        reg(\"Libs/ScaleLoop.ts\", ScaleLoop);\r\n    }\r\n}\r\nGameConfig.width = 750;\r\nGameConfig.height = 1334;\r\nGameConfig.scaleMode = \"fixedwidth\";\r\nGameConfig.screenMode = \"vertical\";\r\nGameConfig.alignV = \"top\";\r\nGameConfig.alignH = \"left\";\r\nGameConfig.startScene = \"FDScene/Box1.scene\";\r\nGameConfig.sceneRoot = \"\";\r\nGameConfig.debug = false;\r\nGameConfig.stat = false;\r\nGameConfig.physicsDebug = false;\r\nGameConfig.exportSceneToJson = true;\r\nGameConfig.init();\r\n",
+  "references": [
+    "E:/FDProjects/Projects/Mosquito-wzdzz/src/FanDong/Box1.ts",
+    "E:/FDProjects/Projects/Mosquito-wzdzz/src/FanDong/Box2.ts",
+    "E:/FDProjects/Projects/Mosquito-wzdzz/src/View/FinishUI.ts",
+    "E:/FDProjects/Projects/Mosquito-wzdzz/src/Libs/FixNodeY.ts",
+    "E:/FDProjects/Projects/Mosquito-wzdzz/src/View/GameUI.ts",
+    "E:/FDProjects/Projects/Mosquito-wzdzz/src/View/LoadingUI.ts",
+    "E:/FDProjects/Projects/Mosquito-wzdzz/src/View/StartUI.ts",
+    "E:/FDProjects/Projects/Mosquito-wzdzz/src/Libs/ScaleLoop.ts"
+  ]
+}

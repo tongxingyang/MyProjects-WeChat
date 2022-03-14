@@ -1,0 +1,10 @@
+{
+  "code": "import GameLogic from \"../Crl/GameLogic\";\r\nimport FdAd from \"../FanDong/FdAd\";\r\nimport FdMgr from \"../FanDong/fdMgr\";\r\nimport PlayerDataMgr from \"../Libs/PlayerDataMgr\";\r\nimport Utility from \"../Mod/Utility\";\r\nexport default class FinishUI extends Laya.Scene {\r\n    constructor() {\r\n        super();\r\n    }\r\n    onOpened(param) {\r\n        let isWin = GameLogic.Share.isWin;\r\n        this.winTitle.visible = isWin;\r\n        this.loseTitle.visible = !isWin;\r\n        this.nextBtn.visible = isWin;\r\n        this.restartBtn.visible = !isWin;\r\n        Utility.addClickEvent(this.restartBtn, this, this.back);\r\n        Utility.addClickEvent(this.nextBtn, this, this.back);\r\n        FdAd.hideBannerAd();\r\n        FdAd.visibleSideGridAd();\r\n        if (FdMgr.banner_gezi_switch) {\r\n            FdAd.showBannerAd();\r\n        }\r\n        else {\r\n            FdAd.visibleBottomGridAd();\r\n        }\r\n    }\r\n    onClosed() {\r\n    }\r\n    back() {\r\n        FdAd.hideBannerAd();\r\n        FdAd.visibleBottomGridAd(false);\r\n        FdAd.visibleSideGridAd(false);\r\n        FdMgr.loadGame(() => {\r\n            if (GameLogic.Share.isWin) {\r\n                PlayerDataMgr.getPlayerData().grade++;\r\n                PlayerDataMgr.setPlayerData();\r\n            }\r\n            FdMgr.gameCount++;\r\n            this.close();\r\n            GameLogic.Share.restartGame();\r\n            Laya.Scene.open('MyScenes/StartUI.scene', true);\r\n        });\r\n    }\r\n}\r\n",
+  "references": [
+    "E:/FDProjects/Projects/Mosquito-wzdzz/src/Crl/GameLogic.ts",
+    "E:/FDProjects/Projects/Mosquito-wzdzz/src/FanDong/FdAd.ts",
+    "E:/FDProjects/Projects/Mosquito-wzdzz/src/FanDong/fdMgr.ts",
+    "E:/FDProjects/Projects/Mosquito-wzdzz/src/Libs/PlayerDataMgr.ts",
+    "E:/FDProjects/Projects/Mosquito-wzdzz/src/Mod/Utility.ts"
+  ]
+}

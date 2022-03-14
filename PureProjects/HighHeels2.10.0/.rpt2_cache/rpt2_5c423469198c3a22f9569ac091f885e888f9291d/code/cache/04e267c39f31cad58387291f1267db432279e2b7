@@ -1,0 +1,10 @@
+{
+  "code": "import GameLogic from \"../Crl/GameLogic\";\r\nimport FdAd from \"../FanDong/FdAd\";\r\nimport FdMgr from \"../FanDong/fdMgr\";\r\nimport PlayerDataMgr from \"../Libs/PlayerDataMgr\";\r\nimport Utility from \"../Mod/Utility\";\r\nexport default class FinishUI extends Laya.Scene {\r\n    constructor() {\r\n        super();\r\n        this.num = 0;\r\n    }\r\n    onOpened(param) {\r\n        let isWin = GameLogic.Share.isWin;\r\n        this.VictoryNode.visible = isWin;\r\n        this.LoseNode.visible = !isWin;\r\n        let per = Math.floor(PlayerDataMgr.getPlayerData().grade % 5) * 20;\r\n        per = per == 0 ? 100 : per;\r\n        this.perNum.value = per.toString();\r\n        this.num = GameLogic.Share._coinCount;\r\n        this.tagPic.skin = 'finishUI/js_wz_0' + Math.floor(Math.random() * 5 + 2) + '.png';\r\n        Utility.addClickEvent(this.skipBtn, this, this.skipBtnCB);\r\n        Utility.addClickEvent(this.restartBtn, this, this.restartBtnCB);\r\n    }\r\n    onClosed() {\r\n    }\r\n    trippleBtnCB() {\r\n        let cb = () => {\r\n            PlayerDataMgr.changeCoin(this.num * 3);\r\n            this.back();\r\n        };\r\n        FdAd.showVideoAd(cb);\r\n    }\r\n    skipBtnCB() {\r\n        let cb = () => {\r\n            GameLogic.Share.isWin = true;\r\n            this.back();\r\n        };\r\n        FdAd.showVideoAd(cb);\r\n    }\r\n    restartBtnCB() {\r\n        this.back();\r\n    }\r\n    back() {\r\n        if (GameLogic.Share.isWin) {\r\n            PlayerDataMgr.getPlayerData().grade++;\r\n            PlayerDataMgr.setPlayerData();\r\n        }\r\n        this.close();\r\n        FdMgr.loadGame(() => {\r\n            GameLogic.Share.restartGame();\r\n            Laya.Scene.open('MyScenes/StartUI.scene', true);\r\n        });\r\n    }\r\n}\r\n",
+  "references": [
+    "E:/微信项目集合/工程/HighHeels2.10.0/src/Crl/GameLogic.ts",
+    "E:/微信项目集合/工程/HighHeels2.10.0/src/FanDong/FdAd.ts",
+    "E:/微信项目集合/工程/HighHeels2.10.0/src/FanDong/fdMgr.ts",
+    "E:/微信项目集合/工程/HighHeels2.10.0/src/Libs/PlayerDataMgr.ts",
+    "E:/微信项目集合/工程/HighHeels2.10.0/src/Mod/Utility.ts"
+  ]
+}

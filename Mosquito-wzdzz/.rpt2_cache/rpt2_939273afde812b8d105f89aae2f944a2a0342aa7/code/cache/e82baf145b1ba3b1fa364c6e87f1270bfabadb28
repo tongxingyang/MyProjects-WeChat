@@ -1,0 +1,4 @@
+{
+  "code": "export default class ScaleLoop extends Laya.Script {\r\n    constructor() {\r\n        super();\r\n    }\r\n    onAwake() {\r\n        this.myOwnwer = this.owner;\r\n        this.scaleLoop(this.myOwnwer, 1.1, 400);\r\n    }\r\n    scaleLoop(node, rate, t) {\r\n        var tw = Laya.Tween.to(node, { scaleX: rate, scaleY: rate }, t, null, new Laya.Handler(this, () => {\r\n            Laya.Tween.to(node, { scaleX: 1, scaleY: 1 }, t, null, new Laya.Handler(this, () => {\r\n                this.scaleLoop(node, rate, t);\r\n            }));\r\n        }));\r\n    }\r\n}\r\n",
+  "references": []
+}

@@ -1,0 +1,7 @@
+{
+  "code": "import Utility from \"../../Mod/Utility\";\r\nimport GameLogic from \"../GameLogic\";\r\nexport default class RotateBoard extends Laya.Script {\r\n    constructor() {\r\n        super();\r\n        this.isUsed = false;\r\n    }\r\n    onAwake() {\r\n        this.myOwner = this.owner;\r\n    }\r\n    onDisable() {\r\n    }\r\n    onUpdate() {\r\n        if (GameLogic.Share.isGameOver || !GameLogic.Share.isStartGame || GameLogic.Share.isPause || this.isUsed)\r\n            return;\r\n        let min = this.myOwner.getChildByName('min');\r\n        let max = this.myOwner.getChildByName('max');\r\n        let min1 = this.myOwner.getChildByName('min1');\r\n        let max1 = this.myOwner.getChildByName('max1');\r\n        if (Laya.CollisionUtils.boxContainsBox(Utility.getBoundBoxWithMinMax(min.transform.position.clone(), max.transform.position.clone()), GameLogic.Share._playerCrl.getMyBB()) ||\r\n            Laya.CollisionUtils.boxContainsBox(Utility.getBoundBoxWithMinMax(min1.transform.position.clone(), max1.transform.position.clone()), GameLogic.Share._playerCrl.getMyBB())) {\r\n            this.isUsed = true;\r\n            if (GameLogic.Share._playerCrl.shoesArr.length <= 0) {\r\n                GameLogic.Share._playerCrl.diedCB();\r\n            }\r\n            else {\r\n                GameLogic.Share._playerCrl.decShoes(this.myOwner, 0);\r\n            }\r\n        }\r\n    }\r\n}\r\n",
+  "references": [
+    "E:/微信项目集合/工程/HighHeels2.10.0/src/Mod/Utility.ts",
+    "E:/微信项目集合/工程/HighHeels2.10.0/src/Crl/GameLogic.ts"
+  ]
+}

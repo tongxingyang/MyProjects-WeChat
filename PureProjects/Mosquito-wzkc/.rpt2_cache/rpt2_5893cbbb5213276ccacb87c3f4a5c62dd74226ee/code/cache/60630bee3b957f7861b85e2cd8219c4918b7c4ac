@@ -1,0 +1,7 @@
+{
+  "code": "import PoleColl from \"./PoleColl\";\r\nexport default class Pole extends Laya.Script {\r\n    constructor() {\r\n        super();\r\n        this.myOwner = null;\r\n        this.coll = null;\r\n    }\r\n    onEnable() {\r\n        this.myOwner = this.owner;\r\n        this.myOwner.transform.localScale = new Laya.Vector3(5, 1, 1);\r\n        this.coll = this.myOwner.getChildByName('Coll');\r\n        this.coll.addComponent(PoleColl);\r\n    }\r\n    onDisable() {\r\n    }\r\n}\r\n//# sourceMappingURL=Pole.js.map",
+  "references": [
+    "E:/LayaProjects/PoleRush/src/Crl/PoleColl.ts"
+  ],
+  "map": "{\"version\":3,\"file\":\"Pole.js\",\"sourceRoot\":\"\",\"sources\":[\"../../../src/Crl/Pole.ts\"],\"names\":[],\"mappings\":\"AAAA,OAAO,QAAQ,MAAM,YAAY,CAAA;AAEjC,MAAM,CAAC,OAAO,OAAO,IAAK,SAAQ,IAAI,CAAC,MAAM;IACzC;QACI,KAAK,EAAE,CAAA;QAGX,YAAO,GAAkB,IAAI,CAAA;QAC7B,SAAI,GAAkB,IAAI,CAAA;IAH1B,CAAC;IAKD,QAAQ;QACJ,IAAI,CAAC,OAAO,GAAG,IAAI,CAAC,KAAsB,CAAA;QAC1C,IAAI,CAAC,OAAO,CAAC,SAAS,CAAC,UAAU,GAAG,IAAI,IAAI,CAAC,OAAO,CAAC,CAAC,EAAE,CAAC,EAAE,CAAC,CAAC,CAAA;QAC7D,IAAI,CAAC,IAAI,GAAG,IAAI,CAAC,OAAO,CAAC,cAAc,CAAC,MAAM,CAAkB,CAAA;QAChE,IAAI,CAAC,IAAI,CAAC,YAAY,CAAC,QAAQ,CAAC,CAAA;IACpC,CAAC;IAED,SAAS;IAET,CAAC;CACJ\"}"
+}

@@ -1,0 +1,7 @@
+{
+  "code": "import Utility from \"../../Mod/Utility\";\r\nimport GameLogic from \"../GameLogic\";\r\nexport default class Road extends Laya.Script {\r\n    constructor() {\r\n        super();\r\n        this.isUsed = false;\r\n    }\r\n    onAwake() {\r\n        this.myOwner = this.owner;\r\n        this.myBB = Utility.getBoundBox(this.myOwner.getChildByName('IdleArea'));\r\n    }\r\n    onDisable() {\r\n    }\r\n    onUpdate() {\r\n        if (GameLogic.Share.isGameOver || !GameLogic.Share.isStartGame || GameLogic.Share.isPause || this.isUsed)\r\n            return;\r\n        if (Laya.CollisionUtils.boxContainsBox(this.myBB, GameLogic.Share._playerCrl.getMyBB())) {\r\n            this.isUsed = true;\r\n            GameLogic.Share._playerCrl.resetIdle(this.myOwner);\r\n        }\r\n    }\r\n}\r\n",
+  "references": [
+    "E:/微信项目集合/工程/HighHeels2.10.0/src/Mod/Utility.ts",
+    "E:/微信项目集合/工程/HighHeels2.10.0/src/Crl/GameLogic.ts"
+  ]
+}
