@@ -8,17 +8,16 @@ const { ccclass, property } = _decorator;
 export class Remen extends Component {
 
     ccb: Function = null
+    clickCount: number = 0
 
     showUI(ccb?: Function) {
+        this.clickCount = 0
         this.ccb = ccb
         this.node.active = true
-        if (!FdAd.showGridAD()) {
-            FdAd.initGridAD(() => {
-                FdAd.showGridAD();
-            });
-        }
+        FdAd.visibleFullGridAd()
 
-        this.bannerShowHide();
+        if (FdMgr.remenBanner && FdMgr.gameCount >= FdMgr.jsonConfig.delay_play_countBanner)
+            this.bannerShowHide();
         FdAd.bannerIndex = 0;
     }
 
@@ -33,10 +32,13 @@ export class Remen extends Component {
     }
 
     continueBtnCB() {
-        this.unscheduleAllCallbacks()
-        this.node.active = false
-        FdAd.hideBannerAd()
-        FdAd.hideGridAD();
-        this.ccb && this.ccb()
+        this.clickCount++
+        if (this.clickCount >= FdMgr.jsonConfig.remenBanner_count) {
+            this.unscheduleAllCallbacks()
+            this.node.active = false
+            FdAd.hideBannerAd()
+            FdAd.visibleFullGridAd(false);
+            this.ccb && this.ccb()
+        }
     }
 }

@@ -6,7 +6,7 @@
     "enhance": false,
     "postcss": true,
     "preloadBackgroundData": false,
-    "minified": false,
+    "minified": true,
     "newFeature": true,
     "coverView": true,
     "nodeModules": false,
@@ -27,18 +27,19 @@
       "disablePlugins": [],
       "outputPath": ""
     },
-    "enableEngineNative": false,
     "useIsolateContext": true,
+    "userConfirmedUseIsolateContext": true,
     "userConfirmedBundleSwitch": false,
     "packNpmManually": false,
     "packNpmRelationList": [],
     "minifyWXSS": true,
     "disableUseStrict": false,
     "showES6CompileOption": false,
-    "useCompilerPlugins": false
+    "useCompilerPlugins": false,
+    "ignoreUploadUnusedFiles": true
   },
   "compileType": "game",
-  "libVersion": "2.22.1",
+  "libVersion": "2.23.0",
   "appid": "wx546d3ad5ee3b7086",
   "projectname": "layaWXTest",
   "condition": {

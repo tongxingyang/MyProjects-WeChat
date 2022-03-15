@@ -1,0 +1,65 @@
+{
+	"description": "项目配置文件。",
+	"setting": {
+		"urlCheck": true,
+		"es6": false,
+		"enhance": false,
+		"postcss": false,
+		"preloadBackgroundData": false,
+		"minified": true,
+		"newFeature": true,
+		"coverView": true,
+		"nodeModules": false,
+		"autoAudits": false,
+		"showShadowRootInWxmlPanel": true,
+		"scopeDataCheck": false,
+		"uglifyFileName": false,
+		"checkInvalidKey": true,
+		"checkSiteMap": true,
+		"uploadWithSourceMap": false,
+		"compileHotReLoad": false,
+		"lazyloadPlaceholderEnable": false,
+		"useMultiFrameRuntime": true,
+		"useApiHook": true,
+		"useApiHostProcess": true,
+		"babelSetting": {
+			"ignore": [],
+			"disablePlugins": [],
+			"outputPath": ""
+		},
+		"useIsolateContext": true,
+		"userConfirmedUseIsolateContext": true,
+		"userConfirmedBundleSwitch": false,
+		"packNpmManually": false,
+		"packNpmRelationList": [],
+		"minifyWXSS": true,
+		"disableUseStrict": false,
+		"showES6CompileOption": false,
+		"useCompilerPlugins": false,
+		"ignoreUploadUnusedFiles": true,
+		"remoteDebugLogEnable": false,
+		"prefetch": false
+	},
+	"compileType": "game",
+	"libVersion": "2.23.0",
+	"appid": "1112187858",
+	"projectname": "ZooLogic",
+	"qqappid": "1112187858",
+	"scripts": {},
+	"qqLibVersion": "1.47.0",
+	"condition": {
+		"search": {
+			"list": []
+		},
+		"conversation": {
+			"list": []
+		},
+		"game": {
+			"currentL": -1,
+			"list": []
+		},
+		"miniprogram": {
+			"list": []
+		}
+	}
+}

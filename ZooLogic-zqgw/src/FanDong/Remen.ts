@@ -8,7 +8,6 @@ export default class Remen extends Laya.Scene {
     btnContinue: Laya.Button
 
     ccb: Function = null;
-    onShowCB: Function = null
     clickCount: number = 0
 
     onAwake(): void {
@@ -16,23 +15,14 @@ export default class Remen extends Laya.Scene {
     }
     onOpened(param?: any) {
         if (param && param.ccb) this.ccb = param.ccb
+        this.clickCount = 0
         this.btnContinue.on(Laya.Event.CLICK, this, this.btnContinueCB)
         FdAd.visibleFullGridAd()
-        if (FdMgr.remenBanner)
+        if (FdMgr.remenBanner && FdMgr.gameCount >= FdMgr.jsonConfig.delay_play_countBanner)
             this.bannerShowHide();
         FdAd.bannerIndex = 0;
-
-        this.onShowCB = () => {
-            this.close()
-        }
-        if (Laya.Browser.onWeiXin) {
-            Laya.Browser.window['wx'].onShow(this.onShowCB)
-        }
     }
     onClosed() {
-        if (Laya.Browser.onWeiXin) {
-            Laya.Browser.window['wx'].offShow(this.onShowCB)
-        }
         Laya.timer.clearAll(this)
         FdAd.hideBannerAd()
         FdAd.visibleFullGridAd(false);

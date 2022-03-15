@@ -13,7 +13,6 @@ export class StartUI extends Component {
     start() {
         // [3]
         SoundMgr.Share.PlayMusic('Bgm')
-        FdAd.showBannerAd()
         FdMgr.inHomePage()
     }
 
@@ -21,7 +20,6 @@ export class StartUI extends Component {
     startBtnCB() {
         if (this.hadStart) return
         this.hadStart = true
-        FdAd.hideBannerAd()
         FdMgr.startGame(() => {
             UINode.Share.showUI(UIType.UI_GAME)
         })

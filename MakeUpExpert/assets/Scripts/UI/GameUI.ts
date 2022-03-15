@@ -1,5 +1,6 @@
 
 import { _decorator, Component, Node, Label } from 'cc';
+import FdMgr from '../../FDRes/Src/FdMgr';
 import { UINode } from '../Crl/UINode';
 import { UIType } from '../Mod/Entity';
 import PlayerDataMgr from '../Mod/PlayerDataMgr';
@@ -34,6 +35,7 @@ export class GameUI extends Component {
         this.levelNode[id].active = true
 
         this.gradeNum.string = PlayerDataMgr.getPlayerData().grade.toString()
+        FdMgr.inGame()
     }
 
     showNextBtn() {
@@ -48,7 +50,9 @@ export class GameUI extends Component {
             this.splashNode.active = true
         }, 1)
         this.scheduleOnce(() => {
-            UINode.Share.showUI(UIType.UI_FINISH)
+            FdMgr.showGameOver(()=>{
+                UINode.Share.showUI(UIType.UI_FINISH)
+            })
         }, 2)
     }
 

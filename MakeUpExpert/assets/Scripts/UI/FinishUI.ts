@@ -11,6 +11,8 @@ export class FinishUI extends Component {
     after: Node = null
     @property(Node)
     before: Node = null
+    @property(Node)
+    nextBtn: Node = null
 
     start() {
         for (let i = 0; i < this.after.children.length; i++) {
@@ -20,11 +22,11 @@ export class FinishUI extends Component {
             b.active = (PlayerDataMgr.getPlayerData().grade - 1) % this.after.children.length == i
         }
 
-        this.nextBtnCB()
+        FdMgr.inFinish(this.nextBtn)
     }
 
     nextBtnCB() {
-        FdMgr.loadGame(() => {
+        FdMgr.closeFinish(() => {
             PlayerDataMgr.changeGrade(1)
             director.loadScene('Game')
         })

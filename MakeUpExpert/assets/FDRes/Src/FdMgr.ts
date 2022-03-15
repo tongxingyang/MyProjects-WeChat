@@ -1,15 +1,17 @@
-import { find } from "cc";
+import { find, Widget, Node } from "cc";
 import { PREVIEW, WECHAT } from "cc/env";
 import { Box1 } from "./Box1";
-import { Box2 } from "./Box2";
 import FdAd from "./FdAd";
+import { FDNode } from "./FDNode";
 import { Remen } from "./Remen";
 
 export default class FdMgr {
-    static version: string = '1.0.2'
+    static version: string = '1.0.3'
     static wuchuProgressValue = 0;
     static wuchuProgressStepAdd = 0.1;
     static wuchuProgressFrameSub = 0.0032;
+    static gameCount: number = 1
+    static isPure: boolean = false
 
     /**随机目标误触值 */
     public static randTouchProgress() {
@@ -23,6 +25,26 @@ export default class FdMgr {
 
     static getRangeNumer(min, max) {
         return (Math.random() * (max - min)) + min;
+    }
+
+    static bannerShowHide() {
+        FdAd.hideBannerAd()
+        FDNode.Share.scheduleOnce(() => {
+            FdMgr.bannerShow()
+            FDNode.Share.scheduleOnce(() => {
+                FdMgr.bannerShowHide()
+            }, 0.8)
+        }, 1)
+    }
+    static bannerShow() {
+        FdAd.showBannerAd();
+    }
+    static bannerHide() {
+        FdAd.hideBannerAd();
+    }
+    static stopBannerShowHide() {
+        FDNode.Share.unscheduleAllCallbacks()
+        FdAd.hideBannerAd();
     }
 
     /**初始化策略--游戏最开始入口调用 */
@@ -39,8 +61,10 @@ export default class FdMgr {
     /**游戏加载--进入加载页调用 */
     static loadGame(cb?) {
         var closeVideo = () => {
-            console.log("关闭首次进入视频")
             this.showReMen(() => {
+                if (this.gridBoxVideo) {
+                    FdAd.showVideoAd()
+                }
                 this.showBox2(cb)
             });
         }
@@ -62,6 +86,24 @@ export default class FdMgr {
             cb && cb();
         }
     }
+    /**开始游戏热门推荐 */
+    static showStartReMen(cb?) {
+        if (this.startRemen) {
+            find('FDCanvas/FDNode/Remen').getComponent(Remen).showUI(cb)
+        }
+        else {
+            cb && cb();
+        }
+    }
+    /**结束游戏热门推荐 */
+    static showOverReMen(cb?) {
+        if (this.endRemen) {
+            find('FDCanvas/FDNode/Remen').getComponent(Remen).showUI(cb)
+        }
+        else {
+            cb && cb();
+        }
+    }
 
     /**宝箱1 */
     static showBox1(cb?) {
@@ -73,13 +115,10 @@ export default class FdMgr {
         }
     }
 
-    /**宝箱2 */
+    /**宝箱2 */ //换成宝箱1
     static showBox2(cb?) {
         if (this.gridBox) {
-            if (this.gridBoxVideo) {
-                FdAd.showVideoAd()
-            }
-            find('FDCanvas/FDNode/Box2').getComponent(Box2).showUI(cb)
+            find('FDCanvas/FDNode/Box1').getComponent(Box1).showUI(cb)
         }
         else {
             cb && cb();
@@ -87,20 +126,18 @@ export default class FdMgr {
     }
 
     /**仿微信页 */
-    static showVirtualWxpage(cb?: Function, type: number = 0) {
+    static showVirtualCount: number = 0
+    static showVirtualWxpage(cb?: Function) {
         if (this.showVitualWx && WECHAT) {
             window['wx'].showModal({
                 title: '提示',
                 content: '未观看完广告无法获取奖励，是否继续？',
                 success: (res) => {
-                    let curVirType = res.confirm ? 1 : 2
-                    if (type == 0) {
-                        FdAd.showVideoAd(null, () => { this.showVirtualWxpage(cb, curVirType) });
-                        return
-                    }
-                    if (type == curVirType) {
-                        FdAd.showVideoAd(null, () => { this.showVirtualWxpage(cb, curVirType) });
+                    if (this.showVirtualCount < this.jsonConfig.vitualWx_count) {
+                        this.showVirtualCount++
+                        FdAd.showVideoAd(null, () => { this.showVirtualWxpage(cb) });
                     } else {
+                        this.showVirtualCount = 0
                         this.showBox1(cb);
                     }
                 }
@@ -113,6 +150,14 @@ export default class FdMgr {
 
     /**进入首页 */
     static inHomePage(cb?) {
+        FdAd.visibleSideGridAd()
+        FdAd.visibleTopGrid()
+        if (this.banner_gezi_switch) {
+            FdAd.showBannerAd()
+        } else {
+            FdAd.visibleBottomGridAd()
+        }
+
         if (this.homepageVideo) {
             FdAd.showVideoAd(null, cb);
         }
@@ -123,14 +168,71 @@ export default class FdMgr {
 
     /**开始游戏 */
     static startGame(cb?) {
+        FdAd.hideBannerAd()
+        FdAd.visibleSideGridAd(false)
+        FdAd.visibleBottomGridAd(false)
+        FdAd.visibleTopGrid(false)
         if (this.startVideo) {
             FdAd.showVideoAd(null, () => {
-                this.showVirtualWxpage(cb)
+                this.showVirtualWxpage(() => {
+                    this.showStartReMen(cb)
+                })
             });
         }
         else {
-            this.showVirtualWxpage(cb)
+            this.showVirtualWxpage(() => {
+                this.showStartReMen(cb)
+            })
         }
+    }
+
+    /**进入游戏页 */
+    static inGame() {
+        //FdAd.showBannerAd()
+        FdAd.hideBannerAd()
+        FdAd.visibleSideGridAd()
+        FdAd.visibleTopGrid()
+    }
+
+    /**游戏结束 */
+    static showGameOver(cb?: Function) {
+        FdAd.hideBannerAd()
+        FdAd.visibleSideGridAd(false)
+        FdAd.visibleTopGrid(false)
+        this.showOverReMen(cb)
+    }
+
+    /**进入结算页 */
+    static inFinish(backBtn?: Node) {
+        FdAd.visibleSideGridAd()
+        FdAd.hideBannerAd()
+        FdAd.visibleTopGrid()
+        if (this.endBanner) {
+            this.bannerShowHide()
+            if (backBtn)
+                backBtn.getComponent(Widget).bottom = 20
+        } else {
+            if (backBtn)
+                backBtn.getComponent(Widget).bottom = 300
+            if (this.banner_gezi_switch) {
+                FdAd.showBannerAd()
+            } else {
+                FdAd.visibleBottomGridAd()
+            }
+        }
+    }
+
+    /**关闭结算页 */
+    static closeFinish(cb?: Function) {
+        this.stopBannerShowHide()
+        FdAd.hideBannerAd()
+        FdAd.visibleBottomGridAd(false)
+        FdAd.visibleSideGridAd(false)
+        FdAd.visibleTopGrid(false)
+        this.gameCount++
+        this.loadGame(() => {
+            cb && cb()
+        })
     }
 
     /**屏蔽场景值 */
@@ -176,6 +278,18 @@ export default class FdMgr {
             conf.channel_ditch = window['wxsdk'].conf.channel_ditch
             conf.updateBanner = window['wxsdk'].conf.updateBanner
             conf.loadingVideo = window['wxsdk'].conf.loadingVideo
+            conf.remenBanner = window['wxsdk'].conf.remenBanner
+            conf.delay_play_count = window['wxsdk'].conf.delay_play_count
+            conf.delay_play_countBanner = window['wxsdk'].conf.delay_play_countBanner
+            conf.delay_play_countVideo = window['wxsdk'].conf.delay_play_countVideo
+            conf.banner_gezi_switch = window['wxsdk'].conf.banner_gezi_switch
+            conf.loadingGezi = window['wxsdk'].conf.loadingGezi
+            conf.vitualWx_count = window['wxsdk'].conf.vitualWx_count
+            conf.endBanner = window['wxsdk'].conf.endBanner
+            conf.bannerBox_count = window['wxsdk'].conf.bannerBox_count
+            conf.remenBanner_count = window['wxsdk'].conf.remenBanner_count
+            conf.startRemen = window['wxsdk'].conf.startRemen
+            conf.endRemen = window['wxsdk'].conf.endRemen
             this.jsonConfig = conf
             console.log('config:', this.jsonConfig)
 
@@ -190,49 +304,70 @@ export default class FdMgr {
         window['wxsdk'].login();
     }
 
+    static get isVersionValid() {
+        if (PREVIEW || this.isPure) return false
+        return this.version.split('.')[2] <= this.jsonConfig.version.split('.')[2];
+    }
+
     static get canTrapAll() {
-        if (PREVIEW) return false
+        if (PREVIEW || this.isPure) return false
         return this.allowScene && this.jsonConfig.allowMistouch && this.version.split('.')[2] <= this.jsonConfig.version.split('.')[2];
     }
-
     static get bannerBox() {
-        if (PREVIEW) return false
-        return this.canTrapAll && this.jsonConfig.bannerBox
+        if (PREVIEW || this.isPure) return false
+        return this.canTrapAll && this.jsonConfig.bannerBox && this.gameCount >= this.jsonConfig.delay_play_count;
     }
-
     static get gridBox() {
-        if (PREVIEW) return false
-        return this.canTrapAll && this.jsonConfig.gridBox;
+        if (PREVIEW || this.isPure) return false
+        return this.canTrapAll && this.jsonConfig.gridBox && this.gameCount >= this.jsonConfig.delay_play_count;
     }
-
     static get startVideo() {
-        if (PREVIEW) return false
-        return this.canTrapAll && this.jsonConfig.startVideo;
+        if (PREVIEW || this.isPure) return false
+        return this.canTrapAll && this.jsonConfig.startVideo && this.gameCount >= this.jsonConfig.delay_play_countVideo;
     }
-
     static get homepageVideo() {
-        if (PREVIEW) return false
-        return this.canTrapAll && this.jsonConfig.homepageVideo;
+        if (PREVIEW || this.isPure) return false
+        return this.canTrapAll && this.jsonConfig.homepageVideo && this.gameCount >= this.jsonConfig.delay_play_count;
     }
-
     static get gridBoxVideo() {
-        if (PREVIEW) return false
-        return this.canTrapAll && this.jsonConfig.gridBoxVideo;
+        if (PREVIEW || this.isPure) return false
+        return this.canTrapAll && this.jsonConfig.gridBoxVideo && this.gameCount >= this.jsonConfig.delay_play_count;
     }
-
     static get showRemen() {
-        if (PREVIEW) return false
-        return this.canTrapAll && this.jsonConfig.showRemen;
+        if (PREVIEW || this.isPure) return false
+        return this.jsonConfig.showRemen;
     }
-
     static get showVitualWx() {
-        if (PREVIEW) return false
-        return this.canTrapAll && this.jsonConfig.showVitualWx;
+        if (PREVIEW || this.isPure) return false
+        return this.canTrapAll && this.jsonConfig.showVitualWx && this.gameCount >= this.jsonConfig.delay_play_countVideo;
     }
-
     static get loadingVideo() {
-        if (PREVIEW) return false
+        if (PREVIEW || this.isPure) return false
         return this.canTrapAll && this.jsonConfig.loadingVideo;
+    }
+    static get remenBanner() {
+        if (PREVIEW || this.isPure) return false
+        return this.canTrapAll && this.jsonConfig.remenBanner && this.gameCount >= this.jsonConfig.delay_play_countBanner;
+    }
+    static get banner_gezi_switch() {
+        if (PREVIEW || this.isPure) return true
+        return this.jsonConfig.banner_gezi_switch;
+    }
+    static get loadingGezi() {
+        if (PREVIEW || this.isPure) return false
+        return this.canTrapAll && this.jsonConfig.loadingGezi;
+    }
+    static get endBanner() {
+        if (PREVIEW || this.isPure) return false
+        return this.canTrapAll && this.jsonConfig.endBanner && this.gameCount >= this.jsonConfig.delay_play_countBanner;
+    }
+    static get startRemen() {
+        if (PREVIEW || this.isPure) return false
+        return this.jsonConfig.startRemen;
+    }
+    static get endRemen() {
+        if (PREVIEW || this.isPure) return false
+        return this.jsonConfig.endRemen;
     }
 }
 
@@ -251,4 +386,16 @@ class config {
     channel_ditch: boolean;
     updateBanner: number;
     loadingVideo: boolean;
+    remenBanner: boolean;
+    delay_play_count: number;
+    delay_play_countBanner: number;
+    delay_play_countVideo: number;
+    banner_gezi_switch: boolean;
+    loadingGezi: boolean;
+    vitualWx_count: number;
+    endBanner: boolean;
+    bannerBox_count: number;
+    remenBanner_count: number;
+    startRemen: boolean;
+    endRemen: boolean;
 }
