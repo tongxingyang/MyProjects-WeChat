@@ -27,8 +27,7 @@ export default class GameLogic {
     public _levelNode: Laya.Sprite3D = null
     public _player: Laya.Sprite3D = null
     public _playerCrl: PlayerCrl = null
-    public _enemy: Laya.Sprite3D = null
-    public _enemyCrl: PlayerCrl = null
+    public _standNode: Laya.Sprite3D = null
 
     playerHp: number = 10
     playerPower: number = 10
@@ -48,7 +47,7 @@ export default class GameLogic {
             });
             Laya.Browser.window.wx.onShareAppMessage(() => {
                 return {
-                    title: '怪物对决',
+                    title: '怪物实验室',
                     imageUrl: '' // 图片 URL
                 }
             })
@@ -68,13 +67,15 @@ export default class GameLogic {
         this._camera = this._scene.getChildByName('Main Camera') as Laya.Camera
         this._light = this._scene.getChildByName('Directional Light') as Laya.DirectionLight
         // Use soft shadow.
-        this._light.shadowMode = Laya.ShadowMode.SoftLow;
+        this._light.shadowMode = Laya.ShadowMode.SoftHigh;
         // Set shadow max distance from camera.
-        this._light.shadowDistance = 100;
+        this._light.shadowDistance = 10;
         // Set shadow resolution.
         this._light.shadowResolution = 1024;
         // Set shadow cascade mode.
         this._light.shadowCascadesMode = Laya.ShadowCascadesMode.NoCascades;
+        // Set shadow normal bias.
+        this._light.shadowNormalBias = 0;
 
         //this.fixCameraField()
 
@@ -89,7 +90,10 @@ export default class GameLogic {
     }
 
     gameStart() {
-        Laya.Scene.open('MyScenes/GameUI.scene')
+        this.isStartGame = true
+        this._standNode.getChildAt(0).active = false
+        this._standNode.getChildAt(1).active = true;
+        (this._standNode.getChildAt(1).getComponent(Laya.Animator) as Laya.Animator).speed = 1;
     }
 
     createLevel() {
@@ -105,10 +109,19 @@ export default class GameLogic {
         }
     }
     createItem(name: string, pos: Laya.Vector3, rot: Laya.Vector3, scale: Laya.Vector3) {
+        if (name.search('SelectNode') != -1) {
+            name = name.slice(0, name.length - 1)
+        }
         let sp: Laya.Sprite3D = Utility.getSprite3DResByUrl(name + '.lh', this._levelNode, false)
         sp.transform.position = pos
         sp.transform.rotationEuler = rot
         sp.transform.setWorldLossyScale(scale)
+        if (name.search('Player') != -1) {
+            this._player = sp
+            this._playerCrl = sp.addComponent(PlayerCrl)
+        } else if (name.search('Stand') != -1) {
+            this._standNode = sp
+        }
     }
 
     gameOver(isWin: boolean) {

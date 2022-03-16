@@ -30,7 +30,9 @@ export default class GameUI extends Laya.Scene {
     }
 
     touchStart(evt: Laya.Event) {
-        GameLogic.Share.isStartGame = true
+        if(!GameLogic.Share.isStartGame){
+            GameLogic.Share.gameStart()
+        }
         let x = evt.stageX
         this.touchStartPosX = x
     }

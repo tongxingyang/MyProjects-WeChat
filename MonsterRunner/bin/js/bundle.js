@@ -544,6 +544,50 @@
         }
     }
 
+    class PlayerCrl extends Laya.Script {
+        constructor() {
+            super();
+            this.myOwner = null;
+            this.moveDir = 0;
+            this.speed = 0.08;
+            this.hp = 10;
+            this.hpMax = 10;
+            this.canMove = true;
+        }
+        onAwake() {
+            this.myOwner = this.owner;
+        }
+        moveX() {
+            if (GameLogic.Share.isGameOver || !this.canMove)
+                return;
+            let speed = this.speed;
+            if (this.moveDir > 0) {
+                this.myOwner.transform.translate(new Laya.Vector3(speed, 0, 0), false);
+            }
+            else if (this.moveDir < 0) {
+                this.myOwner.transform.translate(new Laya.Vector3(-speed, 0, 0), false);
+            }
+        }
+        hurtCB(dmg) {
+        }
+        onUpdate() {
+            if (GameLogic.Share.isGameOver || !GameLogic.Share.isStartGame) {
+                return;
+            }
+            this.moveX();
+            if (this.myOwner.transform.position.x < -5) {
+                let pos = this.myOwner.transform.position.clone();
+                pos.x = -5;
+                this.myOwner.transform.position = pos;
+            }
+            else if (this.myOwner.transform.position.x > 5) {
+                let pos = this.myOwner.transform.position.clone();
+                pos.x = 5;
+                this.myOwner.transform.position = pos;
+            }
+        }
+    }
+
     class FdAd {
         static inidAd() {
             if (!Laya.Browser.onWeiXin || FdMgr.isPure)
@@ -1190,8 +1234,7 @@
             this._levelNode = null;
             this._player = null;
             this._playerCrl = null;
-            this._enemy = null;
-            this._enemyCrl = null;
+            this._standNode = null;
             this.playerHp = 10;
             this.playerPower = 10;
             this.enemyHp = 10;
@@ -1207,7 +1250,7 @@
                 });
                 Laya.Browser.window.wx.onShareAppMessage(() => {
                     return {
-                        title: '怪物对决',
+                        title: '怪物实验室',
                         imageUrl: ''
                     };
                 });
@@ -1223,10 +1266,11 @@
             Laya.stage.setChildIndex(this._scene, 0);
             this._camera = this._scene.getChildByName('Main Camera');
             this._light = this._scene.getChildByName('Directional Light');
-            this._light.shadowMode = Laya.ShadowMode.SoftLow;
-            this._light.shadowDistance = 100;
+            this._light.shadowMode = Laya.ShadowMode.SoftHigh;
+            this._light.shadowDistance = 10;
             this._light.shadowResolution = 1024;
             this._light.shadowCascadesMode = Laya.ShadowCascadesMode.NoCascades;
+            this._light.shadowNormalBias = 0;
             this.camStartPos = this._camera.transform.position.clone();
             this.camStartRotation = this._camera.transform.rotation.clone();
             this._camera.fieldOfView = this.startCamField;
@@ -1235,7 +1279,10 @@
             this.createLevel();
         }
         gameStart() {
-            Laya.Scene.open('MyScenes/GameUI.scene');
+            this.isStartGame = true;
+            this._standNode.getChildAt(0).active = false;
+            this._standNode.getChildAt(1).active = true;
+            this._standNode.getChildAt(1).getComponent(Laya.Animator).speed = 1;
         }
         createLevel() {
             let g = 1;
@@ -1250,10 +1297,21 @@
             }
         }
         createItem(name, pos, rot, scale) {
+            if (name.search('SelectNode') != -1) {
+                name = name.slice(0, name.length - 1);
+            }
             let sp = Utility.getSprite3DResByUrl(name + '.lh', this._levelNode, false);
             sp.transform.position = pos;
             sp.transform.rotationEuler = rot;
             sp.transform.setWorldLossyScale(scale);
+            if (name.search('Player') != -1) {
+                this._player = sp;
+                this._playerCrl = sp.addComponent(PlayerCrl);
+            }
+            else if (name.search('Stand') != -1) {
+                this._standNode = sp;
+                console.log(sp);
+            }
         }
         gameOver(isWin) {
             Laya.timer.clearAll(this);
@@ -1507,7 +1565,9 @@
             Laya.timer.clearAll(this);
         }
         touchStart(evt) {
-            GameLogic.Share.isStartGame = true;
+            if (!GameLogic.Share.isStartGame) {
+                GameLogic.Share.gameStart();
+            }
             let x = evt.stageX;
             this.touchStartPosX = x;
         }
@@ -1645,7 +1705,7 @@
         }
         startBtnCB() {
             FdMgr.startGame(() => {
-                Laya.Scene.open('MyScenes/SelectUI.scene');
+                Laya.Scene.open('MyScenes/GameUI.scene');
             });
         }
     }
@@ -1691,7 +1751,7 @@
     GameConfig.screenMode = "vertical";
     GameConfig.alignV = "top";
     GameConfig.alignH = "left";
-    GameConfig.startScene = "FDScene/Box1.scene";
+    GameConfig.startScene = "MyScenes/GameUI.scene";
     GameConfig.sceneRoot = "";
     GameConfig.debug = false;
     GameConfig.stat = false;

@@ -18,7 +18,7 @@ export default class StartUI extends Laya.Scene {
 
     startBtnCB() {
         FdMgr.startGame(()=>{
-            Laya.Scene.open('MyScenes/SelectUI.scene')
+            Laya.Scene.open('MyScenes/GameUI.scene')
         })
     }
 }
