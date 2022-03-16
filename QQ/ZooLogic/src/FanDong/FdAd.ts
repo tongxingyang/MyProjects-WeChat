@@ -27,6 +27,9 @@ export default class FdAd {
         if (!Laya.Browser.onWeiXin) return;
 
         if (this.bannerAd) {
+            this.bannerAd.offLoad()
+            this.bannerAd.offResize()
+            this.bannerAd.offError()
             this.bannerAd.destroy()
             this.bannerAd = null
         }
@@ -58,6 +61,9 @@ export default class FdAd {
             return;
         }
         if (this.bannerAd) {
+            this.bannerAd.offLoad()
+            this.bannerAd.offResize()
+            this.bannerAd.offError()
             this.bannerAd.destroy()
             this.bannerAd = null
         }

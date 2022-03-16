@@ -218,9 +218,10 @@ export default class GameLogic {
         this.isGameOver = true
         this.isStartGame = false
         Laya.Scene.close('MyScenes/GameUI.scene')
-        FdMgr.showGameOver()
         Laya.timer.once(2000, this, () => {
-            Laya.Scene.open('MyScenes/FinishUI.scene')
+            FdMgr.showGameOver(()=>{
+                Laya.Scene.open('MyScenes/FinishUI.scene')
+            })
         })
     }
 

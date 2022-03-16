@@ -23,7 +23,6 @@ export default class GameLogic {
     public isWin: boolean = false
     public isPause: boolean = false
     public isFinish: boolean = false
-    public isMeet: boolean = false
 
     public _levelNode: Laya.Sprite3D = null
     public _player: Laya.Sprite3D = null
@@ -56,7 +55,6 @@ export default class GameLogic {
         }
 
         Laya.Scene.open('MyScenes/LoadingUI.scene')
-
     }
 
     initScene() {
@@ -86,10 +84,31 @@ export default class GameLogic {
         this._cameraCrl = this._camera.addComponent(CameraCrl)
 
         this._levelNode = this._scene.addChild(new Laya.Sprite3D()) as Laya.Sprite3D
+
+        this.createLevel()
     }
 
     gameStart() {
         Laya.Scene.open('MyScenes/GameUI.scene')
+    }
+
+    createLevel() {
+        let g: number = 1
+        let dataArr: any[] = PlayerDataMgr.levelDataArr[g - 1]
+        for (let i = 0; i < dataArr.length; i++) {
+            let data: any = dataArr[i]
+            let name: string = data.name
+            let pos: Laya.Vector3 = new Laya.Vector3(Number(data.position.x), Number(data.position.y), Number(data.position.z))
+            let rotate: Laya.Vector3 = new Laya.Vector3(Number(data.rotation.x), Number(data.rotation.y), Number(data.rotation.z))
+            let scale: Laya.Vector3 = new Laya.Vector3(Number(data.scale.x), Number(data.scale.y), Number(data.scale.z))
+            this.createItem(name, pos, rotate, scale)
+        }
+    }
+    createItem(name: string, pos: Laya.Vector3, rot: Laya.Vector3, scale: Laya.Vector3) {
+        let sp: Laya.Sprite3D = Utility.getSprite3DResByUrl(name + '.lh', this._levelNode, false)
+        sp.transform.position = pos
+        sp.transform.rotationEuler = rot
+        sp.transform.setWorldLossyScale(scale)
     }
 
     gameOver(isWin: boolean) {
@@ -100,7 +119,7 @@ export default class GameLogic {
         this.isStartGame = false
         Laya.Scene.close('MyScenes/GameUI.scene')
         Laya.timer.once(2000, this, () => {
-            FdMgr.showGameOver(()=>{
+            FdMgr.showGameOver(() => {
                 Laya.Scene.open('MyScenes/FinishUI.scene')
             })
         })
@@ -113,7 +132,6 @@ export default class GameLogic {
         this.isPause = false
         this._camera.fieldOfView = this.startCamField
         this.isFinish = false
-        this.isMeet = false
 
         this._camera.transform.position = this.camStartPos
         this._camera.transform.rotation = this.camStartRotation

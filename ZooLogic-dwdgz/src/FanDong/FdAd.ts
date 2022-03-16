@@ -3,7 +3,7 @@ import FdMgr from "./FdMgr";
 
 
 export default class FdAd {
-    static bannerIdArr: string[] = ["adunit-09c06c2b0c94fe06", "adunit-1dfd3fda79c0019d"];
+    static bannerIdArr: string[] = ["adunit-09c06c2b0c94fe06", "adunit-1dfd3fda79c0019d", "adunit-b3cd46b9c8ef27fb", "adunit-2e247b32ead7acf2", "adunit-38f816df7a9ee944"];
     static videoId = "adunit-0333bcd027bfb093";
     static fullGridId = "adunit-8cdf6ebd71d5124b";
     static bottomGridId = "adunit-11e0cc4445fb0de0";
@@ -64,16 +64,25 @@ export default class FdAd {
     static showBannerAd() {
         if (!Laya.Browser.onWeiXin) return;
 
-        if (this.isAllBannerError) {
-            this.stopCountBannerTime()
-            return
-        }
-        // if (this.bannerErrorArr[this.bannerIndex]) {
-        //     this.bannerIndex++
-        //     if (this.bannerIndex >= this.bannerIdArr.length) this.bannerIndex = 0
-        //     this.showBannerAd()
+        // if (this.isAllBannerError) {
+        //     this.stopCountBannerTime()
         //     return
         // }
+
+        for (let i = 0; i < this.bannerIdArr.length; i++) {
+            if (this.bannerErrorArr[i]) {
+                this.bannerTimesArr[i] = 0
+                this.bannerShowCount[i] = 0
+                this.bannerErrorArr[i] = false
+                this.bannerAds[i] && this.bannerAds[i].destroy()
+                this.bannerAds[i] = null
+                this.bannerAds[i] = this.createBannerAd(i)
+                this.bannerIndex++
+                if (this.bannerIndex >= this.bannerIdArr.length) {
+                    this.bannerIndex = 0
+                }
+            }
+        }
 
         this.bannerAds[this.bannerIndex] && this.bannerAds[this.bannerIndex].show()
         this.stopCountBannerTime()
@@ -87,7 +96,9 @@ export default class FdAd {
             this.stopCountBannerTime()
             return;
         }
-        this.bannerAds[this.bannerIndex] && this.bannerAds[this.bannerIndex].hide()
+        for (let i = 0; i < this.bannerAds.length; i++) {
+            this.bannerAds[i] && this.bannerAds[i].hide()
+        }
         this.stopCountBannerTime()
     }
 

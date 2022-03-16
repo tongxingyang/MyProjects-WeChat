@@ -912,7 +912,7 @@
     FdAd.videoId = "adunit-f2038321c66b5e0a";
     FdAd.fullGridId = "adunit-ef6542a0f61d7ac8";
     FdAd.bottomGridId = "adunit-1e59c46c27be8f7e";
-    FdAd.sideGridId = ["adunit-880721b04ab6f483", "adunit-1e59c46c27be8f7e"];
+    FdAd.sideGridId = ["adunit-880721b04ab6f483", "adunit-ea5e03b6323c90e0"];
     FdAd.topGridId = "adunit-016a1079c9c3a6ec";
     FdAd.bannerAds = [];
     FdAd.bannerIndex = 0;
@@ -1650,9 +1650,10 @@
             this.isGameOver = true;
             this.isStartGame = false;
             Laya.Scene.close('MyScenes/GameUI.scene');
-            FdMgr.showGameOver();
             Laya.timer.once(2000, this, () => {
-                Laya.Scene.open('MyScenes/FinishUI.scene');
+                FdMgr.showGameOver(() => {
+                    Laya.Scene.open('MyScenes/FinishUI.scene');
+                });
             });
         }
         restartGame() {
@@ -1708,7 +1709,7 @@
             Laya.Tween.to(this.btnPress, { scaleX: 1.2, scaleY: 1.2 }, 100, null, Laya.Handler.create(this, () => {
                 Laya.Tween.to(this.btnPress, { scaleX: 1, scaleY: 1 }, 100, null);
             }));
-            if (this.progressValue >= FdMgr.wuchuProgressValue) {
+            if (this.progressValue >= FdMgr.wuchuProgressValue && !this.hadShowBanner) {
                 FdAd.showBannerAd();
                 this.hadShowBanner = true;
                 FdMgr.randTouchProgress();

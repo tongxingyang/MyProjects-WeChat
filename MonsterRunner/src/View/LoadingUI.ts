@@ -2,6 +2,8 @@ import GameLogic from "../Crl/GameLogic"
 import WxApi from "../Libs/WxApi"
 import SoundMgr from "../Mod/SoundMgr"
 import FdMgr from "../FanDong/FdMgr"
+import PlayerDataMgr from "../Libs/PlayerDataMgr"
+import Utility from "../Mod/Utility"
 
 export default class LoadingUI extends Laya.Scene {
     constructor() {
@@ -17,12 +19,8 @@ export default class LoadingUI extends Laya.Scene {
         if (!Laya.Browser.onWeiXin) {
             localStorage.clear()
         }
-        FdMgr.init(()=>{
-            if (Laya.Browser.onWeiXin) {
-                this.loadSubpackage()
-            } else {
-                this.loadRes()
-            }
+        FdMgr.init(() => {
+            this.loadJsonData(1)
         })
 
         Laya.timer.frameLoop(1, this, () => {
@@ -32,6 +30,25 @@ export default class LoadingUI extends Laya.Scene {
 
     onClosed() {
 
+    }
+
+    maxGrade: number = 1
+    loadJsonData(index: number) {
+        //加载JSON
+        Utility.loadJson('res/configs/Level' + index + '.json', (data) => {
+            PlayerDataMgr.levelDataArr.push(data)
+            index++
+            if (index > this.maxGrade) {
+                if (Laya.Browser.onWeiXin)
+                    this.loadSubpackage()
+                else
+                    this.loadRes()
+                console.log('levelDataArr:', PlayerDataMgr.levelDataArr)
+                return
+            } else {
+                this.loadJsonData(index)
+            }
+        })
     }
 
     loadSubpackage() {
@@ -57,16 +74,26 @@ export default class LoadingUI extends Laya.Scene {
     loadRes() {
         //预加载3d资源
         var resUrl = [
-            WxApi.UnityPath + 'SampleScene.ls'
+            WxApi.UnityPath + 'Player.lh',
+            WxApi.UnityPath + 'Enemy.lh',
+            WxApi.UnityPath + 'Barrel.lh',
+            WxApi.UnityPath + 'Wall.lh',
+            WxApi.UnityPath + 'Road.lh',
+            WxApi.UnityPath + 'Jumper.lh',
+            WxApi.UnityPath + 'Mutagen.lh',
+            WxApi.UnityPath + 'Finish.lh',
+            WxApi.UnityPath + 'Lava_Pool.lh',
+            WxApi.UnityPath + 'Points_plate.lh',
+            WxApi.UnityPath + 'Road_Finish.lh',
+            WxApi.UnityPath + 'Stand.lh',
+            WxApi.UnityPath + 'SelectNodeL.lh',
+            WxApi.UnityPath + 'SelectNodeR.lh'
         ];
         Laya.loader.create(resUrl, Laya.Handler.create(this, this.onComplete), Laya.Handler.create(this, this.onProgress));
     }
 
     onComplete() {
-        // SoundMgr.instance.initLoading(() => {
-        //     GameLogic.Share.initScene()
-        // })
-        FdMgr.loadGame(()=>{
+        FdMgr.loadGame(() => {
             GameLogic.Share.initScene()
         })
     }

@@ -1,7 +1,7 @@
 import FdAd from "./FdAd";
 
 export default class FdMgr {
-    static version: string = '1.0.6'
+    static version: string = '1.0.7'
     static wuchuProgressValue = 0;
     static wuchuProgressStepAdd = 0.1;
     static wuchuProgressFrameSub = 0.0032;

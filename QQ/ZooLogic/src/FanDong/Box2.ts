@@ -42,6 +42,7 @@ export default class Box2 extends Laya.Scene {
         this.tweenScale();
         FdAd.showBannerAd();
         this.onShowCB = () => {
+            Laya.timer.resume()
             this.close()
         }
         if (Laya.Browser.onWeiXin) {
@@ -66,6 +67,7 @@ export default class Box2 extends Laya.Scene {
 
         if (this.progressValue >= FdMgr.wuchuProgressValue && !this.hadShowBox) { //触发误触
             this.hadShowBox = true
+            Laya.timer.clearAll(this)
             Laya.Tween.clearAll(this.imgEffect);
             FdAd.showBoxAd()
             FdMgr.randTouchProgress(); //更新目标值
@@ -80,6 +82,7 @@ export default class Box2 extends Laya.Scene {
         if (this.progressValue > FdMgr.wuchuProgressFrameSub) {
             this.progressValue -= FdMgr.wuchuProgressFrameSub;
         }
+        this.pressBar.value = this.progressValue;
         this.light.rotation += 1;
     }
 

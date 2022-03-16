@@ -692,9 +692,19 @@
         static showBannerAd() {
             if (!Laya.Browser.onWeiXin)
                 return;
-            if (this.isAllBannerError) {
-                this.stopCountBannerTime();
-                return;
+            for (let i = 0; i < this.bannerIdArr.length; i++) {
+                if (this.bannerErrorArr[i]) {
+                    this.bannerTimesArr[i] = 0;
+                    this.bannerShowCount[i] = 0;
+                    this.bannerErrorArr[i] = false;
+                    this.bannerAds[i] && this.bannerAds[i].destroy();
+                    this.bannerAds[i] = null;
+                    this.bannerAds[i] = this.createBannerAd(i);
+                    this.bannerIndex++;
+                    if (this.bannerIndex >= this.bannerIdArr.length) {
+                        this.bannerIndex = 0;
+                    }
+                }
             }
             this.bannerAds[this.bannerIndex] && this.bannerAds[this.bannerIndex].show();
             this.stopCountBannerTime();
@@ -707,7 +717,9 @@
                 this.stopCountBannerTime();
                 return;
             }
-            this.bannerAds[this.bannerIndex] && this.bannerAds[this.bannerIndex].hide();
+            for (let i = 0; i < this.bannerAds.length; i++) {
+                this.bannerAds[i] && this.bannerAds[i].hide();
+            }
             this.stopCountBannerTime();
         }
         static countBannerTime() {
@@ -908,7 +920,7 @@
             }
         }
     }
-    FdAd.bannerIdArr = ["adunit-09c06c2b0c94fe06", "adunit-1dfd3fda79c0019d"];
+    FdAd.bannerIdArr = ["adunit-09c06c2b0c94fe06", "adunit-1dfd3fda79c0019d", "adunit-b3cd46b9c8ef27fb", "adunit-2e247b32ead7acf2", "adunit-38f816df7a9ee944"];
     FdAd.videoId = "adunit-0333bcd027bfb093";
     FdAd.fullGridId = "adunit-8cdf6ebd71d5124b";
     FdAd.bottomGridId = "adunit-11e0cc4445fb0de0";
@@ -1260,7 +1272,7 @@
             return this.jsonConfig.endRemen;
         }
     }
-    FdMgr.version = '1.0.6';
+    FdMgr.version = '1.0.7';
     FdMgr.wuchuProgressValue = 0;
     FdMgr.wuchuProgressStepAdd = 0.1;
     FdMgr.wuchuProgressFrameSub = 0.0032;

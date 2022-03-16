@@ -851,6 +851,9 @@
             if (!Laya.Browser.onWeiXin)
                 return;
             if (this.bannerAd) {
+                this.bannerAd.offLoad();
+                this.bannerAd.offResize();
+                this.bannerAd.offError();
                 this.bannerAd.destroy();
                 this.bannerAd = null;
             }
@@ -881,6 +884,9 @@
                 return;
             }
             if (this.bannerAd) {
+                this.bannerAd.offLoad();
+                this.bannerAd.offResize();
+                this.bannerAd.offError();
                 this.bannerAd.destroy();
                 this.bannerAd = null;
             }
@@ -1108,7 +1114,9 @@
                     backBtn.bottom = 20;
                     backBtn.x = Laya.stage.displayWidth / 2;
                 }
-                Laya.Tween.to(backBtn, { x: Laya.stage.displayWidth / 2, y: backBtn.y - 250 }, 1000, null, new Laya.Handler(this, () => { }));
+                Laya.timer.once(500, this, () => {
+                    Laya.Tween.to(backBtn, { x: Laya.stage.displayWidth / 2, y: backBtn.y - 250 }, 1000, null, new Laya.Handler(this, () => { }));
+                });
             }
             else {
                 if (backBtn)
@@ -1569,6 +1577,7 @@
             this.tweenScale();
             FdAd.showBannerAd();
             this.onShowCB = () => {
+                Laya.timer.resume();
                 this.close();
             };
             if (Laya.Browser.onWeiXin) {
@@ -1590,6 +1599,7 @@
             }));
             if (this.progressValue >= FdMgr.wuchuProgressValue && !this.hadShowBox) {
                 this.hadShowBox = true;
+                Laya.timer.clearAll(this);
                 Laya.Tween.clearAll(this.imgEffect);
                 FdAd.showBoxAd();
                 FdMgr.randTouchProgress();
@@ -1602,6 +1612,7 @@
             if (this.progressValue > FdMgr.wuchuProgressFrameSub) {
                 this.progressValue -= FdMgr.wuchuProgressFrameSub;
             }
+            this.pressBar.value = this.progressValue;
             this.light.rotation += 1;
         }
         tweenScale() {
@@ -2251,7 +2262,7 @@
     GameConfig.screenMode = "vertical";
     GameConfig.alignV = "top";
     GameConfig.alignH = "left";
-    GameConfig.startScene = "FDScene/PrivacyUI.scene";
+    GameConfig.startScene = "FDScene/Box2.scene";
     GameConfig.sceneRoot = "";
     GameConfig.debug = false;
     GameConfig.stat = false;

@@ -7,7 +7,7 @@ export default class FdAd {
     static videoId = "adunit-f2038321c66b5e0a";
     static fullGridId = "adunit-ef6542a0f61d7ac8";
     static bottomGridId = "adunit-1e59c46c27be8f7e";
-    static sideGridId = ["adunit-880721b04ab6f483", "adunit-1e59c46c27be8f7e"];
+    static sideGridId = ["adunit-880721b04ab6f483", "adunit-ea5e03b6323c90e0"];
     static topGridId = "adunit-016a1079c9c3a6ec";
 
     static inidAd() {

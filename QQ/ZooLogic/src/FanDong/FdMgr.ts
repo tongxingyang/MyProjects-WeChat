@@ -163,7 +163,9 @@ export default class FdMgr {
                 backBtn.bottom = 20
                 backBtn.x = Laya.stage.displayWidth / 2
             }
-            Laya.Tween.to(backBtn, { x: Laya.stage.displayWidth / 2, y: backBtn.y - 250 }, 1000, null, new Laya.Handler(this, () => { }))
+            Laya.timer.once(500,this,()=>{
+                Laya.Tween.to(backBtn, { x: Laya.stage.displayWidth / 2, y: backBtn.y - 250 }, 1000, null, new Laya.Handler(this, () => { }))
+            })
         } else {
             if (backBtn)
                 backBtn.bottom = 300

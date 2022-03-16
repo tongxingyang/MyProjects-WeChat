@@ -7,6 +7,7 @@ export class PlayerData {
 
 export default class PlayerDataMgr {
     private static _playerData: PlayerData = null
+    static levelDataArr: any[] = []
 
     //获取用户数据
     public static getPlayerData(): PlayerData {
