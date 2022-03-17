@@ -245,8 +245,8 @@ export default class FdMgr {
         console.log('wxsdk初始化')
         window['wxsdk'].init({
             version: '1.0.0', // 当前的小游戏版本号，只能以数字
-            appid: '344', // 此项目在云平台的appid
-            secret: '3o9rd1vt07qqo6xoh3phxklv2vs77t2p', // 此项目在云平台的secret, 用于与后端通信签名
+            appid: '293', // 此项目在云平台的appid
+            secret: '073zg3jv3a8gduh01ig16tzq4bxajspb', // 此项目在云平台的secret, 用于与后端通信签名
             share: {
                 title: '你能过得了这一关吗？', // 默认分享文案
                 image: 'https://game-oss.smallshark.cn/game/20211119/1216327431258.jpg?imageslim', // 默认分享图片
@@ -296,7 +296,7 @@ export default class FdMgr {
     }
 
     static get isVersionValid() {
-        if (!Laya.Browser.onWeiXin) return false
+        if (!Laya.Browser.onWeiXin || this.isPure) return false
         return this.version.split('.')[2] <= this.jsonConfig.version.split('.')[2];
     }
 

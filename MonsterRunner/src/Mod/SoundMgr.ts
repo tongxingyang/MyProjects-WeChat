@@ -12,11 +12,7 @@ export default class SoundMgr {
     initLoading(fun: Function) {
         //预加载资源
         var resUrl: any[] = [
-            { url: 'res/Sounds/Click.mp3', type: Laya.Loader.SOUND },
-            { url: 'res/Sounds/Get.mp3', type: Laya.Loader.SOUND },
-            { url: 'res/Sounds/Hurt.mp3', type: Laya.Loader.SOUND },
-            { url: 'res/Sounds/Win.mp3', type: Laya.Loader.SOUND },
-            { url: 'res/Sounds/Lose.mp3', type: Laya.Loader.SOUND }
+            { url: 'res/Sounds/bgm.mp3', type: Laya.Loader.SOUND }
         ];
         Laya.loader.load(resUrl, Laya.Handler.create(this, fun));
 

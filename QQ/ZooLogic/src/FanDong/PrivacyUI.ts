@@ -27,6 +27,7 @@ export default class PrivacyUI extends Laya.Scene {
     }
 
     agreeCB() {
+        localStorage.setItem('showPrivacy', "1")
         this.close()
     }
 }

@@ -2,7 +2,7 @@
 	"version":"LAYAHIERARCHY:02",
 	"data":{
 		"type":"Sprite3D",
-		"instanceID":101,
+		"instanceID":139,
 		"props":{
 			"name":"Wall",
 			"active":true,
@@ -48,7 +48,7 @@
 		"child":[
 			{
 				"type":"MeshSprite3D",
-				"instanceID":102,
+				"instanceID":140,
 				"props":{
 					"name":"Wall_1_Part_1",
 					"active":true,
@@ -85,7 +85,7 @@
 			},
 			{
 				"type":"MeshSprite3D",
-				"instanceID":103,
+				"instanceID":141,
 				"props":{
 					"name":"Wall_1_Part_2",
 					"active":true,
@@ -122,7 +122,7 @@
 			},
 			{
 				"type":"MeshSprite3D",
-				"instanceID":104,
+				"instanceID":142,
 				"props":{
 					"name":"Wall_1_Part_3",
 					"active":true,
@@ -159,7 +159,7 @@
 			},
 			{
 				"type":"MeshSprite3D",
-				"instanceID":105,
+				"instanceID":143,
 				"props":{
 					"name":"Wall_1_Part_4",
 					"active":true,
@@ -196,7 +196,7 @@
 			},
 			{
 				"type":"MeshSprite3D",
-				"instanceID":106,
+				"instanceID":144,
 				"props":{
 					"name":"Wall_1_Part_5",
 					"active":true,

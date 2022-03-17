@@ -1,5 +1,6 @@
 import Utility from "../Mod/Utility"
 import FdMgr from "../FanDong/FdMgr"
+import SoundMgr from "../Mod/SoundMgr"
 
 export default class StartUI extends Laya.Scene {
     constructor() {
@@ -9,6 +10,7 @@ export default class StartUI extends Laya.Scene {
     startBtn: Laya.Image
 
     onOpened() {
+        SoundMgr.instance.playMusic('bgm.mp3')
         this.size(Laya.stage.displayWidth, Laya.stage.displayHeight)
         Utility.addClickEvent(this.startBtn, this, this.startBtnCB)
         FdMgr.inHomePage()

@@ -3,6 +3,7 @@ export class PlayerData {
     grade: number = 1
     skinArr: number[] = [1, 0, 0, 0]
     skinId: number = 0
+    coin: number = 0
 }
 
 export default class PlayerDataMgr {
@@ -25,5 +26,24 @@ export default class PlayerDataMgr {
     //设置用户数据
     public static setPlayerData() {
         localStorage.setItem('playerData', JSON.stringify(this._playerData))
+    }
+
+    public static getSkinStr(): string {
+        let str: string = ''
+        switch (this._playerData.skinId) {
+            case 0:
+                str = 'Cat_'
+                break
+            case 1:
+                str = 'Cat_'
+                break
+            case 2:
+                str = 'Huga_'
+                break
+            case 3:
+                str = 'Shouter_'
+                break
+        }
+        return str
     }
 }

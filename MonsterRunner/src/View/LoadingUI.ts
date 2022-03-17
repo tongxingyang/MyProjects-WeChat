@@ -16,9 +16,6 @@ export default class LoadingUI extends Laya.Scene {
 
     onOpened() {
         this.size(Laya.stage.displayWidth, Laya.stage.displayHeight)
-        if (!Laya.Browser.onWeiXin) {
-            localStorage.clear()
-        }
         FdMgr.init(() => {
             this.loadJsonData(1)
         })
@@ -94,7 +91,9 @@ export default class LoadingUI extends Laya.Scene {
 
     onComplete() {
         FdMgr.loadGame(() => {
-            GameLogic.Share.initScene()
+            SoundMgr.instance.initLoading(()=>{
+                GameLogic.Share.initScene()
+            })
         })
     }
 

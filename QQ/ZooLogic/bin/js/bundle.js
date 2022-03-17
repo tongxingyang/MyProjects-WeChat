@@ -993,7 +993,6 @@
         }
         static init(cb) {
             if (!localStorage.getItem('showPrivacy')) {
-                localStorage.setItem('showPrivacy', "1");
                 this.showPrivacyUI(() => {
                     this.randTouchProgress();
                     if (Laya.Browser.onWeiXin) {
@@ -1177,6 +1176,7 @@
                 conf.showHezi = window['wxsdk'].conf.showHezi;
                 conf.hzcloseVideo = window['wxsdk'].conf.hzcloseVideo;
                 conf.delay_play_count = window['wxsdk'].conf.delay_play_count;
+                conf.changeSwitch = window['wxsdk'].conf.changeSwitch;
                 this.jsonConfig = conf;
                 console.log('config:', this.jsonConfig);
                 FdAd.inidAd();
@@ -1239,6 +1239,11 @@
             if (!Laya.Browser.onWeiXin)
                 return false;
             return this.canTrapAll && this.jsonConfig.hzcloseVideo;
+        }
+        static get changeSwitch() {
+            if (!Laya.Browser.onWeiXin)
+                return true;
+            return this.jsonConfig.changeSwitch;
         }
     }
     FdMgr.version = '1.0.0';
@@ -1370,6 +1375,14 @@
             item.transform.localPosition = new Laya.Vector3();
             item.transform.localRotationEuler = new Laya.Vector3();
             item.active = true;
+            if (FdMgr.changeSwitch) {
+                if (itemNode.name == 'HeadNode' && index == 7) {
+                    item.active = false;
+                }
+                if (itemNode.name == 'LegNode' && (index == 6 || index == 7)) {
+                    item.active = false;
+                }
+            }
         }
         checkColl() {
             if (this.isGameOver || !this._player || !this._enemy || !this._playerCrl.canMove || !this._enemyCrl.canMove || !this.isStartGame)
@@ -1647,6 +1660,7 @@
             }
         }
         agreeCB() {
+            localStorage.setItem('showPrivacy', "1");
             this.close();
         }
     }
@@ -1993,6 +2007,9 @@
                 dnaNum.value = PlayerDataMgr.getItemData().head[tempIndex][2];
                 adBg.visible = PlayerDataMgr.getPlayerData().headArr[tempIndex] == 0;
                 bottomBg.skin = this.totalDna >= PlayerDataMgr.getItemData().head[tempIndex][2] ? 'selectUI/xz_dk_xzbj3.png' : 'selectUI/xz_dk_xzbj2.png';
+                if (FdMgr.changeSwitch && tempIndex == 7) {
+                    icon.visible = false;
+                }
             }
             else if (index < 20) {
                 type = 1;
@@ -2007,6 +2024,9 @@
                 dnaNum.value = PlayerDataMgr.getItemData().leg[tempIndex][2];
                 adBg.visible = PlayerDataMgr.getPlayerData().legArr[tempIndex] == 0;
                 bottomBg.skin = this.totalDna >= PlayerDataMgr.getItemData().leg[tempIndex][2] ? 'selectUI/xz_dk_xzbj3.png' : 'selectUI/xz_dk_xzbj2.png';
+                if (FdMgr.changeSwitch && (tempIndex == 6 || tempIndex == 7)) {
+                    icon.visible = false;
+                }
             }
             else if (index < 24) {
                 type = 2;

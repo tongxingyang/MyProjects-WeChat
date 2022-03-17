@@ -2,7 +2,7 @@
 	"version":"LAYAHIERARCHY:02",
 	"data":{
 		"type":"MeshSprite3D",
-		"instanceID":112,
+		"instanceID":150,
 		"props":{
 			"name":"Points_plate",
 			"active":true,

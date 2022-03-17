@@ -5,6 +5,11 @@ import Utility from "../Mod/Utility"
 import CameraCrl from "./CameraCrl"
 import PlayerCrl from "./PlayerCrl"
 import FdMgr from "../FanDong/FdMgr"
+import SelectNode from "./Prop/SelectNode"
+import Enemy from "./Enemy"
+import Mutagen from "./Prop/Mutagen"
+import Barrel from "./Prop/Barrel"
+import Npc from "./Prop/Npc"
 
 export default class GameLogic {
     public static Share: GameLogic
@@ -28,11 +33,11 @@ export default class GameLogic {
     public _player: Laya.Sprite3D = null
     public _playerCrl: PlayerCrl = null
     public _standNode: Laya.Sprite3D = null
+    public _desNode: Laya.Sprite3D = null
+    public _roadFinish: Laya.Sprite3D = null
 
-    playerHp: number = 10
-    playerPower: number = 10
-    enemyHp: number = 10
-    enemyPower: number = 10
+    correctCount: number = 0
+    bodyArr: number[] = []
 
     constructor() {
         if (!Laya.Browser.onWeiXin)
@@ -69,7 +74,7 @@ export default class GameLogic {
         // Use soft shadow.
         this._light.shadowMode = Laya.ShadowMode.SoftHigh;
         // Set shadow max distance from camera.
-        this._light.shadowDistance = 10;
+        this._light.shadowDistance = 15;
         // Set shadow resolution.
         this._light.shadowResolution = 1024;
         // Set shadow cascade mode.
@@ -77,6 +82,14 @@ export default class GameLogic {
         // Set shadow normal bias.
         this._light.shadowNormalBias = 0;
 
+        //雾化代码
+        this._scene.enableFog = true;
+        //设置雾化的颜色
+        this._scene.fogColor = new Laya.Vector3(0, 0.8, 0);
+        //设置雾化的起始位置，相对于相机的距离
+        this._scene.fogStart = 5;
+        //设置雾化最浓处的距离。
+        this._scene.fogRange = 40;
         //this.fixCameraField()
 
         this.camStartPos = this._camera.transform.position.clone()
@@ -94,9 +107,13 @@ export default class GameLogic {
         this._standNode.getChildAt(0).active = false
         this._standNode.getChildAt(1).active = true;
         (this._standNode.getChildAt(1).getComponent(Laya.Animator) as Laya.Animator).speed = 1;
+        this._playerCrl.startRun()
+        SoundMgr.instance.playSoundEffect('glass.mp3')
     }
 
     createLevel() {
+        this.bodyArr = [0, 1, 2, 3, 4, 5]
+        this.bodyArr = Utility.shuffleArr(this.bodyArr)
         let g: number = 1
         let dataArr: any[] = PlayerDataMgr.levelDataArr[g - 1]
         for (let i = 0; i < dataArr.length; i++) {
@@ -109,7 +126,9 @@ export default class GameLogic {
         }
     }
     createItem(name: string, pos: Laya.Vector3, rot: Laya.Vector3, scale: Laya.Vector3) {
+        let index = 0
         if (name.search('SelectNode') != -1) {
+            index = Number(name.slice(name.length - 1))
             name = name.slice(0, name.length - 1)
         }
         let sp: Laya.Sprite3D = Utility.getSprite3DResByUrl(name + '.lh', this._levelNode, false)
@@ -120,11 +139,43 @@ export default class GameLogic {
             this._player = sp
             this._playerCrl = sp.addComponent(PlayerCrl)
         } else if (name.search('Stand') != -1) {
+            sp.getChildAt(0).active = true
+            sp.getChildAt(1).active = false
             this._standNode = sp
+        } else if (name.search('SelectNode') != -1) {
+            let crl: SelectNode = sp.addComponent(SelectNode)
+            crl.init(index, name.slice(name.length - 1) == 'L')
+        } else if (name.search('Enemy') != -1) {
+            sp.addComponent(Enemy)
+        } else if (name.search('Mutagen') != -1) {
+            sp.addComponent(Mutagen)
+        } else if (name.search('Barrel') != -1) {
+            sp.addComponent(Barrel)
+        } else if (name == 'Finish') {
+            this._desNode = sp
+        } else if (name == 'Road_Finish') {
+            this._roadFinish = sp
+            for (let i = 0; i < this._roadFinish.numChildren; i++) {
+                let npc: Laya.Sprite3D = this._roadFinish.getChildAt(i) as Laya.Sprite3D
+                let crl = npc.addComponent(Npc) as Npc
+            }
+        }
+    }
+
+    finish() {
+        this.isFinish = true
+        this._playerCrl.walkToDes()
+        for (let i = 0; i < this._roadFinish.numChildren; i++) {
+            let npc: Laya.Sprite3D = this._roadFinish.getChildAt(i) as Laya.Sprite3D
+            let crl = npc.getComponent(Npc) as Npc
+            crl.raiseCB()
         }
     }
 
     gameOver(isWin: boolean) {
+        if (isWin) {
+            SoundMgr.instance.playSoundEffect('win.mp3')
+        }
         Laya.timer.clearAll(this)
         WxApi.DoVibrate(false)
         this.isWin = isWin
@@ -145,10 +196,12 @@ export default class GameLogic {
         this.isPause = false
         this._camera.fieldOfView = this.startCamField
         this.isFinish = false
+        this.correctCount = 0
 
         this._camera.transform.position = this.camStartPos
         this._camera.transform.rotation = this.camStartRotation
 
         this._levelNode.destroyChildren()
+        this.createLevel()
     }
 }

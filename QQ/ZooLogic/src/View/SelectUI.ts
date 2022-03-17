@@ -4,6 +4,7 @@ import WxApi from "../Libs/WxApi"
 import SoundMgr from "../Mod/SoundMgr"
 import Utility from "../Mod/Utility"
 import FdAd from "../FanDong/FdAd"
+import FdMgr from "../FanDong/FdMgr"
 
 export default class SelectUI extends Laya.Scene {
     constructor() {
@@ -241,6 +242,9 @@ export default class SelectUI extends Laya.Scene {
             dnaNum.value = PlayerDataMgr.getItemData().head[tempIndex][2]
             adBg.visible = PlayerDataMgr.getPlayerData().headArr[tempIndex] == 0
             bottomBg.skin = this.totalDna >= PlayerDataMgr.getItemData().head[tempIndex][2] ? 'selectUI/xz_dk_xzbj3.png' : 'selectUI/xz_dk_xzbj2.png'
+            if (FdMgr.changeSwitch && tempIndex == 7) {
+                icon.visible = false
+            }
         } else if (index < 20) {
             type = 1
             tempIndex = index - 10
@@ -254,6 +258,10 @@ export default class SelectUI extends Laya.Scene {
             dnaNum.value = PlayerDataMgr.getItemData().leg[tempIndex][2]
             adBg.visible = PlayerDataMgr.getPlayerData().legArr[tempIndex] == 0
             bottomBg.skin = this.totalDna >= PlayerDataMgr.getItemData().leg[tempIndex][2] ? 'selectUI/xz_dk_xzbj3.png' : 'selectUI/xz_dk_xzbj2.png'
+
+            if (FdMgr.changeSwitch && (tempIndex == 6 || tempIndex == 7)) {
+                icon.visible = false
+            }
         } else if (index < 24) {
             type = 2
             tempIndex = index - 20
@@ -308,7 +316,7 @@ export default class SelectUI extends Laya.Scene {
         Laya.Tween.clearAll(this.finger)
         this.finger.visible = false
     }
-    selectItemUp(type: number, index: number){
+    selectItemUp(type: number, index: number) {
         console.log('click')
         if (PlayerDataMgr.getDataByType(type)[index] == 0) {
             let cb = () => {

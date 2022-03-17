@@ -54,12 +54,13 @@ export class GameLogic extends Component {
     }
 
     gameOver(isWin: boolean) {
-        FdMgr.showGameOver()
         this.isGameOver = true
         this.isWin = isWin
 
         this.scheduleOnce(() => {
-            UINode.Share.showUI(UIType.UI_FINISH)
+            FdMgr.showGameOver(() => {
+                UINode.Share.showUI(UIType.UI_FINISH)
+            })
         }, 2)
     }
 

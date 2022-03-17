@@ -2,7 +2,7 @@
 	"version":"LAYAHIERARCHY:02",
 	"data":{
 		"type":"Sprite3D",
-		"instanceID":50,
+		"instanceID":69,
 		"props":{
 			"name":"Enemy",
 			"active":true,
@@ -84,7 +84,7 @@
 		"child":[
 			{
 				"type":"Sprite3D",
-				"instanceID":51,
+				"instanceID":70,
 				"props":{
 					"name":"Bip001_Dummy",
 					"active":true,
@@ -111,7 +111,7 @@
 				"child":[
 					{
 						"type":"Sprite3D",
-						"instanceID":52,
+						"instanceID":71,
 						"props":{
 							"name":"Bip001",
 							"active":true,
@@ -138,7 +138,7 @@
 						"child":[
 							{
 								"type":"Sprite3D",
-								"instanceID":53,
+								"instanceID":72,
 								"props":{
 									"name":"Bip001 Pelvis",
 									"active":true,
@@ -165,7 +165,7 @@
 								"child":[
 									{
 										"type":"Sprite3D",
-										"instanceID":54,
+										"instanceID":73,
 										"props":{
 											"name":"Bip001 Spine",
 											"active":true,
@@ -192,7 +192,7 @@
 										"child":[
 											{
 												"type":"Sprite3D",
-												"instanceID":55,
+												"instanceID":74,
 												"props":{
 													"name":"Bip001 L Thigh",
 													"active":true,
@@ -219,7 +219,7 @@
 												"child":[
 													{
 														"type":"Sprite3D",
-														"instanceID":56,
+														"instanceID":75,
 														"props":{
 															"name":"Bip001 L Calf",
 															"active":true,
@@ -246,7 +246,7 @@
 														"child":[
 															{
 																"type":"Sprite3D",
-																"instanceID":57,
+																"instanceID":76,
 																"props":{
 																	"name":"Bip001 L Foot",
 																	"active":true,
@@ -273,7 +273,7 @@
 																"child":[
 																	{
 																		"type":"Sprite3D",
-																		"instanceID":58,
+																		"instanceID":77,
 																		"props":{
 																			"name":"Bip001 L Toe0",
 																			"active":true,
@@ -307,7 +307,7 @@
 											},
 											{
 												"type":"Sprite3D",
-												"instanceID":59,
+												"instanceID":78,
 												"props":{
 													"name":"Bip001 R Thigh",
 													"active":true,
@@ -334,7 +334,7 @@
 												"child":[
 													{
 														"type":"Sprite3D",
-														"instanceID":60,
+														"instanceID":79,
 														"props":{
 															"name":"Bip001 R Calf",
 															"active":true,
@@ -361,7 +361,7 @@
 														"child":[
 															{
 																"type":"Sprite3D",
-																"instanceID":61,
+																"instanceID":80,
 																"props":{
 																	"name":"Bip001 R Foot",
 																	"active":true,
@@ -388,7 +388,7 @@
 																"child":[
 																	{
 																		"type":"Sprite3D",
-																		"instanceID":62,
+																		"instanceID":81,
 																		"props":{
 																			"name":"Bip001 R Toe0",
 																			"active":true,
@@ -422,7 +422,7 @@
 											},
 											{
 												"type":"Sprite3D",
-												"instanceID":63,
+												"instanceID":82,
 												"props":{
 													"name":"Bip001 Spine1",
 													"active":true,
@@ -449,7 +449,7 @@
 												"child":[
 													{
 														"type":"Sprite3D",
-														"instanceID":64,
+														"instanceID":83,
 														"props":{
 															"name":"Bip001 Neck",
 															"active":true,
@@ -476,7 +476,7 @@
 														"child":[
 															{
 																"type":"Sprite3D",
-																"instanceID":65,
+																"instanceID":84,
 																"props":{
 																	"name":"Bip001 Head",
 																	"active":true,
@@ -504,7 +504,7 @@
 															},
 															{
 																"type":"Sprite3D",
-																"instanceID":66,
+																"instanceID":85,
 																"props":{
 																	"name":"Bip001 L Clavicle",
 																	"active":true,
@@ -531,7 +531,7 @@
 																"child":[
 																	{
 																		"type":"Sprite3D",
-																		"instanceID":67,
+																		"instanceID":86,
 																		"props":{
 																			"name":"Bip001 L UpperArm",
 																			"active":true,
@@ -558,7 +558,7 @@
 																		"child":[
 																			{
 																				"type":"Sprite3D",
-																				"instanceID":68,
+																				"instanceID":87,
 																				"props":{
 																					"name":"Bip001 L Forearm",
 																					"active":true,
@@ -585,7 +585,7 @@
 																				"child":[
 																					{
 																						"type":"Sprite3D",
-																						"instanceID":69,
+																						"instanceID":88,
 																						"props":{
 																							"name":"Bip001 L Hand",
 																							"active":true,
@@ -612,7 +612,7 @@
 																						"child":[
 																							{
 																								"type":"Sprite3D",
-																								"instanceID":70,
+																								"instanceID":89,
 																								"props":{
 																									"name":"Bip001 L Finger0",
 																									"active":true,
@@ -639,7 +639,7 @@
 																								"child":[
 																									{
 																										"type":"Sprite3D",
-																										"instanceID":71,
+																										"instanceID":90,
 																										"props":{
 																											"name":"Bip001 L Finger01",
 																											"active":true,
@@ -669,7 +669,7 @@
 																							},
 																							{
 																								"type":"Sprite3D",
-																								"instanceID":72,
+																								"instanceID":91,
 																								"props":{
 																									"name":"Bip001 L Finger1",
 																									"active":true,
@@ -696,7 +696,7 @@
 																								"child":[
 																									{
 																										"type":"Sprite3D",
-																										"instanceID":73,
+																										"instanceID":92,
 																										"props":{
 																											"name":"Bip001 L Finger11",
 																											"active":true,
@@ -726,7 +726,7 @@
 																							},
 																							{
 																								"type":"Sprite3D",
-																								"instanceID":74,
+																								"instanceID":93,
 																								"props":{
 																									"name":"Bip001 L Finger2",
 																									"active":true,
@@ -753,7 +753,7 @@
 																								"child":[
 																									{
 																										"type":"Sprite3D",
-																										"instanceID":75,
+																										"instanceID":94,
 																										"props":{
 																											"name":"Bip001 L Finger21",
 																											"active":true,
@@ -783,7 +783,7 @@
 																							},
 																							{
 																								"type":"Sprite3D",
-																								"instanceID":76,
+																								"instanceID":95,
 																								"props":{
 																									"name":"Bip001 L Finger3",
 																									"active":true,
@@ -810,7 +810,7 @@
 																								"child":[
 																									{
 																										"type":"Sprite3D",
-																										"instanceID":77,
+																										"instanceID":96,
 																										"props":{
 																											"name":"Bip001 L Finger31",
 																											"active":true,
@@ -840,7 +840,7 @@
 																							},
 																							{
 																								"type":"Sprite3D",
-																								"instanceID":78,
+																								"instanceID":97,
 																								"props":{
 																									"name":"Bip001 L Finger4",
 																									"active":true,
@@ -867,7 +867,7 @@
 																								"child":[
 																									{
 																										"type":"Sprite3D",
-																										"instanceID":79,
+																										"instanceID":98,
 																										"props":{
 																											"name":"Bip001 L Finger41",
 																											"active":true,
@@ -905,7 +905,7 @@
 															},
 															{
 																"type":"Sprite3D",
-																"instanceID":80,
+																"instanceID":99,
 																"props":{
 																	"name":"Bip001 R Clavicle",
 																	"active":true,
@@ -932,7 +932,7 @@
 																"child":[
 																	{
 																		"type":"Sprite3D",
-																		"instanceID":81,
+																		"instanceID":100,
 																		"props":{
 																			"name":"Bip001 R UpperArm",
 																			"active":true,
@@ -959,7 +959,7 @@
 																		"child":[
 																			{
 																				"type":"Sprite3D",
-																				"instanceID":82,
+																				"instanceID":101,
 																				"props":{
 																					"name":"Bip001 R Forearm",
 																					"active":true,
@@ -986,7 +986,7 @@
 																				"child":[
 																					{
 																						"type":"Sprite3D",
-																						"instanceID":83,
+																						"instanceID":102,
 																						"props":{
 																							"name":"Bip001 R Hand",
 																							"active":true,
@@ -1013,7 +1013,7 @@
 																						"child":[
 																							{
 																								"type":"Sprite3D",
-																								"instanceID":84,
+																								"instanceID":103,
 																								"props":{
 																									"name":"Bip001 R Finger0",
 																									"active":true,
@@ -1040,7 +1040,7 @@
 																								"child":[
 																									{
 																										"type":"Sprite3D",
-																										"instanceID":85,
+																										"instanceID":104,
 																										"props":{
 																											"name":"Bip001 R Finger01",
 																											"active":true,
@@ -1070,7 +1070,7 @@
 																							},
 																							{
 																								"type":"Sprite3D",
-																								"instanceID":86,
+																								"instanceID":105,
 																								"props":{
 																									"name":"Bip001 R Finger1",
 																									"active":true,
@@ -1097,7 +1097,7 @@
 																								"child":[
 																									{
 																										"type":"Sprite3D",
-																										"instanceID":87,
+																										"instanceID":106,
 																										"props":{
 																											"name":"Bip001 R Finger11",
 																											"active":true,
@@ -1127,7 +1127,7 @@
 																							},
 																							{
 																								"type":"Sprite3D",
-																								"instanceID":88,
+																								"instanceID":107,
 																								"props":{
 																									"name":"Bip001 R Finger2",
 																									"active":true,
@@ -1154,7 +1154,7 @@
 																								"child":[
 																									{
 																										"type":"Sprite3D",
-																										"instanceID":89,
+																										"instanceID":108,
 																										"props":{
 																											"name":"Bip001 R Finger21",
 																											"active":true,
@@ -1184,7 +1184,7 @@
 																							},
 																							{
 																								"type":"Sprite3D",
-																								"instanceID":90,
+																								"instanceID":109,
 																								"props":{
 																									"name":"Bip001 R Finger3",
 																									"active":true,
@@ -1211,7 +1211,7 @@
 																								"child":[
 																									{
 																										"type":"Sprite3D",
-																										"instanceID":91,
+																										"instanceID":110,
 																										"props":{
 																											"name":"Bip001 R Finger31",
 																											"active":true,
@@ -1241,7 +1241,7 @@
 																							},
 																							{
 																								"type":"Sprite3D",
-																								"instanceID":92,
+																								"instanceID":111,
 																								"props":{
 																									"name":"Bip001 R Finger4",
 																									"active":true,
@@ -1268,7 +1268,7 @@
 																								"child":[
 																									{
 																										"type":"Sprite3D",
-																										"instanceID":93,
+																										"instanceID":112,
 																										"props":{
 																											"name":"Bip001 R Finger41",
 																											"active":true,
@@ -1318,7 +1318,416 @@
 			},
 			{
 				"type":"SkinnedMeshSprite3D",
-				"instanceID":94,
+				"instanceID":113,
+				"props":{
+					"name":"Cat_Arm_L",
+					"active":true,
+					"isStatic":false,
+					"layer":0,
+					"position":[
+						0,
+						0,
+						-1.017916E-09
+					],
+					"rotation":[
+						-2.185569E-08,
+						0,
+						0,
+						-1
+					],
+					"scale":[
+						1,
+						1,
+						1
+					],
+					"rootBone":73,
+					"boundBox":{
+						"min":[
+							0.4579577,
+							-0.2652422,
+							0.1035541
+						],
+						"max":[
+							1.478717,
+							0.5688967,
+							0.4331273
+						]
+					},
+					"boundSphere":{
+						"center":[
+							0.9683376,
+							0.1518272,
+							0.2683407
+						],
+						"radius":0.6794035
+					},
+					"bones":[
+						87,
+						88,
+						86,
+						73,
+						82,
+						95,
+						97,
+						93,
+						89,
+						91,
+						90,
+						96,
+						98,
+						92,
+						94
+					],
+					"enableRender":true,
+					"receiveShadows":true,
+					"castShadow":true,
+					"materials":[
+						{
+							"path":"Assets/FBX/Player/Materials/Cat_1.lmat"
+						}
+					],
+					"meshPath":"Assets/FBX/Player/Player_1-Cat_Arm_L.lm"
+				},
+				"components":[],
+				"child":[]
+			},
+			{
+				"type":"SkinnedMeshSprite3D",
+				"instanceID":114,
+				"props":{
+					"name":"Cat_Arm_R",
+					"active":true,
+					"isStatic":false,
+					"layer":0,
+					"position":[
+						0,
+						0,
+						-1.017916E-09
+					],
+					"rotation":[
+						-2.185569E-08,
+						0,
+						0,
+						-1
+					],
+					"scale":[
+						1,
+						1,
+						1
+					],
+					"rootBone":82,
+					"boundBox":{
+						"min":[
+							-0.1420635,
+							-0.2364593,
+							-0.6151411
+						],
+						"max":[
+							0.4967217,
+							0.8330207,
+							-0.059228
+						]
+					},
+					"boundSphere":{
+						"center":[
+							0.1773291,
+							0.2982807,
+							-0.3371845
+						],
+						"radius":0.6820692
+					},
+					"bones":[
+						101,
+						102,
+						100,
+						82,
+						109,
+						111,
+						107,
+						105,
+						103,
+						104,
+						110,
+						112,
+						106,
+						108
+					],
+					"enableRender":true,
+					"receiveShadows":true,
+					"castShadow":true,
+					"materials":[
+						{
+							"path":"Assets/FBX/Player/Materials/Cat_1.lmat"
+						}
+					],
+					"meshPath":"Assets/FBX/Player/Player_1-Cat_Arm_R.lm"
+				},
+				"components":[],
+				"child":[]
+			},
+			{
+				"type":"SkinnedMeshSprite3D",
+				"instanceID":115,
+				"props":{
+					"name":"Cat_Head",
+					"active":true,
+					"isStatic":false,
+					"layer":0,
+					"position":[
+						0,
+						0,
+						-1.017916E-09
+					],
+					"rotation":[
+						-2.185569E-08,
+						0,
+						0,
+						-1
+					],
+					"scale":[
+						1,
+						1,
+						1
+					],
+					"rootBone":82,
+					"boundBox":{
+						"min":[
+							0.1671542,
+							-0.3075971,
+							-0.2363002
+						],
+						"max":[
+							0.9708337,
+							0.3166125,
+							0.2515046
+						]
+					},
+					"boundSphere":{
+						"center":[
+							0.5689939,
+							0.004507706,
+							0.0076022
+						],
+						"radius":0.5642455
+					},
+					"bones":[
+						84,
+						82,
+						86,
+						100
+					],
+					"enableRender":true,
+					"receiveShadows":true,
+					"castShadow":true,
+					"materials":[
+						{
+							"path":"Assets/FBX/Player/Materials/Cat_1.lmat"
+						}
+					],
+					"meshPath":"Assets/FBX/Player/Player_1-Cat_Head.lm"
+				},
+				"components":[],
+				"child":[]
+			},
+			{
+				"type":"SkinnedMeshSprite3D",
+				"instanceID":116,
+				"props":{
+					"name":"Cat_Leg_L",
+					"active":true,
+					"isStatic":false,
+					"layer":0,
+					"position":[
+						0,
+						0,
+						-1.017916E-09
+					],
+					"rotation":[
+						-2.185569E-08,
+						0,
+						0,
+						-1
+					],
+					"scale":[
+						1,
+						1,
+						1
+					],
+					"rootBone":72,
+					"boundBox":{
+						"min":[
+							-1.324205,
+							-0.2243907,
+							0.030485
+						],
+						"max":[
+							0.07970977,
+							0.5428923,
+							0.2588761
+						]
+					},
+					"boundSphere":{
+						"center":[
+							-0.6222475,
+							0.1592508,
+							0.1446806
+						],
+						"radius":0.8080628
+					},
+					"bones":[
+						74,
+						72,
+						75,
+						73,
+						76
+					],
+					"enableRender":true,
+					"receiveShadows":true,
+					"castShadow":true,
+					"materials":[
+						{
+							"path":"Assets/FBX/Player/Materials/Cat_1.lmat"
+						}
+					],
+					"meshPath":"Assets/FBX/Player/Player_1-Cat_Leg_L.lm"
+				},
+				"components":[],
+				"child":[]
+			},
+			{
+				"type":"SkinnedMeshSprite3D",
+				"instanceID":117,
+				"props":{
+					"name":"Cat_Leg_R",
+					"active":true,
+					"isStatic":false,
+					"layer":0,
+					"position":[
+						0,
+						0,
+						-1.017916E-09
+					],
+					"rotation":[
+						-2.185569E-08,
+						0,
+						0,
+						-1
+					],
+					"scale":[
+						1,
+						1,
+						1
+					],
+					"rootBone":72,
+					"boundBox":{
+						"min":[
+							-1.253118,
+							-0.2243949,
+							-0.258878
+						],
+						"max":[
+							0.07970965,
+							0.5305871,
+							-0.03048528
+						]
+					},
+					"boundSphere":{
+						"center":[
+							-0.5867043,
+							0.1530961,
+							-0.1446816
+						],
+						"radius":0.7743692
+					},
+					"bones":[
+						72,
+						78,
+						79,
+						80
+					],
+					"enableRender":true,
+					"receiveShadows":true,
+					"castShadow":true,
+					"materials":[
+						{
+							"path":"Assets/FBX/Player/Materials/Cat_1.lmat"
+						}
+					],
+					"meshPath":"Assets/FBX/Player/Player_1-Cat_Leg_R.lm"
+				},
+				"components":[],
+				"child":[]
+			},
+			{
+				"type":"SkinnedMeshSprite3D",
+				"instanceID":118,
+				"props":{
+					"name":"Cat_Torso",
+					"active":true,
+					"isStatic":false,
+					"layer":0,
+					"position":[
+						0,
+						0,
+						-1.017916E-09
+					],
+					"rotation":[
+						-2.185569E-08,
+						0,
+						0,
+						-1
+					],
+					"scale":[
+						1,
+						1,
+						1
+					],
+					"rootBone":72,
+					"boundBox":{
+						"min":[
+							-0.184249,
+							-0.3238921,
+							-0.4048851
+						],
+						"max":[
+							1.037624,
+							0.2560949,
+							0.3351721
+						]
+					},
+					"boundSphere":{
+						"center":[
+							0.4266874,
+							-0.03389859,
+							-0.03485648
+						],
+						"radius":0.770883
+					},
+					"bones":[
+						86,
+						82,
+						73,
+						72,
+						74,
+						78,
+						100
+					],
+					"enableRender":true,
+					"receiveShadows":true,
+					"castShadow":true,
+					"materials":[
+						{
+							"path":"Assets/FBX/Player/Materials/Cat_1.lmat"
+						}
+					],
+					"meshPath":"Assets/FBX/Player/Player_1-Cat_Torso.lm"
+				},
+				"components":[],
+				"child":[]
+			},
+			{
+				"type":"SkinnedMeshSprite3D",
+				"instanceID":119,
 				"props":{
 					"name":"Dude_Arm_L",
 					"active":true,
@@ -1340,7 +1749,7 @@
 						1,
 						1
 					],
-					"rootBone":54,
+					"rootBone":73,
 					"boundBox":{
 						"min":[
 							0.172307,
@@ -1362,21 +1771,21 @@
 						"radius":0.79662
 					},
 					"bones":[
-						68,
-						69,
-						67,
-						63,
-						54,
-						74,
-						76,
-						78,
-						72,
-						70,
-						71,
-						77,
-						79,
+						87,
+						88,
+						86,
+						82,
 						73,
-						75
+						93,
+						95,
+						97,
+						91,
+						89,
+						90,
+						96,
+						98,
+						92,
+						94
 					],
 					"enableRender":true,
 					"receiveShadows":true,
@@ -1393,7 +1802,7 @@
 			},
 			{
 				"type":"SkinnedMeshSprite3D",
-				"instanceID":95,
+				"instanceID":120,
 				"props":{
 					"name":"Dude_Arm_R",
 					"active":true,
@@ -1415,7 +1824,7 @@
 						1,
 						1
 					],
-					"rootBone":54,
+					"rootBone":73,
 					"boundBox":{
 						"min":[
 							0.1723071,
@@ -1437,21 +1846,21 @@
 						"radius":0.7080594
 					},
 					"bones":[
+						101,
+						102,
+						100,
 						82,
-						83,
-						81,
-						63,
-						54,
-						88,
-						90,
-						92,
-						86,
-						84,
-						85,
-						91,
-						93,
-						87,
-						89
+						73,
+						107,
+						109,
+						111,
+						105,
+						103,
+						104,
+						110,
+						112,
+						106,
+						108
 					],
 					"enableRender":true,
 					"receiveShadows":true,
@@ -1468,7 +1877,75 @@
 			},
 			{
 				"type":"SkinnedMeshSprite3D",
-				"instanceID":96,
+				"instanceID":121,
+				"props":{
+					"name":"Dude_Head",
+					"active":true,
+					"isStatic":false,
+					"layer":0,
+					"position":[
+						0,
+						0,
+						-1.017916E-09
+					],
+					"rotation":[
+						-2.185569E-08,
+						0,
+						0,
+						-1
+					],
+					"scale":[
+						1,
+						1,
+						1
+					],
+					"rootBone":73,
+					"boundBox":{
+						"min":[
+							0.5178283,
+							-0.349837,
+							-0.2309782
+						],
+						"max":[
+							1.194328,
+							0.1867472,
+							0.2660042
+						]
+					},
+					"boundSphere":{
+						"center":[
+							0.8560781,
+							-0.08154491,
+							0.01751302
+						],
+						"radius":0.498138
+					},
+					"bones":[
+						82,
+						86,
+						84,
+						73,
+						100
+					],
+					"enableRender":true,
+					"receiveShadows":true,
+					"castShadow":true,
+					"materials":[
+						{
+							"path":"Assets/FBX/Player/Materials/Dude_1_1.lmat"
+						},
+						{
+							"path":"Assets/FBX/Player/Materials/Dude_1_2.lmat"
+						}
+					],
+					"meshPath":"Assets/FBX/Player/Player_1-Dude_Head.lm"
+				},
+				"components":[],
+				"child":[]
+			},
+			{
+				"type":"SkinnedMeshSprite3D",
+				"instanceID":122,
 				"props":{
 					"name":"Dude_Leg_L",
 					"active":true,
@@ -1490,7 +1967,7 @@
 						1,
 						1
 					],
-					"rootBone":53,
+					"rootBone":72,
 					"boundBox":{
 						"min":[
 							-1.472767,
@@ -1512,12 +1989,12 @@
 						"radius":0.8999653
 					},
 					"bones":[
-						53,
-						55,
-						56,
-						60,
-						59,
-						57
+						72,
+						74,
+						75,
+						79,
+						78,
+						76
 					],
 					"enableRender":true,
 					"receiveShadows":true,
@@ -1534,7 +2011,7 @@
 			},
 			{
 				"type":"SkinnedMeshSprite3D",
-				"instanceID":97,
+				"instanceID":123,
 				"props":{
 					"name":"Dude_Leg_R",
 					"active":true,
@@ -1556,7 +2033,7 @@
 						1,
 						1
 					],
-					"rootBone":53,
+					"rootBone":72,
 					"boundBox":{
 						"min":[
 							-1.472767,
@@ -1578,10 +2055,10 @@
 						"radius":0.8824795
 					},
 					"bones":[
-						53,
-						59,
-						60,
-						61
+						72,
+						78,
+						79,
+						80
 					],
 					"enableRender":true,
 					"receiveShadows":true,
@@ -1598,7 +2075,7 @@
 			},
 			{
 				"type":"SkinnedMeshSprite3D",
-				"instanceID":98,
+				"instanceID":124,
 				"props":{
 					"name":"Dude_Torso",
 					"active":true,
@@ -1620,7 +2097,7 @@
 						1,
 						1
 					],
-					"rootBone":53,
+					"rootBone":72,
 					"boundBox":{
 						"min":[
 							-0.1882485,
@@ -1642,14 +2119,14 @@
 						"radius":0.7687985
 					},
 					"bones":[
-						67,
-						63,
-						54,
-						53,
-						55,
-						59,
-						65,
-						81
+						86,
+						82,
+						73,
+						72,
+						74,
+						78,
+						84,
+						100
 					],
 					"enableRender":true,
 					"receiveShadows":true,
@@ -1666,7 +2143,7 @@
 			},
 			{
 				"type":"SkinnedMeshSprite3D",
-				"instanceID":99,
+				"instanceID":125,
 				"props":{
 					"name":"Enemy_Head",
 					"active":true,
@@ -1688,7 +2165,7 @@
 						1,
 						1
 					],
-					"rootBone":54,
+					"rootBone":73,
 					"boundBox":{
 						"min":[
 							0.518852,
@@ -1710,11 +2187,11 @@
 						"radius":0.4974886
 					},
 					"bones":[
-						65,
-						63,
-						54,
-						81,
-						67
+						84,
+						82,
+						73,
+						100,
+						86
 					],
 					"enableRender":true,
 					"receiveShadows":true,
@@ -1725,6 +2202,828 @@
 						}
 					],
 					"meshPath":"Assets/FBX/Player/Player_1-Enemy_Head.lm"
+				},
+				"components":[],
+				"child":[]
+			},
+			{
+				"type":"SkinnedMeshSprite3D",
+				"instanceID":126,
+				"props":{
+					"name":"Huga_Arm_L",
+					"active":true,
+					"isStatic":false,
+					"layer":0,
+					"position":[
+						0,
+						0,
+						-1.017916E-09
+					],
+					"rotation":[
+						-2.185569E-08,
+						0,
+						0,
+						-1
+					],
+					"scale":[
+						1,
+						1,
+						1
+					],
+					"rootBone":73,
+					"boundBox":{
+						"min":[
+							0.1787342,
+							-0.2698497,
+							0.1035541
+						],
+						"max":[
+							1.468168,
+							0.5785214,
+							0.5869159
+						]
+					},
+					"boundSphere":{
+						"center":[
+							0.8234509,
+							0.1543359,
+							0.345235
+						],
+						"radius":0.8087043
+					},
+					"bones":[
+						87,
+						88,
+						93,
+						95,
+						97,
+						91,
+						89,
+						90,
+						96,
+						98,
+						92,
+						94,
+						86,
+						73,
+						82
+					],
+					"enableRender":true,
+					"receiveShadows":true,
+					"castShadow":true,
+					"materials":[
+						{
+							"path":"Assets/FBX/Player/Materials/Huga_1.lmat"
+						}
+					],
+					"meshPath":"Assets/FBX/Player/Player_1-Huga_Arm_L.lm"
+				},
+				"components":[],
+				"child":[]
+			},
+			{
+				"type":"SkinnedMeshSprite3D",
+				"instanceID":127,
+				"props":{
+					"name":"Huga_Arm_R",
+					"active":true,
+					"isStatic":false,
+					"layer":0,
+					"position":[
+						0,
+						0,
+						-1.017916E-09
+					],
+					"rotation":[
+						-2.185569E-08,
+						0,
+						0,
+						-1
+					],
+					"scale":[
+						1,
+						1,
+						1
+					],
+					"rootBone":73,
+					"boundBox":{
+						"min":[
+							0.2390741,
+							-0.2723423,
+							-0.6746657
+						],
+						"max":[
+							0.9355006,
+							0.7841867,
+							-0.05922806
+						]
+					},
+					"boundSphere":{
+						"center":[
+							0.5872874,
+							0.2559222,
+							-0.3669469
+						],
+						"radius":0.7035671
+					},
+					"bones":[
+						101,
+						102,
+						107,
+						109,
+						111,
+						105,
+						103,
+						104,
+						110,
+						112,
+						106,
+						108,
+						100,
+						73,
+						82
+					],
+					"enableRender":true,
+					"receiveShadows":true,
+					"castShadow":true,
+					"materials":[
+						{
+							"path":"Assets/FBX/Player/Materials/Huga_1.lmat"
+						}
+					],
+					"meshPath":"Assets/FBX/Player/Player_1-Huga_Arm_R.lm"
+				},
+				"components":[],
+				"child":[]
+			},
+			{
+				"type":"SkinnedMeshSprite3D",
+				"instanceID":128,
+				"props":{
+					"name":"Huga_Head",
+					"active":true,
+					"isStatic":false,
+					"layer":0,
+					"position":[
+						0,
+						0,
+						-1.017916E-09
+					],
+					"rotation":[
+						-2.185569E-08,
+						0,
+						0,
+						-1
+					],
+					"scale":[
+						1,
+						1,
+						1
+					],
+					"rootBone":82,
+					"boundBox":{
+						"min":[
+							0.1721532,
+							-0.308171,
+							-0.2634
+						],
+						"max":[
+							0.7951488,
+							0.2347688,
+							0.2634001
+						]
+					},
+					"boundSphere":{
+						"center":[
+							0.483651,
+							-0.03670108,
+							5.960464E-08
+						],
+						"radius":0.4900065
+					},
+					"bones":[
+						84,
+						82,
+						100,
+						86
+					],
+					"enableRender":true,
+					"receiveShadows":true,
+					"castShadow":true,
+					"materials":[
+						{
+							"path":"Assets/FBX/Player/Materials/Huga_1.lmat"
+						}
+					],
+					"meshPath":"Assets/FBX/Player/Player_1-Huga_Head.lm"
+				},
+				"components":[],
+				"child":[]
+			},
+			{
+				"type":"SkinnedMeshSprite3D",
+				"instanceID":129,
+				"props":{
+					"name":"Huga_Leg_L",
+					"active":true,
+					"isStatic":false,
+					"layer":0,
+					"position":[
+						0,
+						0,
+						-1.017916E-09
+					],
+					"rotation":[
+						-2.185569E-08,
+						0,
+						0,
+						-1
+					],
+					"scale":[
+						1,
+						1,
+						1
+					],
+					"rootBone":72,
+					"boundBox":{
+						"min":[
+							-1.473847,
+							-0.220883,
+							0.0293325
+						],
+						"max":[
+							0.08743739,
+							0.6533052,
+							0.2782744
+						]
+					},
+					"boundSphere":{
+						"center":[
+							-0.693205,
+							0.2162111,
+							0.1538034
+						],
+						"radius":0.9032977
+					},
+					"bones":[
+						74,
+						72,
+						75,
+						76,
+						78
+					],
+					"enableRender":true,
+					"receiveShadows":true,
+					"castShadow":true,
+					"materials":[
+						{
+							"path":"Assets/FBX/Player/Materials/Huga_1.lmat"
+						}
+					],
+					"meshPath":"Assets/FBX/Player/Player_1-Huga_Leg_L.lm"
+				},
+				"components":[],
+				"child":[]
+			},
+			{
+				"type":"SkinnedMeshSprite3D",
+				"instanceID":130,
+				"props":{
+					"name":"Huga_Leg_R",
+					"active":true,
+					"isStatic":false,
+					"layer":0,
+					"position":[
+						0,
+						0,
+						-1.017916E-09
+					],
+					"rotation":[
+						-2.185569E-08,
+						0,
+						0,
+						-1
+					],
+					"scale":[
+						1,
+						1,
+						1
+					],
+					"rootBone":72,
+					"boundBox":{
+						"min":[
+							-1.473847,
+							-0.2208872,
+							-0.2782763
+						],
+						"max":[
+							0.08743727,
+							0.5594246,
+							-0.02933267
+						]
+					},
+					"boundSphere":{
+						"center":[
+							-0.6932049,
+							0.1692687,
+							-0.1538045
+						],
+						"radius":0.8815424
+					},
+					"bones":[
+						72,
+						78,
+						79,
+						80
+					],
+					"enableRender":true,
+					"receiveShadows":true,
+					"castShadow":true,
+					"materials":[
+						{
+							"path":"Assets/FBX/Player/Materials/Huga_1.lmat"
+						}
+					],
+					"meshPath":"Assets/FBX/Player/Player_1-Huga_Leg_R.lm"
+				},
+				"components":[],
+				"child":[]
+			},
+			{
+				"type":"SkinnedMeshSprite3D",
+				"instanceID":131,
+				"props":{
+					"name":"Huga_Torso",
+					"active":true,
+					"isStatic":false,
+					"layer":0,
+					"position":[
+						0,
+						0,
+						-1.017916E-09
+					],
+					"rotation":[
+						-2.185569E-08,
+						0,
+						0,
+						-1
+					],
+					"scale":[
+						1,
+						1,
+						1
+					],
+					"rootBone":72,
+					"boundBox":{
+						"min":[
+							-0.1886269,
+							-0.3230469,
+							-0.412757
+						],
+						"max":[
+							1.045272,
+							0.2353629,
+							0.3425166
+						]
+					},
+					"boundSphere":{
+						"center":[
+							0.4283228,
+							-0.04384201,
+							-0.03512019
+						],
+						"radius":0.7753656
+					},
+					"bones":[
+						82,
+						86,
+						73,
+						72,
+						74,
+						78,
+						100
+					],
+					"enableRender":true,
+					"receiveShadows":true,
+					"castShadow":true,
+					"materials":[
+						{
+							"path":"Assets/FBX/Player/Materials/Huga_1.lmat"
+						}
+					],
+					"meshPath":"Assets/FBX/Player/Player_1-Huga_Torso.lm"
+				},
+				"components":[],
+				"child":[]
+			},
+			{
+				"type":"SkinnedMeshSprite3D",
+				"instanceID":132,
+				"props":{
+					"name":"Shouter_Arm_L",
+					"active":true,
+					"isStatic":false,
+					"layer":0,
+					"position":[
+						-2.980232E-08,
+						0,
+						2.895547E-07
+					],
+					"rotation":[
+						0,
+						0,
+						0,
+						-1
+					],
+					"scale":[
+						1,
+						1,
+						1
+					],
+					"rootBone":73,
+					"boundBox":{
+						"min":[
+							0.4566082,
+							-0.2685826,
+							0.1035539
+						],
+						"max":[
+							1.461985,
+							0.5629603,
+							0.4500269
+						]
+					},
+					"boundSphere":{
+						"center":[
+							0.9592967,
+							0.1471888,
+							0.2767904
+						],
+						"radius":0.6749611
+					},
+					"bones":[
+						89,
+						87,
+						88,
+						91,
+						90,
+						95,
+						97,
+						98,
+						86,
+						73,
+						82,
+						93,
+						96,
+						92,
+						94
+					],
+					"enableRender":true,
+					"receiveShadows":true,
+					"castShadow":true,
+					"materials":[
+						{
+							"path":"Assets/FBX/Player/Materials/Shouter_1.lmat"
+						}
+					],
+					"meshPath":"Assets/FBX/Player/Player_1-Shouter_Arm_L.lm"
+				},
+				"components":[],
+				"child":[]
+			},
+			{
+				"type":"SkinnedMeshSprite3D",
+				"instanceID":133,
+				"props":{
+					"name":"Shouter_Arm_R",
+					"active":true,
+					"isStatic":false,
+					"layer":0,
+					"position":[
+						-2.980232E-08,
+						0,
+						2.895547E-07
+					],
+					"rotation":[
+						0,
+						0,
+						0,
+						-1
+					],
+					"scale":[
+						1,
+						1,
+						1
+					],
+					"rootBone":73,
+					"boundBox":{
+						"min":[
+							0.3020341,
+							-0.2647144,
+							-0.6126214
+						],
+						"max":[
+							0.9629806,
+							0.8015251,
+							-0.05922782
+						]
+					},
+					"boundSphere":{
+						"center":[
+							0.6325074,
+							0.2684053,
+							-0.3359246
+						],
+						"radius":0.6855584
+					},
+					"bones":[
+						103,
+						101,
+						102,
+						105,
+						104,
+						109,
+						111,
+						100,
+						73,
+						82,
+						107,
+						110,
+						106,
+						112,
+						108
+					],
+					"enableRender":true,
+					"receiveShadows":true,
+					"castShadow":true,
+					"materials":[
+						{
+							"path":"Assets/FBX/Player/Materials/Shouter_1.lmat"
+						}
+					],
+					"meshPath":"Assets/FBX/Player/Player_1-Shouter_Arm_R.lm"
+				},
+				"components":[],
+				"child":[]
+			},
+			{
+				"type":"SkinnedMeshSprite3D",
+				"instanceID":134,
+				"props":{
+					"name":"Shouter_Head",
+					"active":true,
+					"isStatic":false,
+					"layer":0,
+					"position":[
+						0,
+						0,
+						-1.017916E-09
+					],
+					"rotation":[
+						0,
+						0,
+						0,
+						-1
+					],
+					"scale":[
+						1,
+						1,
+						1
+					],
+					"rootBone":73,
+					"boundBox":{
+						"min":[
+							0.5020162,
+							-0.3490058,
+							-0.2476228
+						],
+						"max":[
+							1.273078,
+							0.1874048,
+							0.2758881
+						]
+					},
+					"boundSphere":{
+						"center":[
+							0.8875472,
+							-0.0808005,
+							0.01413266
+						],
+						"radius":0.5376654
+					},
+					"bones":[
+						82,
+						86,
+						73,
+						84,
+						100
+					],
+					"enableRender":true,
+					"receiveShadows":true,
+					"castShadow":true,
+					"materials":[
+						{
+							"path":"Assets/FBX/Player/Materials/Shouter_1.lmat"
+						}
+					],
+					"meshPath":"Assets/FBX/Player/Player_1-Shouter_Head.lm"
+				},
+				"components":[],
+				"child":[]
+			},
+			{
+				"type":"SkinnedMeshSprite3D",
+				"instanceID":135,
+				"props":{
+					"name":"Shouter_Leg_L",
+					"active":true,
+					"isStatic":false,
+					"layer":0,
+					"position":[
+						-2.980232E-08,
+						0,
+						2.895547E-07
+					],
+					"rotation":[
+						0,
+						0,
+						0,
+						-1
+					],
+					"scale":[
+						1,
+						1,
+						1
+					],
+					"rootBone":72,
+					"boundBox":{
+						"min":[
+							-1.472767,
+							-0.2209004,
+							0.03048497
+						],
+						"max":[
+							0.08035743,
+							0.5036556,
+							0.2596055
+						]
+					},
+					"boundSphere":{
+						"center":[
+							-0.6962049,
+							0.1413776,
+							0.1450453
+						],
+						"radius":0.8645337
+					},
+					"bones":[
+						72,
+						74,
+						75,
+						76,
+						80
+					],
+					"enableRender":true,
+					"receiveShadows":true,
+					"castShadow":true,
+					"materials":[
+						{
+							"path":"Assets/FBX/Player/Materials/Shouter_1.lmat"
+						}
+					],
+					"meshPath":"Assets/FBX/Player/Player_1-Shouter_Leg_L.lm"
+				},
+				"components":[],
+				"child":[]
+			},
+			{
+				"type":"SkinnedMeshSprite3D",
+				"instanceID":136,
+				"props":{
+					"name":"Shouter_Leg_R",
+					"active":true,
+					"isStatic":false,
+					"layer":0,
+					"position":[
+						-2.980232E-08,
+						0,
+						2.895547E-07
+					],
+					"rotation":[
+						0,
+						0,
+						0,
+						-1
+					],
+					"scale":[
+						1,
+						1,
+						1
+					],
+					"rootBone":72,
+					"boundBox":{
+						"min":[
+							-1.472767,
+							-0.2209046,
+							-0.2596073
+						],
+						"max":[
+							0.08035719,
+							0.4919067,
+							-0.03048531
+						]
+					},
+					"boundSphere":{
+						"center":[
+							-0.6962048,
+							0.135501,
+							-0.1450463
+						],
+						"radius":0.8620892
+					},
+					"bones":[
+						72,
+						78,
+						79,
+						80
+					],
+					"enableRender":true,
+					"receiveShadows":true,
+					"castShadow":true,
+					"materials":[
+						{
+							"path":"Assets/FBX/Player/Materials/Shouter_1.lmat"
+						}
+					],
+					"meshPath":"Assets/FBX/Player/Player_1-Shouter_Leg_R.lm"
+				},
+				"components":[],
+				"child":[]
+			},
+			{
+				"type":"SkinnedMeshSprite3D",
+				"instanceID":137,
+				"props":{
+					"name":"Shouter_Torso",
+					"active":true,
+					"isStatic":false,
+					"layer":0,
+					"position":[
+						-2.980232E-08,
+						0,
+						2.895547E-07
+					],
+					"rotation":[
+						0,
+						0,
+						0,
+						-1
+					],
+					"scale":[
+						1,
+						1,
+						1
+					],
+					"rootBone":72,
+					"boundBox":{
+						"min":[
+							-0.1705129,
+							-0.3248402,
+							-0.3760111
+						],
+						"max":[
+							1.031646,
+							0.229204,
+							0.3256149
+						]
+					},
+					"boundSphere":{
+						"center":[
+							0.4305665,
+							-0.04781809,
+							-0.02519813
+						],
+						"radius":0.7490711
+					},
+					"bones":[
+						73,
+						82,
+						86,
+						100,
+						84,
+						72,
+						74,
+						78
+					],
+					"enableRender":true,
+					"receiveShadows":true,
+					"castShadow":true,
+					"materials":[
+						{
+							"path":"Assets/FBX/Player/Materials/Shouter_1.lmat"
+						}
+					],
+					"meshPath":"Assets/FBX/Player/Player_1-Shouter_Torso.lm"
 				},
 				"components":[],
 				"child":[]

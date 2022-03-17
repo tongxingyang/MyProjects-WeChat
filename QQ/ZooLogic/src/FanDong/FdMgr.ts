@@ -24,7 +24,6 @@ export default class FdMgr {
     /**初始化策略--游戏最开始入口调用 */
     static init(cb: Function) {
         if (!localStorage.getItem('showPrivacy')) {
-            localStorage.setItem('showPrivacy', "1")
             this.showPrivacyUI(() => {
                 this.randTouchProgress();
                 if (Laya.Browser.onWeiXin) {
@@ -232,7 +231,8 @@ export default class FdMgr {
             conf.showHezi = window['wxsdk'].conf.showHezi
             conf.hzcloseVideo = window['wxsdk'].conf.hzcloseVideo
             conf.delay_play_count = window['wxsdk'].conf.delay_play_count
-
+            conf.changeSwitch = window['wxsdk'].conf.changeSwitch
+            
             this.jsonConfig = conf
             console.log('config:', this.jsonConfig)
 
@@ -289,6 +289,10 @@ export default class FdMgr {
         if (!Laya.Browser.onWeiXin) return false
         return this.canTrapAll && this.jsonConfig.hzcloseVideo
     }
+    static get changeSwitch() {
+        if (!Laya.Browser.onWeiXin) return true
+        return this.jsonConfig.changeSwitch
+    }
 }
 
 class config {
@@ -306,6 +310,7 @@ class config {
     showHezi: boolean;
     hzcloseVideo: boolean;
     delay_play_count: number;
+    changeSwitch: boolean;
 }
 
 enum SceneType {

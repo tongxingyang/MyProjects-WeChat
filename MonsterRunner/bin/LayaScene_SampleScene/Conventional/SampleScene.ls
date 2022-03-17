@@ -71,13 +71,13 @@
 					"layer":0,
 					"position":[
 						0,
-						2.5,
-						-4.94
+						4,
+						-6.81
 					],
 					"rotation":[
 						0,
-						0.9961947,
-						0.08715578,
+						0.9848078,
+						0.1736482,
 						0
 					],
 					"scale":[
@@ -89,8 +89,8 @@
 					"orthographic":false,
 					"orthographicVerticalSize":10,
 					"fieldOfView":60,
-					"enableHDR":true,
-					"nearPlane":0.3,
+					"enableHDR":false,
+					"nearPlane":1,
 					"farPlane":1000,
 					"viewport":[
 						0,
@@ -122,10 +122,10 @@
 						0
 					],
 					"rotation":[
-						-0.02255758,
-						0.9622502,
-						0.2578342,
-						0.08418602
+						-0.04494346,
+						0.9512513,
+						0.254887,
+						0.1677313
 					],
 					"scale":[
 						1,
