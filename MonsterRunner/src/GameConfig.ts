@@ -6,6 +6,7 @@ import FinishUI from "./View/FinishUI"
 import GameUI from "./View/GameUI"
 import FixNodeY from "./Libs/FixNodeY"
 import LoadingUI from "./View/LoadingUI"
+import SkinUI from "./View/SkinUI"
 import StartUI from "./View/StartUI"
 import UpDownLoop from "./Mod/UpDownLoop"
 /*
@@ -18,7 +19,7 @@ export default class GameConfig{
     static screenMode:string="vertical";
     static alignV:string="top";
     static alignH:string="left";
-    static startScene:any="MyScenes/GameUI.scene";
+    static startScene:any="MyScenes/SkinUI.scene";
     static sceneRoot:string="";
     static debug:boolean=false;
     static stat:boolean=false;
@@ -34,6 +35,7 @@ export default class GameConfig{
         reg("View/GameUI.ts",GameUI);
         reg("Libs/FixNodeY.ts",FixNodeY);
         reg("View/LoadingUI.ts",LoadingUI);
+        reg("View/SkinUI.ts",SkinUI);
         reg("View/StartUI.ts",StartUI);
         reg("Mod/UpDownLoop.ts",UpDownLoop);
     }

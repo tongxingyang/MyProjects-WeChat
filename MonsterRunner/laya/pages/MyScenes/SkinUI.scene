@@ -4,9 +4,9 @@
     "selectedBox":2,
     "selecteID":3,
     "searchKey":"Scene",
-    "props":{"width":750,"sceneColor":"#4cb8db","height":1334},
+    "props":{"width":750,"sceneColor":"#4cb8db","runtime":"View/SkinUI.ts","height":1334},
     "nodeParent":-1,
-    "maxID":18,
+    "maxID":19,
     "label":"Scene",
     "isOpen":true,
     "isDirectory":true,
@@ -71,7 +71,7 @@
                     "x":30,
                     "type":"List",
                     "searchKey":"List,myList",
-                    "props":{"y":30,"x":49,"var":"myList","spaceY":200,"spaceX":50,"repeatY":2,"repeatX":3},
+                    "props":{"y":30,"x":49,"var":"myList","spaceY":20,"spaceX":50,"repeatY":2,"repeatX":3},
                     "nodeParent":3,
                     "label":"myList",
                     "isOpen":true,
@@ -97,7 +97,7 @@
                                     "x":60,
                                     "type":"Image",
                                     "searchKey":"Image,item",
-                                    "props":{"skin":"skinUI/pfy_dk_1.png","name":"item"},
+                                    "props":{"y":0,"x":0,"width":184,"name":"item","height":366},
                                     "nodeParent":16,
                                     "label":"item",
                                     "isOpen":true,
@@ -106,6 +106,20 @@
                                     "hasChild":true,
                                     "compId":8,
                                     "child":[
+                                        {
+                                            "x":75,
+                                            "type":"Image",
+                                            "searchKey":"Image,bg",
+                                            "props":{"y":0,"x":0,"skin":"skinUI/pfy_dk_1.png","name":"bg"},
+                                            "nodeParent":8,
+                                            "label":"bg",
+                                            "isDirectory":false,
+                                            "isAniNode":false,
+                                            "hasChild":false,
+                                            "compId":18,
+                                            "child":[
+                                                ]
+                                        },
                                         {
                                             "x":75,
                                             "type":"Image",
@@ -118,7 +132,8 @@
                                             "hasChild":false,
                                             "compId":9,
                                             "child":[
-                                                ]
+                                                ],
+                                            "$HIDDEN":false
                                         },
                                         {
                                             "x":75,
@@ -169,13 +184,14 @@
                                             "props":{"y":234,"x":92,"skin":"skinUI/pfy_btn_3.png","name":"buyBtn","anchorY":0.5,"anchorX":0.5},
                                             "nodeParent":8,
                                             "label":"buyBtn",
-                                            "isOpen":false,
+                                            "isOpen":true,
                                             "isDirectory":true,
                                             "isAniNode":false,
                                             "hasChild":true,
                                             "compId":13,
                                             "child":[
                                                 {
+                                                    "x":90,
                                                     "type":"FontClip",
                                                     "searchKey":"FontClip,cost",
                                                     "props":{"y":33,"x":104,"value":"0","skin":"gameUI/yxz_sz_2.png","sheet":"0123456789+-","scaleY":0.8,"scaleX":0.8,"name":"cost","anchorY":0.5,"anchorX":0.5},

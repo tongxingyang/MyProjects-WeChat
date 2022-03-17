@@ -6,7 +6,7 @@
             this.grade = 1;
             this.skinArr = [1, 0, 0, 0];
             this.skinId = 0;
-            this.coin = 0;
+            this.coin = 99999;
         }
     }
     class PlayerDataMgr {
@@ -42,6 +42,18 @@
                     break;
             }
             return str;
+        }
+        static getCostById(id) {
+            switch (id) {
+                case 0:
+                    return 0;
+                case 1:
+                    return 400;
+                case 2:
+                    return 500;
+                case 3:
+                    return 600;
+            }
         }
     }
     PlayerDataMgr._playerData = null;
@@ -1196,8 +1208,8 @@
             console.log('wxsdk初始化');
             window['wxsdk'].init({
                 version: '1.0.0',
-                appid: '344',
-                secret: '3o9rd1vt07qqo6xoh3phxklv2vs77t2p',
+                appid: '293',
+                secret: '073zg3jv3a8gduh01ig16tzq4bxajspb',
                 share: {
                     title: '你能过得了这一关吗？',
                     image: 'https://game-oss.smallshark.cn/game/20211119/1216327431258.jpg?imageslim',
@@ -2080,6 +2092,114 @@
         }
     }
 
+    class SkinUI extends Laya.Scene {
+        constructor() {
+            super();
+            this.playerNode = null;
+            this.playerCrl = null;
+            this.chooseId = 0;
+        }
+        onOpened() {
+            this.size(Laya.stage.displayWidth, Laya.stage.displayHeight);
+            Utility.addClickEvent(this.closeBtn, this, this.closeBtnCB);
+            this.chooseId = PlayerDataMgr.getPlayerData().skinId;
+            this.createPlayer();
+            this.initList();
+            Laya.timer.frameLoop(1, this, this.myUpdate);
+        }
+        onClosed() {
+            Laya.timer.clearAll(this);
+            this.playerNode.destroy();
+            GameLogic.Share._levelNode.active = true;
+        }
+        createPlayer() {
+            let res = Laya.loader.getRes(WxApi.UnityPath + 'Player.lh');
+            this.playerNode = Laya.Sprite3D.instantiate(res, GameLogic.Share._scene, false, new Laya.Vector3(0, 0, 0));
+            this.playerNode.transform.position = new Laya.Vector3(0, 2.5, 2);
+            this.playerCrl = this.playerNode.addComponent(PlayerCrl);
+            this.playerCrl.playAni(PlayerAniType.ANI_WIN);
+            let arr = ['Dude', 'Cat', 'Huga', 'Shouter'];
+            for (let i = 1; i < this.playerNode.numChildren; i++) {
+                let sp = this.playerNode.getChildAt(i);
+                sp.active = sp.name.search(arr[PlayerDataMgr.getPlayerData().skinId]) != -1;
+            }
+        }
+        initList() {
+            this.myList.vScrollBarSkin = '';
+            this.myList.array = PlayerDataMgr.getPlayerData().skinArr;
+            this.myList.repeatX = 3;
+            this.myList.repeatY = 2;
+            this.myList.renderHandler = Laya.Handler.create(this, this.onmyListRender, null, false);
+        }
+        onmyListRender(cell, index) {
+            if (index >= this.myList.array.length) {
+                return;
+            }
+            var item = cell.getChildByName('item');
+            let select = item.getChildByName('select');
+            let icon = item.getChildByName('icon');
+            let using = item.getChildByName('using');
+            let unlocked = item.getChildByName('unlocked');
+            let buyBtn = item.getChildByName('buyBtn');
+            let cost = buyBtn.getChildByName('cost');
+            let adBtn = item.getChildByName('adBtn');
+            select.visible = this.chooseId == index;
+            icon.skin = 'skinUI/skin' + (index + 1) + '.png';
+            using.visible = PlayerDataMgr.getPlayerData().skinId == index;
+            unlocked.visible = PlayerDataMgr.getPlayerData().skinId != index && PlayerDataMgr.getPlayerData().skinArr[index] == 1;
+            buyBtn.visible = PlayerDataMgr.getPlayerData().skinArr[index] == 0;
+            cost.value = PlayerDataMgr.getCostById(index).toString();
+            adBtn.visible = PlayerDataMgr.getPlayerData().skinArr[index] == 0;
+            icon.off(Laya.Event.CLICK, this, this.chooseCB);
+            icon.on(Laya.Event.CLICK, this, this.chooseCB, [index]);
+            Utility.addClickEvent(buyBtn, this, this.buyBtnCB, [index]);
+            Utility.addClickEvent(adBtn, this, this.adBtnCB, [index]);
+        }
+        chooseCB(id) {
+            SoundMgr.instance.playSoundEffect('Click.mp3');
+            if (this.chooseId == id)
+                return;
+            let arr = ['Dude', 'Cat', 'Huga', 'Shouter'];
+            for (let i = 1; i < this.playerNode.numChildren; i++) {
+                let sp = this.playerNode.getChildAt(i);
+                sp.active = sp.name.search(arr[id]) != -1;
+            }
+            this.chooseId = id;
+            if (PlayerDataMgr.getPlayerData().skinArr[id] == 1) {
+                PlayerDataMgr.getPlayerData().skinId = id;
+                PlayerDataMgr.setPlayerData();
+            }
+            this.myList.array = PlayerDataMgr.getPlayerData().skinArr;
+        }
+        buyBtnCB(arr) {
+            let id = arr[0];
+            if (PlayerDataMgr.getPlayerData().coin < PlayerDataMgr.getCostById(id)) {
+                return;
+            }
+            PlayerDataMgr.getPlayerData().coin -= PlayerDataMgr.getCostById(id);
+            PlayerDataMgr.getPlayerData().skinArr[id] = 1;
+            PlayerDataMgr.getPlayerData().skinId = id;
+            PlayerDataMgr.setPlayerData();
+            this.myList.array = PlayerDataMgr.getPlayerData().skinArr;
+        }
+        adBtnCB(arr) {
+            let id = arr[0];
+            let cb = () => {
+                PlayerDataMgr.getPlayerData().skinArr[id] = 1;
+                PlayerDataMgr.getPlayerData().skinId = id;
+                PlayerDataMgr.setPlayerData();
+                this.myList.array = PlayerDataMgr.getPlayerData().skinArr;
+            };
+            FdAd.showVideoAd(cb);
+        }
+        closeBtnCB() {
+            Laya.Scene.open('MyScenes/StartUI.scene');
+        }
+        myUpdate() {
+            this.coinNum.value = PlayerDataMgr.getPlayerData().coin.toString();
+        }
+    }
+
     class StartUI extends Laya.Scene {
         constructor() {
             super();
@@ -2088,6 +2208,7 @@
             SoundMgr.instance.playMusic('bgm.mp3');
             this.size(Laya.stage.displayWidth, Laya.stage.displayHeight);
             Utility.addClickEvent(this.startBtn, this, this.startBtnCB);
+            Utility.addClickEvent(this.skinBtn, this, this.skinBtnCB);
             FdMgr.inHomePage();
         }
         onClosed() {
@@ -2096,6 +2217,10 @@
             FdMgr.startGame(() => {
                 Laya.Scene.open('MyScenes/GameUI.scene');
             });
+        }
+        skinBtnCB() {
+            GameLogic.Share._levelNode.active = false;
+            Laya.Scene.open('MyScenes/SkinUI.scene');
         }
     }
 
@@ -2130,6 +2255,7 @@
             reg("View/GameUI.ts", GameUI);
             reg("Libs/FixNodeY.ts", FixNodeY);
             reg("View/LoadingUI.ts", LoadingUI);
+            reg("View/SkinUI.ts", SkinUI);
             reg("View/StartUI.ts", StartUI);
             reg("Mod/UpDownLoop.ts", UpDownLoop);
         }
@@ -2140,7 +2266,7 @@
     GameConfig.screenMode = "vertical";
     GameConfig.alignV = "top";
     GameConfig.alignH = "left";
-    GameConfig.startScene = "MyScenes/GameUI.scene";
+    GameConfig.startScene = "MyScenes/SkinUI.scene";
     GameConfig.sceneRoot = "";
     GameConfig.debug = false;
     GameConfig.stat = false;

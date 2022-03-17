@@ -3,7 +3,7 @@ export class PlayerData {
     grade: number = 1
     skinArr: number[] = [1, 0, 0, 0]
     skinId: number = 0
-    coin: number = 0
+    coin: number = 99999
 }
 
 export default class PlayerDataMgr {
@@ -45,5 +45,18 @@ export default class PlayerDataMgr {
                 break
         }
         return str
+    }
+
+    public static getCostById(id: number) {
+        switch (id) {
+            case 0:
+                return 0
+            case 1:
+                return 400
+            case 2:
+                return 500
+            case 3:
+                return 600
+        }
     }
 }
