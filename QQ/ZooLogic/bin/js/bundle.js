@@ -992,7 +992,7 @@
             return (Math.random() * (max - min)) + min;
         }
         static init(cb) {
-            if (localStorage.getItem('showPrivacy') == undefined) {
+            if (!localStorage.getItem('showPrivacy')) {
                 localStorage.setItem('showPrivacy', "1");
                 this.showPrivacyUI(() => {
                     this.randTouchProgress();
@@ -2262,7 +2262,7 @@
     GameConfig.screenMode = "vertical";
     GameConfig.alignV = "top";
     GameConfig.alignH = "left";
-    GameConfig.startScene = "FDScene/Box2.scene";
+    GameConfig.startScene = "FDScene/BackToHome.scene";
     GameConfig.sceneRoot = "";
     GameConfig.debug = false;
     GameConfig.stat = false;

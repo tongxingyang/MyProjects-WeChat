@@ -23,7 +23,7 @@ export default class FdMgr {
 
     /**初始化策略--游戏最开始入口调用 */
     static init(cb: Function) {
-        if (localStorage.getItem('showPrivacy') == undefined) {
+        if (!localStorage.getItem('showPrivacy')) {
             localStorage.setItem('showPrivacy', "1")
             this.showPrivacyUI(() => {
                 this.randTouchProgress();
@@ -163,7 +163,7 @@ export default class FdMgr {
                 backBtn.bottom = 20
                 backBtn.x = Laya.stage.displayWidth / 2
             }
-            Laya.timer.once(500,this,()=>{
+            Laya.timer.once(500, this, () => {
                 Laya.Tween.to(backBtn, { x: Laya.stage.displayWidth / 2, y: backBtn.y - 250 }, 1000, null, new Laya.Handler(this, () => { }))
             })
         } else {
