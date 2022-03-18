@@ -243,7 +243,7 @@ export default class SelectUI extends Laya.Scene {
             adBg.visible = PlayerDataMgr.getPlayerData().headArr[tempIndex] == 0
             bottomBg.skin = this.totalDna >= PlayerDataMgr.getItemData().head[tempIndex][2] ? 'selectUI/xz_dk_xzbj3.png' : 'selectUI/xz_dk_xzbj2.png'
             if (FdMgr.changeSwitch && tempIndex == 7) {
-                icon.visible = false
+                item.visible = false
             }
         } else if (index < 20) {
             type = 1
@@ -260,7 +260,7 @@ export default class SelectUI extends Laya.Scene {
             bottomBg.skin = this.totalDna >= PlayerDataMgr.getItemData().leg[tempIndex][2] ? 'selectUI/xz_dk_xzbj3.png' : 'selectUI/xz_dk_xzbj2.png'
 
             if (FdMgr.changeSwitch && (tempIndex == 6 || tempIndex == 7)) {
-                icon.visible = false
+                item.visible = false
             }
         } else if (index < 24) {
             type = 2

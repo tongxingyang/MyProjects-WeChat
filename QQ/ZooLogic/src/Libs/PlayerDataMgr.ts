@@ -1,3 +1,4 @@
+import FdMgr from "../FanDong/FdMgr"
 
 export class PlayerData {
     grade: number = 1
@@ -89,6 +90,11 @@ export default class PlayerDataMgr {
         for (let i = 0; i < 4; i++) {
             let dataArr: any[] = this.getDataByType(i)
             for (let j = 0; j < dataArr.length; j++) {
+                if (FdMgr.changeSwitch) {
+                    if (i == 0 && j == 7) continue
+                    if (i == 1 && j == 6) continue
+                    if (i == 1 && j == 7) continue
+                }
                 if (dataArr[j] == 0) {
                     arr.push([i, j])
                 }
