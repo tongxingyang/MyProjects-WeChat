@@ -13,6 +13,7 @@ export default class GameUI extends Laya.Scene {
     coinNum: Laya.FontClip
     touchBtn: Laya.Image
     playerHp: Laya.ProgressBar
+    bossHp: Laya.ProgressBar
     guideAni: Laya.Animation
 
     touchStartPosX: number = 0
@@ -35,7 +36,7 @@ export default class GameUI extends Laya.Scene {
     touchStart(evt: Laya.Event) {
         if (GameLogic.Share.isGameOver) return
         if (GameLogic.Share.isFinish) {
-
+            GameLogic.Share._playerCrl.attackBoss()
             return
         }
         if (!GameLogic.Share.isStartGame) {
@@ -61,7 +62,7 @@ export default class GameUI extends Laya.Scene {
     }
 
     fixPlayerHp() {
-        if (!GameLogic.Share._player) return
+        if (!GameLogic.Share._player || GameLogic.Share.isFinish) return
         let op: Laya.Vector4 = new Laya.Vector4(0, 0, 0)
         let hPos = GameLogic.Share._player.transform.position.clone()
         hPos.y += 3
@@ -70,7 +71,30 @@ export default class GameUI extends Laya.Scene {
         this.playerHp.value = GameLogic.Share._playerCrl.hp / GameLogic.Share._playerCrl.hpMax
     }
 
+    bossReady() {
+
+    }
+
+    fixBossHp() {
+        let op: Laya.Vector4 = new Laya.Vector4(0, 0, 0)
+        let hPos = GameLogic.Share._player.transform.position.clone()
+        hPos.y += 9
+        GameLogic.Share._camera.viewport.project(hPos, GameLogic.Share._camera.projectionViewMatrix, op)
+        this.playerHp.pos(op.x / Laya.stage.clientScaleX, op.y / Laya.stage.clientScaleY)
+        this.playerHp.value = GameLogic.Share._playerCrl.hp / GameLogic.Share._playerCrl.hpMax
+
+        let op1: Laya.Vector4 = new Laya.Vector4(0, 0, 0)
+        let hPos1 = GameLogic.Share._boss.transform.position.clone()
+        hPos1.y += 9
+        GameLogic.Share._camera.viewport.project(hPos1, GameLogic.Share._camera.projectionViewMatrix, op1)
+        this.bossHp.pos(op1.x / Laya.stage.clientScaleX, op1.y / Laya.stage.clientScaleY)
+        this.bossHp.value = GameLogic.Share._bossCrl.hp / GameLogic.Share._bossCrl.hpMax
+    }
+
     myUpdate() {
         this.fixPlayerHp()
+        if (GameLogic.Share.isFinish) {
+            this.fixBossHp()
+        }
     }
 }

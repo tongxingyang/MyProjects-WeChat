@@ -8,11 +8,11 @@ export default class FdAd {
     static videoId = "adunit-b0d64f1a9bc3a63c";
     static fullGridId = "adunit-39a4cf7d8fbaa66";
     static bottomGridId = "adunit-4d984b996728b2ec";
-    static sideGridId = ["adunit-2fd34abd89cbc11b", "adunit-506778b340d2a340"];
-    static topGridId = "adunit-9ce58aec0688487b";
+    static sideGridId = "adunit-2fd34abd89cbc11b";
+    static singleGridId = "adunit-1bf275a1806464b4";
 
     static inidAd() {
-        if (!WECHAT || FdMgr.isPure) return;
+        if (!WECHAT) return;
         this.initBanner();
         this.createVideoAd();
         this.initGridAD()
@@ -124,8 +124,8 @@ export default class FdAd {
         let bannerAd = window['wx'].createBannerAd({
             adUnitId: this.bannerIdArr[index],
             style: {
-                top: 10,
-                width: 10,
+                top: sysInfo.screenHeight * 0.8,
+                width: 300,
                 left: sysInfo.screenWidth / 2 - 150
             },
             adIntervals: 30
@@ -197,7 +197,7 @@ export default class FdAd {
     }
 
     static showVideoAd(finishCB?: Function, cancelCB?: Function) {
-        if (!WECHAT || FdMgr.isPure) {
+        if (!WECHAT) {
             finishCB && finishCB();
             cancelCB && cancelCB();
             return;
@@ -236,7 +236,7 @@ export default class FdAd {
         this.createFullGrid()
         this.createBottomGrid()
         this.createSideGrid()
-        this.createTopGrid()
+        this.createSingleGrid()
     }
 
     //全屏格子
@@ -253,7 +253,6 @@ export default class FdAd {
             }
         });
         this.fullGridAd.onError(() => { this.fullGridError = true; console.log('全屏格子加载失败') })
-        this.fullGridAd.onLoad(() => { console.log('全屏格子加载成功') })
     }
     static visibleFullGridAd(v: boolean = true) {
         if (WECHAT && this.fullGridAd && !this.fullGridError) {
@@ -275,7 +274,6 @@ export default class FdAd {
             }
         });
         this.bottomGridAd.onError(() => { this.bottomGridError = true; console.log('底部格子加载失败') })
-        this.bottomGridAd.onLoad(() => { console.log('底部格子加载成功') })
     }
     static visibleBottomGridAd(v: boolean = true) {
         if (WECHAT && this.bottomGridAd && !this.bottomGridError) {
@@ -288,15 +286,15 @@ export default class FdAd {
     private static createSideGrid() {
         for (let i = 0; i < 2; i++) {
             let grid = window['wx'].createCustomAd({
-                adUnitId: this.sideGridId[i],
+                adUnitId: this.sideGridId,
                 adIntervals: 30,
                 style: {
                     left: i == 0 ? 0 : this.getSystemInfoSync().screenWidth - 65,
                     top: 200
                 }
             });
-            grid.onError(() => { console.log('屏幕侧格子加载失败') })
-            grid.onLoad(() => { this.sideGridAd.push(grid); console.log('屏幕侧格子加载成功') })
+            grid.onError(() => { ; console.log('屏幕侧格子加载失败') })
+            grid.onLoad(() => { this.sideGridAd.push(grid) })
         }
     }
     static visibleSideGridAd(v: boolean = true) {
@@ -307,24 +305,27 @@ export default class FdAd {
         }
     }
 
-    static topGridAd: any = null
-    static topGridError: boolean = false
-    private static createTopGrid() {
-        this.topGridAd = window['wx'].createCustomAd({
-            adUnitId: this.topGridId,
-            adIntervals: 30,
-            style: {
-                left: 0,
-                top: 50,
-                width: this.getSystemInfoSync().screenWidth
-            }
-        });
-        this.topGridAd.onError(() => { this.topGridError = true; console.log('顶部格子加载失败') })
-        this.topGridAd.onLoad(() => { console.log('顶部格子加载成功') })
+    //屏幕单格子
+    static singleGridAd: any[] = []
+    private static createSingleGrid() {
+        for (let i = 0; i < 2; i++) {
+            let grid = window['wx'].createCustomAd({
+                adUnitId: this.singleGridId,
+                adIntervals: 30,
+                style: {
+                    left: i == 0 ? 0 : this.getSystemInfoSync().screenWidth - 65,
+                    top: 120
+                }
+            });
+            grid.onError(() => { ; console.log('屏幕单格子加载失败') })
+            grid.onLoad(() => { this.singleGridAd.push(grid) })
+        }
     }
-    static visibleTopGrid(v: boolean = true) {
-        if (WECHAT && this.topGridAd && !this.topGridError) {
-            v ? this.topGridAd.show() : this.topGridAd.hide()
+    static visibleSingleGridAd(v: boolean = true) {
+        if (WECHAT && this.singleGridAd.length > 0) {
+            for (let i = 0; i < this.singleGridAd.length; i++) {
+                v ? this.singleGridAd[i].show() : this.singleGridAd[i].hide()
+            }
         }
     }
     //#endregion

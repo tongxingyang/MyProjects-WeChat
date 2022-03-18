@@ -15,7 +15,7 @@ export class Box2 extends Component {
         this.unscheduleAllCallbacks()
         this.ccb && this.ccb()
         FdAd.hideBannerAd()
-        FdAd.hideGridAD();
+        FdAd.visibleFullGridAd(false)
     }
 
     showUI(ccb?: Function) {
@@ -25,14 +25,14 @@ export class Box2 extends Component {
         this.progressValue = 0
 
         FdAd.showBannerAd()
-        FdAd.hideGridAD();
+        FdAd.visibleFullGridAd(false)
     }
 
     clickBtnCB() {
         this.progressValue += FdMgr.wuchuProgressStepAdd;
         if (this.progressValue >= FdMgr.wuchuProgressValue && !this.hadShowBanner) { //触发误触
             this.hadShowBanner = true
-            FdAd.showGridAD();
+            FdAd.visibleFullGridAd()
             FdMgr.randTouchProgress(); //更新目标值
             this.scheduleOnce(() => {
                 this.node.active = false

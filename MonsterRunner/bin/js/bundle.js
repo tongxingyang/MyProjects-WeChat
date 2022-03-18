@@ -3,7 +3,7 @@
 
     class PlayerData {
         constructor() {
-            this.grade = 1;
+            this.grade = 2;
             this.skinArr = [1, 0, 0, 0];
             this.skinId = 0;
             this.coin = 99999;
@@ -54,6 +54,9 @@
                 case 3:
                     return 600;
             }
+        }
+        static getIsBossGrade() {
+            return this._playerData.grade % 2 == 0;
         }
     }
     PlayerDataMgr._playerData = null;
@@ -337,6 +340,20 @@
                 cb && cb();
             }));
         }
+        static ScaleTo(node, duration, des, cb) {
+            var rotationOld = node.transform.localScale;
+            Laya.Tween.to(node.transform.localScale, {
+                x: des.x,
+                y: des.y,
+                z: des.z,
+                update: new Laya.Handler(this, function () {
+                    if (node)
+                        node.transform.localScale = rotationOld;
+                })
+            }, duration, Laya.Ease.cubicOut, Laya.Handler.create(this, function () {
+                cb && cb();
+            }));
+        }
         static tMove2D(node, x, y, t, cb) {
             Laya.Tween.to(node, { x: x, y: y }, t, null, new Laya.Handler(this, () => {
                 if (cb)
@@ -567,12 +584,25 @@
         }
         onDisable() {
         }
+        finishCB() {
+            Laya.timer.once(1000, this, () => {
+                let desPos = GameLogic.Share._roadFinish.transform.position.clone();
+                desPos.z += 20;
+                desPos.x -= 13;
+                desPos.y += 10;
+                Utility.TmoveTo(this.myOwner, 1500, desPos, null);
+                let r = this.myOwner.transform.rotationEuler.clone();
+                r.y += 90;
+                Utility.RotateTo(this.myOwner, 2700, r, null);
+            });
+        }
         onUpdate() {
-            if (GameLogic.Share.isGameOver || !GameLogic.Share.isStartGame) {
+            if (GameLogic.Share.isGameOver || !GameLogic.Share.isStartGame || GameLogic.Share.isFinish) {
                 return;
             }
             let pos = GameLogic.Share._player.transform.position.clone();
             let myPos = this.myOwner.transform.position.clone();
+            myPos.y = pos.y + 4;
             myPos.z = pos.z - 6.81;
             Laya.Vector3.lerp(this.myOwner.transform.position.clone(), myPos, 0.2, myPos);
             this.myOwner.transform.position = myPos;
@@ -598,12 +628,14 @@
             super();
             this.myOwner = null;
             this.touchX = 0;
-            this.speed = 0.15;
+            this.speed = 0.7;
             this.hp = 10;
             this.hpMax = 10;
             this.edgeMax = 3;
+            this.isJumping = false;
             this.canMove = true;
             this.curAniName = "";
+            this.canFight = true;
         }
         onAwake() {
             this.myOwner = this.owner;
@@ -629,6 +661,17 @@
             Utility.TmoveTo(this.myOwner, 3000, desPos, () => {
                 this.win();
             });
+        }
+        walkToBoss() {
+            this.speed = 0.1;
+            this.playAni(PlayerAniType.ANI_WALK);
+            let desPos = GameLogic.Share._roadFinish.transform.position.clone();
+            desPos.z += 19;
+            Utility.TmoveTo(this.myOwner, 3000, desPos, () => {
+                this.playAni(PlayerAniType.ANI_BOXING_IDLE);
+                GameLogic.Share.fightWithBoss();
+            });
+            Utility.ScaleTo(this.myOwner, 4000, new Laya.Vector3(3, 3, 3), null);
         }
         win() {
             this.playAni(PlayerAniType.ANI_WIN);
@@ -698,6 +741,41 @@
             this.myOwner.transform.position = pos;
         }
         hurtCB(dmg) {
+        }
+        drop() {
+            this.playAni(PlayerAniType.ANI_DIE, 1, 0.5);
+            let pos = this.myOwner.transform.position.clone();
+            pos.y -= 5;
+            pos.z += 3;
+            Utility.TmoveTo(this.myOwner, 1500, pos, null);
+        }
+        jump() {
+            this.isJumping = true;
+            this.playAni(PlayerAniType.ANI_JUMP);
+            let myPos = this.myOwner.transform.position.clone();
+            let p1 = myPos.clone();
+            p1.z += 9;
+            p1.y += 5;
+            let p2 = myPos.clone();
+            p2.z += 18;
+            p2.y = 0;
+            Utility.TmoveToYZ(this.myOwner, 800, p1, () => {
+                Utility.TmoveToYZ(this.myOwner, 800, p2, () => {
+                    this.playAni(PlayerAniType.ANI_RUN);
+                    this.isJumping = false;
+                }, Laya.Ease.linearOut);
+            }, Laya.Ease.linearIn);
+        }
+        attackBoss() {
+            if (!this.canFight || GameLogic.Share._bossCrl.isDied)
+                return;
+            GameLogic.Share._bossCrl.hitCB();
+            this.canFight = false;
+            this.playAni(PlayerAniType.ANI_BOXING_ATTACK, 2);
+            Laya.timer.once(500, this, () => {
+                this.canFight = true;
+                this.playAni(PlayerAniType.ANI_BOXING_IDLE);
+            });
         }
         onUpdate() {
             if (GameLogic.Share.isGameOver || !GameLogic.Share.isStartGame || GameLogic.Share.isFinish) {
@@ -1564,6 +1642,179 @@
         }
     }
 
+    class DropArea extends Laya.Script {
+        constructor() {
+            super();
+            this.myOwner = null;
+        }
+        onAwake() {
+            this.myOwner = this.owner;
+        }
+        onUpdate() {
+            if (GameLogic.Share.isGameOver)
+                return;
+            let playerPos = GameLogic.Share._player.transform.position.clone();
+            let myPos = this.myOwner.transform.position.clone();
+            if (playerPos.z > myPos.z && playerPos.z < myPos.z + 2 && !GameLogic.Share._playerCrl.isJumping) {
+                GameLogic.Share.gameOver(false);
+                GameLogic.Share._playerCrl.drop();
+            }
+        }
+    }
+
+    class Jumper extends Laya.Script {
+        constructor() {
+            super();
+            this.myOwner = null;
+        }
+        onAwake() {
+            this.myOwner = this.owner;
+        }
+        onUpdate() {
+            if (GameLogic.Share.isGameOver)
+                return;
+            let playerPos = GameLogic.Share._player.transform.position.clone();
+            let myPos = this.myOwner.transform.position.clone();
+            myPos.y = 0;
+            if (Laya.Vector3.distance(myPos, playerPos) < 1) {
+                GameLogic.Share._playerCrl.jump();
+            }
+        }
+    }
+
+    class Boss extends Laya.Script {
+        constructor() {
+            super();
+            this.myOwner = null;
+            this.isDied = false;
+            this.hp = 10;
+            this.hpMax = 10;
+            this.curAniName = "";
+        }
+        onAwake() {
+            this.myOwner = this.owner;
+            this._ani = this.myOwner.getComponent(Laya.Animator);
+            this.init();
+            this.playAni(PlayerAniType.ANI_BOXING_IDLE);
+        }
+        init() {
+            let arr = ['Cat', 'Huga', 'Shouter'];
+            let str = Utility.getRandomItemInArr(arr);
+            for (let i = 1; i < this.myOwner.numChildren; i++) {
+                let sp = this.myOwner.getChildAt(i);
+                sp.active = sp.name.search(str) != -1;
+            }
+        }
+        playAni(name, speed = 1, normalizedTime = 0) {
+            if (name == this.curAniName)
+                return;
+            this._ani.crossFade(name, 0.2, 0, normalizedTime);
+            this._ani.speed = speed;
+            this.curAniName = name;
+        }
+        hitCB() {
+            this.hp -= 2;
+            if (this.hp <= 0) {
+                this.isDied = true;
+                this.playAni(PlayerAniType.ANI_DIE, 1.5, 0.3);
+                GameLogic.Share.gameOver(true);
+            }
+            else {
+                Laya.timer.once(200, this, () => {
+                    this.playAni(PlayerAniType.ANI_BOXING_HIT, 1.5);
+                });
+                Laya.timer.once(400, this, () => {
+                    this.playAni(PlayerAniType.ANI_BOXING_IDLE);
+                });
+            }
+        }
+        onUpdate() {
+        }
+    }
+
+    class GameUI extends Laya.Scene {
+        constructor() {
+            super();
+            this.touchStartPosX = 0;
+        }
+        onOpened() {
+            GameUI.Share = this;
+            this.coinNum.value = PlayerDataMgr.getPlayerData().coin.toString();
+            this.size(Laya.stage.displayWidth, Laya.stage.displayHeight);
+            Laya.timer.frameLoop(1, this, this.myUpdate);
+            this.gradeNum.value = PlayerDataMgr.getPlayerData().grade.toString();
+            this.touchBtn.on(Laya.Event.MOUSE_DOWN, this, this.touchStart);
+            this.touchBtn.on(Laya.Event.MOUSE_MOVE, this, this.touchMove);
+            this.touchBtn.on(Laya.Event.MOUSE_UP, this, this.touchEnd);
+            FdMgr.inGame();
+        }
+        onClosed() {
+            Laya.timer.clearAll(this);
+        }
+        touchStart(evt) {
+            if (GameLogic.Share.isGameOver)
+                return;
+            if (GameLogic.Share.isFinish) {
+                GameLogic.Share._playerCrl.attackBoss();
+                return;
+            }
+            if (!GameLogic.Share.isStartGame) {
+                this.guideAni.visible = false;
+                GameLogic.Share.gameStart();
+            }
+            let x = evt.stageX;
+            GameLogic.Share._playerCrl.touchX = x;
+        }
+        touchMove(evt) {
+            if (GameLogic.Share.isGameOver)
+                return;
+            if (GameLogic.Share.isFinish) {
+                return;
+            }
+            let x = evt.stageX;
+            GameLogic.Share._playerCrl.touchX = x;
+        }
+        touchEnd(evt) {
+            if (GameLogic.Share.isGameOver)
+                return;
+            if (GameLogic.Share.isFinish) {
+                return;
+            }
+        }
+        fixPlayerHp() {
+            if (!GameLogic.Share._player || GameLogic.Share.isFinish)
+                return;
+            let op = new Laya.Vector4(0, 0, 0);
+            let hPos = GameLogic.Share._player.transform.position.clone();
+            hPos.y += 3;
+            GameLogic.Share._camera.viewport.project(hPos, GameLogic.Share._camera.projectionViewMatrix, op);
+            this.playerHp.pos(op.x / Laya.stage.clientScaleX, op.y / Laya.stage.clientScaleY);
+            this.playerHp.value = GameLogic.Share._playerCrl.hp / GameLogic.Share._playerCrl.hpMax;
+        }
+        bossReady() {
+        }
+        fixBossHp() {
+            let op = new Laya.Vector4(0, 0, 0);
+            let hPos = GameLogic.Share._player.transform.position.clone();
+            hPos.y += 9;
+            GameLogic.Share._camera.viewport.project(hPos, GameLogic.Share._camera.projectionViewMatrix, op);
+            this.playerHp.pos(op.x / Laya.stage.clientScaleX, op.y / Laya.stage.clientScaleY);
+            this.playerHp.value = GameLogic.Share._playerCrl.hp / GameLogic.Share._playerCrl.hpMax;
+            let op1 = new Laya.Vector4(0, 0, 0);
+            let hPos1 = GameLogic.Share._boss.transform.position.clone();
+            hPos1.y += 9;
+            GameLogic.Share._camera.viewport.project(hPos1, GameLogic.Share._camera.projectionViewMatrix, op1);
+            this.bossHp.pos(op1.x / Laya.stage.clientScaleX, op1.y / Laya.stage.clientScaleY);
+            this.bossHp.value = GameLogic.Share._bossCrl.hp / GameLogic.Share._bossCrl.hpMax;
+        }
+        myUpdate() {
+            this.fixPlayerHp();
+            if (GameLogic.Share.isFinish) {
+                this.fixBossHp();
+            }
+        }
+    }
+
     class GameLogic {
         constructor() {
             this.camStartPos = new Laya.Vector3(0, 0, 0);
@@ -1577,7 +1828,9 @@
             this.isFinish = false;
             this._levelNode = null;
             this._player = null;
+            this._boss = null;
             this._playerCrl = null;
+            this._bossCrl = null;
             this._standNode = null;
             this._desNode = null;
             this._roadFinish = null;
@@ -1637,7 +1890,7 @@
         createLevel() {
             this.bodyArr = [0, 1, 2, 3, 4, 5];
             this.bodyArr = Utility.shuffleArr(this.bodyArr);
-            let g = 1;
+            let g = 2;
             let dataArr = PlayerDataMgr.levelDataArr[g - 1];
             for (let i = 0; i < dataArr.length; i++) {
                 let data = dataArr[i];
@@ -1683,22 +1936,44 @@
             else if (name == 'Finish') {
                 this._desNode = sp;
             }
+            else if (name == 'DropArea') {
+                sp.addComponent(DropArea);
+            }
+            else if (name == 'Jumper') {
+                sp.addComponent(Jumper);
+            }
+            else if (name == 'Boss') {
+                this._boss = sp;
+                this._bossCrl = sp.addComponent(Boss);
+            }
             else if (name == 'Road_Finish') {
                 this._roadFinish = sp;
                 for (let i = 0; i < this._roadFinish.numChildren; i++) {
                     let npc = this._roadFinish.getChildAt(i);
                     let crl = npc.addComponent(Npc);
+                    if (PlayerDataMgr.getIsBossGrade()) {
+                        npc.active = false;
+                    }
                 }
             }
         }
         finish() {
             this.isFinish = true;
-            this._playerCrl.walkToDes();
-            for (let i = 0; i < this._roadFinish.numChildren; i++) {
-                let npc = this._roadFinish.getChildAt(i);
-                let crl = npc.getComponent(Npc);
-                crl.raiseCB();
+            if (PlayerDataMgr.getIsBossGrade()) {
+                this._playerCrl.walkToBoss();
+                this._cameraCrl.finishCB();
             }
+            else {
+                this._playerCrl.walkToDes();
+                for (let i = 0; i < this._roadFinish.numChildren; i++) {
+                    let npc = this._roadFinish.getChildAt(i);
+                    let crl = npc.getComponent(Npc);
+                    crl.raiseCB();
+                }
+            }
+        }
+        fightWithBoss() {
+            GameUI.Share.bossReady();
         }
         gameOver(isWin) {
             if (isWin) {
@@ -1940,69 +2215,6 @@
         }
     }
 
-    class GameUI extends Laya.Scene {
-        constructor() {
-            super();
-            this.touchStartPosX = 0;
-        }
-        onOpened() {
-            GameUI.Share = this;
-            this.coinNum.value = PlayerDataMgr.getPlayerData().coin.toString();
-            this.size(Laya.stage.displayWidth, Laya.stage.displayHeight);
-            Laya.timer.frameLoop(1, this, this.myUpdate);
-            this.gradeNum.value = PlayerDataMgr.getPlayerData().grade.toString();
-            this.touchBtn.on(Laya.Event.MOUSE_DOWN, this, this.touchStart);
-            this.touchBtn.on(Laya.Event.MOUSE_MOVE, this, this.touchMove);
-            this.touchBtn.on(Laya.Event.MOUSE_UP, this, this.touchEnd);
-            FdMgr.inGame();
-        }
-        onClosed() {
-            Laya.timer.clearAll(this);
-        }
-        touchStart(evt) {
-            if (GameLogic.Share.isGameOver)
-                return;
-            if (GameLogic.Share.isFinish) {
-                return;
-            }
-            if (!GameLogic.Share.isStartGame) {
-                this.guideAni.visible = false;
-                GameLogic.Share.gameStart();
-            }
-            let x = evt.stageX;
-            GameLogic.Share._playerCrl.touchX = x;
-        }
-        touchMove(evt) {
-            if (GameLogic.Share.isGameOver)
-                return;
-            if (GameLogic.Share.isFinish) {
-                return;
-            }
-            let x = evt.stageX;
-            GameLogic.Share._playerCrl.touchX = x;
-        }
-        touchEnd(evt) {
-            if (GameLogic.Share.isGameOver)
-                return;
-            if (GameLogic.Share.isFinish) {
-                return;
-            }
-        }
-        fixPlayerHp() {
-            if (!GameLogic.Share._player)
-                return;
-            let op = new Laya.Vector4(0, 0, 0);
-            let hPos = GameLogic.Share._player.transform.position.clone();
-            hPos.y += 3;
-            GameLogic.Share._camera.viewport.project(hPos, GameLogic.Share._camera.projectionViewMatrix, op);
-            this.playerHp.pos(op.x / Laya.stage.clientScaleX, op.y / Laya.stage.clientScaleY);
-            this.playerHp.value = GameLogic.Share._playerCrl.hp / GameLogic.Share._playerCrl.hpMax;
-        }
-        myUpdate() {
-            this.fixPlayerHp();
-        }
-    }
-
     class FixNodeY extends Laya.Script {
         constructor() {
             super();
@@ -2016,7 +2228,7 @@
     class LoadingUI extends Laya.Scene {
         constructor() {
             super();
-            this.maxGrade = 1;
+            this.maxGrade = 2;
         }
         onOpened() {
             this.size(Laya.stage.displayWidth, Laya.stage.displayHeight);
@@ -2077,7 +2289,9 @@
                 WxApi.UnityPath + 'Road_Finish.lh',
                 WxApi.UnityPath + 'Stand.lh',
                 WxApi.UnityPath + 'SelectNodeL.lh',
-                WxApi.UnityPath + 'SelectNodeR.lh'
+                WxApi.UnityPath + 'SelectNodeR.lh',
+                WxApi.UnityPath + 'DropArea.lh',
+                WxApi.UnityPath + 'Boss.lh'
             ];
             Laya.loader.create(resUrl, Laya.Handler.create(this, this.onComplete), Laya.Handler.create(this, this.onProgress));
         }
@@ -2266,7 +2480,7 @@
     GameConfig.screenMode = "vertical";
     GameConfig.alignV = "top";
     GameConfig.alignH = "left";
-    GameConfig.startScene = "MyScenes/SkinUI.scene";
+    GameConfig.startScene = "MyScenes/GameUI.scene";
     GameConfig.sceneRoot = "";
     GameConfig.debug = false;
     GameConfig.stat = false;

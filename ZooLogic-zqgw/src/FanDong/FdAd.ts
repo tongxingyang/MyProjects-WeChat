@@ -7,7 +7,8 @@ export default class FdAd {
     static videoId = "adunit-f2038321c66b5e0a";
     static fullGridId = "adunit-ef6542a0f61d7ac8";
     static bottomGridId = "adunit-1e59c46c27be8f7e";
-    static sideGridId = ["adunit-880721b04ab6f483", "adunit-ea5e03b6323c90e0"];
+    static sideGridId = "adunit-ea5e03b6323c90e0";
+    static singleGridId = "adunit-9239f13d4fe388cc";
     static topGridId = "adunit-016a1079c9c3a6ec";
 
     static inidAd() {
@@ -231,6 +232,7 @@ export default class FdAd {
         this.createFullGrid()
         this.createBottomGrid()
         this.createSideGrid()
+        this.createSingleGrid()
         this.createTopGrid()
     }
 
@@ -248,7 +250,6 @@ export default class FdAd {
             }
         });
         this.fullGridAd.onError(() => { this.fullGridError = true; console.log('全屏格子加载失败') })
-        this.fullGridAd.onLoad(() => { console.log('全屏格子加载成功') })
     }
     static visibleFullGridAd(v: boolean = true) {
         if (Laya.Browser.onWeiXin && this.fullGridAd && !this.fullGridError) {
@@ -270,7 +271,6 @@ export default class FdAd {
             }
         });
         this.bottomGridAd.onError(() => { this.bottomGridError = true; console.log('底部格子加载失败') })
-        this.bottomGridAd.onLoad(() => { console.log('底部格子加载成功') })
     }
     static visibleBottomGridAd(v: boolean = true) {
         if (Laya.Browser.onWeiXin && this.bottomGridAd && !this.bottomGridError) {
@@ -283,15 +283,15 @@ export default class FdAd {
     private static createSideGrid() {
         for (let i = 0; i < 2; i++) {
             let grid = Laya.Browser.window['wx'].createCustomAd({
-                adUnitId: this.sideGridId[i],
+                adUnitId: this.sideGridId,
                 adIntervals: 30,
                 style: {
                     left: i == 0 ? 0 : this.getSystemInfoSync().screenWidth - 65,
                     top: 200
                 }
             });
-            grid.onError(() => { console.log('屏幕侧格子加载失败') })
-            grid.onLoad(() => { this.sideGridAd.push(grid); console.log('屏幕侧格子加载成功') })
+            grid.onError(() => { ; console.log('屏幕侧格子加载失败') })
+            grid.onLoad(() => { this.sideGridAd.push(grid) })
         }
     }
     static visibleSideGridAd(v: boolean = true) {
@@ -302,6 +302,31 @@ export default class FdAd {
         }
     }
 
+    //屏幕单格子
+    static singleGridAd: any[] = []
+    private static createSingleGrid() {
+        for (let i = 0; i < 2; i++) {
+            let grid = Laya.Browser.window['wx'].createCustomAd({
+                adUnitId: this.singleGridId,
+                adIntervals: 30,
+                style: {
+                    left: i == 0 ? 0 : this.getSystemInfoSync().screenWidth - 65,
+                    top: 120
+                }
+            });
+            grid.onError(() => { ; console.log('屏幕单格子加载失败') })
+            grid.onLoad(() => { this.singleGridAd.push(grid) })
+        }
+    }
+    static visibleSingleGridAd(v: boolean = true) {
+        if (Laya.Browser.onWeiXin && this.singleGridAd.length > 0) {
+            for (let i = 0; i < this.singleGridAd.length; i++) {
+                v ? this.singleGridAd[i].show() : this.singleGridAd[i].hide()
+            }
+        }
+    }
+
+    //顶部格子
     static topGridAd: any = null
     static topGridError: boolean = false
     private static createTopGrid() {

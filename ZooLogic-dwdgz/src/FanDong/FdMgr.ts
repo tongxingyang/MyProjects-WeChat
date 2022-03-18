@@ -1,12 +1,11 @@
 import FdAd from "./FdAd";
 
 export default class FdMgr {
-    static version: string = '1.0.7'
+    static version: string = '1.0.8'
     static wuchuProgressValue = 0;
     static wuchuProgressStepAdd = 0.1;
     static wuchuProgressFrameSub = 0.0032;
     static gameCount: number = 1
-    static isPure: boolean = false
 
     /**随机目标误触值 */
     public static randTouchProgress() {
@@ -35,6 +34,7 @@ export default class FdMgr {
 
     /**初始化策略--游戏最开始入口调用 */
     static init(cb: Function) {
+        //FdAd.inidAd();
         this.randTouchProgress();
         if (Laya.Browser.onWeiXin) {
             this.getConfig(cb);
@@ -46,6 +46,7 @@ export default class FdMgr {
     /**游戏加载--进入加载页调用 */
     static loadGame(cb?) {
         var closeVideo = () => {
+            console.log("关闭首次进入视频")
             this.showReMen(() => {
                 if (this.gridBoxVideo) {
                     FdAd.showVideoAd()
@@ -80,8 +81,8 @@ export default class FdMgr {
             cb && cb();
         }
     }
-    /**结束游戏热门推荐 */
-    static showOverReMen(cb?) {
+    /**游戏结束热门推荐 */
+    static showEndRemen(cb?) {
         if (this.endRemen) {
             Laya.Scene.open(SceneType.Remen, false, { ccb: () => { cb && cb() } });
         }
@@ -103,10 +104,10 @@ export default class FdMgr {
         }
     }
 
-    /**宝箱2 */ //换成宝箱1
+    /**宝箱2 */
     static showBox2(cb?) {
         if (this.gridBox) {
-            Laya.Scene.open(SceneType.Box1, false, { closeCB: cb }, Laya.Handler.create(this, (s) => {
+            Laya.Scene.open(SceneType.Box2, false, { closeCB: cb }, Laya.Handler.create(this, (s) => {
                 Laya.stage.addChild(s);
                 s.size(Laya.stage.width, Laya.stage.height);
             }));
@@ -142,7 +143,6 @@ export default class FdMgr {
     /**进入首页 */
     static inHomePage(cb?) {
         FdAd.visibleSideGridAd()
-        FdAd.visibleTopGrid()
         if (this.banner_gezi_switch) {
             FdAd.showBannerAd()
         } else {
@@ -162,7 +162,6 @@ export default class FdMgr {
         FdAd.hideBannerAd()
         FdAd.visibleSideGridAd(false)
         FdAd.visibleBottomGridAd(false)
-        FdAd.visibleTopGrid(false)
         if (this.startVideo) {
             FdAd.showVideoAd(null, () => {
                 this.showVirtualWxpage(() => {
@@ -180,23 +179,20 @@ export default class FdMgr {
     /**进入游戏页 */
     static inGame() {
         FdAd.showBannerAd()
-        FdAd.visibleSideGridAd()
-        FdAd.visibleTopGrid()
+        FdAd.visibleSingleGridAd()
     }
 
     /**游戏结束 */
     static showGameOver(cb?: Function) {
         FdAd.hideBannerAd()
-        FdAd.visibleSideGridAd(false)
-        FdAd.visibleTopGrid(false)
-        this.showOverReMen(cb)
+        FdAd.visibleSingleGridAd(false)
+        this.showEndRemen(cb)
     }
 
     /**进入结算页 */
     static inFinish(backBtn?: any) {
         FdAd.visibleSideGridAd()
         FdAd.hideBannerAd()
-        FdAd.visibleTopGrid()
         if (this.endBanner) {
             this.bannerShowHide()
             if (backBtn)
@@ -218,7 +214,6 @@ export default class FdMgr {
         FdAd.hideBannerAd()
         FdAd.visibleBottomGridAd(false)
         FdAd.visibleSideGridAd(false)
-        FdAd.visibleTopGrid(false)
         this.gameCount++
         this.loadGame(() => {
             cb && cb()
@@ -227,7 +222,7 @@ export default class FdMgr {
 
     /**屏蔽场景值 */
     public static get allowScene() {
-        if (Laya.Browser.onWeiXin && this.jsonConfig.sceneList) {
+        if (Laya.Browser.onWeiXin) {
             var launchInfo = Laya.Browser.window['wx'].getLaunchOptionsSync();
             //console.log("当前场景：", launchInfo.scene);
             let scene: string = launchInfo.scene.toString();
@@ -280,6 +275,7 @@ export default class FdMgr {
             conf.remenBanner_count = window['wxsdk'].conf.remenBanner_count
             conf.startRemen = window['wxsdk'].conf.startRemen
             conf.endRemen = window['wxsdk'].conf.endRemen
+
             this.jsonConfig = conf
             console.log('config:', this.jsonConfig)
 
@@ -300,64 +296,64 @@ export default class FdMgr {
     }
 
     static get canTrapAll() {
-        if (!Laya.Browser.onWeiXin || this.isPure) return false
+        if (!Laya.Browser.onWeiXin) return false
         return this.allowScene && this.jsonConfig.allowMistouch && this.version.split('.')[2] <= this.jsonConfig.version.split('.')[2];
     }
     static get bannerBox() {
-        if (!Laya.Browser.onWeiXin || this.isPure) return false
+        if (!Laya.Browser.onWeiXin) return false
         return this.canTrapAll && this.jsonConfig.bannerBox && this.gameCount >= this.jsonConfig.delay_play_count;
     }
     static get gridBox() {
-        if (!Laya.Browser.onWeiXin || this.isPure) return false
+        if (!Laya.Browser.onWeiXin) return false
         return this.canTrapAll && this.jsonConfig.gridBox && this.gameCount >= this.jsonConfig.delay_play_count;
     }
     static get startVideo() {
-        if (!Laya.Browser.onWeiXin || this.isPure) return false
+        if (!Laya.Browser.onWeiXin) return false
         return this.canTrapAll && this.jsonConfig.startVideo && this.gameCount >= this.jsonConfig.delay_play_countVideo;
     }
     static get homepageVideo() {
-        if (!Laya.Browser.onWeiXin || this.isPure) return false
+        if (!Laya.Browser.onWeiXin) return false
         return this.canTrapAll && this.jsonConfig.homepageVideo && this.gameCount >= this.jsonConfig.delay_play_count;
     }
     static get gridBoxVideo() {
-        if (!Laya.Browser.onWeiXin || this.isPure) return false
+        if (!Laya.Browser.onWeiXin) return false
         return this.canTrapAll && this.jsonConfig.gridBoxVideo && this.gameCount >= this.jsonConfig.delay_play_count;
     }
     static get showRemen() {
-        if (!Laya.Browser.onWeiXin || this.isPure) return false
-        return this.jsonConfig.showRemen;
+        if (!Laya.Browser.onWeiXin) return false
+        return /* this.canTrapAll &&  */this.jsonConfig.showRemen;
     }
     static get showVitualWx() {
-        if (!Laya.Browser.onWeiXin || this.isPure) return false
+        if (!Laya.Browser.onWeiXin) return false
         return this.canTrapAll && this.jsonConfig.showVitualWx && this.gameCount >= this.jsonConfig.delay_play_countVideo;
     }
     static get loadingVideo() {
-        if (!Laya.Browser.onWeiXin || this.isPure) return false
+        if (!Laya.Browser.onWeiXin) return false
         return this.canTrapAll && this.jsonConfig.loadingVideo;
     }
     static get remenBanner() {
-        if (!Laya.Browser.onWeiXin || this.isPure) return false
+        if (!Laya.Browser.onWeiXin) return false
         return this.canTrapAll && this.jsonConfig.remenBanner && this.gameCount >= this.jsonConfig.delay_play_countBanner;
     }
     static get banner_gezi_switch() {
-        if (!Laya.Browser.onWeiXin || this.isPure) return true
+        if (!Laya.Browser.onWeiXin) return true
         return this.jsonConfig.banner_gezi_switch;
     }
     static get loadingGezi() {
-        if (!Laya.Browser.onWeiXin || this.isPure) return false
+        if (!Laya.Browser.onWeiXin) return false
         return this.canTrapAll && this.jsonConfig.loadingGezi;
     }
     static get endBanner() {
-        if (!Laya.Browser.onWeiXin || this.isPure) return false
+        if (!Laya.Browser.onWeiXin) return false
         return this.canTrapAll && this.jsonConfig.endBanner && this.gameCount >= this.jsonConfig.delay_play_countBanner;
     }
     static get startRemen() {
-        if (!Laya.Browser.onWeiXin || this.isPure) return false
-        return this.jsonConfig.startRemen;
+        if (!Laya.Browser.onWeiXin) return false
+        return this.jsonConfig.startRemen
     }
     static get endRemen() {
-        if (!Laya.Browser.onWeiXin || this.isPure) return false
-        return this.jsonConfig.endRemen;
+        if (!Laya.Browser.onWeiXin) return false
+        return this.jsonConfig.endRemen
     }
 }
 

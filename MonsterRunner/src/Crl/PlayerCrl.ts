@@ -13,13 +13,15 @@ export default class PlayerCrl extends Laya.Script {
     myOwner: Laya.Sprite3D = null
 
     touchX: number = 0
-    speed: number = 0.15
+    speed: number = 0.7//0.15
     hp: number = 10
     hpMax: number = 10
     edgeMax: number = 3
 
+    isJumping: boolean = false
     canMove: boolean = true
     curAniName: string = ""
+    canFight: boolean = true
 
     onAwake(): void {
         this.myOwner = this.owner as Laya.Sprite3D
@@ -48,6 +50,18 @@ export default class PlayerCrl extends Laya.Script {
         Utility.TmoveTo(this.myOwner, 3000, desPos, () => {
             this.win()
         })
+    }
+
+    walkToBoss() {
+        this.speed = 0.1
+        this.playAni(PlayerAniType.ANI_WALK)
+        let desPos: Laya.Vector3 = GameLogic.Share._roadFinish.transform.position.clone()
+        desPos.z += 19
+        Utility.TmoveTo(this.myOwner, 3000, desPos, () => {
+            this.playAni(PlayerAniType.ANI_BOXING_IDLE)
+            GameLogic.Share.fightWithBoss()
+        })
+        Utility.ScaleTo(this.myOwner, 4000, new Laya.Vector3(3, 3, 3), null)
     }
 
     win() {
@@ -121,6 +135,43 @@ export default class PlayerCrl extends Laya.Script {
     }
 
     hurtCB(dmg: number) {
+    }
+
+    drop() {
+        this.playAni(PlayerAniType.ANI_DIE, 1, 0.5)
+        let pos: Laya.Vector3 = this.myOwner.transform.position.clone()
+        pos.y -= 5
+        pos.z += 3
+        Utility.TmoveTo(this.myOwner, 1500, pos, null)
+    }
+
+    jump() {
+        this.isJumping = true
+        this.playAni(PlayerAniType.ANI_JUMP)
+        let myPos: Laya.Vector3 = this.myOwner.transform.position.clone()
+        let p1: Laya.Vector3 = myPos.clone()
+        p1.z += 9
+        p1.y += 5
+        let p2: Laya.Vector3 = myPos.clone()
+        p2.z += 18
+        p2.y = 0
+        Utility.TmoveToYZ(this.myOwner, 800, p1, () => {
+            Utility.TmoveToYZ(this.myOwner, 800, p2, () => {
+                this.playAni(PlayerAniType.ANI_RUN)
+                this.isJumping = false
+            }, Laya.Ease.linearOut)
+        }, Laya.Ease.linearIn)
+    }
+
+    attackBoss() {
+        if (!this.canFight || GameLogic.Share._bossCrl.isDied) return
+        GameLogic.Share._bossCrl.hitCB()
+        this.canFight = false
+        this.playAni(PlayerAniType.ANI_BOXING_ATTACK, 2)
+        Laya.timer.once(500, this, () => {
+            this.canFight = true
+            this.playAni(PlayerAniType.ANI_BOXING_IDLE)
+        })
     }
 
     onUpdate(): void {

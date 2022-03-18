@@ -29,7 +29,7 @@ export default class LoadingUI extends Laya.Scene {
 
     }
 
-    maxGrade: number = 1
+    maxGrade: number = 2
     loadJsonData(index: number) {
         //加载JSON
         Utility.loadJson('res/configs/Level' + index + '.json', (data) => {
@@ -84,7 +84,9 @@ export default class LoadingUI extends Laya.Scene {
             WxApi.UnityPath + 'Road_Finish.lh',
             WxApi.UnityPath + 'Stand.lh',
             WxApi.UnityPath + 'SelectNodeL.lh',
-            WxApi.UnityPath + 'SelectNodeR.lh'
+            WxApi.UnityPath + 'SelectNodeR.lh',
+            WxApi.UnityPath + 'DropArea.lh',
+            WxApi.UnityPath + 'Boss.lh'
         ];
         Laya.loader.create(resUrl, Laya.Handler.create(this, this.onComplete), Laya.Handler.create(this, this.onProgress));
     }

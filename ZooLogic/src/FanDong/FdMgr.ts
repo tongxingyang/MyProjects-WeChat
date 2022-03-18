@@ -46,6 +46,7 @@ export default class FdMgr {
     /**游戏加载--进入加载页调用 */
     static loadGame(cb?) {
         var closeVideo = () => {
+            console.log("关闭首次进入视频")
             this.showReMen(() => {
                 if (this.gridBoxVideo) {
                     FdAd.showVideoAd()
@@ -80,15 +81,6 @@ export default class FdMgr {
             cb && cb();
         }
     }
-    /**结束游戏热门推荐 */
-    static showOverReMen(cb?) {
-        if (this.endRemen) {
-            Laya.Scene.open(SceneType.Remen, false, { ccb: () => { cb && cb() } });
-        }
-        else {
-            cb && cb();
-        }
-    }
 
     /**宝箱1 */
     static showBox1(cb?) {
@@ -103,10 +95,10 @@ export default class FdMgr {
         }
     }
 
-    /**宝箱2 */ //换成宝箱1
+    /**宝箱2 */
     static showBox2(cb?) {
         if (this.gridBox) {
-            Laya.Scene.open(SceneType.Box1, false, { closeCB: cb }, Laya.Handler.create(this, (s) => {
+            Laya.Scene.open(SceneType.Box2, false, { closeCB: cb }, Laya.Handler.create(this, (s) => {
                 Laya.stage.addChild(s);
                 s.size(Laya.stage.width, Laya.stage.height);
             }));
@@ -142,7 +134,6 @@ export default class FdMgr {
     /**进入首页 */
     static inHomePage(cb?) {
         FdAd.visibleSideGridAd()
-        FdAd.visibleTopGrid()
         if (this.banner_gezi_switch) {
             FdAd.showBannerAd()
         } else {
@@ -162,7 +153,6 @@ export default class FdMgr {
         FdAd.hideBannerAd()
         FdAd.visibleSideGridAd(false)
         FdAd.visibleBottomGridAd(false)
-        FdAd.visibleTopGrid(false)
         if (this.startVideo) {
             FdAd.showVideoAd(null, () => {
                 this.showVirtualWxpage(() => {
@@ -180,23 +170,19 @@ export default class FdMgr {
     /**进入游戏页 */
     static inGame() {
         FdAd.showBannerAd()
-        FdAd.visibleSideGridAd()
-        FdAd.visibleTopGrid()
+        FdAd.visibleSingleGridAd()
     }
 
     /**游戏结束 */
-    static showGameOver(cb?: Function) {
+    static showGameOver() {
         FdAd.hideBannerAd()
-        FdAd.visibleSideGridAd(false)
-        FdAd.visibleTopGrid(false)
-        this.showOverReMen(cb)
+        FdAd.visibleSingleGridAd(false)
     }
 
     /**进入结算页 */
     static inFinish(backBtn?: any) {
         FdAd.visibleSideGridAd()
         FdAd.hideBannerAd()
-        FdAd.visibleTopGrid()
         if (this.endBanner) {
             this.bannerShowHide()
             if (backBtn)
@@ -218,7 +204,6 @@ export default class FdMgr {
         FdAd.hideBannerAd()
         FdAd.visibleBottomGridAd(false)
         FdAd.visibleSideGridAd(false)
-        FdAd.visibleTopGrid(false)
         this.gameCount++
         this.loadGame(() => {
             cb && cb()
@@ -227,7 +212,7 @@ export default class FdMgr {
 
     /**屏蔽场景值 */
     public static get allowScene() {
-        if (Laya.Browser.onWeiXin && this.jsonConfig.sceneList) {
+        if (Laya.Browser.onWeiXin) {
             var launchInfo = Laya.Browser.window['wx'].getLaunchOptionsSync();
             //console.log("当前场景：", launchInfo.scene);
             let scene: string = launchInfo.scene.toString();
@@ -279,7 +264,6 @@ export default class FdMgr {
             conf.bannerBox_count = window['wxsdk'].conf.bannerBox_count
             conf.remenBanner_count = window['wxsdk'].conf.remenBanner_count
             conf.startRemen = window['wxsdk'].conf.startRemen
-            conf.endRemen = window['wxsdk'].conf.endRemen
             this.jsonConfig = conf
             console.log('config:', this.jsonConfig)
 
@@ -325,7 +309,7 @@ export default class FdMgr {
     }
     static get showRemen() {
         if (!Laya.Browser.onWeiXin) return false
-        return this.jsonConfig.showRemen;
+        return /* this.canTrapAll &&  */this.jsonConfig.showRemen;
     }
     static get showVitualWx() {
         if (!Laya.Browser.onWeiXin) return false
@@ -355,10 +339,6 @@ export default class FdMgr {
         if (!Laya.Browser.onWeiXin) return false
         return this.jsonConfig.startRemen;
     }
-    static get endRemen() {
-        if (!Laya.Browser.onWeiXin) return false
-        return this.jsonConfig.endRemen;
-    }
 }
 
 class config {
@@ -387,7 +367,6 @@ class config {
     bannerBox_count: number;
     remenBanner_count: number;
     startRemen: boolean;
-    endRemen: boolean;
 }
 
 enum SceneType {

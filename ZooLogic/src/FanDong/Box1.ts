@@ -57,7 +57,7 @@ export default class Box1 extends Laya.Scene {
             Laya.Tween.to(this.btnPress, { scaleX: 1, scaleY: 1 }, 100, null)
         }))
 
-        if (this.progressValue >= FdMgr.wuchuProgressValue && !this.hadShowBanner) { //触发误触
+        if (this.progressValue >= FdMgr.wuchuProgressValue) { //触发误触
             FdAd.showBannerAd();
             this.hadShowBanner = true
             FdMgr.randTouchProgress(); //更新目标值

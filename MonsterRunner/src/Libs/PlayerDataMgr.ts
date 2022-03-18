@@ -1,6 +1,6 @@
 
 export class PlayerData {
-    grade: number = 1
+    grade: number = 2
     skinArr: number[] = [1, 0, 0, 0]
     skinId: number = 0
     coin: number = 99999
@@ -58,5 +58,9 @@ export default class PlayerDataMgr {
             case 3:
                 return 600
         }
+    }
+
+    public static getIsBossGrade() {
+        return this._playerData.grade % 2 == 0
     }
 }

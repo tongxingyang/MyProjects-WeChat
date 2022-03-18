@@ -1,17 +1,17 @@
-import { find, Widget, Node } from "cc";
+import { find, Node, Widget } from "cc";
 import { PREVIEW, WECHAT } from "cc/env";
 import { Box1 } from "./Box1";
+import { Box2 } from "./Box2";
 import FdAd from "./FdAd";
 import { FDNode } from "./FDNode";
 import { Remen } from "./Remen";
 
 export default class FdMgr {
-    static version: string = '1.0.3'
+    static version: string = '1.0.4'
     static wuchuProgressValue = 0;
     static wuchuProgressStepAdd = 0.1;
     static wuchuProgressFrameSub = 0.0032;
     static gameCount: number = 1
-    static isPure: boolean = false
 
     /**随机目标误触值 */
     public static randTouchProgress() {
@@ -95,7 +95,7 @@ export default class FdMgr {
             cb && cb();
         }
     }
-    /**结束游戏热门推荐 */
+    /**游戏结束热门推荐 */
     static showOverReMen(cb?) {
         if (this.endRemen) {
             find('FDCanvas/FDNode/Remen').getComponent(Remen).showUI(cb)
@@ -115,10 +115,10 @@ export default class FdMgr {
         }
     }
 
-    /**宝箱2 */ //换成宝箱1
+    /**宝箱2 */
     static showBox2(cb?) {
         if (this.gridBox) {
-            find('FDCanvas/FDNode/Box1').getComponent(Box1).showUI(cb)
+            find('FDCanvas/FDNode/Box2').getComponent(Box2).showUI(cb)
         }
         else {
             cb && cb();
@@ -151,7 +151,6 @@ export default class FdMgr {
     /**进入首页 */
     static inHomePage(cb?) {
         FdAd.visibleSideGridAd()
-        FdAd.visibleTopGrid()
         if (this.banner_gezi_switch) {
             FdAd.showBannerAd()
         } else {
@@ -171,7 +170,6 @@ export default class FdMgr {
         FdAd.hideBannerAd()
         FdAd.visibleSideGridAd(false)
         FdAd.visibleBottomGridAd(false)
-        FdAd.visibleTopGrid(false)
         if (this.startVideo) {
             FdAd.showVideoAd(null, () => {
                 this.showVirtualWxpage(() => {
@@ -188,17 +186,14 @@ export default class FdMgr {
 
     /**进入游戏页 */
     static inGame() {
-        //FdAd.showBannerAd()
-        FdAd.hideBannerAd()
-        FdAd.visibleSideGridAd()
-        FdAd.visibleTopGrid()
+        FdAd.showBannerAd()
+        FdAd.visibleSingleGridAd()
     }
 
     /**游戏结束 */
     static showGameOver(cb?: Function) {
         FdAd.hideBannerAd()
-        FdAd.visibleSideGridAd(false)
-        FdAd.visibleTopGrid(false)
+        FdAd.visibleSingleGridAd(false)
         this.showOverReMen(cb)
     }
 
@@ -206,7 +201,6 @@ export default class FdMgr {
     static inFinish(backBtn?: Node) {
         FdAd.visibleSideGridAd()
         FdAd.hideBannerAd()
-        FdAd.visibleTopGrid()
         if (this.endBanner) {
             this.bannerShowHide()
             if (backBtn)
@@ -225,10 +219,8 @@ export default class FdMgr {
     /**关闭结算页 */
     static closeFinish(cb?: Function) {
         this.stopBannerShowHide()
-        FdAd.hideBannerAd()
         FdAd.visibleBottomGridAd(false)
         FdAd.visibleSideGridAd(false)
-        FdAd.visibleTopGrid(false)
         this.gameCount++
         this.loadGame(() => {
             cb && cb()
@@ -305,69 +297,69 @@ export default class FdMgr {
     }
 
     static get isVersionValid() {
-        if (PREVIEW || this.isPure) return false
+        if (PREVIEW) return false
         return this.version.split('.')[2] <= this.jsonConfig.version.split('.')[2];
     }
 
     static get canTrapAll() {
-        if (PREVIEW || this.isPure) return false
+        if (PREVIEW) return false
         return this.allowScene && this.jsonConfig.allowMistouch && this.version.split('.')[2] <= this.jsonConfig.version.split('.')[2];
     }
     static get bannerBox() {
-        if (PREVIEW || this.isPure) return false
+        if (PREVIEW) return false
         return this.canTrapAll && this.jsonConfig.bannerBox && this.gameCount >= this.jsonConfig.delay_play_count;
     }
     static get gridBox() {
-        if (PREVIEW || this.isPure) return false
+        if (PREVIEW) return false
         return this.canTrapAll && this.jsonConfig.gridBox && this.gameCount >= this.jsonConfig.delay_play_count;
     }
     static get startVideo() {
-        if (PREVIEW || this.isPure) return false
+        if (PREVIEW) return false
         return this.canTrapAll && this.jsonConfig.startVideo && this.gameCount >= this.jsonConfig.delay_play_countVideo;
     }
     static get homepageVideo() {
-        if (PREVIEW || this.isPure) return false
+        if (PREVIEW) return false
         return this.canTrapAll && this.jsonConfig.homepageVideo && this.gameCount >= this.jsonConfig.delay_play_count;
     }
     static get gridBoxVideo() {
-        if (PREVIEW || this.isPure) return false
+        if (PREVIEW) return false
         return this.canTrapAll && this.jsonConfig.gridBoxVideo && this.gameCount >= this.jsonConfig.delay_play_count;
     }
     static get showRemen() {
-        if (PREVIEW || this.isPure) return false
+        if (PREVIEW) return false
         return this.jsonConfig.showRemen;
     }
     static get showVitualWx() {
-        if (PREVIEW || this.isPure) return false
+        if (PREVIEW) return false
         return this.canTrapAll && this.jsonConfig.showVitualWx && this.gameCount >= this.jsonConfig.delay_play_countVideo;
     }
     static get loadingVideo() {
-        if (PREVIEW || this.isPure) return false
+        if (PREVIEW) return false
         return this.canTrapAll && this.jsonConfig.loadingVideo;
     }
     static get remenBanner() {
-        if (PREVIEW || this.isPure) return false
+        if (PREVIEW) return false
         return this.canTrapAll && this.jsonConfig.remenBanner && this.gameCount >= this.jsonConfig.delay_play_countBanner;
     }
     static get banner_gezi_switch() {
-        if (PREVIEW || this.isPure) return true
+        if (PREVIEW) return true
         return this.jsonConfig.banner_gezi_switch;
     }
     static get loadingGezi() {
-        if (PREVIEW || this.isPure) return false
+        if (PREVIEW) return false
         return this.canTrapAll && this.jsonConfig.loadingGezi;
     }
     static get endBanner() {
-        if (PREVIEW || this.isPure) return false
+        if (PREVIEW) return false
         return this.canTrapAll && this.jsonConfig.endBanner && this.gameCount >= this.jsonConfig.delay_play_countBanner;
     }
     static get startRemen() {
-        if (PREVIEW || this.isPure) return false
-        return this.jsonConfig.startRemen;
+        if (PREVIEW) return false
+        return this.jsonConfig.startRemen
     }
     static get endRemen() {
-        if (PREVIEW || this.isPure) return false
-        return this.jsonConfig.endRemen;
+        if (PREVIEW) return false
+        return this.jsonConfig.endRemen
     }
 }
 

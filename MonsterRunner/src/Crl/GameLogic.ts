@@ -10,6 +10,10 @@ import Enemy from "./Enemy"
 import Mutagen from "./Prop/Mutagen"
 import Barrel from "./Prop/Barrel"
 import Npc from "./Prop/Npc"
+import DropArea from "./Prop/DropArea"
+import Jumper from "./Prop/Jumper"
+import Boss from "./Boss"
+import GameUI from "../View/GameUI"
 
 export default class GameLogic {
     public static Share: GameLogic
@@ -31,7 +35,9 @@ export default class GameLogic {
 
     public _levelNode: Laya.Sprite3D = null
     public _player: Laya.Sprite3D = null
+    public _boss: Laya.Sprite3D = null
     public _playerCrl: PlayerCrl = null
+    public _bossCrl: Boss = null
     public _standNode: Laya.Sprite3D = null
     public _desNode: Laya.Sprite3D = null
     public _roadFinish: Laya.Sprite3D = null
@@ -114,7 +120,7 @@ export default class GameLogic {
     createLevel() {
         this.bodyArr = [0, 1, 2, 3, 4, 5]
         this.bodyArr = Utility.shuffleArr(this.bodyArr)
-        let g: number = 1
+        let g: number = 2//PlayerDataMgr.getPlayerData().grade
         let dataArr: any[] = PlayerDataMgr.levelDataArr[g - 1]
         for (let i = 0; i < dataArr.length; i++) {
             let data: any = dataArr[i]
@@ -153,23 +159,42 @@ export default class GameLogic {
             sp.addComponent(Barrel)
         } else if (name == 'Finish') {
             this._desNode = sp
+        } else if (name == 'DropArea') {
+            sp.addComponent(DropArea)
+        } else if (name == 'Jumper') {
+            sp.addComponent(Jumper)
+        } else if (name == 'Boss') {
+            this._boss = sp
+            this._bossCrl = sp.addComponent(Boss)
         } else if (name == 'Road_Finish') {
             this._roadFinish = sp
             for (let i = 0; i < this._roadFinish.numChildren; i++) {
                 let npc: Laya.Sprite3D = this._roadFinish.getChildAt(i) as Laya.Sprite3D
                 let crl = npc.addComponent(Npc) as Npc
+                if (PlayerDataMgr.getIsBossGrade()) {
+                    npc.active = false
+                }
             }
         }
     }
 
     finish() {
         this.isFinish = true
-        this._playerCrl.walkToDes()
-        for (let i = 0; i < this._roadFinish.numChildren; i++) {
-            let npc: Laya.Sprite3D = this._roadFinish.getChildAt(i) as Laya.Sprite3D
-            let crl = npc.getComponent(Npc) as Npc
-            crl.raiseCB()
+        if (PlayerDataMgr.getIsBossGrade()) {
+            this._playerCrl.walkToBoss()
+            this._cameraCrl.finishCB()
+        } else {
+            this._playerCrl.walkToDes()
+            for (let i = 0; i < this._roadFinish.numChildren; i++) {
+                let npc: Laya.Sprite3D = this._roadFinish.getChildAt(i) as Laya.Sprite3D
+                let crl = npc.getComponent(Npc) as Npc
+                crl.raiseCB()
+            }
         }
+    }
+
+    fightWithBoss(){
+        GameUI.Share.bossReady()
     }
 
     gameOver(isWin: boolean) {

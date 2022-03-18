@@ -178,7 +178,7 @@ export default class GameLogic {
         this._scene.getChildByName('T_Hit_1').active = true;
         fx.particleSystem.play()
         Laya.timer.once(300, this, () => {
-            (this._scene.getChildByName('T_Hit_1') as Laya.Sprite3D).transform.position = new Laya.Vector3(0,100000,0);
+            (this._scene.getChildByName('T_Hit_1') as Laya.Sprite3D).transform.position = new Laya.Vector3(0, 100000, 0);
         })
     }
     createWinFX() {
@@ -210,9 +210,8 @@ export default class GameLogic {
         this.isStartGame = false
         Laya.Scene.close('MyScenes/GameUI.scene')
         Laya.timer.once(2000, this, () => {
-            FdMgr.showGameOver(()=>{
-                Laya.Scene.open('MyScenes/FinishUI.scene')
-            })
+            FdMgr.showGameOver()
+            Laya.Scene.open('MyScenes/FinishUI.scene')
         })
     }
 

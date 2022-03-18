@@ -1,5 +1,6 @@
 
 import { _decorator, Component, Node } from 'cc';
+import { WECHAT } from 'cc/env';
 import FdAd from './FdAd';
 import FdMgr from './FdMgr';
 const { ccclass, property } = _decorator;
@@ -8,11 +9,19 @@ const { ccclass, property } = _decorator;
 export class Remen extends Component {
 
     ccb: Function = null
+
     clickCount: number = 0
 
+    onDisable() {
+        this.unscheduleAllCallbacks()
+        FdAd.hideBannerAd()
+        FdAd.visibleFullGridAd(false)
+        this.ccb && this.ccb()
+    }
+
     showUI(ccb?: Function) {
-        this.clickCount = 0
         this.ccb = ccb
+        this.clickCount = 0
         this.node.active = true
         FdAd.visibleFullGridAd()
 
@@ -34,11 +43,7 @@ export class Remen extends Component {
     continueBtnCB() {
         this.clickCount++
         if (this.clickCount >= FdMgr.jsonConfig.remenBanner_count) {
-            this.unscheduleAllCallbacks()
             this.node.active = false
-            FdAd.hideBannerAd()
-            FdAd.visibleFullGridAd(false);
-            this.ccb && this.ccb()
         }
     }
 }

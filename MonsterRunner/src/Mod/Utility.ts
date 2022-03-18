@@ -190,6 +190,21 @@ export default class Utility {
         }));
     }
 
+    public static ScaleTo(node: Laya.Sprite3D, duration: number, des: Laya.Vector3, cb: Function) {
+        var rotationOld = node.transform.localScale;
+        Laya.Tween.to(node.transform.localScale, {
+            x: des.x,
+            y: des.y,
+            z: des.z,
+            update: new Laya.Handler(this, function () {
+                if (node)
+                    node.transform.localScale = rotationOld;
+            })
+        }, duration, Laya.Ease.cubicOut, Laya.Handler.create(this, function () {
+            cb && cb();
+        }));
+    }
+
     /**
      * 2d tween平移
      * @param node 需要平移的节点node

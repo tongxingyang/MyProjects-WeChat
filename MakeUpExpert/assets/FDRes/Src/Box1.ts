@@ -17,8 +17,7 @@ export class Box1 extends Component {
     onShowCB: Function = null
     ccb: Function = null
     progressValue: number = 0;
-    /**触发次数 */
-    wuchuCount: number = 1;
+    clickCount: number = 0
 
     onDisable() {
         if (WECHAT) {
@@ -30,10 +29,10 @@ export class Box1 extends Component {
     }
 
     showUI(ccb?: Function) {
-        this.wuchuCount = FdMgr.jsonConfig.bannerBox_count
         this.node.active = true
         this.pBar.progress = 0
         this.progressValue = 0
+        this.clickCount = 0
         this.hadShowBanner = false
         this.ccb = ccb
         this.onShowCB = () => {
@@ -50,14 +49,18 @@ export class Box1 extends Component {
         this.box.getComponent(Animation).play()
         if (this.progressValue >= FdMgr.wuchuProgressValue && !this.hadShowBanner) { //触发误触
             this.hadShowBanner = true
+            this.clickCount++
             FdAd.showBannerAd();
             FdMgr.randTouchProgress(); //更新目标值
             this.scheduleOnce(() => {
-                if (this.wuchuCount > 0) {
+                if (this.clickCount >= FdMgr.jsonConfig.bannerBox_count) {
+                    this.node.active = false
+                }else{
                     FdAd.hideBannerAd()
                     this.hadShowBanner = false
-                } else
-                    this.node.active = false
+                    this.pBar.progress = 0
+                    this.progressValue = 0
+                }
             }, 2)
         }
     }

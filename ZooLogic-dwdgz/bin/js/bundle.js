@@ -647,7 +647,7 @@
 
     class FdAd {
         static inidAd() {
-            if (!Laya.Browser.onWeiXin || FdMgr.isPure)
+            if (!Laya.Browser.onWeiXin)
                 return;
             this.initBanner();
             this.createVideoAd();
@@ -692,19 +692,9 @@
         static showBannerAd() {
             if (!Laya.Browser.onWeiXin)
                 return;
-            for (let i = 0; i < this.bannerIdArr.length; i++) {
-                if (this.bannerErrorArr[i]) {
-                    this.bannerTimesArr[i] = 0;
-                    this.bannerShowCount[i] = 0;
-                    this.bannerErrorArr[i] = false;
-                    this.bannerAds[i] && this.bannerAds[i].destroy();
-                    this.bannerAds[i] = null;
-                    this.bannerAds[i] = this.createBannerAd(i);
-                    this.bannerIndex++;
-                    if (this.bannerIndex >= this.bannerIdArr.length) {
-                        this.bannerIndex = 0;
-                    }
-                }
+            if (this.isAllBannerError) {
+                this.stopCountBannerTime();
+                return;
             }
             this.bannerAds[this.bannerIndex] && this.bannerAds[this.bannerIndex].show();
             this.stopCountBannerTime();
@@ -717,9 +707,7 @@
                 this.stopCountBannerTime();
                 return;
             }
-            for (let i = 0; i < this.bannerAds.length; i++) {
-                this.bannerAds[i] && this.bannerAds[i].hide();
-            }
+            this.bannerAds[this.bannerIndex] && this.bannerAds[this.bannerIndex].hide();
             this.stopCountBannerTime();
         }
         static countBannerTime() {
@@ -806,7 +794,7 @@
             }
         }
         static showVideoAd(finishCB, cancelCB) {
-            if (!Laya.Browser.onWeiXin || FdMgr.isPure) {
+            if (!Laya.Browser.onWeiXin) {
                 finishCB && finishCB();
                 cancelCB && cancelCB();
                 return;
@@ -842,7 +830,7 @@
             this.createFullGrid();
             this.createBottomGrid();
             this.createSideGrid();
-            this.createTopGrid();
+            this.createSingleGrid();
         }
         static createFullGrid() {
             this.fullGridAd = Laya.Browser.window['wx'].createCustomAd({
@@ -855,7 +843,6 @@
                 }
             });
             this.fullGridAd.onError(() => { this.fullGridError = true; console.log('全屏格子加载失败'); });
-            this.fullGridAd.onLoad(() => { console.log('全屏格子加载成功'); });
         }
         static visibleFullGridAd(v = true) {
             if (Laya.Browser.onWeiXin && this.fullGridAd && !this.fullGridError) {
@@ -873,7 +860,6 @@
                 }
             });
             this.bottomGridAd.onError(() => { this.bottomGridError = true; console.log('底部格子加载失败'); });
-            this.bottomGridAd.onLoad(() => { console.log('底部格子加载成功'); });
         }
         static visibleBottomGridAd(v = true) {
             if (Laya.Browser.onWeiXin && this.bottomGridAd && !this.bottomGridError) {
@@ -883,15 +869,15 @@
         static createSideGrid() {
             for (let i = 0; i < 2; i++) {
                 let grid = Laya.Browser.window['wx'].createCustomAd({
-                    adUnitId: this.sideGridId[i],
+                    adUnitId: this.sideGridId,
                     adIntervals: 30,
                     style: {
                         left: i == 0 ? 0 : this.getSystemInfoSync().screenWidth - 65,
                         top: 200
                     }
                 });
-                grid.onError(() => { console.log('屏幕侧格子加载失败'); });
-                grid.onLoad(() => { this.sideGridAd.push(grid); console.log('屏幕侧格子加载成功'); });
+                grid.onError(() => { ; console.log('屏幕侧格子加载失败'); });
+                grid.onLoad(() => { this.sideGridAd.push(grid); });
             }
         }
         static visibleSideGridAd(v = true) {
@@ -901,31 +887,34 @@
                 }
             }
         }
-        static createTopGrid() {
-            this.topGridAd = Laya.Browser.window['wx'].createCustomAd({
-                adUnitId: this.topGridId,
-                adIntervals: 30,
-                style: {
-                    left: 0,
-                    top: 50,
-                    width: this.getSystemInfoSync().screenWidth
-                }
-            });
-            this.topGridAd.onError(() => { this.topGridError = true; console.log('顶部格子加载失败'); });
-            this.topGridAd.onLoad(() => { console.log('顶部格子加载成功'); });
+        static createSingleGrid() {
+            for (let i = 0; i < 2; i++) {
+                let grid = Laya.Browser.window['wx'].createCustomAd({
+                    adUnitId: this.singleGridId,
+                    adIntervals: 30,
+                    style: {
+                        left: i == 0 ? 0 : this.getSystemInfoSync().screenWidth - 65,
+                        top: 120
+                    }
+                });
+                grid.onError(() => { ; console.log('屏幕单格子加载失败'); });
+                grid.onLoad(() => { this.singleGridAd.push(grid); });
+            }
         }
-        static visibleTopGrid(v = true) {
-            if (Laya.Browser.onWeiXin && this.topGridAd && !this.topGridError) {
-                v ? this.topGridAd.show() : this.topGridAd.hide();
+        static visibleSingleGridAd(v = true) {
+            if (Laya.Browser.onWeiXin && this.singleGridAd.length > 0) {
+                for (let i = 0; i < this.singleGridAd.length; i++) {
+                    v ? this.singleGridAd[i].show() : this.singleGridAd[i].hide();
+                }
             }
         }
     }
-    FdAd.bannerIdArr = ["adunit-09c06c2b0c94fe06", "adunit-1dfd3fda79c0019d", "adunit-b3cd46b9c8ef27fb", "adunit-2e247b32ead7acf2", "adunit-38f816df7a9ee944"];
+    FdAd.bannerIdArr = ["adunit-09c06c2b0c94fe06", "adunit-1dfd3fda79c0019d"];
     FdAd.videoId = "adunit-0333bcd027bfb093";
     FdAd.fullGridId = "adunit-8cdf6ebd71d5124b";
     FdAd.bottomGridId = "adunit-11e0cc4445fb0de0";
-    FdAd.sideGridId = ["adunit-7e20e1ee6b314e59", "adunit-b6aaab0e3e2e7c6b"];
-    FdAd.topGridId = "adunit-850505459b633a50";
+    FdAd.sideGridId = "adunit-7e20e1ee6b314e59";
+    FdAd.singleGridId = "adunit-c95e8cf03e2e86d8";
     FdAd.bannerAds = [];
     FdAd.bannerIndex = 0;
     FdAd.bannerTimesArr = [];
@@ -937,8 +926,7 @@
     FdAd.bottomGridAd = null;
     FdAd.bottomGridError = false;
     FdAd.sideGridAd = [];
-    FdAd.topGridAd = null;
-    FdAd.topGridError = false;
+    FdAd.singleGridAd = [];
 
     class FdMgr {
         static randTouchProgress() {
@@ -972,6 +960,7 @@
         }
         static loadGame(cb) {
             var closeVideo = () => {
+                console.log("关闭首次进入视频");
                 this.showReMen(() => {
                     if (this.gridBoxVideo) {
                         FdAd.showVideoAd();
@@ -1002,7 +991,7 @@
                 cb && cb();
             }
         }
-        static showOverReMen(cb) {
+        static showEndRemen(cb) {
             if (this.endRemen) {
                 Laya.Scene.open(SceneType.Remen, false, { ccb: () => { cb && cb(); } });
             }
@@ -1023,7 +1012,7 @@
         }
         static showBox2(cb) {
             if (this.gridBox) {
-                Laya.Scene.open(SceneType.Box1, false, { closeCB: cb }, Laya.Handler.create(this, (s) => {
+                Laya.Scene.open(SceneType.Box2, false, { closeCB: cb }, Laya.Handler.create(this, (s) => {
                     Laya.stage.addChild(s);
                     s.size(Laya.stage.width, Laya.stage.height);
                 }));
@@ -1055,7 +1044,6 @@
         }
         static inHomePage(cb) {
             FdAd.visibleSideGridAd();
-            FdAd.visibleTopGrid();
             if (this.banner_gezi_switch) {
                 FdAd.showBannerAd();
             }
@@ -1073,7 +1061,6 @@
             FdAd.hideBannerAd();
             FdAd.visibleSideGridAd(false);
             FdAd.visibleBottomGridAd(false);
-            FdAd.visibleTopGrid(false);
             if (this.startVideo) {
                 FdAd.showVideoAd(null, () => {
                     this.showVirtualWxpage(() => {
@@ -1089,19 +1076,16 @@
         }
         static inGame() {
             FdAd.showBannerAd();
-            FdAd.visibleSideGridAd();
-            FdAd.visibleTopGrid();
+            FdAd.visibleSingleGridAd();
         }
         static showGameOver(cb) {
             FdAd.hideBannerAd();
-            FdAd.visibleSideGridAd(false);
-            FdAd.visibleTopGrid(false);
-            this.showOverReMen(cb);
+            FdAd.visibleSingleGridAd(false);
+            this.showEndRemen(cb);
         }
         static inFinish(backBtn) {
             FdAd.visibleSideGridAd();
             FdAd.hideBannerAd();
-            FdAd.visibleTopGrid();
             if (this.endBanner) {
                 this.bannerShowHide();
                 if (backBtn)
@@ -1123,14 +1107,13 @@
             FdAd.hideBannerAd();
             FdAd.visibleBottomGridAd(false);
             FdAd.visibleSideGridAd(false);
-            FdAd.visibleTopGrid(false);
             this.gameCount++;
             this.loadGame(() => {
                 cb && cb();
             });
         }
         static get allowScene() {
-            if (Laya.Browser.onWeiXin && this.jsonConfig.sceneList) {
+            if (Laya.Browser.onWeiXin) {
                 var launchInfo = Laya.Browser.window['wx'].getLaunchOptionsSync();
                 let scene = launchInfo.scene.toString();
                 let arr = this.jsonConfig.sceneList.split(',');
@@ -1197,87 +1180,86 @@
             return this.version.split('.')[2] <= this.jsonConfig.version.split('.')[2];
         }
         static get canTrapAll() {
-            if (!Laya.Browser.onWeiXin || this.isPure)
+            if (!Laya.Browser.onWeiXin)
                 return false;
             return this.allowScene && this.jsonConfig.allowMistouch && this.version.split('.')[2] <= this.jsonConfig.version.split('.')[2];
         }
         static get bannerBox() {
-            if (!Laya.Browser.onWeiXin || this.isPure)
+            if (!Laya.Browser.onWeiXin)
                 return false;
             return this.canTrapAll && this.jsonConfig.bannerBox && this.gameCount >= this.jsonConfig.delay_play_count;
         }
         static get gridBox() {
-            if (!Laya.Browser.onWeiXin || this.isPure)
+            if (!Laya.Browser.onWeiXin)
                 return false;
             return this.canTrapAll && this.jsonConfig.gridBox && this.gameCount >= this.jsonConfig.delay_play_count;
         }
         static get startVideo() {
-            if (!Laya.Browser.onWeiXin || this.isPure)
+            if (!Laya.Browser.onWeiXin)
                 return false;
             return this.canTrapAll && this.jsonConfig.startVideo && this.gameCount >= this.jsonConfig.delay_play_countVideo;
         }
         static get homepageVideo() {
-            if (!Laya.Browser.onWeiXin || this.isPure)
+            if (!Laya.Browser.onWeiXin)
                 return false;
             return this.canTrapAll && this.jsonConfig.homepageVideo && this.gameCount >= this.jsonConfig.delay_play_count;
         }
         static get gridBoxVideo() {
-            if (!Laya.Browser.onWeiXin || this.isPure)
+            if (!Laya.Browser.onWeiXin)
                 return false;
             return this.canTrapAll && this.jsonConfig.gridBoxVideo && this.gameCount >= this.jsonConfig.delay_play_count;
         }
         static get showRemen() {
-            if (!Laya.Browser.onWeiXin || this.isPure)
+            if (!Laya.Browser.onWeiXin)
                 return false;
             return this.jsonConfig.showRemen;
         }
         static get showVitualWx() {
-            if (!Laya.Browser.onWeiXin || this.isPure)
+            if (!Laya.Browser.onWeiXin)
                 return false;
             return this.canTrapAll && this.jsonConfig.showVitualWx && this.gameCount >= this.jsonConfig.delay_play_countVideo;
         }
         static get loadingVideo() {
-            if (!Laya.Browser.onWeiXin || this.isPure)
+            if (!Laya.Browser.onWeiXin)
                 return false;
             return this.canTrapAll && this.jsonConfig.loadingVideo;
         }
         static get remenBanner() {
-            if (!Laya.Browser.onWeiXin || this.isPure)
+            if (!Laya.Browser.onWeiXin)
                 return false;
             return this.canTrapAll && this.jsonConfig.remenBanner && this.gameCount >= this.jsonConfig.delay_play_countBanner;
         }
         static get banner_gezi_switch() {
-            if (!Laya.Browser.onWeiXin || this.isPure)
+            if (!Laya.Browser.onWeiXin)
                 return true;
             return this.jsonConfig.banner_gezi_switch;
         }
         static get loadingGezi() {
-            if (!Laya.Browser.onWeiXin || this.isPure)
+            if (!Laya.Browser.onWeiXin)
                 return false;
             return this.canTrapAll && this.jsonConfig.loadingGezi;
         }
         static get endBanner() {
-            if (!Laya.Browser.onWeiXin || this.isPure)
+            if (!Laya.Browser.onWeiXin)
                 return false;
             return this.canTrapAll && this.jsonConfig.endBanner && this.gameCount >= this.jsonConfig.delay_play_countBanner;
         }
         static get startRemen() {
-            if (!Laya.Browser.onWeiXin || this.isPure)
+            if (!Laya.Browser.onWeiXin)
                 return false;
             return this.jsonConfig.startRemen;
         }
         static get endRemen() {
-            if (!Laya.Browser.onWeiXin || this.isPure)
+            if (!Laya.Browser.onWeiXin)
                 return false;
             return this.jsonConfig.endRemen;
         }
     }
-    FdMgr.version = '1.0.7';
+    FdMgr.version = '1.0.8';
     FdMgr.wuchuProgressValue = 0;
     FdMgr.wuchuProgressStepAdd = 0.1;
     FdMgr.wuchuProgressFrameSub = 0.0032;
     FdMgr.gameCount = 1;
-    FdMgr.isPure = false;
     FdMgr.showVirtualCount = 0;
     class config {
     }
@@ -1826,6 +1808,7 @@
         constructor() {
             super();
             this.ccb = null;
+            this.onShowCB = null;
             this.clickCount = 0;
         }
         onAwake() {
@@ -1834,14 +1817,22 @@
         onOpened(param) {
             if (param && param.ccb)
                 this.ccb = param.ccb;
-            this.clickCount = 0;
             this.btnContinue.on(Laya.Event.CLICK, this, this.btnContinueCB);
             FdAd.visibleFullGridAd();
             if (FdMgr.remenBanner && FdMgr.gameCount >= FdMgr.jsonConfig.delay_play_countBanner)
                 this.bannerShowHide();
             FdAd.bannerIndex = 0;
+            this.onShowCB = () => {
+                this.close();
+            };
+            if (Laya.Browser.onWeiXin) {
+                Laya.Browser.window['wx'].onShow(this.onShowCB);
+            }
         }
         onClosed() {
+            if (Laya.Browser.onWeiXin) {
+                Laya.Browser.window['wx'].offShow(this.onShowCB);
+            }
             Laya.timer.clearAll(this);
             FdAd.hideBannerAd();
             FdAd.visibleFullGridAd(false);
@@ -2473,7 +2464,7 @@
     GameConfig.screenMode = "vertical";
     GameConfig.alignV = "top";
     GameConfig.alignH = "left";
-    GameConfig.startScene = "MyScenes/LoadingUI.scene";
+    GameConfig.startScene = "FDScene/Box1.scene";
     GameConfig.sceneRoot = "";
     GameConfig.debug = false;
     GameConfig.stat = false;
