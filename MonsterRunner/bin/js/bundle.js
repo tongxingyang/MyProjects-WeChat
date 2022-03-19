@@ -596,6 +596,12 @@
                 Utility.RotateTo(this.myOwner, 2700, r, null);
             });
         }
+        bossDie() {
+            let r = this.myOwner.transform.rotationEuler.clone();
+            r.y -= 73;
+            r.x = 0;
+            Utility.RotateTo(this.myOwner, 1800, r, null);
+        }
         onUpdate() {
             if (GameLogic.Share.isGameOver || !GameLogic.Share.isStartGame || GameLogic.Share.isFinish) {
                 return;
@@ -628,7 +634,7 @@
             super();
             this.myOwner = null;
             this.touchX = 0;
-            this.speed = 0.7;
+            this.speed = 0.2;
             this.hp = 10;
             this.hpMax = 10;
             this.edgeMax = 3;
@@ -636,6 +642,7 @@
             this.canMove = true;
             this.curAniName = "";
             this.canFight = true;
+            this.readyBoxing = false;
         }
         onAwake() {
             this.myOwner = this.owner;
@@ -663,12 +670,15 @@
             });
         }
         walkToBoss() {
+            SoundMgr.instance.playSoundEffect('strong.mp3');
+            this.hp = this.hpMax;
             this.speed = 0.1;
             this.playAni(PlayerAniType.ANI_WALK);
             let desPos = GameLogic.Share._roadFinish.transform.position.clone();
             desPos.z += 19;
             Utility.TmoveTo(this.myOwner, 3000, desPos, () => {
                 this.playAni(PlayerAniType.ANI_BOXING_IDLE);
+                this.readyBoxing = true;
                 GameLogic.Share.fightWithBoss();
             });
             Utility.ScaleTo(this.myOwner, 4000, new Laya.Vector3(3, 3, 3), null);
@@ -740,7 +750,33 @@
             Laya.Vector3.lerp(this.myOwner.transform.position.clone(), pos, 0.2, pos);
             this.myOwner.transform.position = pos;
         }
+        decHp() {
+            WxApi.DoVibrate();
+            this.hp -= 1;
+            if (this.hp <= 0) {
+                Laya.timer.clearAll(this);
+                this.playAni(PlayerAniType.ANI_DIE, 2, 0.3);
+                GameLogic.Share.gameOver(false);
+            }
+        }
+        addHp() {
+            this.hp += 0.5;
+            if (this.hp > 10)
+                this.hp = 10;
+        }
         hurtCB(dmg) {
+            WxApi.DoVibrate();
+            this.hp -= dmg;
+            this.playAni(PlayerAniType.ANI_BOXING_HIT, 1.5);
+            Laya.timer.once(200, this, () => {
+                this.playAni(PlayerAniType.ANI_BOXING_IDLE);
+            });
+            SoundMgr.instance.playSoundEffect('hurt.mp3');
+            if (this.hp <= 0) {
+                Laya.timer.clearAll(this);
+                this.playAni(PlayerAniType.ANI_DIE, 2, 0.3);
+                GameLogic.Share.gameOver(false);
+            }
         }
         drop() {
             this.playAni(PlayerAniType.ANI_DIE, 1, 0.5);
@@ -1514,6 +1550,7 @@
             if (!this.isDied && !GameLogic.Share.isGameOver && !GameLogic.Share.isFinish) {
                 if (Laya.Vector3.distance(playerPos, myPos) <= 1) {
                     GameLogic.Share._playerCrl.playAni(PlayerAniType.ANI_ATTACK, 1.5);
+                    GameLogic.Share._playerCrl.decHp();
                     SoundMgr.instance.playSoundEffect('hit.mp3');
                     this.playAni(PlayerAniType.ANI_DIE, 2, 0.3);
                     this.isDied = true;
@@ -1549,6 +1586,7 @@
             let myPos = this.myOwner.transform.position.clone();
             if (Laya.Vector3.distance(playerPos, myPos) <= 1) {
                 SoundMgr.instance.playSoundEffect('mutagen.mp3');
+                GameLogic.Share._playerCrl.addHp();
                 WxApi.DoVibrate();
                 this.myOwner.destroy();
             }
@@ -1574,6 +1612,7 @@
                 return;
             if (Laya.Vector3.distance(playerPos, myPos) <= 2) {
                 SoundMgr.instance.playSoundEffect('hit.mp3');
+                GameLogic.Share._playerCrl.decHp();
                 WxApi.DoVibrate();
                 this.isDied = true;
                 let x = this.myOwner.transform.position.x >= 0 ? Math.random() * 2 + 3 : -(Math.random() * 2 + 3);
@@ -1666,17 +1705,20 @@
         constructor() {
             super();
             this.myOwner = null;
+            this.isDied = false;
         }
         onAwake() {
             this.myOwner = this.owner;
         }
         onUpdate() {
-            if (GameLogic.Share.isGameOver)
+            if (GameLogic.Share.isGameOver || this.isDied)
                 return;
             let playerPos = GameLogic.Share._player.transform.position.clone();
             let myPos = this.myOwner.transform.position.clone();
             myPos.y = 0;
             if (Laya.Vector3.distance(myPos, playerPos) < 1) {
+                this.isDied = true;
+                SoundMgr.instance.playSoundEffect('spring.mp3');
                 GameLogic.Share._playerCrl.jump();
             }
         }
@@ -1713,11 +1755,16 @@
             this.curAniName = name;
         }
         hitCB() {
+            WxApi.DoVibrate();
             this.hp -= 2;
+            SoundMgr.instance.playSoundEffect('hurt.mp3');
             if (this.hp <= 0) {
+                GameLogic.Share._scene.enableFog = false;
                 this.isDied = true;
+                GameLogic.Share.isGameOver = true;
                 this.playAni(PlayerAniType.ANI_DIE, 1.5, 0.3);
-                GameLogic.Share.gameOver(true);
+                this.dieCB();
+                Laya.timer.clearAll(this);
             }
             else {
                 Laya.timer.once(200, this, () => {
@@ -1727,6 +1774,34 @@
                     this.playAni(PlayerAniType.ANI_BOXING_IDLE);
                 });
             }
+        }
+        updateBoxingAtk() {
+            if (this.isDied || GameLogic.Share.isGameOver)
+                return;
+            Laya.timer.once(Math.random() * 1000 + 1000, this, () => {
+                if (this.isDied || GameLogic.Share.isGameOver)
+                    return;
+                this.playAni(PlayerAniType.ANI_BOXING_ATTACK, 2);
+                Laya.timer.once(200, this, () => {
+                    GameLogic.Share._playerCrl.hurtCB(Math.random() * 1 + 1);
+                });
+                Laya.timer.once(500, this, () => {
+                    this.playAni(PlayerAniType.ANI_BOXING_IDLE);
+                });
+                this.updateBoxingAtk();
+            });
+        }
+        dieCB() {
+            let pos = this.myOwner.transform.position.clone();
+            pos.y += 20;
+            pos.z += 60;
+            Utility.TmoveTo(this.myOwner, 2000, pos, () => {
+                GameLogic.Share.gameOver(true);
+            });
+            let r = this.myOwner.transform.rotationEuler.clone();
+            r.z = Math.random() * 720 + 360;
+            Utility.RotateTo(this.myOwner, 2000, r, null);
+            GameLogic.Share._cameraCrl.bossDie();
         }
         onUpdate() {
         }
@@ -1754,8 +1829,11 @@
         touchStart(evt) {
             if (GameLogic.Share.isGameOver)
                 return;
-            if (GameLogic.Share.isFinish) {
+            if (GameLogic.Share._playerCrl.readyBoxing) {
                 GameLogic.Share._playerCrl.attackBoss();
+                return;
+            }
+            if (GameLogic.Share.isFinish) {
                 return;
             }
             if (!GameLogic.Share.isStartGame) {
@@ -1792,6 +1870,7 @@
             this.playerHp.value = GameLogic.Share._playerCrl.hp / GameLogic.Share._playerCrl.hpMax;
         }
         bossReady() {
+            this.createTips();
         }
         fixBossHp() {
             let op = new Laya.Vector4(0, 0, 0);
@@ -1807,10 +1886,31 @@
             this.bossHp.pos(op1.x / Laya.stage.clientScaleX, op1.y / Laya.stage.clientScaleY);
             this.bossHp.value = GameLogic.Share._bossCrl.hp / GameLogic.Share._bossCrl.hpMax;
         }
+        createTips() {
+            Laya.timer.loop(300, this, () => {
+                if (GameLogic.Share.isGameOver) {
+                    this.tipsNode.visible = false;
+                    Laya.timer.clearAll(this);
+                    return;
+                }
+                let img = new Laya.Image('gameUI/yxz_wz_2.png');
+                img.anchorX = 0.5;
+                img.anchorY = 0.5;
+                img.pos(Math.random() * 200 - 100, Math.random() * 200 - 100);
+                this.tipsNode.addChild(img);
+                Laya.Tween.to(img, { scaleX: 1.2, scaleY: 1.2 }, 80, null, new Laya.Handler(this, () => {
+                }));
+                Laya.timer.once(300, this, () => { img.destroy(); });
+            });
+        }
         myUpdate() {
             this.fixPlayerHp();
             if (GameLogic.Share.isFinish) {
                 this.fixBossHp();
+            }
+            if (GameLogic.Share.isGameOver) {
+                this.playerHp.visible = false;
+                this.bossHp.visible = false;
             }
         }
     }
@@ -1870,8 +1970,8 @@
             this._light.shadowNormalBias = 0;
             this._scene.enableFog = true;
             this._scene.fogColor = new Laya.Vector3(0, 0.8, 0);
-            this._scene.fogStart = 5;
-            this._scene.fogRange = 40;
+            this._scene.fogStart = 10;
+            this._scene.fogRange = 60;
             this.camStartPos = this._camera.transform.position.clone();
             this.camStartRotation = this._camera.transform.rotation.clone();
             this._camera.fieldOfView = this.startCamField;
@@ -1974,6 +2074,7 @@
         }
         fightWithBoss() {
             GameUI.Share.bossReady();
+            this._bossCrl.updateBoxingAtk();
         }
         gameOver(isWin) {
             if (isWin) {
@@ -2001,6 +2102,7 @@
             this.correctCount = 0;
             this._camera.transform.position = this.camStartPos;
             this._camera.transform.rotation = this.camStartRotation;
+            this._scene.enableFog = true;
             this._levelNode.destroyChildren();
             this.createLevel();
         }

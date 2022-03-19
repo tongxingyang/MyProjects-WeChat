@@ -1,6 +1,8 @@
 import { PlayerAniType } from "../Mod/Entity"
 import Utility from "../Mod/Utility"
 import GameLogic from "./GameLogic"
+import SoundMgr from "../Mod/SoundMgr"
+import WxApi from "../Libs/WxApi"
 
 export default class Boss extends Laya.Script {
     constructor() {
@@ -38,11 +40,16 @@ export default class Boss extends Laya.Script {
     }
 
     hitCB() {
+        WxApi.DoVibrate()
         this.hp -= 2
+        SoundMgr.instance.playSoundEffect('hurt.mp3')
         if (this.hp <= 0) {
+            GameLogic.Share._scene.enableFog = false;
             this.isDied = true
+            GameLogic.Share.isGameOver = true
             this.playAni(PlayerAniType.ANI_DIE, 1.5, 0.3)
-            GameLogic.Share.gameOver(true)
+            this.dieCB()
+            Laya.timer.clearAll(this)
         } else {
             Laya.timer.once(200, this, () => {
                 this.playAni(PlayerAniType.ANI_BOXING_HIT, 1.5)
@@ -51,6 +58,34 @@ export default class Boss extends Laya.Script {
                 this.playAni(PlayerAniType.ANI_BOXING_IDLE)
             })
         }
+    }
+
+    updateBoxingAtk() {
+        if (this.isDied || GameLogic.Share.isGameOver) return
+        Laya.timer.once(Math.random() * 1000 + 1000, this, () => {
+            if (this.isDied || GameLogic.Share.isGameOver) return
+            this.playAni(PlayerAniType.ANI_BOXING_ATTACK, 2)
+            Laya.timer.once(200, this, () => {
+                GameLogic.Share._playerCrl.hurtCB(Math.random() * 1 + 1)
+            })
+            Laya.timer.once(500, this, () => {
+                this.playAni(PlayerAniType.ANI_BOXING_IDLE)
+            })
+            this.updateBoxingAtk()
+        })
+    }
+
+    dieCB() {
+        let pos = this.myOwner.transform.position.clone()
+        pos.y += 20
+        pos.z += 60
+        Utility.TmoveTo(this.myOwner, 2000, pos, () => {
+            GameLogic.Share.gameOver(true)
+        })
+        let r = this.myOwner.transform.rotationEuler.clone()
+        r.z = Math.random() * 720 + 360
+        Utility.RotateTo(this.myOwner, 2000, r, null)
+        GameLogic.Share._cameraCrl.bossDie()
     }
 
     onUpdate(): void {

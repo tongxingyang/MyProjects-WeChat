@@ -93,10 +93,9 @@ export default class GameLogic {
         //设置雾化的颜色
         this._scene.fogColor = new Laya.Vector3(0, 0.8, 0);
         //设置雾化的起始位置，相对于相机的距离
-        this._scene.fogStart = 5;
+        this._scene.fogStart = 10;
         //设置雾化最浓处的距离。
-        this._scene.fogRange = 40;
-        //this.fixCameraField()
+        this._scene.fogRange = 60;
 
         this.camStartPos = this._camera.transform.position.clone()
         this.camStartRotation = this._camera.transform.rotation.clone()
@@ -195,6 +194,7 @@ export default class GameLogic {
 
     fightWithBoss(){
         GameUI.Share.bossReady()
+        this._bossCrl.updateBoxingAtk()
     }
 
     gameOver(isWin: boolean) {
@@ -226,6 +226,7 @@ export default class GameLogic {
         this._camera.transform.position = this.camStartPos
         this._camera.transform.rotation = this.camStartRotation
 
+        this._scene.enableFog = true;
         this._levelNode.destroyChildren()
         this.createLevel()
     }

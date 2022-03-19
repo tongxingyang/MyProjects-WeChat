@@ -17,7 +17,7 @@ export default class CameraCrl extends Laya.Script {
     }
 
     finishCB() {
-        Laya.timer.once(1000,this,()=>{
+        Laya.timer.once(1000, this, () => {
             let desPos: Laya.Vector3 = GameLogic.Share._roadFinish.transform.position.clone()
             desPos.z += 20
             desPos.x -= 13
@@ -27,6 +27,13 @@ export default class CameraCrl extends Laya.Script {
             r.y += 90
             Utility.RotateTo(this.myOwner, 2700, r, null)
         })
+    }
+
+    bossDie() {
+        let r = this.myOwner.transform.rotationEuler.clone()
+        r.y -= 73
+        r.x = 0
+        Utility.RotateTo(this.myOwner, 1800, r, null)
     }
 
     onUpdate() {

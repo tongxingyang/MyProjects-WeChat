@@ -4,6 +4,7 @@ import { PlayerAniType } from "../Mod/Entity"
 import SoundMgr from "../Mod/SoundMgr"
 import Utility from "../Mod/Utility"
 import GameLogic from "./GameLogic"
+import WxApi from "../Libs/WxApi"
 
 export default class PlayerCrl extends Laya.Script {
     constructor() {
@@ -13,7 +14,7 @@ export default class PlayerCrl extends Laya.Script {
     myOwner: Laya.Sprite3D = null
 
     touchX: number = 0
-    speed: number = 0.7//0.15
+    speed: number = 0.2//0.7//0.15
     hp: number = 10
     hpMax: number = 10
     edgeMax: number = 3
@@ -22,6 +23,7 @@ export default class PlayerCrl extends Laya.Script {
     canMove: boolean = true
     curAniName: string = ""
     canFight: boolean = true
+    readyBoxing: boolean = false
 
     onAwake(): void {
         this.myOwner = this.owner as Laya.Sprite3D
@@ -53,12 +55,15 @@ export default class PlayerCrl extends Laya.Script {
     }
 
     walkToBoss() {
+        SoundMgr.instance.playSoundEffect('strong.mp3')
+        //this.hp = this.hpMax
         this.speed = 0.1
         this.playAni(PlayerAniType.ANI_WALK)
         let desPos: Laya.Vector3 = GameLogic.Share._roadFinish.transform.position.clone()
         desPos.z += 19
         Utility.TmoveTo(this.myOwner, 3000, desPos, () => {
             this.playAni(PlayerAniType.ANI_BOXING_IDLE)
+            this.readyBoxing = true
             GameLogic.Share.fightWithBoss()
         })
         Utility.ScaleTo(this.myOwner, 4000, new Laya.Vector3(3, 3, 3), null)
@@ -134,7 +139,33 @@ export default class PlayerCrl extends Laya.Script {
         this.myOwner.transform.position = pos
     }
 
+    decHp() {
+        WxApi.DoVibrate()
+        this.hp -= 1
+        if (this.hp <= 0) {
+            Laya.timer.clearAll(this)
+            this.playAni(PlayerAniType.ANI_DIE, 2, 0.3)
+            GameLogic.Share.gameOver(false)
+        }
+    }
+    addHp() {
+        this.hp += 0.5
+        if (this.hp > 10) this.hp = 10
+    }
+
     hurtCB(dmg: number) {
+        WxApi.DoVibrate()
+        this.hp -= dmg
+        this.playAni(PlayerAniType.ANI_BOXING_HIT, 1.5)
+        Laya.timer.once(200, this, () => {
+            this.playAni(PlayerAniType.ANI_BOXING_IDLE)
+        })
+        SoundMgr.instance.playSoundEffect('hurt.mp3')
+        if (this.hp <= 0) {
+            Laya.timer.clearAll(this)
+            this.playAni(PlayerAniType.ANI_DIE, 2, 0.3)
+            GameLogic.Share.gameOver(false)
+        }
     }
 
     drop() {

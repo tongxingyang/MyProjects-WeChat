@@ -52,6 +52,7 @@ export default class Enemy extends Laya.Script {
         if (!this.isDied && !GameLogic.Share.isGameOver && !GameLogic.Share.isFinish) {
             if (Laya.Vector3.distance(playerPos, myPos) <= 1) {
                 GameLogic.Share._playerCrl.playAni(PlayerAniType.ANI_ATTACK, 1.5)
+                GameLogic.Share._playerCrl.decHp()
                 SoundMgr.instance.playSoundEffect('hit.mp3')
                 this.playAni(PlayerAniType.ANI_DIE, 2, 0.3)
                 this.isDied = true

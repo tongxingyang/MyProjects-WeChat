@@ -25,6 +25,7 @@ export default class Barrel extends Laya.Script {
         if (this.isDied) return
         if (Laya.Vector3.distance(playerPos, myPos) <= 2) {
             SoundMgr.instance.playSoundEffect('hit.mp3')
+            GameLogic.Share._playerCrl.decHp()
             WxApi.DoVibrate()
             this.isDied = true
             let x = this.myOwner.transform.position.x >= 0 ? Math.random() * 2 + 3 : -(Math.random() * 2 + 3)

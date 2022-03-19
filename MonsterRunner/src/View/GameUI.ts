@@ -15,6 +15,7 @@ export default class GameUI extends Laya.Scene {
     playerHp: Laya.ProgressBar
     bossHp: Laya.ProgressBar
     guideAni: Laya.Animation
+    tipsNode: Laya.Image
 
     touchStartPosX: number = 0
 
@@ -35,8 +36,11 @@ export default class GameUI extends Laya.Scene {
 
     touchStart(evt: Laya.Event) {
         if (GameLogic.Share.isGameOver) return
-        if (GameLogic.Share.isFinish) {
+        if (GameLogic.Share._playerCrl.readyBoxing) {
             GameLogic.Share._playerCrl.attackBoss()
+            return
+        }
+        if (GameLogic.Share.isFinish) {
             return
         }
         if (!GameLogic.Share.isStartGame) {
@@ -72,7 +76,7 @@ export default class GameUI extends Laya.Scene {
     }
 
     bossReady() {
-
+        this.createTips()
     }
 
     fixBossHp() {
@@ -91,10 +95,32 @@ export default class GameUI extends Laya.Scene {
         this.bossHp.value = GameLogic.Share._bossCrl.hp / GameLogic.Share._bossCrl.hpMax
     }
 
+    createTips() {
+        Laya.timer.loop(300, this, () => {
+            if (GameLogic.Share.isGameOver) {
+                this.tipsNode.visible = false
+                Laya.timer.clearAll(this)
+                return
+            }
+            let img: Laya.Image = new Laya.Image('gameUI/yxz_wz_2.png')
+            img.anchorX = 0.5
+            img.anchorY = 0.5
+            img.pos(Math.random() * 200 - 100, Math.random() * 200 - 100)
+            this.tipsNode.addChild(img)
+            Laya.Tween.to(img, { scaleX: 1.2, scaleY: 1.2 }, 80, null, new Laya.Handler(this, () => {
+            }))
+            Laya.timer.once(300, this, () => { img.destroy() })
+        })
+    }
+
     myUpdate() {
         this.fixPlayerHp()
         if (GameLogic.Share.isFinish) {
             this.fixBossHp()
+        }
+        if (GameLogic.Share.isGameOver) {
+            this.playerHp.visible = false
+            this.bossHp.visible = false
         }
     }
 }
