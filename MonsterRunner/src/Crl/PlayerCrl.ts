@@ -79,6 +79,7 @@ export default class PlayerCrl extends Laya.Script {
 
     playAni(name: string, speed: number = 1, normalizedTime: number = 0) {
         if (name == this.curAniName) return
+        if (name == PlayerAniType.ANI_RUN) speed = 2
         this._ani.crossFade(name, 0.2, 0, normalizedTime)
         this._ani.speed = speed
         this.curAniName = name

@@ -671,7 +671,6 @@
         }
         walkToBoss() {
             SoundMgr.instance.playSoundEffect('strong.mp3');
-            this.hp = this.hpMax;
             this.speed = 0.1;
             this.playAni(PlayerAniType.ANI_WALK);
             let desPos = GameLogic.Share._roadFinish.transform.position.clone();
@@ -693,6 +692,8 @@
         playAni(name, speed = 1, normalizedTime = 0) {
             if (name == this.curAniName)
                 return;
+            if (name == PlayerAniType.ANI_RUN)
+                speed = 2;
             this._ani.crossFade(name, 0.2, 0, normalizedTime);
             this._ani.speed = speed;
             this.curAniName = name;
@@ -2582,7 +2583,7 @@
     GameConfig.screenMode = "vertical";
     GameConfig.alignV = "top";
     GameConfig.alignH = "left";
-    GameConfig.startScene = "MyScenes/GameUI.scene";
+    GameConfig.startScene = "FDScene/Box1.scene";
     GameConfig.sceneRoot = "";
     GameConfig.debug = false;
     GameConfig.stat = false;
