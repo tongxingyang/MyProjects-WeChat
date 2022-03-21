@@ -40,8 +40,14 @@ export default class SelectNode extends Laya.Script {
             WxApi.DoVibrate()
             this.isFinish = true
             if (playerPos.x >= 0) {
+                myPos.y += 1.8
+                myPos.x += 1.5
+                GameLogic.Share.createLightFX(myPos)
                 GameLogic.Share._playerCrl.changeBody(this.type, this.isLeft)
             } else {
+                myPos.y += 1.8
+                myPos.x -= 1.5
+                GameLogic.Share.createLightFX(myPos)
                 GameLogic.Share._playerCrl.changeBody(this.type, !this.isLeft)
             }
         }

@@ -35,7 +35,7 @@ export class Remen extends Component {
         this.node.active = true
         FdAd.visibleFullGridAd()
 
-        if (FdMgr.remenBanner)
+        if (FdMgr.remenBanner && FdMgr.gameCount >= FdMgr.jsonConfig.delay_play_countBanner)
             this.bannerShowHide();
         FdAd.bannerIndex = 0;
     }

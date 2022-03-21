@@ -306,7 +306,7 @@ export default class SelectUI extends Laya.Scene {
             return
         }
         if (PlayerDataMgr.getDataByType(type)[index] == 0) {
-            return
+            this.selectItemUp(type, index)
         }
         this.itemList.scrollBar.touchScrollEnable = false
         this.createItemSp(type, index)

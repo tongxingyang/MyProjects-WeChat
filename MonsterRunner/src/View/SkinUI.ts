@@ -104,6 +104,12 @@ export default class SkinUI extends Laya.Scene {
         if (PlayerDataMgr.getPlayerData().coin < PlayerDataMgr.getCostById(id)) {
             return
         }
+        let arr1 = ['Dude', 'Cat', 'Huga', 'Shouter']
+        for (let i = 1; i < this.playerNode.numChildren; i++) {
+            let sp: Laya.Sprite3D = this.playerNode.getChildAt(i) as Laya.Sprite3D
+            sp.active = sp.name.search(arr1[id]) != -1
+        }
+        this.chooseId = id
         PlayerDataMgr.getPlayerData().coin -= PlayerDataMgr.getCostById(id)
         PlayerDataMgr.getPlayerData().skinArr[id] = 1
         PlayerDataMgr.getPlayerData().skinId = id
@@ -114,6 +120,12 @@ export default class SkinUI extends Laya.Scene {
     adBtnCB(arr: any[]) {
         let id: number = arr[0]
         let cb = () => {
+            let arr = ['Dude', 'Cat', 'Huga', 'Shouter']
+            for (let i = 1; i < this.playerNode.numChildren; i++) {
+                let sp: Laya.Sprite3D = this.playerNode.getChildAt(i) as Laya.Sprite3D
+                sp.active = sp.name.search(arr[id]) != -1
+            }
+            this.chooseId = id
             PlayerDataMgr.getPlayerData().skinArr[id] = 1
             PlayerDataMgr.getPlayerData().skinId = id
             PlayerDataMgr.setPlayerData()

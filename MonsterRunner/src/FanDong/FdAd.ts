@@ -3,12 +3,12 @@ import FdMgr from "./FdMgr";
 
 
 export default class FdAd {
-    static bannerIdArr: string[] = ["adunit-ff59902f38f853f9", "adunit-bbb5010cb0499fde"];
-    static videoId = "adunit-187b73f7d5412cf4";
-    static fullGridId = "adunit-6eda207f9a70bcbd";
-    static bottomGridId = "adunit-7cbb68729da0b318";
-    static sideGridId = ["adunit-be20c800d4bf9b7d", "adunit-ca00345ab950da91"];
-    static topGridId = "adunit-0662532b6d9748d3";
+    static bannerIdArr: string[] = ["adunit-080b7a9f9b386bf3", "adunit-f26a393d4d0fe992"];
+    static videoId = "adunit-3cb6f551837ef0ef";
+    static fullGridId = "adunit-dd997ab011667e02";
+    static bottomGridId = "adunit-bebd9bd44872b65b";
+    static sideGridId = ["adunit-17f621002e1857ef", "adunit-8a0f20c00ed77ff0"];
+    static topGridId = "adunit-a63f4497d67b6b98";
 
     static inidAd() {
         if (!Laya.Browser.onWeiXin || FdMgr.isPure) return;

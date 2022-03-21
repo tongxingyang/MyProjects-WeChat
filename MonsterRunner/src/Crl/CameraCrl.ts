@@ -16,6 +16,13 @@ export default class CameraCrl extends Laya.Script {
 
     }
 
+    normalFinishCB() {
+        let desPos: Laya.Vector3 = this.myOwner.transform.position.clone()
+        desPos.z += 20
+        desPos.y -= 1
+        Utility.TmoveTo(this.myOwner, 2200, desPos, null)
+    }
+
     finishCB() {
         Laya.timer.once(1000, this, () => {
             let desPos: Laya.Vector3 = GameLogic.Share._roadFinish.transform.position.clone()

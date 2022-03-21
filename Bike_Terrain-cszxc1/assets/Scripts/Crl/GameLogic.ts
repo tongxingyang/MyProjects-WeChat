@@ -145,8 +145,9 @@ export class GameLogic extends Component {
         if (!isWin)
             Utility.DoVibrate(false)
         this.scheduleOnce(() => {
-            FdMgr.showGameOver()
-            UINode.Share.showUI(UIType.UI_FINISH)
+            FdMgr.showGameOver(()=>{
+                UINode.Share.showUI(UIType.UI_FINISH)
+            })
         }, 2)
     }
 

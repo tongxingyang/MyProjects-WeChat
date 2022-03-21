@@ -298,6 +298,7 @@ export default class SelectUI extends Laya.Scene {
             return
         }
         if (PlayerDataMgr.getDataByType(type)[index] == 0) {
+            this.selectItemUp(type, index)
             return
         }
         this.itemList.scrollBar.touchScrollEnable = false
@@ -308,7 +309,7 @@ export default class SelectUI extends Laya.Scene {
         Laya.Tween.clearAll(this.finger)
         this.finger.visible = false
     }
-    selectItemUp(type: number, index: number){
+    selectItemUp(type: number, index: number) {
         console.log('click')
         if (PlayerDataMgr.getDataByType(type)[index] == 0) {
             let cb = () => {
@@ -317,7 +318,6 @@ export default class SelectUI extends Laya.Scene {
                 this.updateItemList()
             }
             FdAd.showVideoAd(cb)
-            return
         }
     }
 

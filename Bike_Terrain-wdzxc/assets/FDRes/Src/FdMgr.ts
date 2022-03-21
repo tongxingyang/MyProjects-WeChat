@@ -7,7 +7,7 @@ import { FDNode } from "./FDNode";
 import { Remen } from "./Remen";
 
 export default class FdMgr {
-    static version: string = '1.0.3'
+    static version: string = '1.0.4'
     static wuchuProgressValue = 0;
     static wuchuProgressStepAdd = 0.1;
     static wuchuProgressFrameSub = 0.0032;
@@ -89,6 +89,15 @@ export default class FdMgr {
     /**开始游戏热门推荐 */
     static showStartReMen(cb?) {
         if (this.startRemen) {
+            find('FDCanvas/FDNode/Remen').getComponent(Remen).showUI(cb)
+        }
+        else {
+            cb && cb();
+        }
+    }
+    /**游戏结束热门推荐 */
+    static showOverReMen(cb?) {
+        if (this.endRemen) {
             find('FDCanvas/FDNode/Remen').getComponent(Remen).showUI(cb)
         }
         else {
@@ -181,9 +190,10 @@ export default class FdMgr {
     }
 
     /**游戏结束 */
-    static showGameOver() {
+    static showGameOver(cb?: Function) {
         FdAd.hideBannerAd()
         FdAd.visibleSingleGridAd(false)
+        this.showOverReMen(cb)
     }
 
     /**进入结算页 */
@@ -343,7 +353,11 @@ export default class FdMgr {
     }
     static get startRemen() {
         if (PREVIEW) return false
-        return this.canTrapAll && this.jsonConfig.startRemen && this.gameCount >= this.jsonConfig.delay_play_countBanner;
+        return this.jsonConfig.startRemen
+    }
+    static get endRemen() {
+        if (PREVIEW) return false
+        return this.jsonConfig.endRemen
     }
 }
 
@@ -373,4 +387,5 @@ class config {
     bannerBox_count: number;
     remenBanner_count: number;
     startRemen: boolean;
+    endRemen: boolean;
 }

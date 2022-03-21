@@ -29,7 +29,7 @@ export default class LoadingUI extends Laya.Scene {
 
     }
 
-    maxGrade: number = 2
+    maxGrade: number = 4
     loadJsonData(index: number) {
         //加载JSON
         Utility.loadJson('res/configs/Level' + index + '.json', (data) => {
@@ -86,14 +86,19 @@ export default class LoadingUI extends Laya.Scene {
             WxApi.UnityPath + 'SelectNodeL.lh',
             WxApi.UnityPath + 'SelectNodeR.lh',
             WxApi.UnityPath + 'DropArea.lh',
-            WxApi.UnityPath + 'Boss.lh'
+            WxApi.UnityPath + 'Boss.lh',
+            WxApi.UnityPath + 'Wormhole.lh',
+            WxApi.UnityPath + 'WaveGun.lh',
+            WxApi.UnityPath + 'FX_Green.lh',
+            WxApi.UnityPath + 'FX_Hit_1.lh',
+            WxApi.UnityPath + 'lightning_1.lh'
         ];
         Laya.loader.create(resUrl, Laya.Handler.create(this, this.onComplete), Laya.Handler.create(this, this.onProgress));
     }
 
     onComplete() {
         FdMgr.loadGame(() => {
-            SoundMgr.instance.initLoading(()=>{
+            SoundMgr.instance.initLoading(() => {
                 GameLogic.Share.initScene()
             })
         })

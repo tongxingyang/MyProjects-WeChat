@@ -8,7 +8,7 @@ export default class FdAd {
     static fullGridId = "adunit-1fc8cfbb8f020428";
     static bottomGridId = "adunit-324910aaa2a82035";
     static sideGridId = "adunit-4e72ef80ebb775a0";
-    static singleGridId = "adunit-61ebd1edc9140b66";
+    static singleGridId = "adunit-e64d6e922789b3ba";
 
     static inidAd() {
         if (!Laya.Browser.onWeiXin) return;

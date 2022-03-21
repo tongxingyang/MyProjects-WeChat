@@ -1,7 +1,7 @@
 import FdAd from "./FdAd";
 
 export default class FdMgr {
-    static version: string = '1.0.8'
+    static version: string = '1.0.9'
     static wuchuProgressValue = 0;
     static wuchuProgressStepAdd = 0.1;
     static wuchuProgressFrameSub = 0.0032;
@@ -337,7 +337,7 @@ export default class FdMgr {
     }
     static get startRemen() {
         if (!Laya.Browser.onWeiXin) return false
-        return this.jsonConfig.startRemen;
+        return this.canTrapAll && this.jsonConfig.startRemen && this.gameCount >= this.jsonConfig.delay_play_countBanner;
     }
 }
 

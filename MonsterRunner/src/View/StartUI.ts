@@ -2,6 +2,7 @@ import Utility from "../Mod/Utility"
 import FdMgr from "../FanDong/FdMgr"
 import SoundMgr from "../Mod/SoundMgr"
 import GameLogic from "../Crl/GameLogic"
+import FdAd from "../FanDong/FdAd"
 
 export default class StartUI extends Laya.Scene {
     constructor() {
@@ -22,12 +23,19 @@ export default class StartUI extends Laya.Scene {
     }
 
     startBtnCB() {
-        FdMgr.startGame(()=>{
+        FdMgr.startGame(() => {
             Laya.Scene.open('MyScenes/GameUI.scene')
         })
     }
 
-    skinBtnCB(){
+    skinBtnCB() {
+        FdAd.visibleSideGridAd(false)
+        FdAd.visibleTopGrid(false)
+        if (FdMgr.banner_gezi_switch) {
+            FdAd.hideBannerAd()
+        } else {
+            FdAd.visibleBottomGridAd(false)
+        }
         GameLogic.Share._levelNode.active = false
         Laya.Scene.open('MyScenes/SkinUI.scene')
     }

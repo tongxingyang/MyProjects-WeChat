@@ -14,10 +14,11 @@ export default class PlayerCrl extends Laya.Script {
     myOwner: Laya.Sprite3D = null
 
     touchX: number = 0
-    speed: number = 0.2//0.7//0.15
+    speed: number = 0.2
     hp: number = 10
     hpMax: number = 10
     edgeMax: number = 3
+    tempSpeed: number = 0
 
     isJumping: boolean = false
     canMove: boolean = true
@@ -128,7 +129,8 @@ export default class PlayerCrl extends Laya.Script {
     moveX() {
         if (GameLogic.Share.isGameOver || !this.canMove) return
 
-        let pos = new Laya.Vector3(0, 0, this.speed)
+        let speed = this.speed + this.tempSpeed
+        let pos = new Laya.Vector3(0, 0, speed)
         this.myOwner.transform.translate(pos, false)
 
         let x = this.touchX
@@ -143,6 +145,14 @@ export default class PlayerCrl extends Laya.Script {
     decHp() {
         WxApi.DoVibrate()
         this.hp -= 1
+        if (this.hp <= 0) {
+            Laya.timer.clearAll(this)
+            this.playAni(PlayerAniType.ANI_DIE, 2, 0.3)
+            GameLogic.Share.gameOver(false)
+        }
+    }
+    decHp1(v: number) {
+        this.hp -= v
         if (this.hp <= 0) {
             Laya.timer.clearAll(this)
             this.playAni(PlayerAniType.ANI_DIE, 2, 0.3)
@@ -227,5 +237,16 @@ export default class PlayerCrl extends Laya.Script {
             pos.x = this.edgeMax
             this.myOwner.transform.position = pos
         }
+
+        for (let i = 0; i < GameLogic.Share._lavaPoosArr.length; i++) {
+            let pool: Laya.Sprite3D = GameLogic.Share._lavaPoosArr[i]
+            let poolPos: Laya.Vector3 = pool.transform.position.clone()
+            let myPos = this.myOwner.transform.position.clone()
+            if (Math.abs(poolPos.z - myPos.z) < 2.5 && Math.abs(poolPos.x - myPos.x) < 1.5) {
+                this.tempSpeed = -0.15
+                return
+            }
+        }
+        this.tempSpeed = 0
     }
 }

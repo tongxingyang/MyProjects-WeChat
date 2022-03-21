@@ -1,6 +1,7 @@
 
 import GameLogic from "../GameLogic"
 import SoundMgr from "../../Mod/SoundMgr"
+import Utility from "../../Mod/Utility"
 
 export default class Jumper extends Laya.Script {
     constructor() {
@@ -23,6 +24,8 @@ export default class Jumper extends Laya.Script {
             this.isDied = true
             SoundMgr.instance.playSoundEffect('spring.mp3')
             GameLogic.Share._playerCrl.jump()
+            myPos.y += 0.3
+            Utility.TmoveTo(this.myOwner, 200, myPos, null)
         }
     }
 }

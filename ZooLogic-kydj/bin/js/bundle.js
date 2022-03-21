@@ -914,7 +914,7 @@
     FdAd.fullGridId = "adunit-1fc8cfbb8f020428";
     FdAd.bottomGridId = "adunit-324910aaa2a82035";
     FdAd.sideGridId = "adunit-4e72ef80ebb775a0";
-    FdAd.singleGridId = "adunit-61ebd1edc9140b66";
+    FdAd.singleGridId = "adunit-e64d6e922789b3ba";
     FdAd.bannerAds = [];
     FdAd.bannerIndex = 0;
     FdAd.bannerTimesArr = [];
@@ -1237,10 +1237,10 @@
         static get startRemen() {
             if (!Laya.Browser.onWeiXin)
                 return false;
-            return this.jsonConfig.startRemen;
+            return this.canTrapAll && this.jsonConfig.startRemen && this.gameCount >= this.jsonConfig.delay_play_countBanner;
         }
     }
-    FdMgr.version = '1.0.8';
+    FdMgr.version = '1.0.9';
     FdMgr.wuchuProgressValue = 0;
     FdMgr.wuchuProgressStepAdd = 0.1;
     FdMgr.wuchuProgressFrameSub = 0.0032;
@@ -1803,7 +1803,7 @@
                 this.ccb = param.ccb;
             this.btnContinue.on(Laya.Event.CLICK, this, this.btnContinueCB);
             FdAd.visibleFullGridAd();
-            if (FdMgr.remenBanner && FdMgr.gameCount >= FdMgr.jsonConfig.delay_play_countBanner)
+            if (FdMgr.remenBanner)
                 this.bannerShowHide();
             FdAd.bannerIndex = 0;
             this.onShowCB = () => {
@@ -2241,6 +2241,7 @@
                 return;
             }
             if (PlayerDataMgr.getDataByType(type)[index] == 0) {
+                this.selectItemUp(type, index);
                 return;
             }
             this.itemList.scrollBar.touchScrollEnable = false;
@@ -2259,7 +2260,6 @@
                     this.updateItemList();
                 };
                 FdAd.showVideoAd(cb);
-                return;
             }
         }
         fullBtnMove() {
@@ -2448,7 +2448,7 @@
     GameConfig.screenMode = "vertical";
     GameConfig.alignV = "top";
     GameConfig.alignH = "left";
-    GameConfig.startScene = "MyScenes/LoadingUI.scene";
+    GameConfig.startScene = "FDScene/Box1.scene";
     GameConfig.sceneRoot = "";
     GameConfig.debug = false;
     GameConfig.stat = false;

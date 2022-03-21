@@ -14,6 +14,9 @@ import DropArea from "./Prop/DropArea"
 import Jumper from "./Prop/Jumper"
 import Boss from "./Boss"
 import GameUI from "../View/GameUI"
+import Wall from "./Prop/Wall"
+import LavaPool from "./Prop/LavaPool"
+import { PlayerAniType } from "../Mod/Entity"
 
 export default class GameLogic {
     public static Share: GameLogic
@@ -41,6 +44,7 @@ export default class GameLogic {
     public _standNode: Laya.Sprite3D = null
     public _desNode: Laya.Sprite3D = null
     public _roadFinish: Laya.Sprite3D = null
+    public _lavaPoosArr: Laya.Sprite3D[] = []
 
     correctCount: number = 0
     bodyArr: number[] = []
@@ -117,10 +121,12 @@ export default class GameLogic {
     }
 
     createLevel() {
+        this._lavaPoosArr = []
         this.bodyArr = [0, 1, 2, 3, 4, 5]
         this.bodyArr = Utility.shuffleArr(this.bodyArr)
-        let g: number = 2//PlayerDataMgr.getPlayerData().grade
-        let dataArr: any[] = PlayerDataMgr.levelDataArr[g - 1]
+        let g: number = PlayerDataMgr.getPlayerData().grade
+        g = Math.floor((g - 1) % 4)
+        let dataArr: any[] = PlayerDataMgr.levelDataArr[g]
         for (let i = 0; i < dataArr.length; i++) {
             let data: any = dataArr[i]
             let name: string = data.name
@@ -165,6 +171,11 @@ export default class GameLogic {
         } else if (name == 'Boss') {
             this._boss = sp
             this._bossCrl = sp.addComponent(Boss)
+        } else if (name == 'Wall') {
+            sp.addComponent(Wall)
+        } else if (name == 'Lava_Pool') {
+            sp.addComponent(LavaPool)
+            this._lavaPoosArr.push(sp)
         } else if (name == 'Road_Finish') {
             this._roadFinish = sp
             for (let i = 0; i < this._roadFinish.numChildren; i++) {
@@ -177,6 +188,31 @@ export default class GameLogic {
         }
     }
 
+    createGreenFX() {
+        let fx = Utility.getSprite3DResByUrl('FX_Green.lh', this._levelNode, false)
+        let pos = this._player.transform.position.clone()
+        pos.y += 1
+        pos.z += 5
+        fx.transform.position = pos
+        Laya.timer.once(500, this, () => {
+            fx.destroy()
+        })
+    }
+    createHitFX(pos: Laya.Vector3, target: any) {
+        let fx = Utility.getSprite3DResByUrl('FX_Hit_1.lh', this._levelNode, false)
+        fx.transform.position = pos
+        Laya.timer.once(400, target, () => {
+            fx.destroy()
+        })
+    }
+    createLightFX(pos: Laya.Vector3) {
+        let fx = Utility.getSprite3DResByUrl('lightning_1.lh', this._levelNode, false)
+        fx.transform.position = pos
+        Laya.timer.once(1000, this, () => {
+            fx.destroy()
+        })
+    }
+
     finish() {
         this.isFinish = true
         if (PlayerDataMgr.getIsBossGrade()) {
@@ -184,6 +220,7 @@ export default class GameLogic {
             this._cameraCrl.finishCB()
         } else {
             this._playerCrl.walkToDes()
+            this._cameraCrl.normalFinishCB()
             for (let i = 0; i < this._roadFinish.numChildren; i++) {
                 let npc: Laya.Sprite3D = this._roadFinish.getChildAt(i) as Laya.Sprite3D
                 let crl = npc.getComponent(Npc) as Npc
@@ -192,7 +229,7 @@ export default class GameLogic {
         }
     }
 
-    fightWithBoss(){
+    fightWithBoss() {
         GameUI.Share.bossReady()
         this._bossCrl.updateBoxingAtk()
     }
@@ -200,6 +237,9 @@ export default class GameLogic {
     gameOver(isWin: boolean) {
         if (isWin) {
             SoundMgr.instance.playSoundEffect('win.mp3')
+        }
+        if (PlayerDataMgr.getIsBossGrade() && !isWin) {
+            this._bossCrl.playAni(PlayerAniType.ANI_WIN)
         }
         Laya.timer.clearAll(this)
         WxApi.DoVibrate(false)

@@ -131,7 +131,6 @@ export class GameLogic extends Component {
     }
 
     gameOver(isWin: boolean) {
-        FdMgr.showGameOver()
         this.isWin = isWin
         this.isGameOver = true
         GameLogic.Share.speedFX.active = false
@@ -141,7 +140,9 @@ export class GameLogic extends Component {
         if (!isWin)
             Utility.DoVibrate(false)
         this.scheduleOnce(() => {
-            UINode.Share.showUI(UIType.UI_FINISH)
+            FdMgr.showGameOver(()=>{
+                UINode.Share.showUI(UIType.UI_FINISH)
+            })
         }, 2)
     }
 

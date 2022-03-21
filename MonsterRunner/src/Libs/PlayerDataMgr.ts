@@ -1,9 +1,9 @@
 
 export class PlayerData {
-    grade: number = 2
+    grade: number = 1
     skinArr: number[] = [1, 0, 0, 0]
     skinId: number = 0
-    coin: number = 99999
+    coin: number = 9999
 }
 
 export default class PlayerDataMgr {
@@ -21,6 +21,11 @@ export default class PlayerDataMgr {
             }
         }
         return this._playerData
+    }
+
+    public static changeCoin(v: number) {
+        this._playerData.coin += v
+        this.setPlayerData()
     }
 
     //设置用户数据

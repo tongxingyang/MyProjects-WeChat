@@ -1,12 +1,12 @@
 import FdAd from "./FdAd";
 
 export default class FdMgr {
-    static version: string = '1.0.0'
+    static version: string = '1.0.7'
     static wuchuProgressValue = 0;
     static wuchuProgressStepAdd = 0.1;
     static wuchuProgressFrameSub = 0.0032;
     static gameCount: number = 1
-    static isPure: boolean = true
+    static isPure: boolean = false
 
     /**随机目标误触值 */
     public static randTouchProgress() {

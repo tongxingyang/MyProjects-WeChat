@@ -415,7 +415,7 @@
             return this.jsonConfig.changeSwitch;
         }
     }
-    FdMgr.version = '1.0.0';
+    FdMgr.version = '1.0.1';
     FdMgr.wuchuProgressValue = 0;
     FdMgr.wuchuProgressStepAdd = 0.1;
     FdMgr.wuchuProgressFrameSub = 0.0032;
@@ -2078,7 +2078,7 @@
                 return;
             }
             if (PlayerDataMgr.getDataByType(type)[index] == 0) {
-                return;
+                this.selectItemUp(type, index);
             }
             this.itemList.scrollBar.touchScrollEnable = false;
             this.createItemSp(type, index);

@@ -33,7 +33,7 @@ export default class Boss extends Laya.Script {
     }
 
     playAni(name: string, speed: number = 1, normalizedTime: number = 0) {
-        if (name == this.curAniName) return
+        if (name == this.curAniName || this.curAniName == PlayerAniType.ANI_WIN) return
         this._ani.crossFade(name, 0.2, 0, normalizedTime)
         this._ani.speed = speed
         this.curAniName = name
@@ -58,6 +58,10 @@ export default class Boss extends Laya.Script {
                 this.playAni(PlayerAniType.ANI_BOXING_IDLE)
             })
         }
+        let pos = this.myOwner.transform.position.clone()
+        pos.y += 7
+        pos.z -= 1
+        GameLogic.Share.createHitFX(pos, this)
     }
 
     updateBoxingAtk() {
@@ -72,6 +76,10 @@ export default class Boss extends Laya.Script {
                 this.playAni(PlayerAniType.ANI_BOXING_IDLE)
             })
             this.updateBoxingAtk()
+
+            let pos = GameLogic.Share._player.transform.position.clone()
+            pos.y += 7
+            GameLogic.Share.createHitFX(pos, this)
         })
     }
 

@@ -18,7 +18,7 @@ export default class Remen extends Laya.Scene {
         if (param && param.ccb) this.ccb = param.ccb
         this.btnContinue.on(Laya.Event.CLICK, this, this.btnContinueCB)
         FdAd.visibleFullGridAd()
-        if (FdMgr.remenBanner && FdMgr.gameCount >= FdMgr.jsonConfig.delay_play_countBanner)
+        if (FdMgr.remenBanner)
             this.bannerShowHide();
         FdAd.bannerIndex = 0;
 

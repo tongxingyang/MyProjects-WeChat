@@ -21,7 +21,6 @@ export default class GameUI extends Laya.Scene {
 
     onOpened() {
         GameUI.Share = this
-        this.coinNum.value = PlayerDataMgr.getPlayerData().coin.toString()
         this.size(Laya.stage.displayWidth, Laya.stage.displayHeight)
         Laya.timer.frameLoop(1, this, this.myUpdate)
         this.gradeNum.value = PlayerDataMgr.getPlayerData().grade.toString()
@@ -115,12 +114,13 @@ export default class GameUI extends Laya.Scene {
 
     myUpdate() {
         this.fixPlayerHp()
-        if (GameLogic.Share.isFinish) {
+        if (GameLogic.Share.isFinish && PlayerDataMgr.getIsBossGrade()) {
             this.fixBossHp()
         }
         if (GameLogic.Share.isGameOver) {
             this.playerHp.visible = false
             this.bossHp.visible = false
         }
+        this.coinNum.value = PlayerDataMgr.getPlayerData().coin.toString()
     }
 }

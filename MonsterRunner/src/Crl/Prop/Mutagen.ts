@@ -1,3 +1,4 @@
+import PlayerDataMgr from "../../Libs/PlayerDataMgr"
 import WxApi from "../../Libs/WxApi"
 import SoundMgr from "../../Mod/SoundMgr"
 import GameLogic from "../GameLogic"
@@ -19,6 +20,8 @@ export default class Matugen extends Laya.Script {
             SoundMgr.instance.playSoundEffect('mutagen.mp3')
             GameLogic.Share._playerCrl.addHp()
             WxApi.DoVibrate()
+            GameLogic.Share.createGreenFX()
+            PlayerDataMgr.changeCoin(1)
             this.myOwner.destroy()
         }
     }

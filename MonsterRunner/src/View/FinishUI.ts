@@ -13,6 +13,7 @@ export default class FinishUI extends Laya.Scene {
     winTitle: Laya.Image
     loseTitle: Laya.Image
     unlockNode: Laya.Image
+    bounesIcon: Laya.Image
 
     nextBtn: Laya.Image
     restartBtn: Laya.Image
@@ -25,6 +26,7 @@ export default class FinishUI extends Laya.Scene {
         this.coinNum.value = PlayerDataMgr.getPlayerData().coin.toString()
         let isWin = GameLogic.Share.isWin
         this.winTitle.visible = isWin
+        this.bounesIcon.visible = isWin
         this.loseTitle.visible = !isWin
         this.nextBtn.visible = isWin
         this.restartBtn.visible = !isWin
