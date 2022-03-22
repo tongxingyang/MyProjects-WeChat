@@ -3,7 +3,7 @@ export class PlayerData {
     grade: number = 1
     skinArr: number[] = [1, 0, 0, 0]
     skinId: number = 0
-    coin: number = 9999
+    coin: number = 0
 }
 
 export default class PlayerDataMgr {

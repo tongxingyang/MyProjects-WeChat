@@ -17,7 +17,7 @@ export default class Enemy extends Laya.Script {
         this.myOwner = this.owner as Laya.Sprite3D
         this._ani = this.myOwner.getComponent(Laya.Animator)
         this.init()
-        this.playAni(PlayerAniType.ANI_IDLE)
+        this.playAni(PlayerAniType.ANI_IDLENPC)
     }
 
     init() {

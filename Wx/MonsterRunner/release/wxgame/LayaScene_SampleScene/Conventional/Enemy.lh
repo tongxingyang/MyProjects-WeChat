@@ -59,6 +59,10 @@
 								"clipPath":"Assets/FBX/Player/Player_1-attack.lani"
 							},
 							{
+								"name":"idleNpc",
+								"clipPath":"Assets/FBX/Player/Player_1-idleNpc.lani"
+							},
+							{
 								"name":"jump",
 								"clipPath":"Assets/FBX/Player/Player_1-jump.lani"
 							},

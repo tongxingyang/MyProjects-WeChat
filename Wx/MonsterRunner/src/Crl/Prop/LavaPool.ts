@@ -1,3 +1,4 @@
+import Water from "../../Mod/Water"
 import GameLogic from "../GameLogic"
 
 export default class LavaPool extends Laya.Script {
@@ -10,6 +11,7 @@ export default class LavaPool extends Laya.Script {
 
     onAwake(): void {
         this.myOwner = this.owner as Laya.Sprite3D
+        this.myOwner.addComponent(Water)
     }
 
     onUpdate(): void {
@@ -19,5 +21,6 @@ export default class LavaPool extends Laya.Script {
         if (Math.abs(playerPos.z - myPos.z) < 2.5 && Math.abs(playerPos.x - myPos.x) < 1.5) {
             GameLogic.Share._playerCrl.decHp1(0.02)
         }
+
     }
 }

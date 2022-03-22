@@ -1,5 +1,6 @@
 export enum PlayerAniType {
     ANI_IDLE = 'idle',
+    ANI_IDLENPC = 'idleNpc',
     ANI_JUMP = 'jump',
     ANI_RUN = 'run',
     ANI_WALK = 'walk',

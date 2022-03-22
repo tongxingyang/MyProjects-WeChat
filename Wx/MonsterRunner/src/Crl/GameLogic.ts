@@ -17,6 +17,7 @@ import GameUI from "../View/GameUI"
 import Wall from "./Prop/Wall"
 import LavaPool from "./Prop/LavaPool"
 import { PlayerAniType } from "../Mod/Entity"
+import Water from "../Mod/Water"
 
 export default class GameLogic {
     public static Share: GameLogic
@@ -105,6 +106,7 @@ export default class GameLogic {
         this.camStartRotation = this._camera.transform.rotation.clone()
         this._camera.fieldOfView = this.startCamField
         this._cameraCrl = this._camera.addComponent(CameraCrl)
+        this._scene.getChildByName("Plane_1").addComponent(Water)
 
         this._levelNode = this._scene.addChild(new Laya.Sprite3D()) as Laya.Sprite3D
 

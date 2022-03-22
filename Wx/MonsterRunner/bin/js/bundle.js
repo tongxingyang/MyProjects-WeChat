@@ -6,7 +6,7 @@
             this.grade = 1;
             this.skinArr = [1, 0, 0, 0];
             this.skinId = 0;
-            this.coin = 9999;
+            this.coin = 0;
         }
     }
     class PlayerDataMgr {
@@ -628,6 +628,7 @@
     var PlayerAniType;
     (function (PlayerAniType) {
         PlayerAniType["ANI_IDLE"] = "idle";
+        PlayerAniType["ANI_IDLENPC"] = "idleNpc";
         PlayerAniType["ANI_JUMP"] = "jump";
         PlayerAniType["ANI_RUN"] = "run";
         PlayerAniType["ANI_WALK"] = "walk";
@@ -658,6 +659,7 @@
         onAwake() {
             this.myOwner = this.owner;
             this._ani = this.myOwner.getComponent(Laya.Animator);
+            this.playAni(PlayerAniType.ANI_IDLE);
             this.init();
         }
         init() {
@@ -1481,7 +1483,7 @@
             return this.jsonConfig.endRemen;
         }
     }
-    FdMgr.version = '1.0.7';
+    FdMgr.version = '1.0.8';
     FdMgr.wuchuProgressValue = 0;
     FdMgr.wuchuProgressStepAdd = 0.1;
     FdMgr.wuchuProgressFrameSub = 0.0032;
@@ -1559,7 +1561,7 @@
             this.myOwner = this.owner;
             this._ani = this.myOwner.getComponent(Laya.Animator);
             this.init();
-            this.playAni(PlayerAniType.ANI_IDLE);
+            this.playAni(PlayerAniType.ANI_IDLENPC);
         }
         init() {
             for (let i = 1; i < this.myOwner.numChildren; i++) {
@@ -1995,6 +1997,24 @@
         }
     }
 
+    class Water extends Laya.Script {
+        constructor() {
+            super();
+            this.myOwner = null;
+        }
+        onAwake() {
+            this.myOwner = this.owner;
+        }
+        waterAnim() {
+            let mat = this.myOwner.meshRenderer.material;
+            mat.tilingOffsetY += 0.01;
+            mat.tilingOffsetX += 0.001;
+        }
+        onUpdate() {
+            this.waterAnim();
+        }
+    }
+
     class LavaPool extends Laya.Script {
         constructor() {
             super();
@@ -2003,6 +2023,7 @@
         }
         onAwake() {
             this.myOwner = this.owner;
+            this.myOwner.addComponent(Water);
         }
         onUpdate() {
             let playerPos = GameLogic.Share._player.transform.position.clone();
@@ -2075,6 +2096,7 @@
             this.camStartRotation = this._camera.transform.rotation.clone();
             this._camera.fieldOfView = this.startCamField;
             this._cameraCrl = this._camera.addComponent(CameraCrl);
+            this._scene.getChildByName("Plane_1").addComponent(Water);
             this._levelNode = this._scene.addChild(new Laya.Sprite3D());
             this.createLevel();
         }
@@ -2744,7 +2766,7 @@
     GameConfig.screenMode = "vertical";
     GameConfig.alignV = "top";
     GameConfig.alignH = "left";
-    GameConfig.startScene = "MyScenes/FinishUI.scene";
+    GameConfig.startScene = "FDScene/Box1.scene";
     GameConfig.sceneRoot = "";
     GameConfig.debug = false;
     GameConfig.stat = false;

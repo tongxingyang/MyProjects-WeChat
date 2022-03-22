@@ -36,7 +36,7 @@
 						"states":[
 							{
 								"name":"idle",
-								"clipPath":"Assets/FBX/Player/Player_1-idle.lani"
+								"clipPath":"Assets/FBX/Player/Player_1-idleNpc.lani"
 							},
 							{
 								"name":"boxing_attack",
@@ -73,6 +73,10 @@
 							{
 								"name":"win",
 								"clipPath":"Assets/FBX/Player/Player_1-win.lani"
+							},
+							{
+								"name":"idleNpc",
+								"clipPath":"Assets/FBX/Player/Player_1-idleNpc.lani"
 							}
 						]
 					}

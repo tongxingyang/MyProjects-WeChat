@@ -97,7 +97,7 @@
 								1
 							],
 							"main":{
-								"randomSeed":1.699304E+09,
+								"randomSeed":0,
 								"bases":{
 									"isPerformanceMode":true,
 									"startLifetimeConstant":4,

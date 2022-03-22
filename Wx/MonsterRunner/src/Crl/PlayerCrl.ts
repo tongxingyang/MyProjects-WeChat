@@ -29,6 +29,7 @@ export default class PlayerCrl extends Laya.Script {
     onAwake(): void {
         this.myOwner = this.owner as Laya.Sprite3D
         this._ani = this.myOwner.getComponent(Laya.Animator)
+        this.playAni(PlayerAniType.ANI_IDLE)
         this.init()
     }
 

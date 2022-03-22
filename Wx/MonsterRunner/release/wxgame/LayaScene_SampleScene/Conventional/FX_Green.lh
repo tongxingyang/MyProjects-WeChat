@@ -52,7 +52,7 @@
 						1
 					],
 					"main":{
-						"randomSeed":3.399607E+09,
+						"randomSeed":0,
 						"bases":{
 							"isPerformanceMode":true,
 							"startLifetimeConstant":1,
@@ -249,7 +249,7 @@
 						1
 					],
 					"main":{
-						"randomSeed":3.997935E+09,
+						"randomSeed":0,
 						"bases":{
 							"isPerformanceMode":true,
 							"duration":0.4,
