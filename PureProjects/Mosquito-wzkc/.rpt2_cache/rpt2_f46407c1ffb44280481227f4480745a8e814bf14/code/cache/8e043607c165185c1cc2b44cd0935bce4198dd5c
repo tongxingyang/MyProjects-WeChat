@@ -1,5 +1,0 @@
-{
-  "code": "export default class FixNodeY extends Laya.Script {\r\n    constructor() {\r\n        super();\r\n    }\r\n    onAwake() {\r\n        let myOwner = this.owner;\r\n        myOwner.y = myOwner.y * Laya.stage.displayHeight / 1334;\r\n    }\r\n}\r\n//# sourceMappingURL=FixNodeY.js.map",
-  "references": [],
-  "map": "{\"version\":3,\"file\":\"FixNodeY.js\",\"sourceRoot\":\"\",\"sources\":[\"../../../src/Libs/FixNodeY.ts\"],\"names\":[],\"mappings\":\"AAAA,MAAM,CAAC,OAAO,OAAO,QAAS,SAAQ,IAAI,CAAC,MAAM;IAC7C;QACI,KAAK,EAAE,CAAA;IACX,CAAC;IAED,OAAO;QACH,IAAI,OAAO,GAAG,IAAI,CAAC,KAAoB,CAAA;QACvC,OAAO,CAAC,CAAC,GAAG,OAAO,CAAC,CAAC,GAAG,IAAI,CAAC,KAAK,CAAC,aAAa,GAAG,IAAI,CAAA;IAC3D,CAAC;CACJ\"}"
-}
