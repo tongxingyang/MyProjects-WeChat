@@ -23,7 +23,9 @@ export default class FreeSkinUI extends Laya.Scene {
 
     onClosed(type?: string): void {
         Laya.timer.clearAll(this)
-        this.ccb && this.ccb()
+        Laya.timer.once(100,this,()=>{
+            this.ccb && this.ccb()
+        })
     }
 
     adBtnCB() {

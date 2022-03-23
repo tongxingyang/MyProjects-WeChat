@@ -21,7 +21,7 @@ export default class GameConfig{
     static screenMode:string="vertical";
     static alignV:string="top";
     static alignH:string="left";
-    static startScene:any="MyScenes/FreeSkinUI.scene";
+    static startScene:any="FDScene/BackToHome.scene";
     static sceneRoot:string="";
     static debug:boolean=false;
     static stat:boolean=false;

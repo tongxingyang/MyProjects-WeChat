@@ -886,6 +886,7 @@
         static inidAd() {
             if (!Laya.Browser.onWeiXin)
                 return;
+            this.createBannerAd();
             this.createVideoAd();
             this.createBoxAd();
         }
@@ -897,18 +898,17 @@
             }
             return this.sysInfo;
         }
-        static showBannerAd() {
+        static createBannerAd() {
             if (!Laya.Browser.onWeiXin)
                 return;
-            if (this.bannerAd) {
-                this.bannerAd.offLoad();
-                this.bannerAd.offResize();
-                this.bannerAd.offError();
-                this.bannerAd.destroy();
-                this.bannerAd = null;
+            for (let i = 0; i < 3; i++) {
+                let bannerAd = this.getBannerAd();
+                this.bannerAdArr.push(bannerAd);
             }
+        }
+        static getBannerAd() {
             let sysInfo = this.getSystemInfoSync();
-            this.bannerAd = Laya.Browser.window['wx'].createBannerAd({
+            let bannerAd = Laya.Browser.window['wx'].createBannerAd({
                 adUnitId: this.bannerId,
                 style: {
                     top: sysInfo.screenHeight * 0.8,
@@ -917,29 +917,35 @@
                 },
                 adIntervals: 30
             });
-            this.bannerAd.onLoad(() => {
-                this.bannerAd.show();
+            bannerAd.onLoad(() => {
                 console.log("Banner广告加载成功");
             });
-            this.bannerAd.onError(err => {
+            bannerAd.onError(err => {
                 console.error("Banner广告加载失败", JSON.stringify(err));
             });
-            this.bannerAd.onResize(res => {
-                let realHeight = this.bannerAd.style.realHeight + 0.1;
-                this.bannerAd.style.top = sysInfo.screenHeight - realHeight;
+            bannerAd.onResize(res => {
+                let realHeight = bannerAd.style.realHeight + 0.1;
+                bannerAd.style.top = sysInfo.screenHeight - realHeight;
             });
+            bannerAd.show();
+            bannerAd.hide();
+            return bannerAd;
+        }
+        static showBannerAd() {
+            if (!Laya.Browser.onWeiXin)
+                return;
+            this.bannerAdArr[this.curIndex].show();
+            console.log('showbanner:', this.curIndex);
         }
         static hideBannerAd() {
             if (!Laya.Browser.onWeiXin) {
                 return;
             }
-            if (this.bannerAd) {
-                this.bannerAd.offLoad();
-                this.bannerAd.offResize();
-                this.bannerAd.offError();
-                this.bannerAd.destroy();
-                this.bannerAd = null;
-            }
+            this.bannerAdArr[this.curIndex].destroy();
+            this.bannerAdArr[this.curIndex] = this.getBannerAd();
+            this.curIndex++;
+            if (this.curIndex >= this.bannerAdArr.length)
+                this.curIndex = 0;
         }
         static createVideoAd() {
             if (Laya.Browser.onWeiXin) {
@@ -1021,10 +1027,11 @@
             this.boxAd.show();
         }
     }
-    FdAd.bannerId = "2941986d98f60248441a089279d13222";
-    FdAd.videoId = "356a3b6592244c24ef89c97c1d6c8369";
-    FdAd.boxId = "80e5cee73829f643cd18cc6d56ff71f6";
-    FdAd.bannerAd = null;
+    FdAd.bannerId = "60858dd97449f62300f8a55646c910e5";
+    FdAd.videoId = "5b665b2845f0bbd1e4a9c7ae73c56f84";
+    FdAd.boxId = "abea106a0255ad5dc9d611f2bc07c56f";
+    FdAd.bannerAdArr = [];
+    FdAd.curIndex = 0;
     FdAd.isExistVideoAd = false;
     FdAd.boxAd = null;
     FdAd.closeBoxAdCB = null;
@@ -1202,8 +1209,8 @@
             console.log('wxsdk初始化');
             window['wxsdk'].init({
                 version: '1.0.0',
-                appid: '379',
-                secret: 'lsiwuerfyrqf3ytkdor3xgnvplr24fp1',
+                appid: '383',
+                secret: 'mmvhj3xncc8ru3jq1xxbutkm6dknyvp2',
                 share: {
                     title: '你能过得了这一关吗？',
                     image: 'https://game-oss.smallshark.cn/game/20211119/1216327431258.jpg?imageslim',
@@ -2289,8 +2296,8 @@
             this.loseTitle.visible = !isWin;
             this.nextBtn.visible = isWin;
             this.restartBtn.visible = !isWin;
-            Utility.addClickEvent(this.nextBtn, this, this.closeCB);
-            Utility.addClickEvent(this.restartBtn, this, this.closeCB);
+            this.nextBtn.on(Laya.Event.CLICK, this, this.closeCB);
+            this.restartBtn.on(Laya.Event.CLICK, this, this.closeCB);
             FdMgr.inFinish(isWin ? this.nextBtn : this.restartBtn);
         }
         onClosed() {
@@ -2322,7 +2329,9 @@
         }
         onClosed(type) {
             Laya.timer.clearAll(this);
-            this.ccb && this.ccb();
+            Laya.timer.once(100, this, () => {
+                this.ccb && this.ccb();
+            });
         }
         adBtnCB() {
             let cb = () => {
@@ -2620,7 +2629,7 @@
     GameConfig.screenMode = "vertical";
     GameConfig.alignV = "top";
     GameConfig.alignH = "left";
-    GameConfig.startScene = "MyScenes/FreeSkinUI.scene";
+    GameConfig.startScene = "FDScene/BackToHome.scene";
     GameConfig.sceneRoot = "";
     GameConfig.debug = false;
     GameConfig.stat = false;

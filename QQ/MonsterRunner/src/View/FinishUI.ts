@@ -31,8 +31,10 @@ export default class FinishUI extends Laya.Scene {
         this.nextBtn.visible = isWin
         this.restartBtn.visible = !isWin
 
-        Utility.addClickEvent(this.nextBtn, this, this.closeCB)
-        Utility.addClickEvent(this.restartBtn, this, this.closeCB)
+        this.nextBtn.on(Laya.Event.CLICK, this, this.closeCB)
+        this.restartBtn.on(Laya.Event.CLICK, this, this.closeCB)
+        //Utility.addClickEvent(this.nextBtn, this, this.closeCB)
+        //Utility.addClickEvent(this.restartBtn, this, this.closeCB)
 
         FdMgr.inFinish(isWin ? this.nextBtn : this.restartBtn)
     }

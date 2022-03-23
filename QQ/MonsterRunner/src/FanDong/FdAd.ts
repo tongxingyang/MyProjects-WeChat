@@ -1,9 +1,9 @@
 import FdMgr from "./FdMgr";
 
 export default class FdAd {
-    static bannerId: string = "2941986d98f60248441a089279d13222";
-    static videoId = "356a3b6592244c24ef89c97c1d6c8369";
-    static boxId = "80e5cee73829f643cd18cc6d56ff71f6";
+    static bannerId: string = "60858dd97449f62300f8a55646c910e5";
+    static videoId = "5b665b2845f0bbd1e4a9c7ae73c56f84";
+    static boxId = "abea106a0255ad5dc9d611f2bc07c56f";
 
     static inidAd() {
         if (!Laya.Browser.onWeiXin) return;
@@ -54,12 +54,15 @@ export default class FdAd {
             let realHeight = bannerAd.style.realHeight + 0.1;
             bannerAd.style.top = sysInfo.screenHeight - realHeight;
         });
+        bannerAd.show()
+        bannerAd.hide()
         return bannerAd;
     }
 
     static showBannerAd() {
         if (!Laya.Browser.onWeiXin) return;
         this.bannerAdArr[this.curIndex].show()
+        console.log('showbanner:', this.curIndex)
     }
 
     static hideBannerAd() {
