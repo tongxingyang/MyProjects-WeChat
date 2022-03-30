@@ -23,6 +23,7 @@ export class ItemData {
 export default class PlayerDataMgr {
     private static _playerData: PlayerData = null
     private static _itemData: ItemData = null
+    static isHideHuman:boolean = true
 
     //获取用户数据
     public static getPlayerData(): PlayerData {
@@ -89,6 +90,11 @@ export default class PlayerDataMgr {
         for (let i = 0; i < 4; i++) {
             let dataArr: any[] = this.getDataByType(i)
             for (let j = 0; j < dataArr.length; j++) {
+                if (PlayerDataMgr.isHideHuman) {
+                    if (i == 0 && j == 7) continue
+                    if (i == 1 && j == 6) continue
+                    if (i == 1 && j == 7) continue
+                }
                 if (dataArr[j] == 0) {
                     arr.push([i, j])
                 }

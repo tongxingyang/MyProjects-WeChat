@@ -139,6 +139,14 @@ export default class GameLogic {
         item.transform.localPosition = new Laya.Vector3()
         item.transform.localRotationEuler = new Laya.Vector3()
         item.active = true
+        if (PlayerDataMgr.isHideHuman) {
+            if (itemNode.name == 'HeadNode' && index == 7) {
+                item.active = false
+            }
+            if (itemNode.name == 'LegNode' && (index == 6 || index == 7)) {
+                item.active = false
+            }
+        }
     }
 
     checkColl() {

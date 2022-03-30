@@ -2,7 +2,7 @@
     "x":0,
     "type":"Scene",
     "selectedBox":2,
-    "selecteID":42,
+    "selecteID":43,
     "searchKey":"Scene",
     "props":{"width":750,"sceneColor":"#000000","runtime":"View/SelectUI.ts","height":1334},
     "nodeParent":-1,
@@ -532,16 +532,17 @@
             "props":{"visible":true,"var":"adBtn","skin":"selectUI/xz_btn_sxz.png","right":10,"bottom":660,"anchorY":0.5,"anchorX":0.5},
             "nodeParent":2,
             "label":"adBtn",
-            "isOpen":false,
+            "isOpen":true,
             "isDirectory":true,
             "isAniNode":true,
             "hasChild":true,
             "compId":42,
             "child":[
                 {
+                    "x":30,
                     "type":"FontClip",
                     "searchKey":"FontClip",
-                    "props":{"y":43,"x":120,"value":"+150","skin":"selectUI/xz_sz_1.png","sheet":"0123456789+-","scaleY":0.6,"scaleX":0.6,"anchorY":0.5,"anchorX":0.5},
+                    "props":{"y":70,"x":172,"value":"+150","skin":"selectUI/xz_sz_1.png","sheet":"0123456789+-","scaleY":0.7,"scaleX":0.7,"anchorY":0.5,"anchorX":0.5},
                     "nodeParent":42,
                     "label":"FontClip",
                     "isDirectory":false,
@@ -552,6 +553,7 @@
                         ]
                 },
                 {
+                    "x":30,
                     "type":"Script",
                     "switchAble":true,
                     "source":"src/Libs/ScaleLoop.ts",

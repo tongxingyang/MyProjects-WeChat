@@ -88,6 +88,14 @@
             for (let i = 0; i < 4; i++) {
                 let dataArr = this.getDataByType(i);
                 for (let j = 0; j < dataArr.length; j++) {
+                    if (PlayerDataMgr.isHideHuman) {
+                        if (i == 0 && j == 7)
+                            continue;
+                        if (i == 1 && j == 6)
+                            continue;
+                        if (i == 1 && j == 7)
+                            continue;
+                    }
                     if (dataArr[j] == 0) {
                         arr.push([i, j]);
                     }
@@ -107,6 +115,7 @@
     }
     PlayerDataMgr._playerData = null;
     PlayerDataMgr._itemData = null;
+    PlayerDataMgr.isHideHuman = true;
 
     class WxApi {
         static LoginWx(cb) {
@@ -645,111 +654,6 @@
         }
     }
 
-    class AdMgr {
-        static getSystemInfoSync() {
-            if (!Laya.Browser.onTTMiniGame)
-                return;
-            if (!this.sysInfo) {
-                this.sysInfo = window['tt'].getSystemInfoSync();
-            }
-            return this.sysInfo;
-        }
-        static initAd() {
-            if (!Laya.Browser.onTTMiniGame) {
-                return;
-            }
-            this.createBanner();
-            this.createVideoAd();
-        }
-        static createBanner() {
-            let sysInfo = this.getSystemInfoSync();
-            this.bannerAd = Laya.Browser.window['tt'].createBannerAd({
-                adUnitId: this.bannerId,
-                style: {
-                    top: sysInfo.screenHeight * 0.8,
-                    width: 300,
-                    left: sysInfo.screenWidth / 2 - 150
-                },
-                adIntervals: 30
-            });
-            this.bannerAd.onLoad(() => {
-                console.log("Banner广告加载成功");
-            });
-            this.bannerAd.onError(err => {
-                console.error("Banner广告加载失败", JSON.stringify(err));
-            });
-            this.bannerAd.onResize(size => {
-                let realHeight = size.height;
-                this.bannerAd.style.top = sysInfo.screenHeight - realHeight;
-            });
-        }
-        static showBanner() {
-            if (!Laya.Browser.onTTMiniGame && !this.bannerAd) {
-                return;
-            }
-            this.bannerAd.show();
-        }
-        static hideBanner() {
-            if (!Laya.Browser.onTTMiniGame && !this.bannerAd) {
-                return;
-            }
-            this.bannerAd.hide();
-        }
-        static createVideoAd() {
-            if (Laya.Browser.onWeiXin) {
-                var self = this;
-                var videoAd = this.videoAd;
-                if (videoAd != null) {
-                    videoAd.offLoad(onLoadVideo);
-                    videoAd.offError(onErrorVideo);
-                    videoAd.offClose(onCloseVideo);
-                }
-                var videoAd = Laya.Browser.window['tt'].createRewardedVideoAd({ adUnitId: self.videoId });
-                videoAd.onLoad(onLoadVideo);
-                videoAd.onError(onErrorVideo);
-                videoAd.onClose(onCloseVideo);
-                this.videoAd = videoAd;
-            }
-            function onLoadVideo() {
-                console.log('video 加载成功');
-            }
-            function onErrorVideo(err) {
-                console.error('video 加载错误', err);
-            }
-            function onCloseVideo(res) {
-                let isEnded = (res && res.isEnded || res === undefined) ? true : false;
-                if (isEnded) {
-                    self.videoFinishCallback && self.videoFinishCallback();
-                    self.videoFinishCallback = null;
-                }
-                self.videoCancelCallback && self.videoCancelCallback();
-                self.videoCancelCallback = null;
-            }
-        }
-        static showVideoAd(finishCB, cancelCB) {
-            if (!Laya.Browser.onWeiXin) {
-                finishCB && finishCB();
-                cancelCB && cancelCB();
-                return;
-            }
-            let self = this;
-            this.videoFinishCallback = finishCB;
-            this.videoCancelCallback = cancelCB;
-            if (Laya.Browser.onWeiXin) {
-                var videoAd = this.videoAd;
-                videoAd.show().then(() => { }).catch(err => {
-                    videoAd.load().then(() => videoAd.show()).catch(err => {
-                        self.videoCancelCallback && self.videoCancelCallback();
-                        self.videoCancelCallback = null;
-                    });
-                });
-            }
-        }
-    }
-    AdMgr.bannerId = '59dvae3hu7v2dl1554';
-    AdMgr.videoId = '4fd5qe4ueb5fgmbohr';
-    AdMgr.bannerAd = null;
-
     class GameUI extends Laya.Scene {
         constructor() {
             super();
@@ -764,11 +668,9 @@
             this.touchBtn.on(Laya.Event.MOUSE_DOWN, this, this.touchStart);
             this.touchBtn.on(Laya.Event.MOUSE_MOVE, this, this.touchMove);
             this.touchBtn.on(Laya.Event.MOUSE_UP, this, this.touchEnd);
-            AdMgr.showBanner();
         }
         onClosed() {
             Laya.timer.clearAll(this);
-            AdMgr.hideBanner();
         }
         giveupBtnCB() {
             GameLogic.Share.gameOver(false);
@@ -939,6 +841,111 @@
         }
     }
 
+    class AdMgr {
+        static getSystemInfoSync() {
+            if (!Laya.Browser.onTTMiniGame)
+                return;
+            if (!this.sysInfo) {
+                this.sysInfo = window['tt'].getSystemInfoSync();
+            }
+            return this.sysInfo;
+        }
+        static initAd() {
+            if (!Laya.Browser.onTTMiniGame) {
+                return;
+            }
+            this.createBanner();
+            this.createVideoAd();
+        }
+        static createBanner() {
+            let sysInfo = this.getSystemInfoSync();
+            this.bannerAd = Laya.Browser.window['tt'].createBannerAd({
+                adUnitId: this.bannerId,
+                style: {
+                    top: sysInfo.screenHeight * 0.8,
+                    width: 300,
+                    left: sysInfo.screenWidth / 2 - 150
+                },
+                adIntervals: 30
+            });
+            this.bannerAd.onLoad(() => {
+                console.log("Banner广告加载成功");
+            });
+            this.bannerAd.onError(err => {
+                console.error("Banner广告加载失败", JSON.stringify(err));
+            });
+            this.bannerAd.onResize(size => {
+                let realHeight = size.height;
+                this.bannerAd.style.top = sysInfo.screenHeight - realHeight;
+            });
+        }
+        static showBanner() {
+            if (!Laya.Browser.onTTMiniGame && !this.bannerAd) {
+                return;
+            }
+            this.bannerAd.show();
+        }
+        static hideBanner() {
+            if (!Laya.Browser.onTTMiniGame && !this.bannerAd) {
+                return;
+            }
+            this.bannerAd.hide();
+        }
+        static createVideoAd() {
+            if (Laya.Browser.onWeiXin) {
+                var self = this;
+                var videoAd = this.videoAd;
+                if (videoAd != null) {
+                    videoAd.offLoad(onLoadVideo);
+                    videoAd.offError(onErrorVideo);
+                    videoAd.offClose(onCloseVideo);
+                }
+                var videoAd = Laya.Browser.window['tt'].createRewardedVideoAd({ adUnitId: self.videoId });
+                videoAd.onLoad(onLoadVideo);
+                videoAd.onError(onErrorVideo);
+                videoAd.onClose(onCloseVideo);
+                this.videoAd = videoAd;
+            }
+            function onLoadVideo() {
+                console.log('video 加载成功');
+            }
+            function onErrorVideo(err) {
+                console.error('video 加载错误', err);
+            }
+            function onCloseVideo(res) {
+                let isEnded = (res && res.isEnded || res === undefined) ? true : false;
+                if (isEnded) {
+                    self.videoFinishCallback && self.videoFinishCallback();
+                    self.videoFinishCallback = null;
+                }
+                self.videoCancelCallback && self.videoCancelCallback();
+                self.videoCancelCallback = null;
+            }
+        }
+        static showVideoAd(finishCB, cancelCB) {
+            if (!Laya.Browser.onWeiXin) {
+                finishCB && finishCB();
+                cancelCB && cancelCB();
+                return;
+            }
+            let self = this;
+            this.videoFinishCallback = finishCB;
+            this.videoCancelCallback = cancelCB;
+            if (Laya.Browser.onWeiXin) {
+                var videoAd = this.videoAd;
+                videoAd.show().then(() => { }).catch(err => {
+                    videoAd.load().then(() => videoAd.show()).catch(err => {
+                        self.videoCancelCallback && self.videoCancelCallback();
+                        self.videoCancelCallback = null;
+                    });
+                });
+            }
+        }
+    }
+    AdMgr.bannerId = '59dvae3hu7v2dl1554';
+    AdMgr.videoId = '4fd5qe4ueb5fgmbohr';
+    AdMgr.bannerAd = null;
+
     class GameRecordMgr {
         static get mgr() {
             return Laya.Browser.window['tt'].getGameRecorderManager();
@@ -1104,6 +1111,14 @@
             item.transform.localPosition = new Laya.Vector3();
             item.transform.localRotationEuler = new Laya.Vector3();
             item.active = true;
+            if (PlayerDataMgr.isHideHuman) {
+                if (itemNode.name == 'HeadNode' && index == 7) {
+                    item.active = false;
+                }
+                if (itemNode.name == 'LegNode' && (index == 6 || index == 7)) {
+                    item.active = false;
+                }
+            }
         }
         checkColl() {
             if (this.isGameOver || !this._player || !this._enemy || !this._playerCrl.canMove || !this._enemyCrl.canMove || !this.isStartGame)
@@ -1533,6 +1548,9 @@
                 dnaNum.value = PlayerDataMgr.getItemData().head[tempIndex][2];
                 adBg.visible = PlayerDataMgr.getPlayerData().headArr[tempIndex] == 0;
                 bottomBg.skin = this.totalDna >= PlayerDataMgr.getItemData().head[tempIndex][2] ? 'selectUI/xz_dk_xzbj3.png' : 'selectUI/xz_dk_xzbj2.png';
+                if (PlayerDataMgr.isHideHuman && tempIndex == 7) {
+                    item.visible = false;
+                }
             }
             else if (index < 20) {
                 type = 1;
@@ -1547,6 +1565,9 @@
                 dnaNum.value = PlayerDataMgr.getItemData().leg[tempIndex][2];
                 adBg.visible = PlayerDataMgr.getPlayerData().legArr[tempIndex] == 0;
                 bottomBg.skin = this.totalDna >= PlayerDataMgr.getItemData().leg[tempIndex][2] ? 'selectUI/xz_dk_xzbj3.png' : 'selectUI/xz_dk_xzbj2.png';
+                if (PlayerDataMgr.isHideHuman && (tempIndex == 6 || tempIndex == 7)) {
+                    item.visible = false;
+                }
             }
             else if (index < 24) {
                 type = 2;
@@ -1828,7 +1849,7 @@
     GameConfig.screenMode = "vertical";
     GameConfig.alignV = "top";
     GameConfig.alignH = "left";
-    GameConfig.startScene = "MyScenes/StartUI.scene";
+    GameConfig.startScene = "MyScenes/SelectUI.scene";
     GameConfig.sceneRoot = "";
     GameConfig.debug = false;
     GameConfig.stat = false;
