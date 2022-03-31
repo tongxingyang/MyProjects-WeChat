@@ -172,7 +172,7 @@ export default class FdAd {
     /**原生广告 */
     private static nativeIdArr: string[] = []
     private static nativeAdArr: any[] = []
-    private static nativeAdErrorCount: boolean[] = []
+    private static nativeAdErrorArr: boolean[] = []
     private static nativeAdDataArr: any[] = []
     private static nativeIndex: number = 0
     private static nativeAdLoadedCount: number = 0
@@ -184,11 +184,12 @@ export default class FdAd {
         if (!this.oppoPlatform) return
         this.nativeIdArr = FdMgr.jsonConfig.array_nativeId
         this.nativeAdArr = []
-        this.nativeAdErrorCount = []
+        this.nativeAdErrorArr = []
         this.nativeAdDataArr = []
+        this.nativeIndex = 0
 
         for (let i = 0; i < this.nativeIdArr.length; i++) {
-            this.nativeAdErrorCount.push(false)
+            this.nativeAdErrorArr.push(true)
             this.nativeAdDataArr.push(null)
         }
         for (let i = 0; i < this.nativeIdArr.length; i++) {
@@ -196,53 +197,89 @@ export default class FdAd {
             this.nativeAdArr.push(nativeAd)
         }
     }
-    private static getNativeAd(id: number) {
+    private static getNativeAd(index: number) {
         if (!this.oppoPlatform) return
         let nativeAd = window['qg'].createNativeAd({
-            adUnitId: this.nativeIdArr[id]
+            adUnitId: this.nativeIdArr[index]
         })
-        nativeAd.load()
         nativeAd.onLoad((res: any) => {
-            console.log('原生广告加载成功：', res)
+            console.log('原生广告加载成功：', this.nativeIdArr[index], '--' + res)
             let list: any[] = res.adList
             let data = list[0]
-            this.nativeAdDataArr[id] = data
-            this.nativeAdErrorCount[id] = false
+            this.nativeAdDataArr[index] = data
+            this.nativeAdErrorArr[index] = false
             this.nativeAdLoadedCount++
             if (this.nativeAdLoadedCount >= this.nativeIdArr.length) this.nativeLoaded = true
         })
-        nativeAd.onError(() => {
-            console.log('原生广告加载失败：', id)
-            this.nativeAdDataArr[id] = null
-            this.nativeAdErrorCount[id] = true
+        nativeAd.onError((res: any) => {
+            console.log('原生广告加载失败：', this.nativeIdArr[index], '--' + res)
+            this.nativeAdDataArr[index] = null
+            this.nativeAdErrorArr[index] = true
             this.nativeAdLoadedCount++
             if (this.nativeAdLoadedCount >= this.nativeIdArr.length) this.nativeLoaded = true
         })
+        nativeAd.load()
         return nativeAd
     }
     static showNativeAd() {
-        if (!this.oppoPlatform || !this.nativeAdDataArr[this.nativeIndex]) {
-            return
+        if (!this.oppoPlatform) return null
+
+        //加载失败的ad 则跳过
+        for (let i = 0; i < this.nativeAdErrorArr.length; i++) {
+            if (this.nativeAdErrorArr[this.nativeIndex]) this.nextNativeIndex()
+            else break
         }
+        //是否需要补给
+        this.checkReCreateNativeAd()
+
+        let adData: any = this.nativeAdDataArr[this.nativeIndex]
         this.nativeAdArr[this.nativeIndex].reportAdShow({
-            adId: this.nativeAdDataArr[this.nativeIndex].adId
+            adId: adData.adId
         })
+        return adData
     }
-    static reportAdClick() {
-        if (!this.oppoPlatform || !this.nativeAdDataArr[this.nativeIndex]) return
+    static reportAdClick(data: any) {
+        if (!this.oppoPlatform || !data) return
         this.nativeAdArr[this.nativeIndex].reportAdClick({
-            adId: this.nativeAdDataArr[this.nativeIndex].adId
+            adId: data.adId
         })
     }
     static destroyNativeAd() {
         if (!this.oppoPlatform || !this.nativeAdArr[this.nativeIndex]) return
         this.nativeAdArr[this.nativeIndex].destroy()
+        this.nativeAdDataArr[this.nativeIndex] = null
+        this.nativeAdErrorArr[this.nativeIndex] = true
+        this.nextNativeIndex()
+        //是否需要补给
+        this.checkReCreateNativeAd()
     }
-    static getNativeData() {
-        return this.nativeAdDataArr[this.nativeIndex]
+    static isAllNativeAdError() {
+        for (let i = 0; i < this.nativeAdErrorArr.length; i++) {
+            if (this.nativeAdErrorArr[i] == false) return false
+        }
+        return true
     }
-    static isNativeAdError() {
-        return this.nativeAdErrorCount[this.nativeIndex]
+    static nextNativeIndex() {
+        this.nativeIndex++
+        if (this.nativeIndex >= this.nativeIdArr.length) this.nativeIndex = 0
+    }
+    //检查是否需要重新创建或者补给原生广告
+    private static checkReCreateNativeAd() {
+        let count: number = 0
+        this.nativeAdErrorArr.forEach(b => { if (b) count++ })
+        if (this.isAllNativeAdError()) {
+            this.creaNativeAd()
+        } else if (count < this.nativeIdArr.length) {
+            this.supplyNativeAd()
+        }
+    }
+    //补给原生广告
+    private static supplyNativeAd() {
+        for (let i = 0; i < this.nativeAdErrorArr.length; i++) {
+            if (this.nativeAdErrorArr[i]) {
+                this.nativeAdArr[i] = this.getNativeAd(i)
+            }
+        }
     }
     /**原生广告 */
 

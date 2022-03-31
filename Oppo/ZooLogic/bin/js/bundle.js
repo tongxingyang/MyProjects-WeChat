@@ -1440,10 +1440,11 @@
                 return;
             this.nativeIdArr = FdMgr.jsonConfig.array_nativeId;
             this.nativeAdArr = [];
-            this.nativeAdErrorCount = [];
+            this.nativeAdErrorArr = [];
             this.nativeAdDataArr = [];
+            this.nativeIndex = 0;
             for (let i = 0; i < this.nativeIdArr.length; i++) {
-                this.nativeAdErrorCount.push(false);
+                this.nativeAdErrorArr.push(true);
                 this.nativeAdDataArr.push(null);
             }
             for (let i = 0; i < this.nativeIdArr.length; i++) {
@@ -1451,37 +1452,43 @@
                 this.nativeAdArr.push(nativeAd);
             }
         }
-        static getNativeAd(id) {
+        static getNativeAd(index) {
             if (!this.oppoPlatform)
                 return;
             let nativeAd = window['qg'].createNativeAd({
-                adUnitId: this.nativeIdArr[id]
+                adUnitId: this.nativeIdArr[index]
             });
-            nativeAd.load();
             nativeAd.onLoad((res) => {
-                console.log('原生广告加载成功：', res);
+                console.log('原生广告加载成功：', this.nativeIdArr[index], '--' + res);
                 let list = res.adList;
                 let data = list[0];
-                this.nativeAdDataArr[id] = data;
-                this.nativeAdErrorCount[id] = false;
+                this.nativeAdDataArr[index] = data;
+                this.nativeAdErrorArr[index] = false;
                 this.nativeAdLoadedCount++;
                 if (this.nativeAdLoadedCount >= this.nativeIdArr.length)
                     this.nativeLoaded = true;
             });
-            nativeAd.onError(() => {
-                console.log('原生广告加载失败：', id);
-                this.nativeAdDataArr[id] = null;
-                this.nativeAdErrorCount[id] = true;
+            nativeAd.onError((res) => {
+                console.log('原生广告加载失败：', this.nativeIdArr[index], '--' + res);
+                this.nativeAdDataArr[index] = null;
+                this.nativeAdErrorArr[index] = true;
                 this.nativeAdLoadedCount++;
                 if (this.nativeAdLoadedCount >= this.nativeIdArr.length)
                     this.nativeLoaded = true;
             });
+            nativeAd.load();
             return nativeAd;
         }
         static showNativeAd() {
-            if (!this.oppoPlatform || !this.nativeAdDataArr[this.nativeIndex]) {
+            if (!this.oppoPlatform)
                 return;
+            for (let i = 0; i < this.nativeAdErrorArr.length; i++) {
+                if (this.nativeAdErrorArr[this.nativeIndex])
+                    this.nativeIndex++;
+                else
+                    break;
             }
+            this.checkReCreateNativeAd();
             this.nativeAdArr[this.nativeIndex].reportAdShow({
                 adId: this.nativeAdDataArr[this.nativeIndex].adId
             });
@@ -1497,12 +1504,36 @@
             if (!this.oppoPlatform || !this.nativeAdArr[this.nativeIndex])
                 return;
             this.nativeAdArr[this.nativeIndex].destroy();
+            this.nativeAdDataArr[this.nativeIndex] = null;
+            this.nativeAdErrorArr[this.nativeIndex] = true;
         }
         static getNativeData() {
             return this.nativeAdDataArr[this.nativeIndex];
         }
-        static isNativeAdError() {
-            return this.nativeAdErrorCount[this.nativeIndex];
+        static isAllNativeAdError() {
+            for (let i = 0; i < this.nativeAdErrorArr.length; i++) {
+                if (this.nativeAdErrorArr[i] == false)
+                    return false;
+            }
+            return true;
+        }
+        static checkReCreateNativeAd() {
+            let count = 0;
+            this.nativeAdErrorArr.forEach(b => { if (b)
+                count++; });
+            if (this.isAllNativeAdError()) {
+                this.creaNativeAd();
+            }
+            else if (count < this.nativeIdArr.length) {
+                this.supplyNativeAd();
+            }
+        }
+        static supplyNativeAd() {
+            for (let i = 0; i < this.nativeAdErrorArr.length; i++) {
+                if (this.nativeAdErrorArr[i]) {
+                    this.nativeAdArr[i] = this.getNativeAd(i);
+                }
+            }
         }
         static shuffleArr(arr) {
             let i = arr.length;
@@ -1536,7 +1567,7 @@
     FdAd.gamePortalCCB = null;
     FdAd.nativeIdArr = [];
     FdAd.nativeAdArr = [];
-    FdAd.nativeAdErrorCount = [];
+    FdAd.nativeAdErrorArr = [];
     FdAd.nativeAdDataArr = [];
     FdAd.nativeIndex = 0;
     FdAd.nativeAdLoadedCount = 0;
@@ -1965,8 +1996,12 @@
         onOpened() {
             this.size(Laya.stage.displayWidth, Laya.stage.displayHeight);
             Utility.addClickEvent(this.startBtn, this, this.startBtnCB);
+            this.logo.on(Laya.Event.MOUSE_MOVE, this, this.logoMove);
         }
         onClosed() {
+        }
+        logoMove() {
+            console.log('123');
         }
         startBtnCB() {
             Laya.Scene.open('MyScenes/SelectUI.scene');
@@ -2015,7 +2050,7 @@
     GameConfig.screenMode = "vertical";
     GameConfig.alignV = "top";
     GameConfig.alignH = "left";
-    GameConfig.startScene = "FDScene/FDHomeUI.scene";
+    GameConfig.startScene = "MyScenes/StartUI.scene";
     GameConfig.sceneRoot = "";
     GameConfig.debug = false;
     GameConfig.stat = false;

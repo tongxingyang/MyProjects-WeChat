@@ -1849,7 +1849,7 @@
     GameConfig.screenMode = "vertical";
     GameConfig.alignV = "top";
     GameConfig.alignH = "left";
-    GameConfig.startScene = "MyScenes/SelectUI.scene";
+    GameConfig.startScene = "MyScenes/FinishUI.scene";
     GameConfig.sceneRoot = "";
     GameConfig.debug = false;
     GameConfig.stat = false;

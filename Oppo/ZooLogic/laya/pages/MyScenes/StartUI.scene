@@ -18,7 +18,7 @@
             "x":15,
             "type":"Image",
             "searchKey":"Image,logo",
-            "props":{"y":300,"x":162,"skin":"loadingUI/logo_1.png","name":"logo"},
+            "props":{"y":100,"x":162,"skin":"loadingUI/logo_1.png","name":"logo"},
             "nodeParent":2,
             "label":"logo",
             "isOpen":null,
