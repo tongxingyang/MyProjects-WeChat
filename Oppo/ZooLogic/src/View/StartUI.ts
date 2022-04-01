@@ -1,3 +1,4 @@
+import FdMgr from "../FanDong/FdMgr"
 import Utility from "../Mod/Utility"
 
 export default class StartUI extends Laya.Scene {
@@ -10,6 +11,7 @@ export default class StartUI extends Laya.Scene {
     onOpened() {
         this.size(Laya.stage.displayWidth, Laya.stage.displayHeight)
         Utility.addClickEvent(this.startBtn, this, this.startBtnCB)
+        FdMgr.inHome()
     }
     onClosed() {
     }

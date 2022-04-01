@@ -1,5 +1,6 @@
 import FdAd from "./FdAd"
 import FdMgr from "./FdMgr"
+import FDUtils from "./FDUtils"
 
 export default class MiddleNativeUI extends Laya.Scene {
     constructor() {
@@ -30,7 +31,7 @@ export default class MiddleNativeUI extends Laya.Scene {
         if (!this.adData) { this.close(); return }
         this.pic.skin = this.adData.imgUrlList
         this.desc.text = this.adData.desc
-        if (FdMgr.jsonConfig.is_touchMoveNativeAd)
+        if (FdMgr.jsonConfig.is_touchMoveNativeAd && FdMgr.isAccountLateTime)
             this.pic.on(Laya.Event.MOUSE_MOVE, this, this.adBtnCB)
 
         this.onShowCB = () => {
@@ -49,13 +50,18 @@ export default class MiddleNativeUI extends Laya.Scene {
         this.ccb && this.ccb()
     }
 
-    adBtnCB() {
+    adBtnCB(isMissTouch: boolean = false) {
         if (this.hadClick) return
         this.hadClick = true
         FdAd.reportAdClick(this.adData)
+        if (isMissTouch) FdMgr.setNativeMissTouched()
     }
 
     closeBtnCB() {
-        this.close()
+        if (FdMgr.jsonConfig.is_topNativeAdCloseBtnLate && FdMgr.isAccountLateTime && !FdMgr.nativeMissTouched) {
+            this.adBtnCB(true)
+        } else {
+            this.close()
+        }
     }
 }

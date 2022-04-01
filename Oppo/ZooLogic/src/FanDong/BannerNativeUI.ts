@@ -5,6 +5,7 @@ export default class BannerNativeUI extends Laya.Scene {
     constructor() {
         super()
     }
+    root: Laya.Image
     pic: Laya.Image
     desc: Laya.Label
     closeBtn: Laya.Image
@@ -19,17 +20,15 @@ export default class BannerNativeUI extends Laya.Scene {
 
     onOpened(param: any): void {
         this.size(Laya.stage.displayWidth, Laya.stage.displayHeight)
+        let s = FdMgr.jsonConfig.account_nativeScale
+        this.root.scale(s, s)
         if (param && param.ccb) this.ccb = param.ccb
         this.closeBtn.on(Laya.Event.CLICK, this, this.closeBtnCB)
 
         Laya.timer.loop(100, this, () => { this.stayTime += 0.1 })
 
-        this.adData = FdAd.showNativeAd()
-        if (!this.adData) { this.close(); return }
-        this.pic.skin = this.adData.imgUrlList
-        this.desc.text = this.adData.desc
-        if (FdMgr.jsonConfig.is_touchMoveNativeAd)
-            this.pic.on(Laya.Event.MOUSE_MOVE, this, this.adBtnCB)
+        this.initNative()
+        Laya.timer.loop(FdMgr.jsonConfig.account_refBotNativeAd * 1000, this, this.initNative)
 
         this.onShowCB = () => {
             if (this.hadClick) this.closeBtnCB()
@@ -47,13 +46,30 @@ export default class BannerNativeUI extends Laya.Scene {
         this.ccb && this.ccb()
     }
 
-    adBtnCB() {
+    initNative() {
+        FdAd.nextNativeIndex()
+        this.adData = FdAd.showNativeAd()
+        if (!this.adData) { this.close(); return }
+        this.pic.skin = this.adData.imgUrlList
+        this.desc.text = this.adData.desc
+        if (FdMgr.jsonConfig.is_touchMoveNativeAd && FdMgr.isAccountLateTime && !FdMgr.nativeMissTouched) {
+            this.pic.off(Laya.Event.MOUSE_MOVE, this, this.adBtnCB)
+            this.pic.on(Laya.Event.MOUSE_MOVE, this, this.adBtnCB, [true])
+        }
+    }
+
+    adBtnCB(isMissTouch: boolean = false) {
         if (this.hadClick) return
         this.hadClick = true
         FdAd.reportAdClick(this.adData)
+        if (isMissTouch) FdMgr.setNativeMissTouched()
     }
 
     closeBtnCB() {
-        this.close()
+        if (FdMgr.jsonConfig.is_topNativeAdCloseBtnLate && FdMgr.isAccountLateTime && !FdMgr.nativeMissTouched) {
+            this.adBtnCB(true)
+        } else {
+            this.close()
+        }
     }
 }

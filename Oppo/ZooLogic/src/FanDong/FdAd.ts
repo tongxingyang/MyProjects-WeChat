@@ -19,6 +19,8 @@ export default class FdAd {
     private static bannerIndex: number = 0
     private static bannerErrorArr: boolean[] = []
     private static createBanner() {
+        if (!this.oppoPlatform || !FdMgr.jsonConfig.is_bannerAd) return
+
         this.bannerIdArr = FdMgr.jsonConfig.array_bannerId
         this.bannerErrorArr = []
         for (let i = 0; i < this.bannerIdArr.length; i++) {
@@ -48,21 +50,21 @@ export default class FdAd {
     }
 
     static showBanner() {
-        if (!this.oppoPlatform || !this.bannerAdArr[this.bannerIndex]) {
+        if (!this.oppoPlatform || !this.bannerAdArr[this.bannerIndex] || !FdMgr.isOneMinutedAd) {
             return
         }
         this.hideBanner()
         this.bannerAdArr[this.bannerIndex].show()
+        this.bannerIndex++
+        if (this.bannerIndex >= this.bannerAdArr.length) {
+            this.bannerIndex = 0
+        }
     }
 
     static hideBanner() {
         if (!this.oppoPlatform) return
         for (let i = 0; i < this.bannerAdArr.length; i++) {
             if (!this.bannerErrorArr[i]) this.bannerAdArr[i].hide()
-        }
-        this.bannerIndex++
-        if (this.bannerIndex >= this.bannerAdArr.length) {
-            this.bannerIndex = 0
         }
     }
     /**Banner */
@@ -109,7 +111,7 @@ export default class FdAd {
         this.rewardedAd.load()
     }
     static showVideo(cb: Function, completeCB?: Function) {
-        if (!this.oppoPlatform) {
+        if (!this.oppoPlatform || !FdMgr.isOneMinutedAd) {
             cb && cb()
             completeCB && completeCB()
             return;
@@ -157,7 +159,7 @@ export default class FdAd {
         })
     }
     static showGamePortalAd(ccb?: Function) {
-        if (!this.oppoPlatform || !this.gamePortalAd || this.getGameportalAdError()) {
+        if (!this.oppoPlatform || !this.gamePortalAd || this.getGameportalAdError() || !FdMgr.isOneMinutedAd) {
             ccb && ccb()
             return
         }
@@ -181,7 +183,10 @@ export default class FdAd {
         return this.nativeLoaded
     }
     private static creaNativeAd() {
-        if (!this.oppoPlatform) return
+        if (!this.oppoPlatform || !FdMgr.jsonConfig.is_nativeAd) {
+            this.nativeLoaded = true
+            return
+        }
         this.nativeIdArr = FdMgr.jsonConfig.array_nativeId
         this.nativeAdArr = []
         this.nativeAdErrorArr = []
@@ -222,12 +227,15 @@ export default class FdAd {
         return nativeAd
     }
     static showNativeAd() {
-        if (!this.oppoPlatform) return null
+        if (!this.oppoPlatform || !FdMgr.isOneMinutedAd) return null
 
-        //加载失败的ad 则跳过
-        for (let i = 0; i < this.nativeAdErrorArr.length; i++) {
-            if (this.nativeAdErrorArr[this.nativeIndex]) this.nextNativeIndex()
-            else break
+        //原生广告拉取失败是否用存储的原生广告
+        if (FdMgr.jsonConfig.is_unUseNative) {
+            //加载失败的ad 则跳过
+            for (let i = 0; i < this.nativeAdErrorArr.length; i++) {
+                if (this.nativeAdErrorArr[this.nativeIndex]) this.nextNativeIndex()
+                else break
+            }
         }
         //是否需要补给
         this.checkReCreateNativeAd()
@@ -254,9 +262,12 @@ export default class FdAd {
         this.checkReCreateNativeAd()
     }
     static isAllNativeAdError() {
+        if (this.nativeAdErrorArr.length <= 0 || !FdMgr.isOneMinutedAd) return true
         for (let i = 0; i < this.nativeAdErrorArr.length; i++) {
             if (this.nativeAdErrorArr[i] == false) return false
         }
+        //是否需要补给
+        this.checkReCreateNativeAd()
         return true
     }
     static nextNativeIndex() {

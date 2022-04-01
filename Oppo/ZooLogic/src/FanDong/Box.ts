@@ -18,33 +18,65 @@ export default class Box extends Laya.Scene {
     imgSushi: Laya.Image;
     hadShowBanner: boolean = false
 
+    missTouchProgressArr: number[] = []
+
+    onShowCB: Function = null
+
     onAwake() {
         this.size(Laya.stage.width, Laya.stage.height); //屏幕适配
     }
 
-    onOpened(data) {
-        if (data && data.closeCB) {
-            this.closeCB = data.closeCB;
+    onOpened(param) {
+        if (param && param.ccb) {
+            this.closeCB = param.ccb;
         }
         this.btnPress.on(Laya.Event.CLICK, this, this.onPress)
         Laya.timer.frameLoop(1, this, this.reFreshUI);
+        this.missTouchProgressArr = FdMgr.jsonConfig.threshold_sceneLateProgress
+        this.missTouchProgressArr.forEach(p => { p /= 100 })
+
+        this.onShowCB = () => {
+            this.close()
+        }
+        if (FdAd.oppoPlatform) Laya.Browser.window['qg'].onShow(this.onShowCB)
     }
 
     onClosed() {
+        if (FdAd.oppoPlatform && this.onShowCB) Laya.Browser.window['qg'].offShow(this.onShowCB)
         Laya.timer.clearAll(this)
+        if (FdMgr.jsonConfig.type_sceneLateShowAd == 0) {
+            FdAd.hideBanner()
+        } else if (FdMgr.jsonConfig.type_sceneLateShowAd == 1) {
+            FdMgr.closeBannerNativeUI()
+        }
         this.closeCB && this.closeCB();
     }
 
     public onPress() {
-        this.progressValue += FdMgr.wuchuProgressStepAdd;
+        this.progressValue += FdMgr.jsonConfig.add_sceneLateProgress / 100;
         Laya.Tween.to(this.btnPress, { scaleX: 1.2, scaleY: 1.2 }, 100, null, Laya.Handler.create(this, () => {
             Laya.Tween.to(this.btnPress, { scaleX: 1, scaleY: 1 }, 100, null)
         }))
 
-        if (this.progressValue >= FdMgr.wuchuProgressValue && !this.hadShowBanner) { //触发误触
+        if (this.progressValue >= this.missTouchProgressArr.shift() && !this.hadShowBanner) { //触发误触
             this.hadShowBanner = true
+            if (FdMgr.isAccountLateTime) {
+                if (FdMgr.jsonConfig.type_sceneLateShowAd == 0) {
+                    FdAd.showBanner()
+                } else if (FdMgr.jsonConfig.type_sceneLateShowAd == 1) {
+                    FdMgr.showBannerNativeUI()
+                }
+            } else if (!FdMgr.isAccountLateTime || this.missTouchProgressArr.length <= 0) {
+                this.close();
+                return
+            }
 
-            Laya.timer.once(2000, this, () => {
+            Laya.timer.once(1000, this, () => {
+                if (FdMgr.jsonConfig.type_sceneLateShowAd == 0) {
+                    FdAd.hideBanner()
+                } else if (FdMgr.jsonConfig.type_sceneLateShowAd == 1) {
+                    FdMgr.closeBannerNativeUI()
+                }
                 this.close();
             });
         }
@@ -58,9 +90,7 @@ export default class Box extends Laya.Scene {
     }
 
     public reFreshUI() {
-        if (this.progressValue > FdMgr.wuchuProgressFrameSub) {
-            this.progressValue -= FdMgr.wuchuProgressFrameSub;
-        }
+        this.progressValue -= (FdMgr.jsonConfig.reduction_sceneLateProgress / 100) / 60;
         this.pressBar.value = this.progressValue;
         this.light.rotation += 1;
     }

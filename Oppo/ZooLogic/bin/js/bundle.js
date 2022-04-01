@@ -1037,6 +1037,37 @@
                 cb && cb();
             }
         }
+        static inHome() {
+            this.showFDHomeUI();
+        }
+        static clickStart(cb) {
+        }
+        static inGame() {
+        }
+        static gameOver(cb) {
+        }
+        static inFinish() {
+        }
+        static backToHome(cb) {
+        }
+        static showFDHomeUI() {
+            Laya.Scene.open(SceneType.FDHomeUI, false);
+        }
+        static showPrivacyUI() {
+            Laya.Scene.open(SceneType.PrivacyUI, false);
+        }
+        static showBoxUI(cb) {
+            Laya.Scene.open(SceneType.Box, false, { ccb: cb });
+        }
+        static showMiddleNativeUI(cb) {
+            Laya.Scene.open(SceneType.MiddleNativeUI, false, { ccb: cb });
+        }
+        static showBannerNativeUI(cb) {
+            Laya.Scene.open(SceneType.BannerNativeUI, false, { ccb: cb });
+        }
+        static showGridNativeUI(cb) {
+            Laya.Scene.open(SceneType.GridNativeUI, false, { ccb: cb });
+        }
         static get allowScene() {
             if (Laya.Browser.onQGMiniGame) {
                 var launchInfo = Laya.Browser.window['wx'].getLaunchOptionsSync();
@@ -1067,7 +1098,13 @@
                     this.jsonConfig.allowMistouch = false;
                     console.log('config1:', this.jsonConfig);
                 }
-                cb && cb();
+                FdAd.initAllAd();
+                Laya.timer.frameLoop(1, this, () => {
+                    if (FdAd.getNativeLoaded) {
+                        cb && cb();
+                        Laya.timer.clearAll(this);
+                    }
+                });
             });
             window['wxsdk'].login();
         }
@@ -1084,205 +1121,13 @@
     FdMgr.gameCount = 1;
     var SceneType;
     (function (SceneType) {
-        SceneType["Remen"] = "FDScene/Remen.scene";
-        SceneType["VitrualWx"] = "FDScene/VitrualWx.scene";
-        SceneType["Box1"] = "FDScene/Box1.scene";
-        SceneType["Box2"] = "FDScene/Box2.scene";
+        SceneType["BannerNativeUI"] = "FDScene/BannerNativeUI.scene";
+        SceneType["Box"] = "FDScene/Box.scene";
+        SceneType["FDHomeUI"] = "FDScene/FDHomeUI.scene";
+        SceneType["GridNativeUI"] = "FDScene/GridNativeUI.scene";
+        SceneType["MiddleNativeUI"] = "FDScene/MiddleNativeUI.scene";
+        SceneType["PrivacyUI"] = "FDScene/PrivacyUI.scene";
     })(SceneType || (SceneType = {}));
-
-    class Box extends Laya.Scene {
-        constructor() {
-            super(...arguments);
-            this.progressValue = 0;
-            this.hadShowBanner = false;
-        }
-        onAwake() {
-            this.size(Laya.stage.width, Laya.stage.height);
-        }
-        onOpened(data) {
-            if (data && data.closeCB) {
-                this.closeCB = data.closeCB;
-            }
-            this.btnPress.on(Laya.Event.CLICK, this, this.onPress);
-            Laya.timer.frameLoop(1, this, this.reFreshUI);
-        }
-        onClosed() {
-            Laya.timer.clearAll(this);
-            this.closeCB && this.closeCB();
-        }
-        onPress() {
-            this.progressValue += FdMgr.wuchuProgressStepAdd;
-            Laya.Tween.to(this.btnPress, { scaleX: 1.2, scaleY: 1.2 }, 100, null, Laya.Handler.create(this, () => {
-                Laya.Tween.to(this.btnPress, { scaleX: 1, scaleY: 1 }, 100, null);
-            }));
-            if (this.progressValue >= FdMgr.wuchuProgressValue && !this.hadShowBanner) {
-                this.hadShowBanner = true;
-                Laya.timer.once(2000, this, () => {
-                    this.close();
-                });
-            }
-            Laya.Tween.to(this.imgSushi, { rotation: 30 }, 100, null, Laya.Handler.create(this, () => {
-                Laya.Tween.to(this.imgSushi, { rotation: 0 }, 100);
-            }));
-            this.pressBar.value = this.progressValue;
-        }
-        reFreshUI() {
-            if (this.progressValue > FdMgr.wuchuProgressFrameSub) {
-                this.progressValue -= FdMgr.wuchuProgressFrameSub;
-            }
-            this.pressBar.value = this.progressValue;
-            this.light.rotation += 1;
-        }
-    }
-
-    class PrivacyUI extends Laya.Scene {
-        constructor() {
-            super();
-            this.closeCB = null;
-        }
-        onOpened(param) {
-            if (param && param.closeCB) {
-                this.closeCB = param.closeCB;
-            }
-            this.disAgree.on(Laya.Event.CLICK, this, this.disAgreeCB);
-            this.agree.on(Laya.Event.CLICK, this, this.agreeCB);
-            this.scrollPanel.vScrollBarSkin = "";
-        }
-        onClosed(type) {
-            this.closeCB && this.closeCB();
-        }
-        disAgreeCB() {
-        }
-        agreeCB() {
-            localStorage.setItem('showPrivacy', "1");
-            this.close();
-        }
-    }
-
-    class FinishUI extends Laya.Scene {
-        constructor() {
-            super();
-            this.freeSkin = [];
-        }
-        onOpened() {
-            this.size(Laya.stage.displayWidth, Laya.stage.displayHeight);
-            this.gradeNum.value = PlayerDataMgr.getPlayerData().grade.toString();
-            let isWin = GameLogic.Share.isWin;
-            this.winTitle.visible = isWin;
-            this.loseTitle.visible = !isWin;
-            this.nextBtn.visible = isWin;
-            this.restartBtn.visible = !isWin;
-            if (isWin) {
-                PlayerDataMgr.unlockBody();
-            }
-            Utility.addClickEvent(this.nextBtn, this, this.closeCB);
-            Utility.addClickEvent(this.restartBtn, this, this.closeCB);
-            let skinArr = PlayerDataMgr.getInvalidSkins();
-            if (skinArr.length <= 0 || !isWin)
-                this.unlockNode.visible = false;
-            else {
-                this.freeSkin = Utility.getRandomItemInArr(skinArr);
-                let icon = this.unlockNode.getChildByName('icon');
-                let name = this.unlockNode.getChildByName('name');
-                let str = '';
-                let index = (this.freeSkin[1] + 1) < 10 ? ('0' + (this.freeSkin[1] + 1)) : (this.freeSkin[1] + 1);
-                if (this.freeSkin[0] == 0) {
-                    str = 'items/Head_' + index + '.png';
-                    name.text = PlayerDataMgr.getHeadName(this.freeSkin[1]);
-                    PlayerDataMgr.getDataByType(0)[this.freeSkin[1]] = 1;
-                }
-                else if (this.freeSkin[0] == 1) {
-                    str = 'items/Leg_' + index + '.png';
-                    name.text = PlayerDataMgr.getLegName(this.freeSkin[1]);
-                    PlayerDataMgr.getDataByType(1)[this.freeSkin[1]] = 1;
-                }
-                else if (this.freeSkin[0] == 2) {
-                    str = 'items/Tail_' + index + '.png';
-                    name.text = PlayerDataMgr.getTailName(this.freeSkin[1]);
-                    PlayerDataMgr.getDataByType(2)[this.freeSkin[1]] = 1;
-                }
-                else if (this.freeSkin[0] == 3) {
-                    str = 'items/Wings_' + index + '.png';
-                    name.text = PlayerDataMgr.getWingsName(this.freeSkin[1]);
-                    PlayerDataMgr.getDataByType(3)[this.freeSkin[1]] = 1;
-                }
-                icon.skin = str;
-                PlayerDataMgr.setPlayerData();
-            }
-        }
-        onClosed() {
-        }
-        closeCB() {
-            if (GameLogic.Share.isWin) {
-                PlayerDataMgr.getPlayerData().grade++;
-                PlayerDataMgr.setPlayerData();
-            }
-            GameLogic.Share.restartGame();
-            Laya.Scene.open('MyScenes/StartUI.scene');
-        }
-    }
-
-    class FixNodeY extends Laya.Script {
-        constructor() {
-            super();
-        }
-        onAwake() {
-            let myOwner = this.owner;
-            myOwner.y = myOwner.y * Laya.stage.displayHeight / 1334;
-        }
-    }
-
-    class LoadingUI extends Laya.Scene {
-        constructor() {
-            super();
-        }
-        onOpened() {
-            this.size(Laya.stage.displayWidth, Laya.stage.displayHeight);
-            if (!Laya.Browser.onQGMiniGame) {
-                localStorage.clear();
-            }
-            FdMgr.init(() => {
-                if (Laya.Browser.onQGMiniGame) {
-                    this.loadSubpackage();
-                }
-                else {
-                    this.loadRes();
-                }
-            });
-            Laya.timer.frameLoop(1, this, () => {
-                this.bar.value += 0.01;
-            });
-        }
-        onClosed() {
-        }
-        loadSubpackage() {
-            const loadTask = Laya.Browser.window.wx.loadSubpackage({
-                name: 'unity',
-                success: (res) => {
-                    this.loadRes();
-                },
-                fail: (res) => {
-                    this.loadSubpackage();
-                }
-            });
-            loadTask.onProgressUpdate(res => {
-                console.log('下载进度', res.progress);
-                console.log('已经下载的数据长度', res.totalBytesWritten);
-                console.log('预期需要下载的数据总长度', res.totalBytesExpectedToWrite);
-            });
-        }
-        loadRes() {
-            var resUrl = [
-                WxApi.UnityPath + 'SampleScene.ls'
-            ];
-            Laya.loader.create(resUrl, Laya.Handler.create(this, this.onComplete), Laya.Handler.create(this, this.onProgress));
-        }
-        onComplete() {
-            GameLogic.Share.initScene();
-        }
-        onProgress(value) {
-        }
-    }
 
     class FdAd {
         static get oppoPlatform() {
@@ -1481,23 +1326,25 @@
         }
         static showNativeAd() {
             if (!this.oppoPlatform)
-                return;
+                return null;
             for (let i = 0; i < this.nativeAdErrorArr.length; i++) {
                 if (this.nativeAdErrorArr[this.nativeIndex])
-                    this.nativeIndex++;
+                    this.nextNativeIndex();
                 else
                     break;
             }
             this.checkReCreateNativeAd();
+            let adData = this.nativeAdDataArr[this.nativeIndex];
             this.nativeAdArr[this.nativeIndex].reportAdShow({
-                adId: this.nativeAdDataArr[this.nativeIndex].adId
+                adId: adData.adId
             });
+            return adData;
         }
-        static reportAdClick() {
-            if (!this.oppoPlatform || !this.nativeAdDataArr[this.nativeIndex])
+        static reportAdClick(data) {
+            if (!this.oppoPlatform || !data)
                 return;
             this.nativeAdArr[this.nativeIndex].reportAdClick({
-                adId: this.nativeAdDataArr[this.nativeIndex].adId
+                adId: data.adId
             });
         }
         static destroyNativeAd() {
@@ -1506,9 +1353,8 @@
             this.nativeAdArr[this.nativeIndex].destroy();
             this.nativeAdDataArr[this.nativeIndex] = null;
             this.nativeAdErrorArr[this.nativeIndex] = true;
-        }
-        static getNativeData() {
-            return this.nativeAdDataArr[this.nativeIndex];
+            this.nextNativeIndex();
+            this.checkReCreateNativeAd();
         }
         static isAllNativeAdError() {
             for (let i = 0; i < this.nativeAdErrorArr.length; i++) {
@@ -1516,6 +1362,11 @@
                     return false;
             }
             return true;
+        }
+        static nextNativeIndex() {
+            this.nativeIndex++;
+            if (this.nativeIndex >= this.nativeIdArr.length)
+                this.nativeIndex = 0;
         }
         static checkReCreateNativeAd() {
             let count = 0;
@@ -1572,6 +1423,380 @@
     FdAd.nativeIndex = 0;
     FdAd.nativeAdLoadedCount = 0;
     FdAd.nativeLoaded = false;
+
+    class BannerNativeUI extends Laya.Scene {
+        constructor() {
+            super();
+            this.adData = null;
+            this.ccb = null;
+            this.hadClick = false;
+            this.stayTime = 0;
+            this.onShowCB = null;
+        }
+        onOpened(param) {
+            this.size(Laya.stage.displayWidth, Laya.stage.displayHeight);
+            if (param && param.ccb)
+                this.ccb = param.ccb;
+            this.closeBtn.on(Laya.Event.CLICK, this, this.closeBtnCB);
+            Laya.timer.loop(100, this, () => { this.stayTime += 0.1; });
+            this.adData = FdAd.showNativeAd();
+            if (!this.adData) {
+                this.close();
+                return;
+            }
+            this.pic.skin = this.adData.imgUrlList;
+            this.desc.text = this.adData.desc;
+            if (FdMgr.jsonConfig.is_touchMoveNativeAd)
+                this.pic.on(Laya.Event.MOUSE_MOVE, this, this.adBtnCB);
+            this.onShowCB = () => {
+                if (this.hadClick)
+                    this.closeBtnCB();
+            };
+            if (FdAd.oppoPlatform)
+                Laya.Browser.window['qg'].onShow(this.onShowCB);
+        }
+        onClosed(type) {
+            if (FdAd.oppoPlatform && this.onShowCB)
+                Laya.Browser.window['qg'].offShow(this.onShowCB);
+            Laya.timer.clearAll(this);
+            if (this.hadClick)
+                FdAd.destroyNativeAd();
+            else if (this.stayTime >= FdMgr.jsonConfig.account_refNativeAd)
+                FdAd.nextNativeIndex();
+            this.ccb && this.ccb();
+        }
+        adBtnCB() {
+            if (this.hadClick)
+                return;
+            this.hadClick = true;
+            FdAd.reportAdClick(this.adData);
+        }
+        closeBtnCB() {
+            this.close();
+        }
+    }
+
+    class Box extends Laya.Scene {
+        constructor() {
+            super(...arguments);
+            this.progressValue = 0;
+            this.hadShowBanner = false;
+        }
+        onAwake() {
+            this.size(Laya.stage.width, Laya.stage.height);
+        }
+        onOpened(param) {
+            if (param && param.ccb) {
+                this.closeCB = param.ccb;
+            }
+            this.btnPress.on(Laya.Event.CLICK, this, this.onPress);
+            Laya.timer.frameLoop(1, this, this.reFreshUI);
+        }
+        onClosed() {
+            Laya.timer.clearAll(this);
+            this.closeCB && this.closeCB();
+        }
+        onPress() {
+            this.progressValue += FdMgr.wuchuProgressStepAdd;
+            Laya.Tween.to(this.btnPress, { scaleX: 1.2, scaleY: 1.2 }, 100, null, Laya.Handler.create(this, () => {
+                Laya.Tween.to(this.btnPress, { scaleX: 1, scaleY: 1 }, 100, null);
+            }));
+            if (this.progressValue >= FdMgr.wuchuProgressValue && !this.hadShowBanner) {
+                this.hadShowBanner = true;
+                FdAd.showBanner();
+                Laya.timer.once(2000, this, () => {
+                    FdAd.hideBanner();
+                    this.close();
+                });
+            }
+            Laya.Tween.to(this.imgSushi, { rotation: 30 }, 100, null, Laya.Handler.create(this, () => {
+                Laya.Tween.to(this.imgSushi, { rotation: 0 }, 100);
+            }));
+            this.pressBar.value = this.progressValue;
+        }
+        reFreshUI() {
+            if (this.progressValue > FdMgr.wuchuProgressFrameSub) {
+                this.progressValue -= FdMgr.wuchuProgressFrameSub;
+            }
+            this.pressBar.value = this.progressValue;
+            this.light.rotation += 1;
+        }
+    }
+
+    class FDHomeUI extends Laya.Scene {
+        constructor() {
+            super();
+        }
+        onOpened(param) {
+            this.size(Laya.stage.displayWidth, Laya.stage.displayHeight);
+            this.privacyBtn.on(Laya.Event.CLICK, this, this.privacyBtnCB);
+            this.moreBtn.on(Laya.Event.CLICK, this, this.moreBtnCB);
+        }
+        onClosed(type) {
+        }
+        privacyBtnCB() {
+            FdMgr.showPrivacyUI();
+        }
+        moreBtnCB() {
+            FdAd.showGamePortalAd();
+        }
+    }
+
+    class GridNativeUI extends Laya.Scene {
+        constructor() {
+            super();
+            this.adData = null;
+            this.ccb = null;
+            this.hadClick = false;
+            this.stayTime = 0;
+            this.onShowCB = null;
+        }
+        onOpened(param) {
+            this.size(Laya.stage.displayWidth, Laya.stage.displayHeight);
+            if (param && param.ccb)
+                this.ccb = param.ccb;
+            this.closeBtn.on(Laya.Event.CLICK, this, this.closeBtnCB);
+            Laya.timer.loop(100, this, () => { this.stayTime += 0.1; });
+            this.adData = FdAd.showNativeAd();
+            if (!this.adData) {
+                this.close();
+                return;
+            }
+            this.pic.skin = this.adData.imgUrlList;
+            if (FdMgr.jsonConfig.is_touchMoveNativeAd)
+                this.pic.on(Laya.Event.MOUSE_MOVE, this, this.adBtnCB);
+            this.onShowCB = () => {
+                if (this.hadClick)
+                    this.closeBtnCB();
+            };
+            if (FdAd.oppoPlatform)
+                Laya.Browser.window['qg'].onShow(this.onShowCB);
+        }
+        onClosed(type) {
+            if (FdAd.oppoPlatform && this.onShowCB)
+                Laya.Browser.window['qg'].offShow(this.onShowCB);
+            Laya.timer.clearAll(this);
+            if (this.hadClick)
+                FdAd.destroyNativeAd();
+            else if (this.stayTime >= FdMgr.jsonConfig.account_refNativeAd)
+                FdAd.nextNativeIndex();
+            this.ccb && this.ccb();
+        }
+        adBtnCB() {
+            if (this.hadClick)
+                return;
+            this.hadClick = true;
+            FdAd.reportAdClick(this.adData);
+        }
+        closeBtnCB() {
+            this.close();
+        }
+    }
+
+    class MiddleNativeUI extends Laya.Scene {
+        constructor() {
+            super();
+            this.adData = null;
+            this.ccb = null;
+            this.hadClick = false;
+            this.stayTime = 0;
+            this.onShowCB = null;
+        }
+        onOpened(param) {
+            this.size(Laya.stage.displayWidth, Laya.stage.displayHeight);
+            if (param && param.ccb)
+                this.ccb = param.ccb;
+            this.closeBtn.on(Laya.Event.CLICK, this, this.closeBtnCB);
+            this.adBtn.on(Laya.Event.CLICK, this, this.adBtnCB);
+            Laya.timer.loop(100, this, () => { this.stayTime += 0.1; });
+            this.adData = FdAd.showNativeAd();
+            if (!this.adData) {
+                this.close();
+                return;
+            }
+            this.pic.skin = this.adData.imgUrlList;
+            this.desc.text = this.adData.desc;
+            if (FdMgr.jsonConfig.is_touchMoveNativeAd)
+                this.pic.on(Laya.Event.MOUSE_MOVE, this, this.adBtnCB);
+            this.onShowCB = () => {
+                if (this.hadClick)
+                    this.closeBtnCB();
+            };
+            if (FdAd.oppoPlatform)
+                Laya.Browser.window['qg'].onShow(this.onShowCB);
+        }
+        onClosed(type) {
+            if (FdAd.oppoPlatform && this.onShowCB)
+                Laya.Browser.window['qg'].offShow(this.onShowCB);
+            Laya.timer.clearAll(this);
+            if (this.hadClick)
+                FdAd.destroyNativeAd();
+            else if (this.stayTime >= FdMgr.jsonConfig.account_refNativeAd)
+                FdAd.nextNativeIndex();
+            this.ccb && this.ccb();
+        }
+        adBtnCB() {
+            if (this.hadClick)
+                return;
+            this.hadClick = true;
+            FdAd.reportAdClick(this.adData);
+        }
+        closeBtnCB() {
+            this.close();
+        }
+    }
+
+    class PrivacyUI extends Laya.Scene {
+        constructor() {
+            super();
+            this.closeCB = null;
+        }
+        onOpened(param) {
+            if (param && param.closeCB) {
+                this.closeCB = param.closeCB;
+            }
+            this.disAgree.on(Laya.Event.CLICK, this, this.disAgreeCB);
+            this.agree.on(Laya.Event.CLICK, this, this.agreeCB);
+            this.scrollPanel.vScrollBarSkin = "";
+        }
+        onClosed(type) {
+            this.closeCB && this.closeCB();
+        }
+        disAgreeCB() {
+            if (FdAd.oppoPlatform) {
+                Laya.Browser.window.qg.exitApplication();
+            }
+        }
+        agreeCB() {
+            localStorage.setItem('showPrivacy', "1");
+            this.close();
+        }
+    }
+
+    class FinishUI extends Laya.Scene {
+        constructor() {
+            super();
+            this.freeSkin = [];
+        }
+        onOpened() {
+            this.size(Laya.stage.displayWidth, Laya.stage.displayHeight);
+            this.gradeNum.value = PlayerDataMgr.getPlayerData().grade.toString();
+            let isWin = GameLogic.Share.isWin;
+            this.winTitle.visible = isWin;
+            this.loseTitle.visible = !isWin;
+            this.nextBtn.visible = isWin;
+            this.restartBtn.visible = !isWin;
+            if (isWin) {
+                PlayerDataMgr.unlockBody();
+            }
+            Utility.addClickEvent(this.nextBtn, this, this.closeCB);
+            Utility.addClickEvent(this.restartBtn, this, this.closeCB);
+            let skinArr = PlayerDataMgr.getInvalidSkins();
+            if (skinArr.length <= 0 || !isWin)
+                this.unlockNode.visible = false;
+            else {
+                this.freeSkin = Utility.getRandomItemInArr(skinArr);
+                let icon = this.unlockNode.getChildByName('icon');
+                let name = this.unlockNode.getChildByName('name');
+                let str = '';
+                let index = (this.freeSkin[1] + 1) < 10 ? ('0' + (this.freeSkin[1] + 1)) : (this.freeSkin[1] + 1);
+                if (this.freeSkin[0] == 0) {
+                    str = 'items/Head_' + index + '.png';
+                    name.text = PlayerDataMgr.getHeadName(this.freeSkin[1]);
+                    PlayerDataMgr.getDataByType(0)[this.freeSkin[1]] = 1;
+                }
+                else if (this.freeSkin[0] == 1) {
+                    str = 'items/Leg_' + index + '.png';
+                    name.text = PlayerDataMgr.getLegName(this.freeSkin[1]);
+                    PlayerDataMgr.getDataByType(1)[this.freeSkin[1]] = 1;
+                }
+                else if (this.freeSkin[0] == 2) {
+                    str = 'items/Tail_' + index + '.png';
+                    name.text = PlayerDataMgr.getTailName(this.freeSkin[1]);
+                    PlayerDataMgr.getDataByType(2)[this.freeSkin[1]] = 1;
+                }
+                else if (this.freeSkin[0] == 3) {
+                    str = 'items/Wings_' + index + '.png';
+                    name.text = PlayerDataMgr.getWingsName(this.freeSkin[1]);
+                    PlayerDataMgr.getDataByType(3)[this.freeSkin[1]] = 1;
+                }
+                icon.skin = str;
+                PlayerDataMgr.setPlayerData();
+            }
+        }
+        onClosed() {
+        }
+        closeCB() {
+            if (GameLogic.Share.isWin) {
+                PlayerDataMgr.getPlayerData().grade++;
+                PlayerDataMgr.setPlayerData();
+            }
+            GameLogic.Share.restartGame();
+            Laya.Scene.open('MyScenes/StartUI.scene');
+        }
+    }
+
+    class FixNodeY extends Laya.Script {
+        constructor() {
+            super();
+        }
+        onAwake() {
+            let myOwner = this.owner;
+            myOwner.y = myOwner.y * Laya.stage.displayHeight / 1334;
+        }
+    }
+
+    class LoadingUI extends Laya.Scene {
+        constructor() {
+            super();
+        }
+        onOpened() {
+            this.size(Laya.stage.displayWidth, Laya.stage.displayHeight);
+            if (!Laya.Browser.onQGMiniGame) {
+                localStorage.clear();
+            }
+            FdMgr.init(() => {
+                if (Laya.Browser.onQGMiniGame) {
+                    this.loadSubpackage();
+                }
+                else {
+                    this.loadRes();
+                }
+            });
+            Laya.timer.frameLoop(1, this, () => {
+                this.bar.value += 0.01;
+            });
+        }
+        onClosed() {
+        }
+        loadSubpackage() {
+            const loadTask = Laya.Browser.window.wx.loadSubpackage({
+                name: 'unity',
+                success: (res) => {
+                    this.loadRes();
+                },
+                fail: (res) => {
+                    this.loadSubpackage();
+                }
+            });
+            loadTask.onProgressUpdate(res => {
+                console.log('下载进度', res.progress);
+                console.log('已经下载的数据长度', res.totalBytesWritten);
+                console.log('预期需要下载的数据总长度', res.totalBytesExpectedToWrite);
+            });
+        }
+        loadRes() {
+            var resUrl = [
+                WxApi.UnityPath + 'SampleScene.ls'
+            ];
+            Laya.loader.create(resUrl, Laya.Handler.create(this, this.onComplete), Laya.Handler.create(this, this.onProgress));
+        }
+        onComplete() {
+            GameLogic.Share.initScene();
+        }
+        onProgress(value) {
+        }
+    }
 
     class SelectUI extends Laya.Scene {
         constructor() {
@@ -1996,12 +2221,9 @@
         onOpened() {
             this.size(Laya.stage.displayWidth, Laya.stage.displayHeight);
             Utility.addClickEvent(this.startBtn, this, this.startBtnCB);
-            this.logo.on(Laya.Event.MOUSE_MOVE, this, this.logoMove);
+            FdMgr.inHome();
         }
         onClosed() {
-        }
-        logoMove() {
-            console.log('123');
         }
         startBtnCB() {
             Laya.Scene.open('MyScenes/SelectUI.scene');
@@ -2032,7 +2254,11 @@
         }
         static init() {
             var reg = Laya.ClassUtils.regClass;
+            reg("FanDong/BannerNativeUI.ts", BannerNativeUI);
             reg("FanDong/Box.ts", Box);
+            reg("FanDong/FDHomeUI.ts", FDHomeUI);
+            reg("FanDong/GridNativeUI.ts", GridNativeUI);
+            reg("FanDong/MiddleNativeUI.ts", MiddleNativeUI);
             reg("FanDong/PrivacyUI.ts", PrivacyUI);
             reg("View/FinishUI.ts", FinishUI);
             reg("View/GameUI.ts", GameUI);
@@ -2050,7 +2276,7 @@
     GameConfig.screenMode = "vertical";
     GameConfig.alignV = "top";
     GameConfig.alignH = "left";
-    GameConfig.startScene = "MyScenes/StartUI.scene";
+    GameConfig.startScene = "FDScene/FDHomeUI.scene";
     GameConfig.sceneRoot = "";
     GameConfig.debug = false;
     GameConfig.stat = false;
