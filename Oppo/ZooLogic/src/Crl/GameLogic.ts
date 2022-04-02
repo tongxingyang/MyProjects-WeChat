@@ -183,6 +183,7 @@ export default class GameLogic {
     }
 
     gameOver(isWin: boolean) {
+        if (this.isGameOver) return
         Laya.timer.clearAll(this)
         WxApi.DoVibrate(false)
         if (isWin) {
@@ -196,7 +197,9 @@ export default class GameLogic {
         this.isStartGame = false
         Laya.Scene.close('MyScenes/GameUI.scene')
         Laya.timer.once(2000, this, () => {
-            Laya.Scene.open('MyScenes/FinishUI.scene')
+            FdMgr.gameOver(() => {
+                Laya.Scene.open('MyScenes/FinishUI.scene', false)
+            })
         })
     }
 

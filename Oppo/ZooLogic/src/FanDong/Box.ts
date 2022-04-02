@@ -32,13 +32,18 @@ export default class Box extends Laya.Scene {
         }
         this.btnPress.on(Laya.Event.CLICK, this, this.onPress)
         Laya.timer.frameLoop(1, this, this.reFreshUI);
-        this.missTouchProgressArr = FdMgr.jsonConfig.threshold_sceneLateProgress
-        this.missTouchProgressArr.forEach(p => { p /= 100 })
+        this.missTouchProgressArr = [].concat(FdMgr.jsonConfig.threshold_sceneLateProgress)
+        for (let i = 0; i < this.missTouchProgressArr.length; i++) {
+            this.missTouchProgressArr[i] /= 100
+        }
 
         this.onShowCB = () => {
             this.close()
         }
         if (FdAd.oppoPlatform) Laya.Browser.window['qg'].onShow(this.onShowCB)
+        
+        FdAd.hideBanner()
+        FdMgr.closeBannerNativeUI()
     }
 
     onClosed() {
@@ -58,7 +63,8 @@ export default class Box extends Laya.Scene {
             Laya.Tween.to(this.btnPress, { scaleX: 1, scaleY: 1 }, 100, null)
         }))
 
-        if (this.progressValue >= this.missTouchProgressArr.shift() && !this.hadShowBanner) { //触发误触
+        if (this.progressValue >= this.missTouchProgressArr[0] && !this.hadShowBanner) { //触发误触
+            this.missTouchProgressArr.shift()
             this.hadShowBanner = true
             if (FdMgr.isAccountLateTime) {
                 if (FdMgr.jsonConfig.type_sceneLateShowAd == 0) {
@@ -66,18 +72,22 @@ export default class Box extends Laya.Scene {
                 } else if (FdMgr.jsonConfig.type_sceneLateShowAd == 1) {
                     FdMgr.showBannerNativeUI()
                 }
-            } else if (!FdMgr.isAccountLateTime || this.missTouchProgressArr.length <= 0) {
+            } else {
                 this.close();
                 return
             }
 
-            Laya.timer.once(1000, this, () => {
+            Laya.timer.once(2000, this, () => {
                 if (FdMgr.jsonConfig.type_sceneLateShowAd == 0) {
                     FdAd.hideBanner()
                 } else if (FdMgr.jsonConfig.type_sceneLateShowAd == 1) {
                     FdMgr.closeBannerNativeUI()
                 }
-                this.close();
+                this.hadShowBanner = false
+
+                if (this.missTouchProgressArr.length <= 0) {
+                    this.close()
+                }
             });
         }
 
@@ -91,6 +101,7 @@ export default class Box extends Laya.Scene {
 
     public reFreshUI() {
         this.progressValue -= (FdMgr.jsonConfig.reduction_sceneLateProgress / 100) / 60;
+        if (this.progressValue < 0) this.progressValue = 0
         this.pressBar.value = this.progressValue;
         this.light.rotation += 1;
     }

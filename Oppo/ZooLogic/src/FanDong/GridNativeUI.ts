@@ -53,7 +53,7 @@ export default class GridNativeUI extends Laya.Scene {
         FdAd.nextNativeIndex()
         this.adData = FdAd.showNativeAd()
         if (!this.adData) { this.close(); return }
-        this.pic.skin = this.adData.imgUrlList
+        this.pic.skin = this.adData.imgUrlList[0] ? this.adData.imgUrlList[0] : this.adData.iconUrlList[0]
         if (FdMgr.jsonConfig.is_touchMoveNativeAd && FdMgr.isAccountLateTime && !FdMgr.nativeMissTouched) {
             this.pic.off(Laya.Event.MOUSE_MOVE, this, this.adBtnCB)
             this.pic.on(Laya.Event.MOUSE_MOVE, this, this.adBtnCB, [true])

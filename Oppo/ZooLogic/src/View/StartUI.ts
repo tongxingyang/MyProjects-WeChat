@@ -17,6 +17,9 @@ export default class StartUI extends Laya.Scene {
     }
 
     startBtnCB() {
-        Laya.Scene.open('MyScenes/SelectUI.scene')
+        this.close()
+        FdMgr.clickStart(() => {
+            Laya.Scene.open('MyScenes/SelectUI.scene', false)
+        })
     }
 }

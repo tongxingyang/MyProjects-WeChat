@@ -1,0 +1,100 @@
+{
+    "copyFilesFilter": [
+        "../bin/**/*.*"
+    ],
+    "openDataZone": false,
+    "compressJson": true,
+    "compressJsonFilter": [
+        "$basePath/**/*.{json,atlas}"
+    ],
+    "compressJsonNoteList": [
+        ""
+    ],
+    "compressImage": true,
+    "compressImageFilter": [
+        "$basePath/**/*.{png,jpg}"
+    ],
+    "compressImageNoteList": [
+        ""
+    ],
+    "compressJs": true,
+    "compressJsFilter": [
+        "$basePath/**/*.js",
+        "!$basePath/libs/min/**/*.js"
+    ],
+    "compressJsNoteList": [
+        "",
+        ""
+    ],
+    "version": false,
+    "versionFilter": [
+        "$basePath/**/*.*",
+        "!$basePath/*.html",
+        "!$basePath/{version.json,game.js,game.json,project.config.json,weapp-adapter.js,project.swan.json,swan-game-adapter.js,main.js,gameConfig.json,my-adapter.js,microgame-adapter.js,qg-adapter.js,huawei-adapter.js,adapter.js,}",
+        "!$basePath/layaforqq/**/*.*"
+    ],
+    "versionNoteList": [
+        "",
+        "",
+        "",
+        ""
+    ],
+    "exclude": false,
+    "excludeFilter": [
+        "!$basePath/res/**/*.*"
+    ],
+    "vexcludeNoteList": [
+        ""
+    ],
+    "packfile": false,
+    "keepPlatformFile": true,
+    "packfileFilter": [
+        ""
+    ],
+    "packfileFullValue": [
+        "$basePath/**/*.*"
+    ],
+    "packfileTargetValue": "",
+    "packfileNoteList": [
+        ""
+    ],
+    "clearReleaseDir": true,
+    "compile": true,
+    "forceCompile": false,
+    "onlyIndexJS": true,
+    "useMinJsLibs": true,
+    "es6toes5": false,
+    "projectType": "ts",
+    "pubTime": 1648894595010,
+    "oppoInfo": {
+        "name": "怪物进化",
+        "projName": "quickgame",
+        "package": "gwjh.nearme.gamecenter",
+        "icon": "E:\\FDProjects\\Projects\\Oppo\\ZooLogic\\bin\\icon.png",
+        "versionName": "1.0",
+        "versionCode": 1,
+        "minPlatformVersion": 1060,
+        "orientation": "portrait",
+        "logLevel": "log",
+        "adbDebug": true,
+        "apkUpdate": true,
+        "useReleaseSign": true,
+        "subpack": false
+    },
+    "oppoSign": {
+        "generateSign": false,
+        "countryName": "CN",
+        "provinceName": "GD",
+        "localityName": "GZ",
+        "orgName": "SG",
+        "orgUnitName": "SG",
+        "commonName": "HTS",
+        "emailAddr": "491991027@qq.com"
+    },
+    "oppoSubpack": [
+        {
+            "name": "unity",
+            "root": "LayaScene_SampleScene/"
+        }
+    ]
+}

@@ -61,6 +61,20 @@ export default class FdMgr {
         }
     }
 
+    //间隔10秒尝试拉取原生广告
+    static delayChangeToNative() {
+        if (FdAd.isAllNativeAdError()) {
+            Laya.timer.once(10000, this, this.delayChangeToNative)
+        } else {
+            FdAd.hideBanner()
+            this.showBannerNativeUI()
+            Laya.timer.clear(this, this.delayChangeToNative)
+        }
+    }
+    //游戏资源加载完成 进入首页之前
+    static beforeHome(cb: Function) {
+        this.gameProcessUI0(cb)
+    }
     //进入首页
     static inHome() {
         this.showFDHomeUI()
@@ -76,24 +90,16 @@ export default class FdMgr {
             FdAd.showBanner()
         }
     }
-    //间隔10秒尝试拉取原生广告
-    static delayChangeToNative() {
-        if (FdAd.isAllNativeAdError()) {
-            Laya.timer.once(10000, this, this.delayChangeToNative)
-        } else {
-            FdAd.hideBanner()
-            this.showBannerNativeUI()
-            Laya.timer.clear(this, this.delayChangeToNative)
-        }
-    }
     //点击开始游戏
     static clickStart(cb?: Function) {
+        this.closeFDHomeUI()
         Laya.timer.clear(this, this.delayChangeToNative)
         if (this.jsonConfig.is_startBtnLate) {
             FdAd.reportAdClick(FdAd.showNativeAd())
         }
         FdAd.hideBanner()
         this.closeBannerNativeUI()
+        this.gameProcessUI1(cb)
     }
     //进入游戏中
     static inGame() {
@@ -117,20 +123,74 @@ export default class FdMgr {
         Laya.timer.clear(this, this.delayChangeToNative)
         FdAd.hideBanner()
         this.closeBannerNativeUI()
+        this.closeGridNativeUI()
+        this.gameProcessUI2(cb)
     }
     //进入结算页
     static inFinish() {
-
+        FdAd.showBanner()
     }
     //点击回到首页
     static backToHome(cb?: Function) {
         if (this.jsonConfig.is_nextBtnLate) {
             FdAd.reportAdClick(FdAd.showNativeAd())
         }
+        FdAd.hideBanner()
+        this.gameProcessUI3(() => {
+            this.gameProcessUI0(cb)
+        })
     }
 
+    //首页之前 界面
+    private static gameProcessUI0(cb?: Function) {
+        let arr: number[] = [].concat(this.jsonConfig.gameProcess_setting)
+        let processArr: number[] = []
+        for (let i = 0; i < arr.length; i++) {
+            if (arr[i] == 1) break
+            processArr.push(arr[i])
+        }
+        this.repeatShowUIByType(processArr, cb)
+    }
+    //首页/点击开始游戏之后 界面
+    private static gameProcessUI1(cb?: Function) {
+        let arr: number[] = [].concat(this.jsonConfig.gameProcess_setting)
+        arr.splice(0, arr.indexOf(1) + 1)
+        let processArr: number[] = []
+        for (let i = 0; i < arr.length; i++) {
+            if (arr[i] == 2) break
+            processArr.push(arr[i])
+        }
+        this.repeatShowUIByType(processArr, cb)
+    }
+    //游戏结束之后/结算页之前 界面
+    private static gameProcessUI2(cb?: Function) {
+        let arr: number[] = [].concat(this.jsonConfig.gameProcess_setting)
+        arr.splice(0, arr.indexOf(2) + 1)
+        let processArr: number[] = []
+        for (let i = 0; i < arr.length; i++) {
+            if (arr[i] == 3) break
+            processArr.push(arr[i])
+        }
+        this.repeatShowUIByType(processArr, cb)
+    }
+    //关闭结算页之后/返回结算页之前 界面
+    private static gameProcessUI3(cb?: Function) {
+        let arr: number[] = [].concat(this.jsonConfig.gameProcess_setting)
+        arr.splice(0, arr.indexOf(3) + 1)
+        let processArr: number[] = []
+        for (let i = 0; i < arr.length; i++) {
+            processArr.push(arr[i])
+        }
+        this.repeatShowUIByType(processArr, cb)
+    }
+    private static repeatShowUIByType(arr: number[], cb?: Function) {
+        if (arr.length <= 0) { cb && cb(); return }
+        this.showUIByType(arr.shift(), () => {
+            this.repeatShowUIByType(arr, cb)
+        })
+    }
     //根据界面类型展示界面
-    static showUIByTybe(type: number, cb?: Function) {
+    private static showUIByType(type: number, cb?: Function) {
         switch (type) {
             case 4:
                 //浮层原生广告
@@ -162,23 +222,28 @@ export default class FdMgr {
     static showFDHomeUI() {
         Laya.Scene.open(SceneType.FDHomeUI, false)
     }
+    static closeFDHomeUI() {
+        Laya.Scene.close(SceneType.FDHomeUI)
+    }
     //隐私政策
-    static showPrivacyUI() {
-        Laya.Scene.open(SceneType.PrivacyUI, false)
+    static showPrivacyUI(cb?: Function) {
+        Laya.Scene.open(SceneType.PrivacyUI, false, { ccb: cb })
     }
     //猛点页面
     static showBoxUI(cb?: Function) {
-        Laya.Scene.open(SceneType.Box, true, { ccb: cb })
+        Laya.Scene.open(SceneType.Box, false, { ccb: cb })
     }
     //全屏原生广告页面
     static showMiddleNativeUI(cb?: Function) {
-        Laya.Scene.open(SceneType.MiddleNativeUI, true, { ccb: cb })
+        if (FdAd.isAllNativeAdError()) { cb && cb(); return }
+        Laya.Scene.open(SceneType.MiddleNativeUI, false, { ccb: cb })
     }
     static closeMiddleNativeUI() {
         Laya.Scene.close(SceneType.MiddleNativeUI)
     }
     //banner原生广告页面
     static showBannerNativeUI(cb?: Function) {
+        if (FdAd.isAllNativeAdError()) { cb && cb(); return }
         if (this.jsonConfig.is_botNativeAd)
             Laya.Scene.open(SceneType.BannerNativeUI, false, { ccb: cb })
         else
@@ -189,6 +254,7 @@ export default class FdMgr {
     }
     //格子原生广告页面
     static showGridNativeUI(cb?: Function) {
+        if (FdAd.isAllNativeAdError()) { cb && cb(); return }
         Laya.Scene.open(SceneType.GridNativeUI, false, { ccb: cb })
     }
     static closeGridNativeUI() {
@@ -209,8 +275,6 @@ export default class FdMgr {
 
     static jsonConfig: any;
     static getConfig(cb: Function) {
-        var launchInfo = Laya.Browser.window['wx'].getLaunchOptionsSync();
-        console.log("当前场景：", launchInfo.scene);
         console.log('wxsdk初始化')
         window['wxsdk'].init({
             version: '1.0.0', // 当前的小游戏版本号，只能以数字
@@ -224,29 +288,32 @@ export default class FdMgr {
         window['wxsdk'].onInit(() => {
             console.log('wxsdk初始化成功:', window['wxsdk'].user)
             this.jsonConfig = window['wxsdk'].conf
-            console.log('config:', this.jsonConfig)
 
-            if (this.jsonConfig.channel_ditch && !window['wxsdk'].user.channel) {
-                this.jsonConfig.allowMistouch = false;
-                console.log('config1:', this.jsonConfig)
+            if (!this.jsonConfig.is_late) {
+                this.jsonConfig.is_nextBtnLate = false
+                this.jsonConfig.is_startBtnLate = false
+                this.jsonConfig.gameProcess_setting = [1, 2, 3]
+                this.jsonConfig.is_touchMoveNativeAd = false
+                this.jsonConfig.level_nativeType = 2
             }
+
+            console.log('config:', this.jsonConfig)
 
             //初始化广告
             FdAd.initAllAd()
             let callBack = () => {
                 if (FdAd.getNativeLoaded) {
                     Laya.timer.clear(this, callBack)
-                    cb && cb()
+                    if (!localStorage.getItem('showPrivacy')) {
+                        this.showPrivacyUI(cb)
+                    } else {
+                        cb && cb()
+                    }
                 }
             }
             Laya.timer.frameLoop(1, this, callBack)
         })
         window['wxsdk'].login();
-    }
-
-    static get canTrapAll() {
-        if (!Laya.Browser.onQGMiniGame) return false
-        return this.allowScene && this.jsonConfig.allowMistouch && this.version.split('.')[2] <= this.jsonConfig.version.split('.')[2];
     }
 }
 

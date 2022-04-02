@@ -28,8 +28,9 @@ export default class MiddleNativeUI extends Laya.Scene {
         Laya.timer.loop(100, this, () => { this.stayTime += 0.1 })
 
         this.adData = FdAd.showNativeAd()
+        console.log('浮层原生广告：', JSON.stringify(this.adData))
         if (!this.adData) { this.close(); return }
-        this.pic.skin = this.adData.imgUrlList
+        this.pic.skin = this.adData.imgUrlList[0] ? this.adData.imgUrlList[0] : this.adData.iconUrlList[0]
         this.desc.text = this.adData.desc
         if (FdMgr.jsonConfig.is_touchMoveNativeAd && FdMgr.isAccountLateTime)
             this.pic.on(Laya.Event.MOUSE_MOVE, this, this.adBtnCB)
@@ -38,6 +39,9 @@ export default class MiddleNativeUI extends Laya.Scene {
             if (this.hadClick) this.closeBtnCB()
         }
         if (FdAd.oppoPlatform) Laya.Browser.window['qg'].onShow(this.onShowCB)
+
+        FdAd.hideBanner()
+        FdMgr.closeBannerNativeUI()
     }
 
     onClosed(type?: string): void {

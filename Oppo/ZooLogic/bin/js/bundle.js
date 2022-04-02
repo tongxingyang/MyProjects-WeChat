@@ -645,6 +645,613 @@
         }
     }
 
+    class FdAd {
+        static get oppoPlatform() {
+            return Laya.Browser.onQGMiniGame;
+        }
+        static initAllAd() {
+            if (!this.oppoPlatform)
+                return;
+            this.creaNativeAd();
+            this.createVideo();
+            this.createBanner();
+            this.createGamePortalAd();
+        }
+        static createBanner() {
+            if (!this.oppoPlatform || !FdMgr.jsonConfig.is_bannerAd)
+                return;
+            this.bannerIdArr = FdMgr.jsonConfig.array_bannerId;
+            this.bannerErrorArr = [];
+            for (let i = 0; i < this.bannerIdArr.length; i++) {
+                this.bannerErrorArr.push(true);
+            }
+            for (let i = 0; i < this.bannerIdArr.length; i++) {
+                let bannerAd = this.getBannerAd(i);
+                this.bannerAdArr.push(bannerAd);
+            }
+        }
+        static getBannerAd(index) {
+            let bannerAd = window['qg'].createBannerAd({
+                adUnitId: this.bannerIdArr[index]
+            });
+            bannerAd.onLoad(() => {
+                console.log('banner加载成功：', index);
+                this.bannerErrorArr[index] = false;
+            });
+            bannerAd.onError((err) => {
+                console.log('banner加载失败：', err);
+                this.bannerErrorArr[index] = true;
+            });
+            bannerAd.show();
+            bannerAd.hide();
+            return bannerAd;
+        }
+        static showBanner() {
+            if (!this.oppoPlatform || !this.bannerAdArr[this.bannerIndex] || !FdMgr.isOneMinutedAd) {
+                return;
+            }
+            this.hideBanner();
+            this.bannerAdArr[this.bannerIndex].show();
+            this.bannerIndex++;
+            if (this.bannerIndex >= this.bannerAdArr.length) {
+                this.bannerIndex = 0;
+            }
+        }
+        static hideBanner() {
+            if (!this.oppoPlatform)
+                return;
+            for (let i = 0; i < this.bannerAdArr.length; i++) {
+                if (!this.bannerErrorArr[i])
+                    this.bannerAdArr[i].hide();
+            }
+        }
+        static createVideo() {
+            this.rewardedAd = Laya.Browser.window['qg'].createRewardedVideoAd({
+                posId: FdMgr.jsonConfig.array_videoId[0],
+            });
+            this.rewardedAd.load();
+            this.videoLoading = true;
+            this.rewardedAd.onError(err => {
+                this.videoLoaded = false;
+                this.videoLoading = false;
+                this.videoCompleteCB && this.videoCompleteCB();
+                this.videoCompleteCB = null;
+                console.log("激励视频广告加载失败", JSON.stringify(err));
+            });
+            this.rewardedAd.onLoad(() => {
+                console.log('加载视频成功');
+                this.videoLoaded = true;
+                this.videoLoading = false;
+            });
+            const func = (res) => {
+                if (res && res.isEnded) {
+                    this.videoCCB && this.videoCCB();
+                }
+                this.videoCompleteCB && this.videoCompleteCB();
+                this.videoCCB = null;
+                this.videoLoaded = false;
+                this.videoLoading = true;
+                this.rewardedAd.load();
+            };
+            this.rewardedAd.onClose(func);
+        }
+        static loadVideo() {
+            this.videoLoaded = false;
+            this.videoLoading = true;
+            this.rewardedAd.load();
+        }
+        static showVideo(cb, completeCB) {
+            if (!this.oppoPlatform || !FdMgr.isOneMinutedAd) {
+                cb && cb();
+                completeCB && completeCB();
+                return;
+            }
+            this.videoCCB = cb;
+            this.videoCompleteCB = completeCB;
+            if (this.videoLoading) {
+                console.log('激励视频广告正在加载中！');
+                this.videoCompleteCB && this.videoCompleteCB();
+            }
+            else {
+                if (this.videoLoaded) {
+                    this.rewardedAd.show().then().catch(() => {
+                        this.videoCompleteCB && this.videoCompleteCB();
+                    });
+                }
+                else {
+                    this.videoCompleteCB && this.videoCompleteCB();
+                    this.videoCCB && this.videoCCB();
+                    this.loadVideo();
+                }
+            }
+        }
+        static createGamePortalAd() {
+            if (!this.oppoPlatform)
+                return;
+            this.gamePortalAd = Laya.Browser.window['qg'].createGamePortalAd({
+                adUnitId: FdMgr.jsonConfig.array_gamePortalID[0]
+            });
+            this.gamePortalAd.load();
+            this.gamePortalAd.onError(() => {
+                this.gamePortalAdError = true;
+                this.gamePortalCCB && this.gamePortalCCB();
+                console.log('互推盒子九宫格广告创建失败');
+            });
+            this.gamePortalAd.onLoad(() => {
+                this.gamePortalAdError = false;
+                console.log('互推盒子九宫格广告创建成功');
+            });
+            this.gamePortalAd.onClose(() => {
+                this.gamePortalCCB && this.gamePortalCCB();
+            });
+        }
+        static showGamePortalAd(ccb) {
+            if (!this.oppoPlatform || !this.gamePortalAd || this.getGameportalAdError() || !FdMgr.isOneMinutedAd) {
+                ccb && ccb();
+                return;
+            }
+            this.gamePortalCCB = ccb;
+            this.gamePortalAd.show();
+        }
+        static getGameportalAdError() {
+            return this.gamePortalAdError;
+        }
+        static get getNativeLoaded() {
+            return this.nativeLoaded;
+        }
+        static creaNativeAd() {
+            if (!this.oppoPlatform || !FdMgr.jsonConfig.is_nativeAd) {
+                this.nativeLoaded = true;
+                return;
+            }
+            this.nativeIdArr = FdMgr.jsonConfig.array_nativeId;
+            this.nativeAdArr = [];
+            this.nativeAdErrorArr = [];
+            this.nativeAdDataArr = [];
+            this.nativeIndex = 0;
+            for (let i = 0; i < this.nativeIdArr.length; i++) {
+                this.nativeAdErrorArr.push(true);
+                this.nativeAdDataArr.push(null);
+            }
+            for (let i = 0; i < this.nativeIdArr.length; i++) {
+                let nativeAd = this.getNativeAd(i);
+                this.nativeAdArr.push(nativeAd);
+            }
+        }
+        static getNativeAd(index) {
+            if (!this.oppoPlatform)
+                return;
+            let nativeAd = window['qg'].createNativeAd({
+                adUnitId: this.nativeIdArr[index]
+            });
+            nativeAd.onLoad((res) => {
+                console.log('原生广告加载成功：', this.nativeIdArr[index], '--' + res);
+                let list = res.adList;
+                let data = list[0];
+                this.nativeAdDataArr[index] = data;
+                this.nativeAdErrorArr[index] = false;
+                this.nativeAdLoadedCount++;
+                if (this.nativeAdLoadedCount >= this.nativeIdArr.length)
+                    this.nativeLoaded = true;
+            });
+            nativeAd.onError((res) => {
+                console.log('原生广告加载失败：', this.nativeIdArr[index], '--' + res);
+                this.nativeAdDataArr[index] = null;
+                this.nativeAdErrorArr[index] = true;
+                this.nativeAdLoadedCount++;
+                if (this.nativeAdLoadedCount >= this.nativeIdArr.length)
+                    this.nativeLoaded = true;
+            });
+            nativeAd.load();
+            return nativeAd;
+        }
+        static showNativeAd() {
+            if (!this.oppoPlatform || !FdMgr.isOneMinutedAd)
+                return null;
+            if (FdMgr.jsonConfig.is_unUseNative) {
+                for (let i = 0; i < this.nativeAdErrorArr.length; i++) {
+                    if (this.nativeAdErrorArr[this.nativeIndex])
+                        this.nextNativeIndex();
+                    else
+                        break;
+                }
+            }
+            this.checkReCreateNativeAd();
+            let adData = this.nativeAdDataArr[this.nativeIndex];
+            this.nativeAdArr[this.nativeIndex].reportAdShow({
+                adId: adData.adId
+            });
+            return adData;
+        }
+        static reportAdClick(data) {
+            if (!this.oppoPlatform || !data)
+                return;
+            this.nativeAdArr[this.nativeIndex].reportAdClick({
+                adId: data.adId
+            });
+            this.destroyNativeAd();
+        }
+        static destroyNativeAd() {
+            if (!this.oppoPlatform || !this.nativeAdArr[this.nativeIndex])
+                return;
+            this.nativeAdArr[this.nativeIndex].destroy();
+            this.nativeAdDataArr[this.nativeIndex] = null;
+            this.nativeAdErrorArr[this.nativeIndex] = true;
+            this.nextNativeIndex();
+            this.checkReCreateNativeAd();
+        }
+        static isAllNativeAdError() {
+            this.checkReCreateNativeAd();
+            if (this.nativeAdErrorArr.length <= 0 || !FdMgr.isOneMinutedAd)
+                return true;
+            for (let i = 0; i < this.nativeAdErrorArr.length; i++) {
+                console.log('原生广告error' + i + ':' + this.nativeAdErrorArr[i]);
+                if (this.nativeAdErrorArr[i] == false)
+                    return false;
+            }
+            return true;
+        }
+        static nextNativeIndex() {
+            this.nativeIndex++;
+            if (this.nativeIndex >= this.nativeIdArr.length)
+                this.nativeIndex = 0;
+        }
+        static checkReCreateNativeAd() {
+            let count = 0;
+            this.nativeAdErrorArr.forEach(b => { if (b)
+                count++; });
+            if (count >= this.nativeIdArr.length) {
+                this.creaNativeAd();
+            }
+            else if (count > this.nativeIdArr.length / 2) {
+                this.supplyNativeAd();
+            }
+        }
+        static supplyNativeAd() {
+            for (let i = 0; i < this.nativeAdErrorArr.length; i++) {
+                if (this.nativeAdErrorArr[i]) {
+                    this.nativeAdArr[i] = this.getNativeAd(i);
+                }
+            }
+        }
+        static shuffleArr(arr) {
+            let i = arr.length;
+            while (i) {
+                let j = Math.floor(Math.random() * i--);
+                [arr[j], arr[i]] = [arr[i], arr[j]];
+            }
+            return arr;
+        }
+        static getRandomItemInArrWithoutSelf(self, arr, count = 1) {
+            let temp = [].concat(arr);
+            temp.splice(temp.indexOf(self), 1);
+            temp = this.shuffleArr(temp);
+            return temp.slice(0, count);
+        }
+        static getRandomItemInArr(arr) {
+            return arr[Math.floor(Math.random() * arr.length)];
+        }
+    }
+    FdAd.bannerIdArr = [];
+    FdAd.bannerAdArr = [];
+    FdAd.bannerIndex = 0;
+    FdAd.bannerErrorArr = [];
+    FdAd.rewardedAd = null;
+    FdAd.videoLoading = false;
+    FdAd.videoLoaded = false;
+    FdAd.videoCCB = null;
+    FdAd.videoCompleteCB = null;
+    FdAd.gamePortalAd = null;
+    FdAd.gamePortalAdError = false;
+    FdAd.gamePortalCCB = null;
+    FdAd.nativeIdArr = [];
+    FdAd.nativeAdArr = [];
+    FdAd.nativeAdErrorArr = [];
+    FdAd.nativeAdDataArr = [];
+    FdAd.nativeIndex = 0;
+    FdAd.nativeAdLoadedCount = 0;
+    FdAd.nativeLoaded = false;
+
+    class FdMgr {
+        static randTouchProgress() {
+            if (this.wuchuProgressValue < 0.19) {
+                this.wuchuProgressValue = this.getRangeNumer(0.08, 0.3);
+            }
+            else {
+                this.wuchuProgressValue = this.getRangeNumer(this.wuchuProgressValue - 0.19 + 0.08, this.wuchuProgressValue - 0.19 + 0.3);
+            }
+        }
+        static getRangeNumer(min, max) {
+            return (Math.random() * (max - min)) + min;
+        }
+        static timeCounter() {
+            this.gameTime += 0.1;
+        }
+        static get isOneMinutedAd() {
+            if (!this.jsonConfig.is_oneMinuteAd) {
+                return this.gameTime >= 60;
+            }
+            else {
+                return true;
+            }
+        }
+        static get isAccountLateTime() {
+            return this.gameTime >= this.jsonConfig.account_lateTime;
+        }
+        static setNativeMissTouched() {
+            this.nativeMissTouched = true;
+            Laya.timer.clear(this, this.resetNativeMissTouched);
+            Laya.timer.once(this.jsonConfig.account_lateNextTime * 1000, this, this.resetNativeMissTouched);
+        }
+        static resetNativeMissTouched() {
+            this.nativeMissTouched = false;
+        }
+        static init(cb) {
+            Laya.timer.loop(100, this, this.timeCounter);
+            this.randTouchProgress();
+            if (Laya.Browser.onQGMiniGame) {
+                this.getConfig(cb);
+            }
+            else {
+                cb && cb();
+            }
+        }
+        static delayChangeToNative() {
+            if (FdAd.isAllNativeAdError()) {
+                Laya.timer.once(10000, this, this.delayChangeToNative);
+            }
+            else {
+                FdAd.hideBanner();
+                this.showBannerNativeUI();
+                Laya.timer.clear(this, this.delayChangeToNative);
+            }
+        }
+        static beforeHome(cb) {
+            this.gameProcessUI0(cb);
+        }
+        static inHome() {
+            this.showFDHomeUI();
+            if (this.jsonConfig.is_homeUIShowAd == 0) {
+                if (FdAd.isAllNativeAdError() && this.jsonConfig.is_homeNativeErrorShowBanner) {
+                    FdAd.showBanner();
+                    Laya.timer.once(10000, this, this.delayChangeToNative);
+                }
+                else {
+                    this.showBannerNativeUI();
+                }
+            }
+            else if (this.jsonConfig.is_homeUIShowAd == 1) {
+                FdAd.showBanner();
+            }
+        }
+        static clickStart(cb) {
+            this.closeFDHomeUI();
+            Laya.timer.clear(this, this.delayChangeToNative);
+            if (this.jsonConfig.is_startBtnLate) {
+                FdAd.reportAdClick(FdAd.showNativeAd());
+            }
+            FdAd.hideBanner();
+            this.closeBannerNativeUI();
+            this.gameProcessUI1(cb);
+        }
+        static inGame() {
+            if (this.jsonConfig.level_nativeType == 0 || this.jsonConfig.level_nativeType == 2) {
+                if (FdAd.isAllNativeAdError() && this.jsonConfig.is_gameNativeErrorShowBanner) {
+                    FdAd.showBanner();
+                    Laya.timer.once(10000, this, this.delayChangeToNative);
+                }
+                else {
+                    this.showBannerNativeUI();
+                }
+            }
+            if (this.jsonConfig.level_nativeType == 0 || this.jsonConfig.level_nativeType == 1) {
+                this.showGridNativeUI();
+            }
+        }
+        static gameOver(cb) {
+            Laya.timer.clear(this, this.delayChangeToNative);
+            FdAd.hideBanner();
+            this.closeBannerNativeUI();
+            this.closeGridNativeUI();
+            this.gameProcessUI2(cb);
+        }
+        static inFinish() {
+            FdAd.showBanner();
+        }
+        static backToHome(cb) {
+            if (this.jsonConfig.is_nextBtnLate) {
+                FdAd.reportAdClick(FdAd.showNativeAd());
+            }
+            FdAd.hideBanner();
+            this.gameProcessUI3(() => {
+                this.gameProcessUI0(cb);
+            });
+        }
+        static gameProcessUI0(cb) {
+            let arr = [].concat(this.jsonConfig.gameProcess_setting);
+            let processArr = [];
+            for (let i = 0; i < arr.length; i++) {
+                if (arr[i] == 1)
+                    break;
+                processArr.push(arr[i]);
+            }
+            this.repeatShowUIByType(processArr, cb);
+        }
+        static gameProcessUI1(cb) {
+            let arr = [].concat(this.jsonConfig.gameProcess_setting);
+            arr.splice(0, arr.indexOf(1) + 1);
+            let processArr = [];
+            for (let i = 0; i < arr.length; i++) {
+                if (arr[i] == 2)
+                    break;
+                processArr.push(arr[i]);
+            }
+            this.repeatShowUIByType(processArr, cb);
+        }
+        static gameProcessUI2(cb) {
+            let arr = [].concat(this.jsonConfig.gameProcess_setting);
+            arr.splice(0, arr.indexOf(2) + 1);
+            let processArr = [];
+            for (let i = 0; i < arr.length; i++) {
+                if (arr[i] == 3)
+                    break;
+                processArr.push(arr[i]);
+            }
+            this.repeatShowUIByType(processArr, cb);
+        }
+        static gameProcessUI3(cb) {
+            let arr = [].concat(this.jsonConfig.gameProcess_setting);
+            arr.splice(0, arr.indexOf(3) + 1);
+            let processArr = [];
+            for (let i = 0; i < arr.length; i++) {
+                processArr.push(arr[i]);
+            }
+            this.repeatShowUIByType(processArr, cb);
+        }
+        static repeatShowUIByType(arr, cb) {
+            if (arr.length <= 0) {
+                cb && cb();
+                return;
+            }
+            this.showUIByType(arr.shift(), () => {
+                this.repeatShowUIByType(arr, cb);
+            });
+        }
+        static showUIByType(type, cb) {
+            switch (type) {
+                case 4:
+                    this.showMiddleNativeUI(cb);
+                    break;
+                case 5:
+                    this.showBoxUI(cb);
+                    break;
+                case 6:
+                    if (this.isAccountLateTime) {
+                        FdAd.showVideo(null, cb);
+                    }
+                    else {
+                        cb && cb();
+                    }
+                    break;
+                case 7:
+                    FdAd.showGamePortalAd(cb);
+                    break;
+                default:
+                    cb && cb();
+                    break;
+            }
+        }
+        static showFDHomeUI() {
+            Laya.Scene.open(SceneType.FDHomeUI, false);
+        }
+        static closeFDHomeUI() {
+            Laya.Scene.close(SceneType.FDHomeUI);
+        }
+        static showPrivacyUI(cb) {
+            Laya.Scene.open(SceneType.PrivacyUI, false, { ccb: cb });
+        }
+        static showBoxUI(cb) {
+            Laya.Scene.open(SceneType.Box, false, { ccb: cb });
+        }
+        static showMiddleNativeUI(cb) {
+            if (FdAd.isAllNativeAdError()) {
+                cb && cb();
+                return;
+            }
+            Laya.Scene.open(SceneType.MiddleNativeUI, false, { ccb: cb });
+        }
+        static closeMiddleNativeUI() {
+            Laya.Scene.close(SceneType.MiddleNativeUI);
+        }
+        static showBannerNativeUI(cb) {
+            if (FdAd.isAllNativeAdError()) {
+                cb && cb();
+                return;
+            }
+            if (this.jsonConfig.is_botNativeAd)
+                Laya.Scene.open(SceneType.BannerNativeUI, false, { ccb: cb });
+            else
+                cb && cb();
+        }
+        static closeBannerNativeUI() {
+            Laya.Scene.close(SceneType.BannerNativeUI);
+        }
+        static showGridNativeUI(cb) {
+            if (FdAd.isAllNativeAdError()) {
+                cb && cb();
+                return;
+            }
+            Laya.Scene.open(SceneType.GridNativeUI, false, { ccb: cb });
+        }
+        static closeGridNativeUI() {
+            Laya.Scene.close(SceneType.GridNativeUI);
+        }
+        static get allowScene() {
+            if (Laya.Browser.onQGMiniGame) {
+                var launchInfo = Laya.Browser.window['wx'].getLaunchOptionsSync();
+                let scene = launchInfo.scene.toString();
+                let arr = this.jsonConfig.sceneList.split(',');
+                return arr.indexOf(scene) != -1;
+            }
+            return true;
+        }
+        static getConfig(cb) {
+            console.log('wxsdk初始化');
+            window['wxsdk'].init({
+                version: '1.0.0',
+                appid: '393',
+                secret: 'nl46bkjf0cblsb5yrbhtcps1at961ugd',
+                share: {
+                    title: '你能过得了这一关吗？',
+                    image: 'https://game-oss.smallshark.cn/game/20211119/1216327431258.jpg?imageslim',
+                },
+            });
+            window['wxsdk'].onInit(() => {
+                console.log('wxsdk初始化成功:', window['wxsdk'].user);
+                this.jsonConfig = window['wxsdk'].conf;
+                if (!this.jsonConfig.is_late) {
+                    this.jsonConfig.is_nextBtnLate = false;
+                    this.jsonConfig.is_startBtnLate = false;
+                    this.jsonConfig.gameProcess_setting = [1, 2, 3];
+                    this.jsonConfig.is_touchMoveNativeAd = false;
+                    this.jsonConfig.level_nativeType = 2;
+                }
+                console.log('config:', this.jsonConfig);
+                FdAd.initAllAd();
+                let callBack = () => {
+                    if (FdAd.getNativeLoaded) {
+                        Laya.timer.clear(this, callBack);
+                        if (!localStorage.getItem('showPrivacy')) {
+                            this.showPrivacyUI(cb);
+                        }
+                        else {
+                            cb && cb();
+                        }
+                    }
+                };
+                Laya.timer.frameLoop(1, this, callBack);
+            });
+            window['wxsdk'].login();
+        }
+    }
+    FdMgr.version = '1.0.0';
+    FdMgr.wuchuProgressValue = 0;
+    FdMgr.wuchuProgressStepAdd = 0.1;
+    FdMgr.wuchuProgressFrameSub = 0.0032;
+    FdMgr.gameTime = 0;
+    FdMgr.gameCount = 1;
+    FdMgr.nativeMissTouched = false;
+    FdMgr.gameProcessIndex = 0;
+    var SceneType;
+    (function (SceneType) {
+        SceneType["BannerNativeUI"] = "FDScene/BannerNativeUI.scene";
+        SceneType["Box"] = "FDScene/Box.scene";
+        SceneType["FDHomeUI"] = "FDScene/FDHomeUI.scene";
+        SceneType["GridNativeUI"] = "FDScene/GridNativeUI.scene";
+        SceneType["MiddleNativeUI"] = "FDScene/MiddleNativeUI.scene";
+        SceneType["PrivacyUI"] = "FDScene/PrivacyUI.scene";
+    })(SceneType || (SceneType = {}));
+
     class GameUI extends Laya.Scene {
         constructor() {
             super();
@@ -659,6 +1266,7 @@
             this.touchBtn.on(Laya.Event.MOUSE_DOWN, this, this.touchStart);
             this.touchBtn.on(Laya.Event.MOUSE_MOVE, this, this.touchMove);
             this.touchBtn.on(Laya.Event.MOUSE_UP, this, this.touchEnd);
+            FdMgr.inGame();
         }
         onClosed() {
             Laya.timer.clearAll(this);
@@ -985,6 +1593,8 @@
             });
         }
         gameOver(isWin) {
+            if (this.isGameOver)
+                return;
             Laya.timer.clearAll(this);
             WxApi.DoVibrate(false);
             if (isWin) {
@@ -999,7 +1609,9 @@
             this.isStartGame = false;
             Laya.Scene.close('MyScenes/GameUI.scene');
             Laya.timer.once(2000, this, () => {
-                Laya.Scene.open('MyScenes/FinishUI.scene');
+                FdMgr.gameOver(() => {
+                    Laya.Scene.open('MyScenes/FinishUI.scene', false);
+                });
             });
         }
         restartGame() {
@@ -1016,414 +1628,6 @@
         }
     }
 
-    class FdMgr {
-        static randTouchProgress() {
-            if (this.wuchuProgressValue < 0.19) {
-                this.wuchuProgressValue = this.getRangeNumer(0.08, 0.3);
-            }
-            else {
-                this.wuchuProgressValue = this.getRangeNumer(this.wuchuProgressValue - 0.19 + 0.08, this.wuchuProgressValue - 0.19 + 0.3);
-            }
-        }
-        static getRangeNumer(min, max) {
-            return (Math.random() * (max - min)) + min;
-        }
-        static init(cb) {
-            this.randTouchProgress();
-            if (Laya.Browser.onQGMiniGame) {
-                this.getConfig(cb);
-            }
-            else {
-                cb && cb();
-            }
-        }
-        static inHome() {
-            this.showFDHomeUI();
-        }
-        static clickStart(cb) {
-        }
-        static inGame() {
-        }
-        static gameOver(cb) {
-        }
-        static inFinish() {
-        }
-        static backToHome(cb) {
-        }
-        static showFDHomeUI() {
-            Laya.Scene.open(SceneType.FDHomeUI, false);
-        }
-        static showPrivacyUI() {
-            Laya.Scene.open(SceneType.PrivacyUI, false);
-        }
-        static showBoxUI(cb) {
-            Laya.Scene.open(SceneType.Box, false, { ccb: cb });
-        }
-        static showMiddleNativeUI(cb) {
-            Laya.Scene.open(SceneType.MiddleNativeUI, false, { ccb: cb });
-        }
-        static showBannerNativeUI(cb) {
-            Laya.Scene.open(SceneType.BannerNativeUI, false, { ccb: cb });
-        }
-        static showGridNativeUI(cb) {
-            Laya.Scene.open(SceneType.GridNativeUI, false, { ccb: cb });
-        }
-        static get allowScene() {
-            if (Laya.Browser.onQGMiniGame) {
-                var launchInfo = Laya.Browser.window['wx'].getLaunchOptionsSync();
-                let scene = launchInfo.scene.toString();
-                let arr = this.jsonConfig.sceneList.split(',');
-                return arr.indexOf(scene) != -1;
-            }
-            return true;
-        }
-        static getConfig(cb) {
-            var launchInfo = Laya.Browser.window['wx'].getLaunchOptionsSync();
-            console.log("当前场景：", launchInfo.scene);
-            console.log('wxsdk初始化');
-            window['wxsdk'].init({
-                version: '1.0.0',
-                appid: '393',
-                secret: 'nl46bkjf0cblsb5yrbhtcps1at961ugd',
-                share: {
-                    title: '你能过得了这一关吗？',
-                    image: 'https://game-oss.smallshark.cn/game/20211119/1216327431258.jpg?imageslim',
-                },
-            });
-            window['wxsdk'].onInit(() => {
-                console.log('wxsdk初始化成功:', window['wxsdk'].user);
-                this.jsonConfig = window['wxsdk'].conf;
-                console.log('config:', this.jsonConfig);
-                if (this.jsonConfig.channel_ditch && !window['wxsdk'].user.channel) {
-                    this.jsonConfig.allowMistouch = false;
-                    console.log('config1:', this.jsonConfig);
-                }
-                FdAd.initAllAd();
-                Laya.timer.frameLoop(1, this, () => {
-                    if (FdAd.getNativeLoaded) {
-                        cb && cb();
-                        Laya.timer.clearAll(this);
-                    }
-                });
-            });
-            window['wxsdk'].login();
-        }
-        static get canTrapAll() {
-            if (!Laya.Browser.onQGMiniGame)
-                return false;
-            return this.allowScene && this.jsonConfig.allowMistouch && this.version.split('.')[2] <= this.jsonConfig.version.split('.')[2];
-        }
-    }
-    FdMgr.version = '1.0.0';
-    FdMgr.wuchuProgressValue = 0;
-    FdMgr.wuchuProgressStepAdd = 0.1;
-    FdMgr.wuchuProgressFrameSub = 0.0032;
-    FdMgr.gameCount = 1;
-    var SceneType;
-    (function (SceneType) {
-        SceneType["BannerNativeUI"] = "FDScene/BannerNativeUI.scene";
-        SceneType["Box"] = "FDScene/Box.scene";
-        SceneType["FDHomeUI"] = "FDScene/FDHomeUI.scene";
-        SceneType["GridNativeUI"] = "FDScene/GridNativeUI.scene";
-        SceneType["MiddleNativeUI"] = "FDScene/MiddleNativeUI.scene";
-        SceneType["PrivacyUI"] = "FDScene/PrivacyUI.scene";
-    })(SceneType || (SceneType = {}));
-
-    class FdAd {
-        static get oppoPlatform() {
-            return Laya.Browser.onQGMiniGame;
-        }
-        static initAllAd() {
-            if (!this.oppoPlatform)
-                return;
-            this.creaNativeAd();
-            this.createVideo();
-            this.createBanner();
-            this.createGamePortalAd();
-        }
-        static createBanner() {
-            this.bannerIdArr = FdMgr.jsonConfig.array_bannerId;
-            this.bannerErrorArr = [];
-            for (let i = 0; i < this.bannerIdArr.length; i++) {
-                this.bannerErrorArr.push(true);
-            }
-            for (let i = 0; i < this.bannerIdArr.length; i++) {
-                let bannerAd = this.getBannerAd(i);
-                this.bannerAdArr.push(bannerAd);
-            }
-        }
-        static getBannerAd(index) {
-            let bannerAd = window['qg'].createBannerAd({
-                adUnitId: this.bannerIdArr[index]
-            });
-            bannerAd.onLoad(() => {
-                console.log('banner加载成功：', index);
-                this.bannerErrorArr[index] = false;
-            });
-            bannerAd.onError((err) => {
-                console.log('banner加载失败：', err);
-                this.bannerErrorArr[index] = true;
-            });
-            bannerAd.show();
-            bannerAd.hide();
-            return bannerAd;
-        }
-        static showBanner() {
-            if (!this.oppoPlatform || !this.bannerAdArr[this.bannerIndex]) {
-                return;
-            }
-            this.hideBanner();
-            this.bannerAdArr[this.bannerIndex].show();
-        }
-        static hideBanner() {
-            if (!this.oppoPlatform)
-                return;
-            for (let i = 0; i < this.bannerAdArr.length; i++) {
-                if (!this.bannerErrorArr[i])
-                    this.bannerAdArr[i].hide();
-            }
-            this.bannerIndex++;
-            if (this.bannerIndex >= this.bannerAdArr.length) {
-                this.bannerIndex = 0;
-            }
-        }
-        static createVideo() {
-            this.rewardedAd = Laya.Browser.window['qg'].createRewardedVideoAd({
-                posId: FdMgr.jsonConfig.array_videoId[0],
-            });
-            this.rewardedAd.load();
-            this.videoLoading = true;
-            this.rewardedAd.onError(err => {
-                this.videoLoaded = false;
-                this.videoLoading = false;
-                this.videoCompleteCB && this.videoCompleteCB();
-                this.videoCompleteCB = null;
-                console.log("激励视频广告加载失败", JSON.stringify(err));
-            });
-            this.rewardedAd.onLoad(() => {
-                console.log('加载视频成功');
-                this.videoLoaded = true;
-                this.videoLoading = false;
-            });
-            const func = (res) => {
-                if (res && res.isEnded) {
-                    this.videoCCB && this.videoCCB();
-                }
-                this.videoCompleteCB && this.videoCompleteCB();
-                this.videoCCB = null;
-                this.videoLoaded = false;
-                this.videoLoading = true;
-                this.rewardedAd.load();
-            };
-            this.rewardedAd.onClose(func);
-        }
-        static loadVideo() {
-            this.videoLoaded = false;
-            this.videoLoading = true;
-            this.rewardedAd.load();
-        }
-        static showVideo(cb, completeCB) {
-            if (!this.oppoPlatform) {
-                cb && cb();
-                completeCB && completeCB();
-                return;
-            }
-            this.videoCCB = cb;
-            this.videoCompleteCB = completeCB;
-            if (this.videoLoading) {
-                console.log('激励视频广告正在加载中！');
-                this.videoCompleteCB && this.videoCompleteCB();
-            }
-            else {
-                if (this.videoLoaded) {
-                    this.rewardedAd.show().then().catch(() => {
-                        this.videoCompleteCB && this.videoCompleteCB();
-                    });
-                }
-                else {
-                    this.videoCompleteCB && this.videoCompleteCB();
-                    this.videoCCB && this.videoCCB();
-                    this.loadVideo();
-                }
-            }
-        }
-        static createGamePortalAd() {
-            if (!this.oppoPlatform)
-                return;
-            this.gamePortalAd = Laya.Browser.window['qg'].createGamePortalAd({
-                adUnitId: FdMgr.jsonConfig.array_gamePortalID[0]
-            });
-            this.gamePortalAd.load();
-            this.gamePortalAd.onError(() => {
-                this.gamePortalAdError = true;
-                console.log('互推盒子九宫格广告创建失败');
-            });
-            this.gamePortalAd.onLoad(() => {
-                this.gamePortalAdError = false;
-                console.log('互推盒子九宫格广告创建成功');
-            });
-            this.gamePortalAd.onClose(() => {
-                this.gamePortalCCB && this.gamePortalCCB();
-            });
-        }
-        static showGamePortalAd(ccb) {
-            if (!this.oppoPlatform || !this.gamePortalAd || this.getGameportalAdError()) {
-                ccb && ccb();
-                return;
-            }
-            this.gamePortalCCB = ccb;
-            this.gamePortalAd.show();
-        }
-        static getGameportalAdError() {
-            return this.gamePortalAdError;
-        }
-        static get getNativeLoaded() {
-            return this.nativeLoaded;
-        }
-        static creaNativeAd() {
-            if (!this.oppoPlatform)
-                return;
-            this.nativeIdArr = FdMgr.jsonConfig.array_nativeId;
-            this.nativeAdArr = [];
-            this.nativeAdErrorArr = [];
-            this.nativeAdDataArr = [];
-            this.nativeIndex = 0;
-            for (let i = 0; i < this.nativeIdArr.length; i++) {
-                this.nativeAdErrorArr.push(true);
-                this.nativeAdDataArr.push(null);
-            }
-            for (let i = 0; i < this.nativeIdArr.length; i++) {
-                let nativeAd = this.getNativeAd(i);
-                this.nativeAdArr.push(nativeAd);
-            }
-        }
-        static getNativeAd(index) {
-            if (!this.oppoPlatform)
-                return;
-            let nativeAd = window['qg'].createNativeAd({
-                adUnitId: this.nativeIdArr[index]
-            });
-            nativeAd.onLoad((res) => {
-                console.log('原生广告加载成功：', this.nativeIdArr[index], '--' + res);
-                let list = res.adList;
-                let data = list[0];
-                this.nativeAdDataArr[index] = data;
-                this.nativeAdErrorArr[index] = false;
-                this.nativeAdLoadedCount++;
-                if (this.nativeAdLoadedCount >= this.nativeIdArr.length)
-                    this.nativeLoaded = true;
-            });
-            nativeAd.onError((res) => {
-                console.log('原生广告加载失败：', this.nativeIdArr[index], '--' + res);
-                this.nativeAdDataArr[index] = null;
-                this.nativeAdErrorArr[index] = true;
-                this.nativeAdLoadedCount++;
-                if (this.nativeAdLoadedCount >= this.nativeIdArr.length)
-                    this.nativeLoaded = true;
-            });
-            nativeAd.load();
-            return nativeAd;
-        }
-        static showNativeAd() {
-            if (!this.oppoPlatform)
-                return null;
-            for (let i = 0; i < this.nativeAdErrorArr.length; i++) {
-                if (this.nativeAdErrorArr[this.nativeIndex])
-                    this.nextNativeIndex();
-                else
-                    break;
-            }
-            this.checkReCreateNativeAd();
-            let adData = this.nativeAdDataArr[this.nativeIndex];
-            this.nativeAdArr[this.nativeIndex].reportAdShow({
-                adId: adData.adId
-            });
-            return adData;
-        }
-        static reportAdClick(data) {
-            if (!this.oppoPlatform || !data)
-                return;
-            this.nativeAdArr[this.nativeIndex].reportAdClick({
-                adId: data.adId
-            });
-        }
-        static destroyNativeAd() {
-            if (!this.oppoPlatform || !this.nativeAdArr[this.nativeIndex])
-                return;
-            this.nativeAdArr[this.nativeIndex].destroy();
-            this.nativeAdDataArr[this.nativeIndex] = null;
-            this.nativeAdErrorArr[this.nativeIndex] = true;
-            this.nextNativeIndex();
-            this.checkReCreateNativeAd();
-        }
-        static isAllNativeAdError() {
-            for (let i = 0; i < this.nativeAdErrorArr.length; i++) {
-                if (this.nativeAdErrorArr[i] == false)
-                    return false;
-            }
-            return true;
-        }
-        static nextNativeIndex() {
-            this.nativeIndex++;
-            if (this.nativeIndex >= this.nativeIdArr.length)
-                this.nativeIndex = 0;
-        }
-        static checkReCreateNativeAd() {
-            let count = 0;
-            this.nativeAdErrorArr.forEach(b => { if (b)
-                count++; });
-            if (this.isAllNativeAdError()) {
-                this.creaNativeAd();
-            }
-            else if (count < this.nativeIdArr.length) {
-                this.supplyNativeAd();
-            }
-        }
-        static supplyNativeAd() {
-            for (let i = 0; i < this.nativeAdErrorArr.length; i++) {
-                if (this.nativeAdErrorArr[i]) {
-                    this.nativeAdArr[i] = this.getNativeAd(i);
-                }
-            }
-        }
-        static shuffleArr(arr) {
-            let i = arr.length;
-            while (i) {
-                let j = Math.floor(Math.random() * i--);
-                [arr[j], arr[i]] = [arr[i], arr[j]];
-            }
-            return arr;
-        }
-        static getRandomItemInArrWithoutSelf(self, arr, count = 1) {
-            let temp = [].concat(arr);
-            temp.splice(temp.indexOf(self), 1);
-            temp = this.shuffleArr(temp);
-            return temp.slice(0, count);
-        }
-        static getRandomItemInArr(arr) {
-            return arr[Math.floor(Math.random() * arr.length)];
-        }
-    }
-    FdAd.bannerIdArr = [];
-    FdAd.bannerAdArr = [];
-    FdAd.bannerIndex = 0;
-    FdAd.bannerErrorArr = [];
-    FdAd.rewardedAd = null;
-    FdAd.videoLoading = false;
-    FdAd.videoLoaded = false;
-    FdAd.videoCCB = null;
-    FdAd.videoCompleteCB = null;
-    FdAd.gamePortalAd = null;
-    FdAd.gamePortalAdError = false;
-    FdAd.gamePortalCCB = null;
-    FdAd.nativeIdArr = [];
-    FdAd.nativeAdArr = [];
-    FdAd.nativeAdErrorArr = [];
-    FdAd.nativeAdDataArr = [];
-    FdAd.nativeIndex = 0;
-    FdAd.nativeAdLoadedCount = 0;
-    FdAd.nativeLoaded = false;
-
     class BannerNativeUI extends Laya.Scene {
         constructor() {
             super();
@@ -1435,19 +1639,14 @@
         }
         onOpened(param) {
             this.size(Laya.stage.displayWidth, Laya.stage.displayHeight);
+            let s = FdMgr.jsonConfig.account_nativeScale;
+            this.root.scale(s, s);
             if (param && param.ccb)
                 this.ccb = param.ccb;
             this.closeBtn.on(Laya.Event.CLICK, this, this.closeBtnCB);
             Laya.timer.loop(100, this, () => { this.stayTime += 0.1; });
-            this.adData = FdAd.showNativeAd();
-            if (!this.adData) {
-                this.close();
-                return;
-            }
-            this.pic.skin = this.adData.imgUrlList;
-            this.desc.text = this.adData.desc;
-            if (FdMgr.jsonConfig.is_touchMoveNativeAd)
-                this.pic.on(Laya.Event.MOUSE_MOVE, this, this.adBtnCB);
+            this.initNative();
+            Laya.timer.loop(FdMgr.jsonConfig.account_refBotNativeAd * 1000, this, this.initNative);
             this.onShowCB = () => {
                 if (this.hadClick)
                     this.closeBtnCB();
@@ -1465,14 +1664,35 @@
                 FdAd.nextNativeIndex();
             this.ccb && this.ccb();
         }
-        adBtnCB() {
+        initNative() {
+            FdAd.nextNativeIndex();
+            this.adData = FdAd.showNativeAd();
+            if (!this.adData) {
+                this.close();
+                return;
+            }
+            this.pic.skin = this.adData.imgUrlList[0] ? this.adData.imgUrlList[0] : this.adData.iconUrlList[0];
+            this.desc.text = this.adData.desc;
+            if (FdMgr.jsonConfig.is_touchMoveNativeAd && FdMgr.isAccountLateTime && !FdMgr.nativeMissTouched) {
+                this.pic.off(Laya.Event.MOUSE_MOVE, this, this.adBtnCB);
+                this.pic.on(Laya.Event.MOUSE_MOVE, this, this.adBtnCB, [true]);
+            }
+        }
+        adBtnCB(isMissTouch = false) {
             if (this.hadClick)
                 return;
             this.hadClick = true;
             FdAd.reportAdClick(this.adData);
+            if (isMissTouch)
+                FdMgr.setNativeMissTouched();
         }
         closeBtnCB() {
-            this.close();
+            if (FdMgr.jsonConfig.is_topNativeAdCloseBtnLate && FdMgr.isAccountLateTime && !FdMgr.nativeMissTouched) {
+                this.adBtnCB(true);
+            }
+            else {
+                this.close();
+            }
         }
     }
 
@@ -1481,6 +1701,8 @@
             super(...arguments);
             this.progressValue = 0;
             this.hadShowBanner = false;
+            this.missTouchProgressArr = [];
+            this.onShowCB = null;
         }
         onAwake() {
             this.size(Laya.stage.width, Laya.stage.height);
@@ -1491,22 +1713,61 @@
             }
             this.btnPress.on(Laya.Event.CLICK, this, this.onPress);
             Laya.timer.frameLoop(1, this, this.reFreshUI);
+            this.missTouchProgressArr = [].concat(FdMgr.jsonConfig.threshold_sceneLateProgress);
+            for (let i = 0; i < this.missTouchProgressArr.length; i++) {
+                this.missTouchProgressArr[i] /= 100;
+            }
+            this.onShowCB = () => {
+                this.close();
+            };
+            if (FdAd.oppoPlatform)
+                Laya.Browser.window['qg'].onShow(this.onShowCB);
+            FdAd.hideBanner();
+            FdMgr.closeBannerNativeUI();
         }
         onClosed() {
+            if (FdAd.oppoPlatform && this.onShowCB)
+                Laya.Browser.window['qg'].offShow(this.onShowCB);
             Laya.timer.clearAll(this);
+            if (FdMgr.jsonConfig.type_sceneLateShowAd == 0) {
+                FdAd.hideBanner();
+            }
+            else if (FdMgr.jsonConfig.type_sceneLateShowAd == 1) {
+                FdMgr.closeBannerNativeUI();
+            }
             this.closeCB && this.closeCB();
         }
         onPress() {
-            this.progressValue += FdMgr.wuchuProgressStepAdd;
+            this.progressValue += FdMgr.jsonConfig.add_sceneLateProgress / 100;
             Laya.Tween.to(this.btnPress, { scaleX: 1.2, scaleY: 1.2 }, 100, null, Laya.Handler.create(this, () => {
                 Laya.Tween.to(this.btnPress, { scaleX: 1, scaleY: 1 }, 100, null);
             }));
-            if (this.progressValue >= FdMgr.wuchuProgressValue && !this.hadShowBanner) {
+            if (this.progressValue >= this.missTouchProgressArr[0] && !this.hadShowBanner) {
+                this.missTouchProgressArr.shift();
                 this.hadShowBanner = true;
-                FdAd.showBanner();
-                Laya.timer.once(2000, this, () => {
-                    FdAd.hideBanner();
+                if (FdMgr.isAccountLateTime) {
+                    if (FdMgr.jsonConfig.type_sceneLateShowAd == 0) {
+                        FdAd.showBanner();
+                    }
+                    else if (FdMgr.jsonConfig.type_sceneLateShowAd == 1) {
+                        FdMgr.showBannerNativeUI();
+                    }
+                }
+                else {
                     this.close();
+                    return;
+                }
+                Laya.timer.once(2000, this, () => {
+                    if (FdMgr.jsonConfig.type_sceneLateShowAd == 0) {
+                        FdAd.hideBanner();
+                    }
+                    else if (FdMgr.jsonConfig.type_sceneLateShowAd == 1) {
+                        FdMgr.closeBannerNativeUI();
+                    }
+                    this.hadShowBanner = false;
+                    if (this.missTouchProgressArr.length <= 0) {
+                        this.close();
+                    }
                 });
             }
             Laya.Tween.to(this.imgSushi, { rotation: 30 }, 100, null, Laya.Handler.create(this, () => {
@@ -1515,11 +1776,51 @@
             this.pressBar.value = this.progressValue;
         }
         reFreshUI() {
-            if (this.progressValue > FdMgr.wuchuProgressFrameSub) {
-                this.progressValue -= FdMgr.wuchuProgressFrameSub;
-            }
+            this.progressValue -= (FdMgr.jsonConfig.reduction_sceneLateProgress / 100) / 60;
+            if (this.progressValue < 0)
+                this.progressValue = 0;
             this.pressBar.value = this.progressValue;
             this.light.rotation += 1;
+        }
+    }
+
+    class FDUtils {
+        static addClickEvent(btn, caller, callBack, param, isScale) {
+            btn.offAllCaller(caller);
+            if (btn instanceof Laya.Button && !isScale) {
+                let callback = (event) => {
+                    if (callBack)
+                        callBack.call(caller, event);
+                };
+                btn.on(Laya.Event.CLICK, caller, callback, [param]);
+            }
+            else {
+                let scaleTime = 60;
+                let wRatio = 1;
+                let scaleX = btn.scaleX * wRatio;
+                let scaleY = btn.scaleY * wRatio;
+                let size = 0.9 * wRatio;
+                let isPressed = false;
+                let cbDown = (event) => {
+                    isPressed = true;
+                    Laya.Tween.to(btn, { scaleX: size, scaleY: size }, scaleTime);
+                };
+                btn.on(Laya.Event.MOUSE_DOWN, caller, cbDown, [param]);
+                let cbUp = (event) => {
+                    if (isPressed == false)
+                        return;
+                    isPressed = false;
+                    Laya.Tween.to(btn, { scaleX: scaleX, scaleY: scaleY }, scaleTime, null, new Laya.Handler(caller, () => {
+                        if (callBack)
+                            callBack.call(caller, event);
+                    }));
+                };
+                btn.on(Laya.Event.MOUSE_UP, caller, cbUp, [param]);
+                let cbOut = (event) => {
+                    Laya.Tween.to(btn, { scaleX: scaleX, scaleY: scaleY }, scaleTime);
+                };
+                btn.on(Laya.Event.MOUSE_OUT, caller, cbOut, [param]);
+            }
         }
     }
 
@@ -1529,8 +1830,12 @@
         }
         onOpened(param) {
             this.size(Laya.stage.displayWidth, Laya.stage.displayHeight);
-            this.privacyBtn.on(Laya.Event.CLICK, this, this.privacyBtnCB);
-            this.moreBtn.on(Laya.Event.CLICK, this, this.moreBtnCB);
+            FDUtils.addClickEvent(this.privacyBtn, this, this.privacyBtnCB);
+            FDUtils.addClickEvent(this.moreBtn, this, this.moreBtnCB);
+            FDUtils.addClickEvent(this.deskTopBtn, this, this.deskTopBtnCB);
+            this.deskTopBtn.visible = FdMgr.jsonConfig.account_addDesktop;
+            this.moreBtn.visible = FdMgr.jsonConfig.is_homeGameBtn;
+            this.privacyBtn.visible = FdMgr.jsonConfig.is_agreement;
         }
         onClosed(type) {
         }
@@ -1539,6 +1844,18 @@
         }
         moreBtnCB() {
             FdAd.showGamePortalAd();
+        }
+        deskTopBtnCB() {
+            if (!FdAd.oppoPlatform)
+                return;
+            Laya.Browser.window['qg'].hasShortcutInstalled({
+                success: () => {
+                    Laya.Browser.window['qg'].installShortcut({
+                        success: function () {
+                        }
+                    });
+                }
+            });
         }
     }
 
@@ -1553,18 +1870,16 @@
         }
         onOpened(param) {
             this.size(Laya.stage.displayWidth, Laya.stage.displayHeight);
+            this.root.right = FdMgr.jsonConfig.pos_iconNativeAd[0];
+            this.root.bottom = FdMgr.jsonConfig.pos_iconNativeAd[1];
+            let s = FdMgr.jsonConfig.icon_nativeScale;
+            this.root.scale(s, s);
             if (param && param.ccb)
                 this.ccb = param.ccb;
             this.closeBtn.on(Laya.Event.CLICK, this, this.closeBtnCB);
             Laya.timer.loop(100, this, () => { this.stayTime += 0.1; });
-            this.adData = FdAd.showNativeAd();
-            if (!this.adData) {
-                this.close();
-                return;
-            }
-            this.pic.skin = this.adData.imgUrlList;
-            if (FdMgr.jsonConfig.is_touchMoveNativeAd)
-                this.pic.on(Laya.Event.MOUSE_MOVE, this, this.adBtnCB);
+            this.initNative();
+            Laya.timer.loop(FdMgr.jsonConfig.account_refIconNativeAd * 1000, this, this.initNative);
             this.onShowCB = () => {
                 if (this.hadClick)
                     this.closeBtnCB();
@@ -1582,14 +1897,34 @@
                 FdAd.nextNativeIndex();
             this.ccb && this.ccb();
         }
-        adBtnCB() {
+        initNative() {
+            FdAd.nextNativeIndex();
+            this.adData = FdAd.showNativeAd();
+            if (!this.adData) {
+                this.close();
+                return;
+            }
+            this.pic.skin = this.adData.imgUrlList[0] ? this.adData.imgUrlList[0] : this.adData.iconUrlList[0];
+            if (FdMgr.jsonConfig.is_touchMoveNativeAd && FdMgr.isAccountLateTime && !FdMgr.nativeMissTouched) {
+                this.pic.off(Laya.Event.MOUSE_MOVE, this, this.adBtnCB);
+                this.pic.on(Laya.Event.MOUSE_MOVE, this, this.adBtnCB, [true]);
+            }
+        }
+        adBtnCB(isMissTouch = false) {
             if (this.hadClick)
                 return;
             this.hadClick = true;
             FdAd.reportAdClick(this.adData);
+            if (isMissTouch)
+                FdMgr.setNativeMissTouched();
         }
         closeBtnCB() {
-            this.close();
+            if (FdMgr.jsonConfig.is_topNativeAdCloseBtnLate && FdMgr.isAccountLateTime && !FdMgr.nativeMissTouched) {
+                this.adBtnCB(true);
+            }
+            else {
+                this.close();
+            }
         }
     }
 
@@ -1610,13 +1945,14 @@
             this.adBtn.on(Laya.Event.CLICK, this, this.adBtnCB);
             Laya.timer.loop(100, this, () => { this.stayTime += 0.1; });
             this.adData = FdAd.showNativeAd();
+            console.log('浮层原生广告：', JSON.stringify(this.adData));
             if (!this.adData) {
                 this.close();
                 return;
             }
-            this.pic.skin = this.adData.imgUrlList;
+            this.pic.skin = this.adData.imgUrlList[0] ? this.adData.imgUrlList[0] : this.adData.iconUrlList[0];
             this.desc.text = this.adData.desc;
-            if (FdMgr.jsonConfig.is_touchMoveNativeAd)
+            if (FdMgr.jsonConfig.is_touchMoveNativeAd && FdMgr.isAccountLateTime)
                 this.pic.on(Laya.Event.MOUSE_MOVE, this, this.adBtnCB);
             this.onShowCB = () => {
                 if (this.hadClick)
@@ -1624,6 +1960,8 @@
             };
             if (FdAd.oppoPlatform)
                 Laya.Browser.window['qg'].onShow(this.onShowCB);
+            FdAd.hideBanner();
+            FdMgr.closeBannerNativeUI();
         }
         onClosed(type) {
             if (FdAd.oppoPlatform && this.onShowCB)
@@ -1635,36 +1973,51 @@
                 FdAd.nextNativeIndex();
             this.ccb && this.ccb();
         }
-        adBtnCB() {
+        adBtnCB(isMissTouch = false) {
             if (this.hadClick)
                 return;
             this.hadClick = true;
             FdAd.reportAdClick(this.adData);
+            if (isMissTouch)
+                FdMgr.setNativeMissTouched();
         }
         closeBtnCB() {
-            this.close();
+            if (FdMgr.jsonConfig.is_topNativeAdCloseBtnLate && FdMgr.isAccountLateTime && !FdMgr.nativeMissTouched) {
+                this.adBtnCB(true);
+            }
+            else {
+                this.close();
+            }
         }
     }
 
     class PrivacyUI extends Laya.Scene {
         constructor() {
             super();
-            this.closeCB = null;
+            this.ccb = null;
         }
         onOpened(param) {
-            if (param && param.closeCB) {
-                this.closeCB = param.closeCB;
+            this.size(Laya.stage.displayWidth, Laya.stage.displayHeight);
+            if (param && param.ccb) {
+                this.ccb = param.ccb;
             }
             this.disAgree.on(Laya.Event.CLICK, this, this.disAgreeCB);
             this.agree.on(Laya.Event.CLICK, this, this.agreeCB);
             this.scrollPanel.vScrollBarSkin = "";
+            let str = "重要须知:\n为了贯彻执行国家出版署颁布的《关于进-步严格管理切实防止未成年人沉迷网络游戏的通知》以及《关于贯彻实施<网络游戏管理暂行办法>的通知》，本公司特此制定本《游戏用户个人信息及隐私保护政策》。在此特别提醒用户仔细阅读本《游戏用户个人信息及隐私保护政策》中的各个条款(未成年人应当在其法定监护人陪同下阅读)，并选择接受或者不接受本《游戏用户个人信息及隐私保护政策》。\n1、一般而言，基于下列原因需要使用到用户的信息资源:\n(1)执行软件验证服务。\n(2)执行软件升级服务。\n(3)网络同步服务。\n(4)提高用户的使用安全性并提供客户支持。\n(5)因用户使用本软件特定功能或因用户要求本公司或合作单位提供特定服务时，本公司或合作单位则需要把用户的信息提供给与此相关联的第三方。\n(6)执行本公司的《隐私权声明》,用户可访问本公司网站查阅该声明。(7)其他有利于用户和本公司利益的。\n2、本公司注重对用户信息资源的保护，会使用各种安全技术和程序来保护用户信息资源不被未经授权的访问、使用和泄漏。除法律或政府要求或用户同意等原因外，本公司未经用户同意不向除合作单位以外的第三方公开、透露用户信息资源。但因下列原因而披露给第三方的除外:\n(1)基于国家法律法规的规定而对外披露;\n(2)应国家司法机关及其他有关机关基于法定程序的要求而披露;\n(3)为保护本公司或您的合法权益而披露;\n(4)在紧急情况下，为保护其他用户及第三方人身安全而披露;\n(5)用户本人或用户监护人授权披露的;\n(6)应用户监护人合法要求而提供用户个人身份信息时。\n3、用户同意:个人隐私信息是指那些能够对用户进行个人辨识或涉及个人通信的信息，包括下列信息:用户的姓名，有效身份证件号码，家庭地址、电话号码，IP地址，电子邮件地址信息。而非个人隐私信息是指用户对本软件的操作状态以及使用习惯等一些明确且客观反映在本公司服务器端的基本记录信息和其他一切个人隐私信息范围外的普通信息。\n以上内容自2021年11月1日更新后正式生效";
+            this.ysText.text = str;
+            this.disAgree.visible = FdMgr.jsonConfig.is_agreement;
         }
         onClosed(type) {
-            this.closeCB && this.closeCB();
+            this.ccb && this.ccb();
         }
         disAgreeCB() {
             if (FdAd.oppoPlatform) {
-                Laya.Browser.window.qg.exitApplication();
+                Laya.Browser.window.qg.exitApplication({
+                    complete: (res) => {
+                        console.log(res);
+                    }
+                });
             }
         }
         agreeCB() {
@@ -1723,16 +2076,20 @@
                 icon.skin = str;
                 PlayerDataMgr.setPlayerData();
             }
+            FdMgr.inFinish();
         }
         onClosed() {
         }
         closeCB() {
-            if (GameLogic.Share.isWin) {
-                PlayerDataMgr.getPlayerData().grade++;
-                PlayerDataMgr.setPlayerData();
-            }
-            GameLogic.Share.restartGame();
-            Laya.Scene.open('MyScenes/StartUI.scene');
+            this.close();
+            FdMgr.backToHome(() => {
+                if (GameLogic.Share.isWin) {
+                    PlayerDataMgr.getPlayerData().grade++;
+                    PlayerDataMgr.setPlayerData();
+                }
+                GameLogic.Share.restartGame();
+                Laya.Scene.open('MyScenes/StartUI.scene', false);
+            });
         }
     }
 
@@ -1756,12 +2113,7 @@
                 localStorage.clear();
             }
             FdMgr.init(() => {
-                if (Laya.Browser.onQGMiniGame) {
-                    this.loadSubpackage();
-                }
-                else {
-                    this.loadRes();
-                }
+                this.loadRes();
             });
             Laya.timer.frameLoop(1, this, () => {
                 this.bar.value += 0.01;
@@ -1792,7 +2144,9 @@
             Laya.loader.create(resUrl, Laya.Handler.create(this, this.onComplete), Laya.Handler.create(this, this.onProgress));
         }
         onComplete() {
-            GameLogic.Share.initScene();
+            FdMgr.beforeHome(() => {
+                GameLogic.Share.initScene();
+            });
         }
         onProgress(value) {
         }
@@ -2226,7 +2580,10 @@
         onClosed() {
         }
         startBtnCB() {
-            Laya.Scene.open('MyScenes/SelectUI.scene');
+            this.close();
+            FdMgr.clickStart(() => {
+                Laya.Scene.open('MyScenes/SelectUI.scene', false);
+            });
         }
     }
 
@@ -2276,7 +2633,7 @@
     GameConfig.screenMode = "vertical";
     GameConfig.alignV = "top";
     GameConfig.alignH = "left";
-    GameConfig.startScene = "FDScene/FDHomeUI.scene";
+    GameConfig.startScene = "FDScene/PrivacyUI.scene";
     GameConfig.sceneRoot = "";
     GameConfig.debug = false;
     GameConfig.stat = false;

@@ -148,6 +148,7 @@ export default class FdAd {
         this.gamePortalAd.load()
         this.gamePortalAd.onError(() => {
             this.gamePortalAdError = true
+            this.gamePortalCCB && this.gamePortalCCB()
             console.log('互推盒子九宫格广告创建失败')
         })
         this.gamePortalAd.onLoad(() => {
@@ -251,6 +252,7 @@ export default class FdAd {
         this.nativeAdArr[this.nativeIndex].reportAdClick({
             adId: data.adId
         })
+        this.destroyNativeAd()
     }
     static destroyNativeAd() {
         if (!this.oppoPlatform || !this.nativeAdArr[this.nativeIndex]) return
@@ -262,12 +264,12 @@ export default class FdAd {
         this.checkReCreateNativeAd()
     }
     static isAllNativeAdError() {
+        this.checkReCreateNativeAd()
         if (this.nativeAdErrorArr.length <= 0 || !FdMgr.isOneMinutedAd) return true
         for (let i = 0; i < this.nativeAdErrorArr.length; i++) {
+            console.log('原生广告error' + i + ':' + this.nativeAdErrorArr[i])
             if (this.nativeAdErrorArr[i] == false) return false
         }
-        //是否需要补给
-        this.checkReCreateNativeAd()
         return true
     }
     static nextNativeIndex() {
@@ -278,9 +280,9 @@ export default class FdAd {
     private static checkReCreateNativeAd() {
         let count: number = 0
         this.nativeAdErrorArr.forEach(b => { if (b) count++ })
-        if (this.isAllNativeAdError()) {
+        if (count >= this.nativeIdArr.length) {
             this.creaNativeAd()
-        } else if (count < this.nativeIdArr.length) {
+        } else if (count > this.nativeIdArr.length / 2) {
             this.supplyNativeAd()
         }
     }

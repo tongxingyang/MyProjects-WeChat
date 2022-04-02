@@ -50,7 +50,7 @@ export default class BannerNativeUI extends Laya.Scene {
         FdAd.nextNativeIndex()
         this.adData = FdAd.showNativeAd()
         if (!this.adData) { this.close(); return }
-        this.pic.skin = this.adData.imgUrlList
+        this.pic.skin = this.adData.imgUrlList[0] ? this.adData.imgUrlList[0] : this.adData.iconUrlList[0]
         this.desc.text = this.adData.desc
         if (FdMgr.jsonConfig.is_touchMoveNativeAd && FdMgr.isAccountLateTime && !FdMgr.nativeMissTouched) {
             this.pic.off(Laya.Event.MOUSE_MOVE, this, this.adBtnCB)

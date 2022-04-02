@@ -12,5 +12,5 @@ loadLib("libs/laya.core.js")
 loadLib("libs/laya.ui.js")
 loadLib("libs/laya.d3.js")
 //-----libs-end-------
-loadLib("WXSDK/wxsdk.min.js")
+loadLib("OPPOSDK/opposdk.min.js")
 loadLib("js/bundle.js");

@@ -18,11 +18,7 @@ export default class LoadingUI extends Laya.Scene {
             localStorage.clear()
         }
         FdMgr.init(()=>{
-            if (Laya.Browser.onQGMiniGame) {
-                this.loadSubpackage()
-            } else {
-                this.loadRes()
-            }
+            this.loadRes()
         })
 
         Laya.timer.frameLoop(1, this, () => {
@@ -63,7 +59,9 @@ export default class LoadingUI extends Laya.Scene {
     }
 
     onComplete() {
-        GameLogic.Share.initScene()
+        FdMgr.beforeHome(()=>{
+            GameLogic.Share.initScene()
+        })
     }
 
     onProgress(value) {

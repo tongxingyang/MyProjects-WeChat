@@ -61,17 +61,22 @@ export default class FinishUI extends Laya.Scene {
             icon.skin = str
             PlayerDataMgr.setPlayerData()
         }
+
+        FdMgr.inFinish()
     }
 
     onClosed() {
     }
 
     closeCB() {
-        if (GameLogic.Share.isWin) {
-            PlayerDataMgr.getPlayerData().grade++
-            PlayerDataMgr.setPlayerData()
-        }
-        GameLogic.Share.restartGame()
-        Laya.Scene.open('MyScenes/StartUI.scene')
+        this.close()
+        FdMgr.backToHome(() => {
+            if (GameLogic.Share.isWin) {
+                PlayerDataMgr.getPlayerData().grade++
+                PlayerDataMgr.setPlayerData()
+            }
+            GameLogic.Share.restartGame()
+            Laya.Scene.open('MyScenes/StartUI.scene', false)
+        })
     }
 }

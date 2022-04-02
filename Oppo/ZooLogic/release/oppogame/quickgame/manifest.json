@@ -1,0 +1,13 @@
+{
+    "package": "gwjh.nearme.gamecenter",
+    "name": "怪物进化",
+    "versionName": "1.0",
+    "versionCode": 1,
+    "minPlatformVersion": 1060,
+    "icon": "./icon.png",
+    "orientation": "portrait",
+    "type": "game",
+    "config": {
+        "logLevel": "log"
+    }
+}
