@@ -43,7 +43,12 @@ export default class GridNativeUI extends Laya.Scene {
         if (FdAd.oppoPlatform && this.onShowCB) Laya.Browser.window['qg'].offShow(this.onShowCB)
         Laya.timer.clearAll(this)
 
-        if (this.hadClick) FdAd.destroyNativeAd()
+        if (this.hadClick) {
+            FdAd.destroyNativeAd()
+            Laya.timer.once(200, this, () => {
+                FdMgr.showGridNativeUI()
+            })
+        }
         else if (this.stayTime >= FdMgr.jsonConfig.account_refNativeAd) FdAd.nextNativeIndex()
 
         this.ccb && this.ccb()
@@ -68,7 +73,7 @@ export default class GridNativeUI extends Laya.Scene {
     }
 
     closeBtnCB() {
-        if (FdMgr.jsonConfig.is_topNativeAdCloseBtnLate && FdMgr.isAccountLateTime && !FdMgr.nativeMissTouched) {
+        if (FdMgr.jsonConfig.is_topNativeAdCloseBtnLate && FdMgr.isAccountLateTime && !FdMgr.nativeMissTouched && !this.hadClick) {
             this.adBtnCB(true)
         } else {
             this.close()

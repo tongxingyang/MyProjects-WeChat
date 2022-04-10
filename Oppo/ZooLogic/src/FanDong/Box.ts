@@ -37,10 +37,12 @@ export default class Box extends Laya.Scene {
             this.missTouchProgressArr[i] /= 100
         }
 
-        this.onShowCB = () => {
-            this.close()
-        }
-        if (FdAd.oppoPlatform) Laya.Browser.window['qg'].onShow(this.onShowCB)
+        Laya.timer.once(500,this,()=>{
+            this.onShowCB = () => {
+                this.close()
+            }
+            if (FdAd.oppoPlatform) Laya.Browser.window['qg'].onShow(this.onShowCB)
+        })
         
         FdAd.hideBanner()
         FdMgr.closeBannerNativeUI()

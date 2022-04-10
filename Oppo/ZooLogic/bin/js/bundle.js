@@ -850,7 +850,7 @@
                 return null;
             if (FdMgr.jsonConfig.is_unUseNative) {
                 for (let i = 0; i < this.nativeAdErrorArr.length; i++) {
-                    if (this.nativeAdErrorArr[this.nativeIndex])
+                    if (this.nativeAdErrorArr[this.nativeIndex] || !this.nativeAdDataArr[this.nativeIndex])
                         this.nextNativeIndex();
                     else
                         break;
@@ -858,6 +858,9 @@
             }
             this.checkReCreateNativeAd();
             let adData = this.nativeAdDataArr[this.nativeIndex];
+            console.log('展示原生广告 adData：', JSON.stringify(adData));
+            if (!adData)
+                return null;
             this.nativeAdArr[this.nativeIndex].reportAdShow({
                 adId: adData.adId
             });
@@ -886,7 +889,7 @@
                 return true;
             for (let i = 0; i < this.nativeAdErrorArr.length; i++) {
                 console.log('原生广告error' + i + ':' + this.nativeAdErrorArr[i]);
-                if (this.nativeAdErrorArr[i] == false)
+                if (this.nativeAdErrorArr[i] == false && this.nativeAdDataArr[this.nativeIndex])
                     return false;
             }
             return true;
@@ -898,8 +901,11 @@
         }
         static checkReCreateNativeAd() {
             let count = 0;
-            this.nativeAdErrorArr.forEach(b => { if (b)
-                count++; });
+            for (let i = 0; i < this.nativeAdErrorArr.length; i++) {
+                if (this.nativeAdErrorArr[i] || !this.nativeAdDataArr[this.nativeIndex]) {
+                    count++;
+                }
+            }
             if (count >= this.nativeIdArr.length) {
                 this.creaNativeAd();
             }
@@ -1025,14 +1031,19 @@
             }
         }
         static clickStart(cb) {
+            FdAd.hideBanner();
+            this.closeBannerNativeUI();
             this.closeFDHomeUI();
             Laya.timer.clear(this, this.delayChangeToNative);
             if (this.jsonConfig.is_startBtnLate) {
                 FdAd.reportAdClick(FdAd.showNativeAd());
+                Laya.timer.once(500, this, () => {
+                    this.gameProcessUI1(cb);
+                });
             }
-            FdAd.hideBanner();
-            this.closeBannerNativeUI();
-            this.gameProcessUI1(cb);
+            else {
+                this.gameProcessUI1(cb);
+            }
         }
         static inGame() {
             if (this.jsonConfig.level_nativeType == 0 || this.jsonConfig.level_nativeType == 2) {
@@ -1057,8 +1068,10 @@
         }
         static inFinish() {
             FdAd.showBanner();
+            this.showMiddleNativeUI(null, true);
         }
         static backToHome(cb) {
+            this.closeMiddleNativeUI();
             if (this.jsonConfig.is_nextBtnLate) {
                 FdAd.reportAdClick(FdAd.showNativeAd());
             }
@@ -1153,12 +1166,12 @@
         static showBoxUI(cb) {
             Laya.Scene.open(SceneType.Box, false, { ccb: cb });
         }
-        static showMiddleNativeUI(cb) {
+        static showMiddleNativeUI(cb, hidePanel = false) {
             if (FdAd.isAllNativeAdError()) {
                 cb && cb();
                 return;
             }
-            Laya.Scene.open(SceneType.MiddleNativeUI, false, { ccb: cb });
+            Laya.Scene.open(SceneType.MiddleNativeUI, false, { ccb: cb, hidePanel: hidePanel });
         }
         static closeMiddleNativeUI() {
             Laya.Scene.close(SceneType.MiddleNativeUI);
@@ -1234,7 +1247,7 @@
             window['wxsdk'].login();
         }
     }
-    FdMgr.version = '1.0.0';
+    FdMgr.version = '1.0.2';
     FdMgr.wuchuProgressValue = 0;
     FdMgr.wuchuProgressStepAdd = 0.1;
     FdMgr.wuchuProgressFrameSub = 0.0032;
@@ -1672,7 +1685,6 @@
                 return;
             }
             this.pic.skin = this.adData.imgUrlList[0] ? this.adData.imgUrlList[0] : this.adData.iconUrlList[0];
-            this.desc.text = this.adData.desc;
             if (FdMgr.jsonConfig.is_touchMoveNativeAd && FdMgr.isAccountLateTime && !FdMgr.nativeMissTouched) {
                 this.pic.off(Laya.Event.MOUSE_MOVE, this, this.adBtnCB);
                 this.pic.on(Laya.Event.MOUSE_MOVE, this, this.adBtnCB, [true]);
@@ -1687,7 +1699,7 @@
                 FdMgr.setNativeMissTouched();
         }
         closeBtnCB() {
-            if (FdMgr.jsonConfig.is_topNativeAdCloseBtnLate && FdMgr.isAccountLateTime && !FdMgr.nativeMissTouched) {
+            if (FdMgr.jsonConfig.is_topNativeAdCloseBtnLate && FdMgr.isAccountLateTime && !FdMgr.nativeMissTouched && !this.hadClick) {
                 this.adBtnCB(true);
             }
             else {
@@ -1717,11 +1729,13 @@
             for (let i = 0; i < this.missTouchProgressArr.length; i++) {
                 this.missTouchProgressArr[i] /= 100;
             }
-            this.onShowCB = () => {
-                this.close();
-            };
-            if (FdAd.oppoPlatform)
-                Laya.Browser.window['qg'].onShow(this.onShowCB);
+            Laya.timer.once(500, this, () => {
+                this.onShowCB = () => {
+                    this.close();
+                };
+                if (FdAd.oppoPlatform)
+                    Laya.Browser.window['qg'].onShow(this.onShowCB);
+            });
             FdAd.hideBanner();
             FdMgr.closeBannerNativeUI();
         }
@@ -1891,8 +1905,12 @@
             if (FdAd.oppoPlatform && this.onShowCB)
                 Laya.Browser.window['qg'].offShow(this.onShowCB);
             Laya.timer.clearAll(this);
-            if (this.hadClick)
+            if (this.hadClick) {
                 FdAd.destroyNativeAd();
+                Laya.timer.once(200, this, () => {
+                    FdMgr.showGridNativeUI();
+                });
+            }
             else if (this.stayTime >= FdMgr.jsonConfig.account_refNativeAd)
                 FdAd.nextNativeIndex();
             this.ccb && this.ccb();
@@ -1919,7 +1937,7 @@
                 FdMgr.setNativeMissTouched();
         }
         closeBtnCB() {
-            if (FdMgr.jsonConfig.is_topNativeAdCloseBtnLate && FdMgr.isAccountLateTime && !FdMgr.nativeMissTouched) {
+            if (FdMgr.jsonConfig.is_topNativeAdCloseBtnLate && FdMgr.isAccountLateTime && !FdMgr.nativeMissTouched && !this.hadClick) {
                 this.adBtnCB(true);
             }
             else {
@@ -1941,11 +1959,12 @@
             this.size(Laya.stage.displayWidth, Laya.stage.displayHeight);
             if (param && param.ccb)
                 this.ccb = param.ccb;
+            if (param && param.hidePanel)
+                this.myPanel.visible = false;
             this.closeBtn.on(Laya.Event.CLICK, this, this.closeBtnCB);
             this.adBtn.on(Laya.Event.CLICK, this, this.adBtnCB);
             Laya.timer.loop(100, this, () => { this.stayTime += 0.1; });
             this.adData = FdAd.showNativeAd();
-            console.log('浮层原生广告：', JSON.stringify(this.adData));
             if (!this.adData) {
                 this.close();
                 return;
@@ -1982,7 +2001,7 @@
                 FdMgr.setNativeMissTouched();
         }
         closeBtnCB() {
-            if (FdMgr.jsonConfig.is_topNativeAdCloseBtnLate && FdMgr.isAccountLateTime && !FdMgr.nativeMissTouched) {
+            if (FdMgr.jsonConfig.is_topNativeAdCloseBtnLate && FdMgr.isAccountLateTime && !FdMgr.nativeMissTouched && !this.hadClick) {
                 this.adBtnCB(true);
             }
             else {
@@ -2633,7 +2652,7 @@
     GameConfig.screenMode = "vertical";
     GameConfig.alignV = "top";
     GameConfig.alignH = "left";
-    GameConfig.startScene = "FDScene/PrivacyUI.scene";
+    GameConfig.startScene = "FDScene/MiddleNativeUI.scene";
     GameConfig.sceneRoot = "";
     GameConfig.debug = false;
     GameConfig.stat = false;

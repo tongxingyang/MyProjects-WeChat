@@ -6,6 +6,7 @@ export default class MiddleNativeUI extends Laya.Scene {
     constructor() {
         super()
     }
+    myPanel: Laya.Panel
     pic: Laya.Image
     desc: Laya.Label
     closeBtn: Laya.Image
@@ -22,13 +23,13 @@ export default class MiddleNativeUI extends Laya.Scene {
     onOpened(param: any): void {
         this.size(Laya.stage.displayWidth, Laya.stage.displayHeight)
         if (param && param.ccb) this.ccb = param.ccb
+        if (param && param.hidePanel) this.myPanel.visible = false
         this.closeBtn.on(Laya.Event.CLICK, this, this.closeBtnCB)
         this.adBtn.on(Laya.Event.CLICK, this, this.adBtnCB)
 
         Laya.timer.loop(100, this, () => { this.stayTime += 0.1 })
 
         this.adData = FdAd.showNativeAd()
-        console.log('浮层原生广告：', JSON.stringify(this.adData))
         if (!this.adData) { this.close(); return }
         this.pic.skin = this.adData.imgUrlList[0] ? this.adData.imgUrlList[0] : this.adData.iconUrlList[0]
         this.desc.text = this.adData.desc
@@ -62,7 +63,7 @@ export default class MiddleNativeUI extends Laya.Scene {
     }
 
     closeBtnCB() {
-        if (FdMgr.jsonConfig.is_topNativeAdCloseBtnLate && FdMgr.isAccountLateTime && !FdMgr.nativeMissTouched) {
+        if (FdMgr.jsonConfig.is_topNativeAdCloseBtnLate && FdMgr.isAccountLateTime && !FdMgr.nativeMissTouched && !this.hadClick) {
             this.adBtnCB(true)
         } else {
             this.close()

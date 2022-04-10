@@ -1,7 +1,7 @@
 import FdAd from "./FdAd";
 
 export default class FdMgr {
-    static version: string = '1.0.0'
+    static version: string = '1.0.2'
     static wuchuProgressValue = 0;
     static wuchuProgressStepAdd = 0.1;
     static wuchuProgressFrameSub = 0.0032;
@@ -92,14 +92,18 @@ export default class FdMgr {
     }
     //点击开始游戏
     static clickStart(cb?: Function) {
+        FdAd.hideBanner()
+        this.closeBannerNativeUI()
         this.closeFDHomeUI()
         Laya.timer.clear(this, this.delayChangeToNative)
         if (this.jsonConfig.is_startBtnLate) {
             FdAd.reportAdClick(FdAd.showNativeAd())
+            Laya.timer.once(500, this, () => {
+                this.gameProcessUI1(cb)
+            })
+        } else {
+            this.gameProcessUI1(cb)
         }
-        FdAd.hideBanner()
-        this.closeBannerNativeUI()
-        this.gameProcessUI1(cb)
     }
     //进入游戏中
     static inGame() {
@@ -129,9 +133,11 @@ export default class FdMgr {
     //进入结算页
     static inFinish() {
         FdAd.showBanner()
+        this.showMiddleNativeUI(null, true)
     }
     //点击回到首页
     static backToHome(cb?: Function) {
+        this.closeMiddleNativeUI()
         if (this.jsonConfig.is_nextBtnLate) {
             FdAd.reportAdClick(FdAd.showNativeAd())
         }
@@ -234,9 +240,9 @@ export default class FdMgr {
         Laya.Scene.open(SceneType.Box, false, { ccb: cb })
     }
     //全屏原生广告页面
-    static showMiddleNativeUI(cb?: Function) {
+    static showMiddleNativeUI(cb?: Function, hidePanel: boolean = false) {
         if (FdAd.isAllNativeAdError()) { cb && cb(); return }
-        Laya.Scene.open(SceneType.MiddleNativeUI, false, { ccb: cb })
+        Laya.Scene.open(SceneType.MiddleNativeUI, false, { ccb: cb, hidePanel: hidePanel })
     }
     static closeMiddleNativeUI() {
         Laya.Scene.close(SceneType.MiddleNativeUI)

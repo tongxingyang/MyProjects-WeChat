@@ -234,7 +234,7 @@ export default class FdAd {
         if (FdMgr.jsonConfig.is_unUseNative) {
             //加载失败的ad 则跳过
             for (let i = 0; i < this.nativeAdErrorArr.length; i++) {
-                if (this.nativeAdErrorArr[this.nativeIndex]) this.nextNativeIndex()
+                if (this.nativeAdErrorArr[this.nativeIndex] || !this.nativeAdDataArr[this.nativeIndex]) this.nextNativeIndex()
                 else break
             }
         }
@@ -242,6 +242,8 @@ export default class FdAd {
         this.checkReCreateNativeAd()
 
         let adData: any = this.nativeAdDataArr[this.nativeIndex]
+        console.log('展示原生广告 adData：', JSON.stringify(adData))
+        if (!adData) return null
         this.nativeAdArr[this.nativeIndex].reportAdShow({
             adId: adData.adId
         })
@@ -268,7 +270,7 @@ export default class FdAd {
         if (this.nativeAdErrorArr.length <= 0 || !FdMgr.isOneMinutedAd) return true
         for (let i = 0; i < this.nativeAdErrorArr.length; i++) {
             console.log('原生广告error' + i + ':' + this.nativeAdErrorArr[i])
-            if (this.nativeAdErrorArr[i] == false) return false
+            if (this.nativeAdErrorArr[i] == false && this.nativeAdDataArr[this.nativeIndex]) return false
         }
         return true
     }
@@ -279,7 +281,11 @@ export default class FdAd {
     //检查是否需要重新创建或者补给原生广告
     private static checkReCreateNativeAd() {
         let count: number = 0
-        this.nativeAdErrorArr.forEach(b => { if (b) count++ })
+        for (let i = 0; i < this.nativeAdErrorArr.length; i++) {
+            if (this.nativeAdErrorArr[i] || !this.nativeAdDataArr[this.nativeIndex]) {
+                count++
+            }
+        }
         if (count >= this.nativeIdArr.length) {
             this.creaNativeAd()
         } else if (count > this.nativeIdArr.length / 2) {
