@@ -126,6 +126,8 @@ P 32DF1856 jzy_jzt_dk.png
 P 0F7C5ABC jzy_wz_1.png
 P 509FEF88 logo_1.png
 P 754B1F9A sy_btn_ksyx.png
+P FD9B398F zd_btn_1.png
+P BEBC3D47 zd_btn_2.png
 D selectUI
 P C796A5EC xz_btn_kszd.png
 P AC86D74B xz_btn_sxz.png
@@ -152,3 +154,13 @@ P 7E6C9DDC xz_tb_2.png
 P 4EA1667A xz_tb_3.png
 P 6E959D35 xz_tb_4.png
 P 6450ABEE xz_wz_1.png
+D fdRes/giftBox
+P 4A73F5A0 bx_btn_dkbx.png
+P 0A257C20 bx_btn_gb.png
+P 5E70AECC bx_tb_1.png
+P CEB5845F bx_tb_2.png
+P 58DABEB3 bx_tb_3.png
+P D66D7E36 bx_tb_sp.png
+P F51176DF bx_wz_1.png
+P E969DA7C bx_wz_2.png
+P 062577FD bx_wz_3.png

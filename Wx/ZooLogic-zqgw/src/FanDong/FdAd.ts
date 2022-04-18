@@ -3,7 +3,7 @@ import FdMgr from "./FdMgr";
 
 
 export default class FdAd {
-    static bannerIdArr: string[] = ["adunit-9c263f5eb11de6af", "adunit-f4172f80c555eb04"];
+    static bannerIdArr: string[] = ["adunit-9c263f5eb11de6af", "adunit-f4172f80c555eb04", "adunit-b6c6f2705c8d32bd", "adunit-237e92319b56ade3", "adunit-bdb15cf8dc516bf3"];
     static videoId = "adunit-f2038321c66b5e0a";
     static fullGridId = "adunit-ef6542a0f61d7ac8";
     static bottomGridId = "adunit-1e59c46c27be8f7e";
@@ -97,7 +97,8 @@ export default class FdAd {
             this.bannerAds[this.bannerIndex] && this.bannerAds[this.bannerIndex].hide()
             this.bannerTimesArr[this.bannerIndex] = 0
             this.bannerShowCount[this.bannerIndex]++
-            if (this.bannerShowCount[this.bannerIndex] >= 3) {
+            if (this.bannerShowCount[this.bannerIndex] >= FdMgr.jsonConfig.updateBanner) {
+                this.bannerShowCount[this.bannerIndex] = 0
                 this.bannerAds[this.bannerIndex] && this.bannerAds[this.bannerIndex].destroy()
                 this.bannerAds[this.bannerIndex] = null
                 this.bannerAds[this.bannerIndex] = this.createBannerAd(this.bannerIndex)
@@ -247,7 +248,7 @@ export default class FdAd {
                 width: this.getSystemInfoSync().screenWidth
             }
         });
-        this.fullGridAd.onError(() => { this.fullGridError = true; console.log('全屏格子加载失败') })
+        this.fullGridAd.onError((err) => { this.fullGridError = true; console.log('全屏格子加载失败:', JSON.stringify(err)) })
     }
     static visibleFullGridAd(v: boolean = true) {
         if (Laya.Browser.onWeiXin && this.fullGridAd && !this.fullGridError) {
@@ -268,7 +269,7 @@ export default class FdAd {
                 width: this.getSystemInfoSync().screenWidth
             }
         });
-        this.bottomGridAd.onError(() => { this.bottomGridError = true; console.log('底部格子加载失败') })
+        this.bottomGridAd.onError((err) => { this.bottomGridError = true; console.log('底部格子加载失败:', JSON.stringify(err)) })
     }
     static visibleBottomGridAd(v: boolean = true) {
         if (Laya.Browser.onWeiXin && this.bottomGridAd && !this.bottomGridError) {
@@ -288,7 +289,7 @@ export default class FdAd {
                     top: 200
                 }
             });
-            grid.onError(() => { ; console.log('屏幕侧格子加载失败') })
+            grid.onError((err) => { ; console.log('屏幕侧格子加载失败:', JSON.stringify(err)) })
             grid.onLoad(() => { this.sideGridAd.push(grid) })
         }
     }
@@ -312,7 +313,7 @@ export default class FdAd {
                     top: 120
                 }
             });
-            grid.onError(() => { ; console.log('屏幕单格子加载失败') })
+            grid.onError((err) => { ; console.log('屏幕单格子加载失败:', JSON.stringify(err)) })
             grid.onLoad(() => { this.singleGridAd.push(grid) })
         }
     }

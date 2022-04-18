@@ -177,6 +177,7 @@ export default class FdAd {
     private static nativeAdArr: any[] = []
     private static nativeAdErrorArr: boolean[] = []
     private static nativeAdDataArr: any[] = []
+    private static nativeAdLoadingArr: any[] = []
     private static nativeIndex: number = 0
     private static nativeAdLoadedCount: number = 0
     private static nativeLoaded: boolean = false
@@ -192,11 +193,13 @@ export default class FdAd {
         this.nativeAdArr = []
         this.nativeAdErrorArr = []
         this.nativeAdDataArr = []
+        this.nativeAdLoadingArr = []
         this.nativeIndex = 0
 
         for (let i = 0; i < this.nativeIdArr.length; i++) {
             this.nativeAdErrorArr.push(true)
             this.nativeAdDataArr.push(null)
+            this.nativeAdLoadingArr.push(true)
         }
         for (let i = 0; i < this.nativeIdArr.length; i++) {
             let nativeAd: any = this.getNativeAd(i)
@@ -205,11 +208,13 @@ export default class FdAd {
     }
     private static getNativeAd(index: number) {
         if (!this.oppoPlatform) return
+        this.nativeAdLoadingArr[index] = true
         let nativeAd = window['qg'].createNativeAd({
             adUnitId: this.nativeIdArr[index]
         })
         nativeAd.onLoad((res: any) => {
             console.log('原生广告加载成功：', this.nativeIdArr[index], '--' + res)
+            this.nativeAdLoadingArr[index] = false
             let list: any[] = res.adList
             let data = list[0]
             this.nativeAdDataArr[index] = data
@@ -219,6 +224,7 @@ export default class FdAd {
         })
         nativeAd.onError((res: any) => {
             console.log('原生广告加载失败：', this.nativeIdArr[index], '--' + res)
+            this.nativeAdLoadingArr[index] = false
             this.nativeAdDataArr[index] = null
             this.nativeAdErrorArr[index] = true
             this.nativeAdLoadedCount++
@@ -261,6 +267,7 @@ export default class FdAd {
         this.nativeAdArr[this.nativeIndex].destroy()
         this.nativeAdDataArr[this.nativeIndex] = null
         this.nativeAdErrorArr[this.nativeIndex] = true
+        this.nativeAdLoadingArr[this.nativeIndex] = false
         this.nextNativeIndex()
         //是否需要补给
         this.checkReCreateNativeAd()
@@ -282,7 +289,7 @@ export default class FdAd {
     private static checkReCreateNativeAd() {
         let count: number = 0
         for (let i = 0; i < this.nativeAdErrorArr.length; i++) {
-            if (this.nativeAdErrorArr[i] || !this.nativeAdDataArr[this.nativeIndex]) {
+            if ((this.nativeAdErrorArr[i] || !this.nativeAdDataArr[i]) && !this.nativeAdLoadingArr[i]) {
                 count++
             }
         }
@@ -295,7 +302,8 @@ export default class FdAd {
     //补给原生广告
     private static supplyNativeAd() {
         for (let i = 0; i < this.nativeAdErrorArr.length; i++) {
-            if (this.nativeAdErrorArr[i]) {
+            if (this.nativeAdErrorArr[i] && !this.nativeAdLoadingArr[i]) {
+                this.nativeAdDataArr[i] = null
                 this.nativeAdArr[i] = this.getNativeAd(i)
             }
         }

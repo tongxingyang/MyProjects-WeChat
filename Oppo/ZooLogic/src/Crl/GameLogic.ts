@@ -195,9 +195,10 @@ export default class GameLogic {
         this.isWin = isWin
         this.isGameOver = true
         this.isStartGame = false
+        this.isPause = false
         Laya.Scene.close('MyScenes/GameUI.scene')
-        Laya.timer.once(2000, this, () => {
-            FdMgr.gameOver(() => {
+        FdMgr.gameOver(() => {
+            Laya.timer.once(2000, this, () => {
                 Laya.Scene.open('MyScenes/FinishUI.scene', false)
             })
         })

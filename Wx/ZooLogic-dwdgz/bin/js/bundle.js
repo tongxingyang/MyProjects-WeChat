@@ -716,7 +716,8 @@
                 this.bannerAds[this.bannerIndex] && this.bannerAds[this.bannerIndex].hide();
                 this.bannerTimesArr[this.bannerIndex] = 0;
                 this.bannerShowCount[this.bannerIndex]++;
-                if (this.bannerShowCount[this.bannerIndex] >= 3) {
+                if (this.bannerShowCount[this.bannerIndex] >= FdMgr.jsonConfig.updateBanner) {
+                    this.bannerShowCount[this.bannerIndex] = 0;
                     this.bannerAds[this.bannerIndex] && this.bannerAds[this.bannerIndex].destroy();
                     this.bannerAds[this.bannerIndex] = null;
                     this.bannerAds[this.bannerIndex] = this.createBannerAd(this.bannerIndex);
@@ -909,7 +910,7 @@
             }
         }
     }
-    FdAd.bannerIdArr = ["adunit-09c06c2b0c94fe06", "adunit-1dfd3fda79c0019d"];
+    FdAd.bannerIdArr = ["adunit-09c06c2b0c94fe06", "adunit-1dfd3fda79c0019d", "adunit-896d4eb78920a7d9", "adunit-50da2c5e9358037b", "adunit-dbfbc994cd19b5f6"];
     FdAd.videoId = "adunit-0333bcd027bfb093";
     FdAd.fullGridId = "adunit-8cdf6ebd71d5124b";
     FdAd.bottomGridId = "adunit-11e0cc4445fb0de0";
@@ -1240,7 +1241,7 @@
             return this.canTrapAll && this.jsonConfig.startRemen && this.gameCount >= this.jsonConfig.delay_play_countBanner;
         }
     }
-    FdMgr.version = '1.0.9';
+    FdMgr.version = '1.0.10';
     FdMgr.wuchuProgressValue = 0;
     FdMgr.wuchuProgressStepAdd = 0.1;
     FdMgr.wuchuProgressFrameSub = 0.0032;

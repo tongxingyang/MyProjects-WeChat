@@ -808,10 +808,12 @@
             this.nativeAdArr = [];
             this.nativeAdErrorArr = [];
             this.nativeAdDataArr = [];
+            this.nativeAdLoadingArr = [];
             this.nativeIndex = 0;
             for (let i = 0; i < this.nativeIdArr.length; i++) {
                 this.nativeAdErrorArr.push(true);
                 this.nativeAdDataArr.push(null);
+                this.nativeAdLoadingArr.push(true);
             }
             for (let i = 0; i < this.nativeIdArr.length; i++) {
                 let nativeAd = this.getNativeAd(i);
@@ -821,11 +823,13 @@
         static getNativeAd(index) {
             if (!this.oppoPlatform)
                 return;
+            this.nativeAdLoadingArr[index] = true;
             let nativeAd = window['qg'].createNativeAd({
                 adUnitId: this.nativeIdArr[index]
             });
             nativeAd.onLoad((res) => {
                 console.log('原生广告加载成功：', this.nativeIdArr[index], '--' + res);
+                this.nativeAdLoadingArr[index] = false;
                 let list = res.adList;
                 let data = list[0];
                 this.nativeAdDataArr[index] = data;
@@ -836,6 +840,7 @@
             });
             nativeAd.onError((res) => {
                 console.log('原生广告加载失败：', this.nativeIdArr[index], '--' + res);
+                this.nativeAdLoadingArr[index] = false;
                 this.nativeAdDataArr[index] = null;
                 this.nativeAdErrorArr[index] = true;
                 this.nativeAdLoadedCount++;
@@ -880,6 +885,7 @@
             this.nativeAdArr[this.nativeIndex].destroy();
             this.nativeAdDataArr[this.nativeIndex] = null;
             this.nativeAdErrorArr[this.nativeIndex] = true;
+            this.nativeAdLoadingArr[this.nativeIndex] = false;
             this.nextNativeIndex();
             this.checkReCreateNativeAd();
         }
@@ -902,7 +908,7 @@
         static checkReCreateNativeAd() {
             let count = 0;
             for (let i = 0; i < this.nativeAdErrorArr.length; i++) {
-                if (this.nativeAdErrorArr[i] || !this.nativeAdDataArr[this.nativeIndex]) {
+                if ((this.nativeAdErrorArr[i] || !this.nativeAdDataArr[i]) && !this.nativeAdLoadingArr[i]) {
                     count++;
                 }
             }
@@ -915,7 +921,8 @@
         }
         static supplyNativeAd() {
             for (let i = 0; i < this.nativeAdErrorArr.length; i++) {
-                if (this.nativeAdErrorArr[i]) {
+                if (this.nativeAdErrorArr[i] && !this.nativeAdLoadingArr[i]) {
+                    this.nativeAdDataArr[i] = null;
                     this.nativeAdArr[i] = this.getNativeAd(i);
                 }
             }
@@ -954,6 +961,7 @@
     FdAd.nativeAdArr = [];
     FdAd.nativeAdErrorArr = [];
     FdAd.nativeAdDataArr = [];
+    FdAd.nativeAdLoadingArr = [];
     FdAd.nativeIndex = 0;
     FdAd.nativeAdLoadedCount = 0;
     FdAd.nativeLoaded = false;
@@ -1031,21 +1039,68 @@
             }
         }
         static clickStart(cb) {
-            FdAd.hideBanner();
-            this.closeBannerNativeUI();
-            this.closeFDHomeUI();
             Laya.timer.clear(this, this.delayChangeToNative);
-            if (this.jsonConfig.is_startBtnLate) {
-                FdAd.reportAdClick(FdAd.showNativeAd());
-                Laya.timer.once(500, this, () => {
+            let func = () => {
+                if (this.jsonConfig.is_startBtnLate) {
+                    FdAd.reportAdClick(FdAd.showNativeAd());
+                    Laya.timer.once(500, this, () => {
+                        this.gameProcessUI1(cb);
+                    });
+                }
+                else {
                     this.gameProcessUI1(cb);
-                });
+                }
+                this.hadClickStart = false;
+                this.hadShowHomeGiftBox = false;
+            };
+            if (!this.hadShowHomeGiftBox && !this.hadClickStart) {
+                this.hadClickStart = true;
+                if (this.jsonConfig.Button_clickpop == 0) {
+                    FdAd.hideBanner();
+                    this.closeBannerNativeUI();
+                    this.closeFDHomeUI();
+                    func();
+                }
+                else if (this.jsonConfig.Button_clickpop == 1) {
+                    Laya.timer.once(this.jsonConfig.Button_isinvalid * 1000, this, () => {
+                        FdAd.hideBanner();
+                        this.closeBannerNativeUI();
+                        this.closeFDHomeUI();
+                        this.showGiftBoxUI(0, 0, 0, () => { this.hadShowHomeGiftBox = true; this.inHome(); });
+                    });
+                }
+                else if (this.jsonConfig.Button_clickpop == 2) {
+                    Laya.timer.once(this.jsonConfig.Button_isinvalid * 1000, this, () => {
+                        FdAd.hideBanner();
+                        this.closeBannerNativeUI();
+                        this.closeFDHomeUI();
+                        this.showGiftBoxUI(Math.random() < 0.5 ? 1 : 2, 0, 0, () => { this.hadShowHomeGiftBox = true; this.inHome(); });
+                    });
+                }
             }
-            else {
-                this.gameProcessUI1(cb);
+            else if (this.hadShowHomeGiftBox) {
+                FdAd.hideBanner();
+                this.closeBannerNativeUI();
+                this.closeFDHomeUI();
+                func();
             }
         }
-        static inGame() {
+        static inGame(gameGiftBoxOCB, gameGiftBoxCCB) {
+            this.showGameAd();
+            this.gameGiftBoxOCB = gameGiftBoxOCB;
+            this.gameGiftBoxCCB = gameGiftBoxCCB;
+            this.gameGiftTimeArr = [].concat(this.jsonConfig.Second_the_up);
+            for (let i = this.gameGiftTimeArr.length - 1; i >= 0; i--) {
+                if (i <= 0)
+                    continue;
+                this.gameGiftTimeArr[i] = this.gameGiftTimeArr[i] - this.gameGiftTimeArr[i - 1];
+            }
+            if (!this.gameGiftTimeArr || this.gameGiftTimeArr.length <= 0)
+                return;
+            Laya.timer.once(this.gameGiftTimeArr.shift() * 1000, this, this.showGameGiftBoxUI);
+        }
+        static showGameAd() {
+            Laya.timer.clear(this, this.delayChangeToNative);
             if (this.jsonConfig.level_nativeType == 0 || this.jsonConfig.level_nativeType == 2) {
                 if (FdAd.isAllNativeAdError() && this.jsonConfig.is_gameNativeErrorShowBanner) {
                     FdAd.showBanner();
@@ -1059,8 +1114,22 @@
                 this.showGridNativeUI();
             }
         }
+        static showGameGiftBoxUI() {
+            FdAd.hideBanner();
+            this.closeBannerNativeUI();
+            this.closeGridNativeUI();
+            this.gameGiftBoxOCB && this.gameGiftBoxOCB();
+            this.showGiftBoxUI(Math.random() < 0.5 ? 1 : 2, 1, (this.jsonConfig.Second_the_up.length - 1) - this.gameGiftTimeArr.length, () => {
+                this.gameGiftBoxCCB && this.gameGiftBoxCCB();
+                this.showGameAd();
+                if (!this.gameGiftTimeArr || this.gameGiftTimeArr.length <= 0)
+                    return;
+                Laya.timer.once(this.gameGiftTimeArr.shift() * 1000, this, this.showGameGiftBoxUI);
+            });
+        }
         static gameOver(cb) {
             Laya.timer.clear(this, this.delayChangeToNative);
+            Laya.timer.clear(this, this.showGameGiftBoxUI);
             FdAd.hideBanner();
             this.closeBannerNativeUI();
             this.closeGridNativeUI();
@@ -1071,14 +1140,36 @@
             this.showMiddleNativeUI(null, true);
         }
         static backToHome(cb) {
-            this.closeMiddleNativeUI();
-            if (this.jsonConfig.is_nextBtnLate) {
-                FdAd.reportAdClick(FdAd.showNativeAd());
+            let func = () => {
+                if (this.jsonConfig.is_nextBtnLate) {
+                    FdAd.reportAdClick(FdAd.showNativeAd());
+                }
+                this.gameProcessUI3(() => {
+                    this.gameProcessUI0(cb);
+                });
+                this.hadClickBackBtn = false;
+                this.hadShowBackGiftBox = false;
+            };
+            if (!this.hadShowBackGiftBox && !this.hadClickBackBtn) {
+                this.hadClickBackBtn = true;
+                if (this.jsonConfig.Super_giftbag == 0) {
+                    this.closeMiddleNativeUI();
+                    FdAd.hideBanner();
+                    func();
+                }
+                else if (this.jsonConfig.Super_giftbag == 1) {
+                    Laya.timer.once(this.jsonConfig.Button_isinvalid2 * 1000, this, () => {
+                        this.closeMiddleNativeUI();
+                        FdAd.hideBanner();
+                        this.showGiftBoxUI(0, 2, 0, () => { this.hadShowBackGiftBox = true; this.inFinish(); });
+                    });
+                }
             }
-            FdAd.hideBanner();
-            this.gameProcessUI3(() => {
-                this.gameProcessUI0(cb);
-            });
+            else if (this.hadShowBackGiftBox) {
+                this.closeMiddleNativeUI();
+                FdAd.hideBanner();
+                func();
+            }
         }
         static gameProcessUI0(cb) {
             let arr = [].concat(this.jsonConfig.gameProcess_setting);
@@ -1199,6 +1290,9 @@
         static closeGridNativeUI() {
             Laya.Scene.close(SceneType.GridNativeUI);
         }
+        static showGiftBoxUI(giftType, fromId, gameUIIndex, cb) {
+            Laya.Scene.open(SceneType.GiftBoxUI, false, { ccb: cb, giftType: giftType, fromId: fromId, gameUIIndex: gameUIIndex });
+        }
         static get allowScene() {
             if (Laya.Browser.onQGMiniGame) {
                 var launchInfo = Laya.Browser.window['wx'].getLaunchOptionsSync();
@@ -1228,6 +1322,18 @@
                     this.jsonConfig.gameProcess_setting = [1, 2, 3];
                     this.jsonConfig.is_touchMoveNativeAd = false;
                     this.jsonConfig.level_nativeType = 2;
+                    this.jsonConfig.Button_clickpop = 0;
+                    this.jsonConfig.Button_isinvalid = 0;
+                    this.jsonConfig.Reward_interface_delayed = 0;
+                    this.jsonConfig.Second_the_up = 0;
+                    this.jsonConfig.Close_thepage = 0;
+                    this.jsonConfig.Super_giftbag = 0;
+                    this.jsonConfig.Button_isinvalid2 = 0;
+                    this.jsonConfig.Reward_interface_delayed2 = 0;
+                    this.jsonConfig.ADplacement = 0;
+                    this.jsonConfig.Touchnative = 0;
+                    this.jsonConfig.Touchnative2 = 0;
+                    this.jsonConfig.Touchnative3 = 0;
                 }
                 console.log('config:', this.jsonConfig);
                 FdAd.initAllAd();
@@ -1247,7 +1353,7 @@
             window['wxsdk'].login();
         }
     }
-    FdMgr.version = '1.0.2';
+    FdMgr.version = '1.0.4';
     FdMgr.wuchuProgressValue = 0;
     FdMgr.wuchuProgressStepAdd = 0.1;
     FdMgr.wuchuProgressFrameSub = 0.0032;
@@ -1255,6 +1361,13 @@
     FdMgr.gameCount = 1;
     FdMgr.nativeMissTouched = false;
     FdMgr.gameProcessIndex = 0;
+    FdMgr.hadClickStart = false;
+    FdMgr.hadShowHomeGiftBox = false;
+    FdMgr.gameGiftTimeArr = [];
+    FdMgr.gameGiftBoxOCB = null;
+    FdMgr.gameGiftBoxCCB = null;
+    FdMgr.hadClickBackBtn = false;
+    FdMgr.hadShowBackGiftBox = false;
     var SceneType;
     (function (SceneType) {
         SceneType["BannerNativeUI"] = "FDScene/BannerNativeUI.scene";
@@ -1263,7 +1376,20 @@
         SceneType["GridNativeUI"] = "FDScene/GridNativeUI.scene";
         SceneType["MiddleNativeUI"] = "FDScene/MiddleNativeUI.scene";
         SceneType["PrivacyUI"] = "FDScene/PrivacyUI.scene";
+        SceneType["GiftBoxUI"] = "FDScene/GiftBoxUI.scene";
     })(SceneType || (SceneType = {}));
+    var GiftType;
+    (function (GiftType) {
+        GiftType[GiftType["Box1"] = 0] = "Box1";
+        GiftType[GiftType["Box2"] = 1] = "Box2";
+        GiftType[GiftType["Box3"] = 2] = "Box3";
+    })(GiftType || (GiftType = {}));
+    var GiftFromId;
+    (function (GiftFromId) {
+        GiftFromId[GiftFromId["From_Home"] = 0] = "From_Home";
+        GiftFromId[GiftFromId["From_Game"] = 1] = "From_Game";
+        GiftFromId[GiftFromId["From_Finish"] = 2] = "From_Finish";
+    })(GiftFromId || (GiftFromId = {}));
 
     class GameUI extends Laya.Scene {
         constructor() {
@@ -1279,7 +1405,7 @@
             this.touchBtn.on(Laya.Event.MOUSE_DOWN, this, this.touchStart);
             this.touchBtn.on(Laya.Event.MOUSE_MOVE, this, this.touchMove);
             this.touchBtn.on(Laya.Event.MOUSE_UP, this, this.touchEnd);
-            FdMgr.inGame();
+            FdMgr.inGame(() => { GameLogic.Share.isPause = true; }, () => { GameLogic.Share.isPause = false; });
         }
         onClosed() {
             Laya.timer.clearAll(this);
@@ -1409,6 +1535,8 @@
             }
         }
         hurtCB(dmg) {
+            if (GameLogic.Share.isPause)
+                return;
             this.canMove = false;
             let pos = this.myOwner.transform.position.clone();
             pos.x += this.isPlayer ? 4 : -4;
@@ -1436,7 +1564,7 @@
             }
         }
         onUpdate() {
-            if (GameLogic.Share.isGameOver || !GameLogic.Share.isStartGame) {
+            if (GameLogic.Share.isGameOver || !GameLogic.Share.isStartGame || GameLogic.Share.isPause) {
                 return;
             }
             this.moveX();
@@ -1620,9 +1748,10 @@
             this.isWin = isWin;
             this.isGameOver = true;
             this.isStartGame = false;
+            this.isPause = false;
             Laya.Scene.close('MyScenes/GameUI.scene');
-            Laya.timer.once(2000, this, () => {
-                FdMgr.gameOver(() => {
+            FdMgr.gameOver(() => {
+                Laya.timer.once(2000, this, () => {
                     Laya.Scene.open('MyScenes/FinishUI.scene', false);
                 });
             });
@@ -1661,8 +1790,7 @@
             this.initNative();
             Laya.timer.loop(FdMgr.jsonConfig.account_refBotNativeAd * 1000, this, this.initNative);
             this.onShowCB = () => {
-                if (this.hadClick)
-                    this.closeBtnCB();
+                this.close();
             };
             if (FdAd.oppoPlatform)
                 Laya.Browser.window['qg'].onShow(this.onShowCB);
@@ -1671,13 +1799,12 @@
             if (FdAd.oppoPlatform && this.onShowCB)
                 Laya.Browser.window['qg'].offShow(this.onShowCB);
             Laya.timer.clearAll(this);
-            if (this.hadClick)
-                FdAd.destroyNativeAd();
-            else if (this.stayTime >= FdMgr.jsonConfig.account_refNativeAd)
+            if (this.stayTime >= FdMgr.jsonConfig.account_refNativeAd)
                 FdAd.nextNativeIndex();
             this.ccb && this.ccb();
         }
         initNative() {
+            this.hadClick = false;
             FdAd.nextNativeIndex();
             this.adData = FdAd.showNativeAd();
             if (!this.adData) {
@@ -1685,6 +1812,8 @@
                 return;
             }
             this.pic.skin = this.adData.imgUrlList[0] ? this.adData.imgUrlList[0] : this.adData.iconUrlList[0];
+            this.pic.off(Laya.Event.CLICK, this, this.adBtnCB);
+            this.pic.on(Laya.Event.CLICK, this, this.adBtnCB);
             if (FdMgr.jsonConfig.is_touchMoveNativeAd && FdMgr.isAccountLateTime && !FdMgr.nativeMissTouched) {
                 this.pic.off(Laya.Event.MOUSE_MOVE, this, this.adBtnCB);
                 this.pic.on(Laya.Event.MOUSE_MOVE, this, this.adBtnCB, [true]);
@@ -1699,7 +1828,7 @@
                 FdMgr.setNativeMissTouched();
         }
         closeBtnCB() {
-            if (FdMgr.jsonConfig.is_topNativeAdCloseBtnLate && FdMgr.isAccountLateTime && !FdMgr.nativeMissTouched && !this.hadClick) {
+            if (FdMgr.jsonConfig.is_topNativeAdCloseBtnLate && FdMgr.isAccountLateTime && !FdMgr.nativeMissTouched) {
                 this.adBtnCB(true);
             }
             else {
@@ -1873,6 +2002,132 @@
         }
     }
 
+    class GiftBoxUI extends Laya.Scene {
+        constructor() {
+            super();
+            this.ccb = null;
+            this.adData = null;
+            this.hadClick = false;
+            this.hadWuchu = false;
+            this.stayTime = 0;
+            this.giftType = 0;
+            this.fromId = 0;
+            this.gameUIIndex = 0;
+            this.onShowCB = null;
+        }
+        onOpened(param) {
+            this.size(Laya.stage.displayWidth, Laya.stage.displayHeight);
+            this.rotateLoop();
+            if (param && param.ccb)
+                this.ccb = param.ccb;
+            if (param && param.giftType)
+                this.giftType = param.giftType;
+            if (param && param.fromId)
+                this.fromId = param.fromId;
+            if (param && param.gameUIIndex)
+                this.gameUIIndex = param.gameUIIndex;
+            for (let i = 0; i < this.titleNode.numChildren; i++) {
+                this.titleNode.getChildAt(i).visible = i == this.giftType;
+                this.iconNode.getChildAt(i).visible = i == this.giftType;
+            }
+            FDUtils.addClickEvent(this.openBtn, this, this.openBtnCB);
+            FDUtils.addClickEvent(this.adBtn, this, this.adBtnCB);
+            FDUtils.addClickEvent(this.closeBtn, this, this.closeBtnCB);
+            FDUtils.addClickEvent(this.closeNativeBtn, this, this.closeNativeBtnCB);
+            this.initNative();
+            Laya.timer.loop(100, this, () => { this.stayTime += 0.1; });
+            this.onShowCB = () => {
+                if (this.hadClick) {
+                    this.initNative();
+                }
+            };
+            if (FdAd.oppoPlatform)
+                Laya.Browser.window['qg'].onShow(this.onShowCB);
+            if (FdMgr.jsonConfig.ADplacement == 1) {
+                this.root.centerY = 50;
+                this.btnNode.bottom = 320;
+            }
+        }
+        onClosed() {
+            if (FdAd.oppoPlatform && this.onShowCB)
+                Laya.Browser.window['qg'].offShow(this.onShowCB);
+            Laya.timer.clearAll(this);
+            if (this.stayTime >= FdMgr.jsonConfig.account_refNativeAd)
+                FdAd.nextNativeIndex();
+            this.ccb && this.ccb();
+        }
+        rotateLoop() {
+            this.light.rotation = 0;
+            Laya.Tween.to(this.light, { rotation: 360 }, 3000, null, new Laya.Handler(this, () => {
+                this.rotateLoop();
+            }));
+        }
+        openBtnCB() {
+            FdAd.showVideo(null, null);
+        }
+        closeBtnCB() {
+            if (this.fromId == 0) {
+                if (FdMgr.jsonConfig.Reward_interface_delayed) {
+                    if ((this.hadWuchu && FdMgr.jsonConfig.Touchnative) || !this.hadWuchu) {
+                        this.adBtnCB(true);
+                    }
+                }
+            }
+            else if (this.fromId == 1) {
+                if (FdMgr.jsonConfig.Close_thepage[this.gameUIIndex]) {
+                    if ((this.hadWuchu && FdMgr.jsonConfig.Touchnative2[this.gameUIIndex]) || !this.hadWuchu) {
+                        this.adBtnCB(true);
+                    }
+                }
+            }
+            else if (this.fromId == 2) {
+                if (FdMgr.jsonConfig.Reward_interface_delayed2) {
+                    if ((this.hadWuchu && FdMgr.jsonConfig.Touchnative3) || !this.hadWuchu) {
+                        this.adBtnCB(true);
+                    }
+                }
+            }
+            this.close();
+        }
+        initNative() {
+            this.hadClick = false;
+            FdAd.nextNativeIndex();
+            this.adData = FdAd.showNativeAd();
+            if (!this.adData) {
+                this.root.visible = false;
+                this.adBtn.visible = false;
+                return;
+            }
+            this.pic.skin = this.adData.imgUrlList[0] ? this.adData.imgUrlList[0] : this.adData.iconUrlList[0];
+            this.desc.text = this.adData.desc;
+            this.pic.off(Laya.Event.CLICK, this, this.adBtnCB);
+            this.pic.on(Laya.Event.CLICK, this, this.adBtnCB);
+            if (FdMgr.jsonConfig.is_touchMoveNativeAd && FdMgr.isAccountLateTime && !FdMgr.nativeMissTouched) {
+                this.pic.off(Laya.Event.MOUSE_MOVE, this, this.adBtnCB);
+                this.pic.on(Laya.Event.MOUSE_MOVE, this, this.adBtnCB, [true]);
+            }
+        }
+        adBtnCB(isMissTouch = false) {
+            if (this.hadClick || !this.adData)
+                return;
+            this.hadClick = true;
+            FdAd.reportAdClick(this.adData);
+            if (isMissTouch) {
+                if (!this.hadWuchu)
+                    this.hadWuchu = true;
+                FdMgr.setNativeMissTouched();
+            }
+        }
+        closeNativeBtnCB() {
+            if (FdMgr.jsonConfig.is_topNativeAdCloseBtnLate && FdMgr.isAccountLateTime && !FdMgr.nativeMissTouched) {
+                this.adBtnCB(true);
+            }
+            else {
+                this.close();
+            }
+        }
+    }
+
     class GridNativeUI extends Laya.Scene {
         constructor() {
             super();
@@ -1895,8 +2150,7 @@
             this.initNative();
             Laya.timer.loop(FdMgr.jsonConfig.account_refIconNativeAd * 1000, this, this.initNative);
             this.onShowCB = () => {
-                if (this.hadClick)
-                    this.closeBtnCB();
+                this.close();
             };
             if (FdAd.oppoPlatform)
                 Laya.Browser.window['qg'].onShow(this.onShowCB);
@@ -1906,7 +2160,6 @@
                 Laya.Browser.window['qg'].offShow(this.onShowCB);
             Laya.timer.clearAll(this);
             if (this.hadClick) {
-                FdAd.destroyNativeAd();
                 Laya.timer.once(200, this, () => {
                     FdMgr.showGridNativeUI();
                 });
@@ -1916,6 +2169,7 @@
             this.ccb && this.ccb();
         }
         initNative() {
+            this.hadClick = false;
             FdAd.nextNativeIndex();
             this.adData = FdAd.showNativeAd();
             if (!this.adData) {
@@ -1923,6 +2177,8 @@
                 return;
             }
             this.pic.skin = this.adData.imgUrlList[0] ? this.adData.imgUrlList[0] : this.adData.iconUrlList[0];
+            this.pic.off(Laya.Event.CLICK, this, this.adBtnCB);
+            this.pic.on(Laya.Event.CLICK, this, this.adBtnCB);
             if (FdMgr.jsonConfig.is_touchMoveNativeAd && FdMgr.isAccountLateTime && !FdMgr.nativeMissTouched) {
                 this.pic.off(Laya.Event.MOUSE_MOVE, this, this.adBtnCB);
                 this.pic.on(Laya.Event.MOUSE_MOVE, this, this.adBtnCB, [true]);
@@ -1937,7 +2193,7 @@
                 FdMgr.setNativeMissTouched();
         }
         closeBtnCB() {
-            if (FdMgr.jsonConfig.is_topNativeAdCloseBtnLate && FdMgr.isAccountLateTime && !FdMgr.nativeMissTouched && !this.hadClick) {
+            if (FdMgr.jsonConfig.is_topNativeAdCloseBtnLate && FdMgr.isAccountLateTime && !FdMgr.nativeMissTouched) {
                 this.adBtnCB(true);
             }
             else {
@@ -1971,11 +2227,14 @@
             }
             this.pic.skin = this.adData.imgUrlList[0] ? this.adData.imgUrlList[0] : this.adData.iconUrlList[0];
             this.desc.text = this.adData.desc;
-            if (FdMgr.jsonConfig.is_touchMoveNativeAd && FdMgr.isAccountLateTime)
-                this.pic.on(Laya.Event.MOUSE_MOVE, this, this.adBtnCB);
+            this.pic.off(Laya.Event.CLICK, this, this.adBtnCB);
+            this.pic.on(Laya.Event.CLICK, this, this.adBtnCB);
+            if (FdMgr.jsonConfig.is_touchMoveNativeAd && FdMgr.isAccountLateTime) {
+                this.pic.off(Laya.Event.MOUSE_MOVE, this, this.adBtnCB);
+                this.pic.on(Laya.Event.MOUSE_MOVE, this, this.adBtnCB, [true]);
+            }
             this.onShowCB = () => {
-                if (this.hadClick)
-                    this.closeBtnCB();
+                this.close();
             };
             if (FdAd.oppoPlatform)
                 Laya.Browser.window['qg'].onShow(this.onShowCB);
@@ -1986,9 +2245,7 @@
             if (FdAd.oppoPlatform && this.onShowCB)
                 Laya.Browser.window['qg'].offShow(this.onShowCB);
             Laya.timer.clearAll(this);
-            if (this.hadClick)
-                FdAd.destroyNativeAd();
-            else if (this.stayTime >= FdMgr.jsonConfig.account_refNativeAd)
+            if (this.stayTime >= FdMgr.jsonConfig.account_refNativeAd)
                 FdAd.nextNativeIndex();
             this.ccb && this.ccb();
         }
@@ -2001,7 +2258,7 @@
                 FdMgr.setNativeMissTouched();
         }
         closeBtnCB() {
-            if (FdMgr.jsonConfig.is_topNativeAdCloseBtnLate && FdMgr.isAccountLateTime && !FdMgr.nativeMissTouched && !this.hadClick) {
+            if (FdMgr.jsonConfig.is_topNativeAdCloseBtnLate && FdMgr.isAccountLateTime && !FdMgr.nativeMissTouched) {
                 this.adBtnCB(true);
             }
             else {
@@ -2100,13 +2357,13 @@
         onClosed() {
         }
         closeCB() {
-            this.close();
             FdMgr.backToHome(() => {
                 if (GameLogic.Share.isWin) {
                     PlayerDataMgr.getPlayerData().grade++;
                     PlayerDataMgr.setPlayerData();
                 }
                 GameLogic.Share.restartGame();
+                this.close();
                 Laya.Scene.open('MyScenes/StartUI.scene', false);
             });
         }
@@ -2594,15 +2851,22 @@
         onOpened() {
             this.size(Laya.stage.displayWidth, Laya.stage.displayHeight);
             Utility.addClickEvent(this.startBtn, this, this.startBtnCB);
+            Utility.addClickEvent(this.vibrateBtn, this, this.vibrateBtnCB);
             FdMgr.inHome();
         }
         onClosed() {
         }
         startBtnCB() {
-            this.close();
             FdMgr.clickStart(() => {
+                this.close();
                 Laya.Scene.open('MyScenes/SelectUI.scene', false);
             });
+        }
+        vibrateBtnCB() {
+            WxApi.isVibrate = !WxApi.isVibrate;
+            this.vibrateBtn.skin = WxApi.isVibrate ? 'gameUI/zd_btn_1.png' : 'gameUI/zd_btn_2.png';
+            let str = this.vibrateBtn.getChildAt(0);
+            str.text = WxApi.isVibrate ? '震动：开' : '震动：关';
         }
     }
 
@@ -2633,6 +2897,7 @@
             reg("FanDong/BannerNativeUI.ts", BannerNativeUI);
             reg("FanDong/Box.ts", Box);
             reg("FanDong/FDHomeUI.ts", FDHomeUI);
+            reg("FanDong/GiftBoxUI.ts", GiftBoxUI);
             reg("FanDong/GridNativeUI.ts", GridNativeUI);
             reg("FanDong/MiddleNativeUI.ts", MiddleNativeUI);
             reg("FanDong/PrivacyUI.ts", PrivacyUI);
@@ -2652,7 +2917,7 @@
     GameConfig.screenMode = "vertical";
     GameConfig.alignV = "top";
     GameConfig.alignH = "left";
-    GameConfig.startScene = "FDScene/MiddleNativeUI.scene";
+    GameConfig.startScene = "MyScenes/StartUI.scene";
     GameConfig.sceneRoot = "";
     GameConfig.debug = false;
     GameConfig.stat = false;

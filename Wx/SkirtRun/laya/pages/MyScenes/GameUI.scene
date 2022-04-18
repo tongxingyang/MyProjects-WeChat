@@ -2,7 +2,7 @@
     "x":0,
     "type":"Scene",
     "selectedBox":2,
-    "selecteID":19,
+    "selecteID":21,
     "searchKey":"Scene",
     "props":{"width":750,"sceneColor":"#000000","runtime":"View/GameUI.ts","height":1334},
     "nodeParent":-1,
@@ -49,13 +49,14 @@
             "props":{"y":110,"x":134,"skin":"startUI/ksy_dk_1.png","name":"coinNode","left":30,"anchorY":0.5,"anchorX":0.5},
             "nodeParent":2,
             "label":"coinNode",
-            "isOpen":false,
+            "isOpen":true,
             "isDirectory":true,
             "isAniNode":true,
             "hasChild":true,
             "compId":19,
             "child":[
                 {
+                    "x":30,
                     "type":"Image",
                     "searchKey":"Image",
                     "props":{"x":19,"skin":"startUI/ksy_zs_1.png","centerY":0,"anchorY":0.5,"anchorX":0.5},
@@ -69,9 +70,10 @@
                         ]
                 },
                 {
+                    "x":30,
                     "type":"FontClip",
                     "searchKey":"FontClip,coinNum",
-                    "props":{"y":34,"x":119,"var":"coinNum","value":"0","skin":"startUI/ksy_sz_1.png","sheet":"0123456789","scaleY":1.1,"scaleX":1.1,"centerY":0,"centerX":20,"anchorY":0.5,"anchorX":0.5},
+                    "props":{"y":34,"x":120,"var":"coinNum","value":"0","skin":"startUI/ksy_sz_1.png","sheet":"0123456789","scaleY":1.1,"scaleX":1.1,"centerY":0,"anchorY":0.5,"anchorX":0.5},
                     "nodeParent":19,
                     "label":"coinNum",
                     "isDirectory":false,

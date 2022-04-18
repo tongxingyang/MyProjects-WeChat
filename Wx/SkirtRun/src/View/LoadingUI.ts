@@ -1,5 +1,8 @@
 import GameLogic from "../Crl/GameLogic"
 import WxApi from "../Libs/WxApi"
+import Utility from "../Mod/Utility"
+import PlayerDataMgr from "../Libs/PlayerDataMgr"
+import FdMgr from "../FanDong/FdMgr"
 
 export default class LoadingUI extends Laya.Scene {
     constructor() {
@@ -15,11 +18,9 @@ export default class LoadingUI extends Laya.Scene {
         if (!Laya.Browser.onWeiXin) {
             localStorage.clear()
         }
-        if (Laya.Browser.onWeiXin) {
-            this.loadSubpackage()
-        } else {
-            this.loadRes()
-        }
+        FdMgr.init(() => {
+            this.loadJsonData(1)
+        })
 
         Laya.timer.frameLoop(1, this, () => {
             this.bar.value += 0.01
@@ -28,6 +29,25 @@ export default class LoadingUI extends Laya.Scene {
 
     onClosed() {
 
+    }
+
+    maxGrade: number = 5
+    loadJsonData(index: number) {
+        //加载JSON
+        Utility.loadJson('res/configs/Level' + index + '.json', (data) => {
+            PlayerDataMgr.levelDataArr.push(data)
+            index++
+            if (index > this.maxGrade) {
+                if (Laya.Browser.onWeiXin)
+                    this.loadSubpackage()
+                else
+                    this.loadRes()
+                console.log('levelDataArr:', PlayerDataMgr.levelDataArr)
+                return
+            } else {
+                this.loadJsonData(index)
+            }
+        })
     }
 
     loadSubpackage() {
@@ -53,13 +73,15 @@ export default class LoadingUI extends Laya.Scene {
     loadRes() {
         //预加载3d资源
         var resUrl = [
-            WxApi.UnityPath + 'SampleScene.ls'
+            WxApi.UnityPath + 'PropNode.lh'
         ];
         Laya.loader.create(resUrl, Laya.Handler.create(this, this.onComplete), Laya.Handler.create(this, this.onProgress));
     }
 
     onComplete() {
-        GameLogic.Share.initScene()
+        FdMgr.loadGame(() => {
+            GameLogic.Share.initScene()
+        })
     }
 
     onProgress(value) {

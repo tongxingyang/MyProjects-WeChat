@@ -102,7 +102,8 @@ export default class FdAd {
             this.bannerAds[this.bannerIndex] && this.bannerAds[this.bannerIndex].hide()
             this.bannerTimesArr[this.bannerIndex] = 0
             this.bannerShowCount[this.bannerIndex]++
-            if (this.bannerShowCount[this.bannerIndex] >= 3) {
+            if (this.bannerShowCount[this.bannerIndex] >= FdMgr.jsonConfig.updateBanner) {
+                this.bannerShowCount[this.bannerIndex] = 0
                 this.bannerAds[this.bannerIndex] && this.bannerAds[this.bannerIndex].destroy()
                 this.bannerAds[this.bannerIndex] = null
                 this.bannerAds[this.bannerIndex] = this.createBannerAd(this.bannerIndex)

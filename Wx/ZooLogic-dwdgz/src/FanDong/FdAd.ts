@@ -3,13 +3,13 @@ import FdMgr from "./FdMgr";
 
 
 export default class FdAd {
-    static bannerIdArr: string[] = ["adunit-09c06c2b0c94fe06", "adunit-1dfd3fda79c0019d"];
+    static bannerIdArr: string[] = ["adunit-09c06c2b0c94fe06", "adunit-1dfd3fda79c0019d", "adunit-896d4eb78920a7d9", "adunit-50da2c5e9358037b", "adunit-dbfbc994cd19b5f6"];
     static videoId = "adunit-0333bcd027bfb093";
     static fullGridId = "adunit-8cdf6ebd71d5124b";
     static bottomGridId = "adunit-11e0cc4445fb0de0";
     static sideGridId = "adunit-7e20e1ee6b314e59";
     static singleGridId = "adunit-c95e8cf03e2e86d8";
-
+    
     static inidAd() {
         if (!Laya.Browser.onWeiXin) return;
         this.initBanner();
@@ -97,7 +97,8 @@ export default class FdAd {
             this.bannerAds[this.bannerIndex] && this.bannerAds[this.bannerIndex].hide()
             this.bannerTimesArr[this.bannerIndex] = 0
             this.bannerShowCount[this.bannerIndex]++
-            if (this.bannerShowCount[this.bannerIndex] >= 3) {
+            if (this.bannerShowCount[this.bannerIndex] >= FdMgr.jsonConfig.updateBanner) {
+                this.bannerShowCount[this.bannerIndex] = 0
                 this.bannerAds[this.bannerIndex] && this.bannerAds[this.bannerIndex].destroy()
                 this.bannerAds[this.bannerIndex] = null
                 this.bannerAds[this.bannerIndex] = this.createBannerAd(this.bannerIndex)

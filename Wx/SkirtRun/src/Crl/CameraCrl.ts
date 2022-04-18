@@ -15,26 +15,33 @@ export default class CameraCrl extends Laya.Script {
 
     }
 
+    selectSkirt() {
+        GameLogic.Share.isSelectingSkin = true
+        let myPos = this.myOwner.transform.position.clone()
+        myPos.y = 2
+        myPos.z = 5
+        this.myOwner.transform.position = myPos
+
+        this.myOwner.transform.rotate(new Laya.Vector3(0, 180, 0), false, false)
+    }
+
+    resetCamera() {
+        GameLogic.Share.isSelectingSkin = false
+        this.myOwner.transform.position = GameLogic.Share.camStartPos
+        this.myOwner.transform.rotation = GameLogic.Share.camStartRotation
+    }
+
     onUpdate() {
-        if (GameLogic.Share.isGameOver) {
+        if (!GameLogic.Share._player || GameLogic.Share._playerCrl.isDied || GameLogic.Share.isSelectingSkin) {
             return
         }
 
-        if (GameLogic.Share._player && !GameLogic.Share._player.destroyed) {
-            if (!GameLogic.Share.isMeet) {
-                let pos = this.myOwner.transform.position.clone()
-                pos.x = GameLogic.Share._player.transform.position.clone().x
-                Laya.Vector3.lerp(this.myOwner.transform.position.clone(), pos, 0.1, pos)
-                this.myOwner.transform.position = pos
-            } else {
-                let pos = this.myOwner.transform.position.clone()
-                pos.x = (GameLogic.Share._player.transform.position.x + GameLogic.Share._enemy.transform.position.x) / 2
-                Laya.Vector3.lerp(this.myOwner.transform.position.clone(), pos, 0.1, pos)
-                this.myOwner.transform.position = pos
-                let dt = Math.abs(GameLogic.Share._player.transform.position.x - GameLogic.Share._enemy.transform.position.x)
-                if (dt > 10) dt = 10
-                this.myOwner.fieldOfView = 60 + 10 * (dt / 10)
-            }
-        }
+        let pos = GameLogic.Share._player.transform.position.clone()
+        let myPos = this.myOwner.transform.position.clone()
+        myPos.x = pos.x
+        myPos.y = pos.y + 4.5
+        myPos.z = pos.z - 5
+        Laya.Vector3.lerp(this.myOwner.transform.position.clone(), myPos, 0.2, myPos)
+        this.myOwner.transform.position = myPos
     }
 }

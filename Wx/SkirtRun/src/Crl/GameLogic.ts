@@ -4,6 +4,15 @@ import SoundMgr from "../Mod/SoundMgr"
 import Utility from "../Mod/Utility"
 import CameraCrl from "./CameraCrl"
 import PlayerCrl from "./PlayerCrl"
+import { PlayerAni } from "../Mod/Entity"
+import Road from "./Prop/Road"
+import Cylinder from "./Prop/Cylinder"
+import Diamond from "./Prop/Diamond"
+import Skirt from "./Prop/Skirt"
+import Door from "./Prop/Door"
+import Scissors from "./Prop/Scissors"
+import Gear from "./Prop/Gear"
+import Fan from "./Prop/Fan"
 import FdMgr from "../FanDong/FdMgr"
 
 export default class GameLogic {
@@ -14,7 +23,7 @@ export default class GameLogic {
     public _light: Laya.DirectionLight
 
     public camStartPos: Laya.Vector3 = new Laya.Vector3(0, 0, 0)
-    private camStartRotation: Laya.Quaternion = null
+    public camStartRotation: Laya.Quaternion = null
     public _cameraCrl: CameraCrl = null
     public startCamField: number = 60
 
@@ -24,17 +33,15 @@ export default class GameLogic {
     public isPause: boolean = false
     public isFinish: boolean = false
     public isMeet: boolean = false
+    public isSelectingSkin: boolean = false
 
     public _levelNode: Laya.Sprite3D = null
     public _player: Laya.Sprite3D = null
     public _playerCrl: PlayerCrl = null
-    public _enemy: Laya.Sprite3D = null
-    public _enemyCrl: PlayerCrl = null
+    public _roadArr: Laya.Sprite3D[] = []
+    public _cylinderArr: Laya.Sprite3D[] = []
 
-    playerHp: number = 10
-    playerPower: number = 10
-    enemyHp: number = 10
-    enemyPower: number = 10
+    public roadIndex: number = 1
 
     constructor() {
         if (!Laya.Browser.onWeiXin)
@@ -49,7 +56,7 @@ export default class GameLogic {
             });
             Laya.Browser.window.wx.onShareAppMessage(() => {
                 return {
-                    title: '怪物对决',
+                    title: '裙子快跑',
                     imageUrl: '' // 图片 URL
                 }
             })
@@ -70,13 +77,22 @@ export default class GameLogic {
         this._camera = this._scene.getChildByName('Main Camera') as Laya.Camera
         this._light = this._scene.getChildByName('Directional Light') as Laya.DirectionLight
         // Use soft shadow.
-        this._light.shadowMode = Laya.ShadowMode.SoftLow;
+        this._light.shadowMode = Laya.ShadowMode.SoftHigh;
         // Set shadow max distance from camera.
-        this._light.shadowDistance = 100;
+        this._light.shadowDistance = 10;
         // Set shadow resolution.
         this._light.shadowResolution = 1024;
         // Set shadow cascade mode.
         this._light.shadowCascadesMode = Laya.ShadowCascadesMode.NoCascades;
+
+        //雾化代码
+        this._scene.enableFog = true;
+        //设置雾化的颜色
+        this._scene.fogColor = new Laya.Vector3(1, 112 / 255, 221 / 255);
+        //设置雾化的起始位置，相对于相机的距离
+        this._scene.fogStart = 20;
+        //设置雾化最浓处的距离。
+        this._scene.fogRange = 30;
 
         //this.fixCameraField()
 
@@ -86,132 +102,101 @@ export default class GameLogic {
         this._cameraCrl = this._camera.addComponent(CameraCrl)
 
         this._levelNode = this._scene.addChild(new Laya.Sprite3D()) as Laya.Sprite3D
+
+        this.createLevel()
     }
 
-    gameStart(bodyNode: Laya.Sprite3D, hp: number, power: number) {
-        this._player = Laya.Sprite3D.instantiate(bodyNode, this._levelNode, false)
-        this._player.transform.position = new Laya.Vector3(10, 1, 0)
-        this._playerCrl = this._player.addComponent(PlayerCrl)
-        this._playerCrl.initData(hp, power, true)
-
-        this.createEnemy()
-        Laya.timer.frameLoop(1, this, this.checkColl)
-        Laya.Scene.open('MyScenes/GameUI.scene')
+    gameStart() {
+        this.isStartGame = true
+        this._playerCrl.playAni(PlayerAni.Ani_Walk)
     }
 
-    createEnemy() {
-        let bodyNode: Laya.Sprite3D = GameLogic.Share._scene.getChildByName('BodyNode') as Laya.Sprite3D
-        let bodyRes = bodyNode.getChildAt(Utility.GetRandom(0, 5)) as Laya.Sprite3D
-        this._enemy = Laya.Sprite3D.instantiate(bodyRes, this._levelNode, false, new Laya.Vector3(0, 0, 0))
-        this._enemy.transform.position = new Laya.Vector3(-10, 1, 0)
-        this._enemyCrl = this._enemy.addComponent(PlayerCrl)
-        this._enemyCrl.moveDir = 1
-        this._enemy.active = true
-        this._enemy.transform.rotate(new Laya.Vector3(0, 180, 0), true, false)
-
-        for (let i = 0; i < 5; i++) {
-            this.createEnemyItems(i)
+    createLevel() {
+        let g: number = PlayerDataMgr.getPlayerData().grade
+        g = Math.floor((g - 1) % 5)
+        let dataArr: any[] = PlayerDataMgr.levelDataArr[g]
+        for (let i = 0; i < dataArr.length; i++) {
+            let data: any = dataArr[i]
+            let name: string = data.name
+            let pos: Laya.Vector3 = new Laya.Vector3(Number(data.position.x), Number(data.position.y), Number(data.position.z))
+            let rotate: Laya.Vector3 = new Laya.Vector3(Number(data.rotation.x), Number(data.rotation.y), Number(data.rotation.z))
+            let scale: Laya.Vector3 = new Laya.Vector3(Number(data.scale.x), Number(data.scale.y), Number(data.scale.z))
+            this.createItem(name, pos, rotate, scale)
         }
-        let h1 = 10
-        let h2 = Utility.GetRandom(10, 30)
-        this._enemyCrl.initData(PlayerDataMgr.getPlayerData().grade >= 3 ? h2 : h1, Utility.GetRandom(1, 10))
     }
-    createEnemyItems(type: number) {
-        let index = 0
-        let itemNode: Laya.Sprite3D = null
-        let itemRes: Laya.Sprite3D = null
-        let root: Laya.Sprite3D = null
-        let itemArrName: string[] = ['HeadNode', 'LegNode', 'TailNode', 'WingsNode']
-        if (type == 0) {
-            root = this._enemy.getChildByName('HeadNode') as Laya.Sprite3D
-        } else if (type == 1) {
-            root = this._enemy.getChildByName('WingNode') as Laya.Sprite3D
-        } else if (type == 2) {
-            root = this._enemy.getChildByName('TailNode') as Laya.Sprite3D
-        } else if (type == 3) {
-            root = this._enemy.getChildByName('FLegNode') as Laya.Sprite3D
-        } else if (type == 4) {
-            root = this._enemy.getChildByName('BLegNode') as Laya.Sprite3D
+    createItem(name: string, pos: Laya.Vector3, rot: Laya.Vector3, scale: Laya.Vector3) {
+        let doorId: number = 0
+        if (name.search('Door') != -1) {
+            let arr = name.split('-')
+            name = arr[0]
+            doorId = parseInt(arr[1])
         }
-        itemNode = this._scene.getChildByName(Utility.getRandomItemInArr(itemArrName)) as Laya.Sprite3D
-        index = Utility.GetRandom(0, itemNode.numChildren - 1)
-        itemRes = itemNode.getChildAt(index) as Laya.Sprite3D
-        let item = Laya.Sprite3D.instantiate(itemRes, root, false, new Laya.Vector3(0, 0, 0))
-        item.transform.localPosition = new Laya.Vector3()
-        item.transform.localRotationEuler = new Laya.Vector3()
-        item.active = true
-    }
-
-    checkColl() {
-        if (this.isGameOver || !this._player || !this._enemy || !this._playerCrl.canMove || !this._enemyCrl.canMove || !this.isStartGame) return
-        let playerX = this._player.transform.position.x
-        let enemyX = this._enemy.transform.position.x
-        if (Math.abs(playerX - enemyX) <= 4) {
-            WxApi.DoVibrate()
-            SoundMgr.instance.playSoundEffect('Hurt.mp3')
-            let pD: number = Utility.GetRandom(2, 6)
-            let eD: number = Utility.GetRandom(1, 4)
-            if (PlayerDataMgr.getPlayerData().grade >= 3) {
-                pD *= 1.5
-                eD *= 1.5
-            } else {
-                eD = 1
-                pD = 3
-            }
-
-            this._playerCrl.hurtCB(Math.floor(eD))
-            this._enemyCrl.hurtCB(Math.floor(pD))
-            this.createHitFX()
-        }
-        if (Math.abs(playerX - enemyX) <= 6) {
-            this.isMeet = true
+        let res = Laya.loader.getRes(WxApi.UnityPath + 'PropNode.lh') as Laya.Sprite3D
+        let sp: Laya.Sprite3D = Laya.Sprite3D.instantiate(res.getChildByName(name) as Laya.Sprite3D, this._levelNode, false)
+        sp.active = true
+        sp.transform.position = pos
+        sp.transform.rotationEuler = rot
+        sp.transform.setWorldLossyScale(scale)
+        if (name.search('Player') != -1) {
+            this._player = sp
+            this._playerCrl = sp.addComponent(PlayerCrl)
+        } else if (name.search('Road') != -1) {
+            sp.addComponent(Road)
+            this._roadArr.push(sp)
+        } else if (name.search('Cylinder') != -1) {
+            let crl: Cylinder = sp.addComponent(Cylinder)
+            crl.initData(this._cylinderArr.length)
+            this._cylinderArr.push(sp)
+        } else if (name.search('Diamond') != -1) {
+            sp.addComponent(Diamond)
+        } else if (name.search('Skirt_Short') != -1) {
+            let crl: Skirt = sp.addComponent(Skirt)
+            crl.initColor(PlayerDataMgr.getRandColor())
+        } else if (name.search('Door') != -1) {
+            let crl: Door = sp.addComponent(Door)
+            crl.initData(doorId)
+        } else if (name.search('Scissors_lowpoly') != -1) {
+            sp.addComponent(Scissors)
+        } else if (name.search('Gear') != -1) {
+            sp.addComponent(Gear)
+        } else if (name.search('Fan') != -1) {
+            sp.addComponent(Fan)
         }
     }
 
-    createHitFX() {
-        let fx = this._scene.getChildByName('T_Hit_1') as Laya.ShuriKenParticle3D
-        let pos = new Laya.Vector3()
-        pos.x = (GameLogic.Share._player.transform.position.x + GameLogic.Share._enemy.transform.position.x) / 2
-        pos.y = 2.3;
-        (this._scene.getChildByName('T_Hit_1') as Laya.Sprite3D).transform.position = pos;
-        (this._scene.getChildByName('T_Hit_1') as Laya.Sprite3D).transform.setWorldLossyScale(new Laya.Vector3(10, 10, 10));
-        this._scene.getChildByName('T_Hit_1').active = true;
-        fx.particleSystem.play()
-        Laya.timer.once(300, this, () => {
-            (this._scene.getChildByName('T_Hit_1') as Laya.Sprite3D).transform.position = new Laya.Vector3(0, 100000, 0);
-        })
+    createDiamondFX(pos: Laya.Vector3) {
+        let name = 'Diamonds_FX'
+        let res = Laya.loader.getRes(WxApi.UnityPath + 'PropNode.lh') as Laya.Sprite3D
+        let sp: Laya.Sprite3D = Laya.Sprite3D.instantiate(res.getChildByName(name) as Laya.Sprite3D, this._levelNode, false)
+        sp.transform.position = pos
+        Laya.timer.once(1000, this, () => { sp.destroy() })
     }
-    createWinFX() {
-        let fx = Laya.Sprite3D.instantiate((this._scene.getChildByName('T_Confetti') as Laya.Sprite3D), this._levelNode, false)
 
-        let pos = new Laya.Vector3()
-        pos.x = (GameLogic.Share._player.transform.position.x + GameLogic.Share._enemy.transform.position.x) / 2
-        pos.z += 2;
-        fx.transform.position = pos;
-        fx.transform.setWorldLossyScale(new Laya.Vector3(3, 3, 3))
-        fx.active = true;
-        Laya.timer.once(3000, this, () => {
-            if (fx)
-                fx.destroy()
-        })
+    createCollectFX(pos: Laya.Vector3) {
+        let name = 'Collect_FX'
+        let res = Laya.loader.getRes(WxApi.UnityPath + 'PropNode.lh') as Laya.Sprite3D
+        let sp: Laya.Sprite3D = Laya.Sprite3D.instantiate(res.getChildByName(name) as Laya.Sprite3D, this._levelNode, false)
+        sp.transform.position = pos
+        Laya.timer.once(1000, this, () => { sp.destroy() })
     }
 
     gameOver(isWin: boolean) {
-        Laya.timer.clearAll(this)
-        WxApi.DoVibrate(false)
+        if (this.isGameOver) return
+        //Laya.timer.clearAll(this)
         if (isWin) {
             SoundMgr.instance.playSoundEffect('Win.mp3')
-            this.createWinFX()
         } else {
             SoundMgr.instance.playSoundEffect('Lose.mp3')
         }
+        WxApi.DoVibrate(false)
         this.isWin = isWin
         this.isGameOver = true
         this.isStartGame = false
         Laya.Scene.close('MyScenes/GameUI.scene')
         Laya.timer.once(2000, this, () => {
-            FdMgr.showGameOver()
-            Laya.Scene.open('MyScenes/FinishUI.scene')
+            FdMgr.showGameOver(()=>{
+                Laya.Scene.open('MyScenes/FinishUI.scene')
+            })
         })
     }
 
@@ -227,6 +212,11 @@ export default class GameLogic {
         this._camera.transform.position = this.camStartPos
         this._camera.transform.rotation = this.camStartRotation
 
+        this._roadArr = []
+        this._cylinderArr = []
+        this.roadIndex = 1
+
         this._levelNode.destroyChildren()
+        this.createLevel()
     }
 }

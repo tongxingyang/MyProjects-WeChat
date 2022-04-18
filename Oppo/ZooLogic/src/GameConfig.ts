@@ -2,6 +2,7 @@
 import BannerNativeUI from "./FanDong/BannerNativeUI"
 import Box from "./FanDong/Box"
 import FDHomeUI from "./FanDong/FDHomeUI"
+import GiftBoxUI from "./FanDong/GiftBoxUI"
 import GridNativeUI from "./FanDong/GridNativeUI"
 import MiddleNativeUI from "./FanDong/MiddleNativeUI"
 import PrivacyUI from "./FanDong/PrivacyUI"
@@ -23,7 +24,7 @@ export default class GameConfig{
     static screenMode:string="vertical";
     static alignV:string="top";
     static alignH:string="left";
-    static startScene:any="FDScene/MiddleNativeUI.scene";
+    static startScene:any="MyScenes/StartUI.scene";
     static sceneRoot:string="";
     static debug:boolean=false;
     static stat:boolean=false;
@@ -35,6 +36,7 @@ export default class GameConfig{
         reg("FanDong/BannerNativeUI.ts",BannerNativeUI);
         reg("FanDong/Box.ts",Box);
         reg("FanDong/FDHomeUI.ts",FDHomeUI);
+        reg("FanDong/GiftBoxUI.ts",GiftBoxUI);
         reg("FanDong/GridNativeUI.ts",GridNativeUI);
         reg("FanDong/MiddleNativeUI.ts",MiddleNativeUI);
         reg("FanDong/PrivacyUI.ts",PrivacyUI);

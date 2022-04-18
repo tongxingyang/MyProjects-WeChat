@@ -1,4 +1,4 @@
-import { WECHAT } from "cc/env";
+import { PREVIEW, WECHAT } from "cc/env";
 import Utility from "../../Scripts/Mod/Utility";
 import FdMgr from "./FdMgr";
 import { FDNode } from "./FDNode";
@@ -10,12 +10,14 @@ export default class FdAd {
     static bottomGridId = "adunit-ac47164b333408d8";
     static sideGridId = "adunit-f996ec3e96a7c16e";
     static singleGridId = "adunit-abfe3af0dbd371f2";
+    static interstitialId = "adunit-8733533c27ccb9f4"
 
     static inidAd() {
         if (!WECHAT) return;
         this.initBanner();
         this.createVideoAd();
         this.initGridAD()
+        this.createInterstitialAd()
     }
 
     static sysInfo: any;
@@ -103,7 +105,7 @@ export default class FdAd {
             this.bannerAds[this.bannerIndex] && this.bannerAds[this.bannerIndex].hide()
             this.bannerTimesArr[this.bannerIndex] = 0
             this.bannerShowCount[this.bannerIndex]++
-            if (this.bannerShowCount[this.bannerIndex] >= 3) {
+            if (this.bannerShowCount[this.bannerIndex] >= FdMgr.jsonConfig.updateBanner) {
                 this.bannerAds[this.bannerIndex] && this.bannerAds[this.bannerIndex].destroy()
                 this.bannerAds[this.bannerIndex] = null
                 this.bannerAds[this.bannerIndex] = this.createBannerAd(this.bannerIndex)
@@ -269,7 +271,7 @@ export default class FdAd {
             adUnitId: this.bottomGridId,
             adIntervals: 30,
             style: {
-                left: 47,
+                left: 0,
                 top: this.getSystemInfoSync().screenHeight - 110,
                 width: this.getSystemInfoSync().screenWidth
             }
@@ -306,7 +308,6 @@ export default class FdAd {
         }
     }
 
-
     //屏幕单格子
     static singleGridAd: any[] = []
     private static createSingleGrid() {
@@ -331,4 +332,18 @@ export default class FdAd {
         }
     }
     //#endregion
+
+    //插屏广告
+    private static intersititialAd: any = null
+    private static createInterstitialAd() {
+        this.intersititialAd = window['wx'].createInterstitialAd({
+            adUnitId: this.interstitialId
+        })
+        this.intersititialAd.onError(() => { console.log('插屏广告加载失败') })
+        this.intersititialAd.load()
+    }
+    static showInterstitialAd() {
+        if (PREVIEW || !this.intersititialAd) return
+        this.intersititialAd.show()
+    }
 }

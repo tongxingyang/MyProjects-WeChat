@@ -34,7 +34,7 @@ export default class GridNativeUI extends Laya.Scene {
         Laya.timer.loop(FdMgr.jsonConfig.account_refIconNativeAd * 1000, this, this.initNative)
 
         this.onShowCB = () => {
-            if (this.hadClick) this.closeBtnCB()
+            this.close()
         }
         if (FdAd.oppoPlatform) Laya.Browser.window['qg'].onShow(this.onShowCB)
     }
@@ -44,7 +44,6 @@ export default class GridNativeUI extends Laya.Scene {
         Laya.timer.clearAll(this)
 
         if (this.hadClick) {
-            FdAd.destroyNativeAd()
             Laya.timer.once(200, this, () => {
                 FdMgr.showGridNativeUI()
             })
@@ -55,10 +54,13 @@ export default class GridNativeUI extends Laya.Scene {
     }
 
     initNative() {
+        this.hadClick = false
         FdAd.nextNativeIndex()
         this.adData = FdAd.showNativeAd()
         if (!this.adData) { this.close(); return }
         this.pic.skin = this.adData.imgUrlList[0] ? this.adData.imgUrlList[0] : this.adData.iconUrlList[0]
+        this.pic.off(Laya.Event.CLICK, this, this.adBtnCB)
+        this.pic.on(Laya.Event.CLICK, this, this.adBtnCB)
         if (FdMgr.jsonConfig.is_touchMoveNativeAd && FdMgr.isAccountLateTime && !FdMgr.nativeMissTouched) {
             this.pic.off(Laya.Event.MOUSE_MOVE, this, this.adBtnCB)
             this.pic.on(Laya.Event.MOUSE_MOVE, this, this.adBtnCB, [true])
@@ -73,7 +75,7 @@ export default class GridNativeUI extends Laya.Scene {
     }
 
     closeBtnCB() {
-        if (FdMgr.jsonConfig.is_topNativeAdCloseBtnLate && FdMgr.isAccountLateTime && !FdMgr.nativeMissTouched && !this.hadClick) {
+        if (FdMgr.jsonConfig.is_topNativeAdCloseBtnLate && FdMgr.isAccountLateTime && !FdMgr.nativeMissTouched) {
             this.adBtnCB(true)
         } else {
             this.close()

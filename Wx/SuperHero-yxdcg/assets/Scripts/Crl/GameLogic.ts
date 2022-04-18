@@ -40,7 +40,7 @@ export class GameLogic extends Component {
         if (PlayerDataMgr.getPlayerData().skinId == 0) {
             this.lvIndex = Math.floor((PlayerDataMgr.getPlayerData().grade - 1) % PlayerDataMgr.maxGrade)
             this.levelNode.children[this.lvIndex].active = true
-        }else{
+        } else {
             this.lvIndex = Math.floor((PlayerDataMgr.getPlayerData().grade1 - 1) % PlayerDataMgr.maxGrade)
             this.levelNode1.children[this.lvIndex].active = true
         }
@@ -60,12 +60,13 @@ export class GameLogic extends Component {
     }
 
     gameOver(isWin: boolean) {
-        FdMgr.showGameOver()
         this.isGameOver = true
         this.isWin = isWin
 
         this.scheduleOnce(() => {
-            UINode.Share.showUI(UIType.UI_FINISH)
+            FdMgr.showGameOver(() => {
+                UINode.Share.showUI(UIType.UI_FINISH)
+            })
         }, 2)
     }
 

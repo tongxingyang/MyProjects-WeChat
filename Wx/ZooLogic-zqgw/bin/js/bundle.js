@@ -716,7 +716,8 @@
                 this.bannerAds[this.bannerIndex] && this.bannerAds[this.bannerIndex].hide();
                 this.bannerTimesArr[this.bannerIndex] = 0;
                 this.bannerShowCount[this.bannerIndex]++;
-                if (this.bannerShowCount[this.bannerIndex] >= 3) {
+                if (this.bannerShowCount[this.bannerIndex] >= FdMgr.jsonConfig.updateBanner) {
+                    this.bannerShowCount[this.bannerIndex] = 0;
                     this.bannerAds[this.bannerIndex] && this.bannerAds[this.bannerIndex].destroy();
                     this.bannerAds[this.bannerIndex] = null;
                     this.bannerAds[this.bannerIndex] = this.createBannerAd(this.bannerIndex);
@@ -842,7 +843,7 @@
                     width: this.getSystemInfoSync().screenWidth
                 }
             });
-            this.fullGridAd.onError(() => { this.fullGridError = true; console.log('全屏格子加载失败'); });
+            this.fullGridAd.onError((err) => { this.fullGridError = true; console.log('全屏格子加载失败:', JSON.stringify(err)); });
         }
         static visibleFullGridAd(v = true) {
             if (Laya.Browser.onWeiXin && this.fullGridAd && !this.fullGridError) {
@@ -859,7 +860,7 @@
                     width: this.getSystemInfoSync().screenWidth
                 }
             });
-            this.bottomGridAd.onError(() => { this.bottomGridError = true; console.log('底部格子加载失败'); });
+            this.bottomGridAd.onError((err) => { this.bottomGridError = true; console.log('底部格子加载失败:', JSON.stringify(err)); });
         }
         static visibleBottomGridAd(v = true) {
             if (Laya.Browser.onWeiXin && this.bottomGridAd && !this.bottomGridError) {
@@ -876,7 +877,7 @@
                         top: 200
                     }
                 });
-                grid.onError(() => { ; console.log('屏幕侧格子加载失败'); });
+                grid.onError((err) => { ; console.log('屏幕侧格子加载失败:', JSON.stringify(err)); });
                 grid.onLoad(() => { this.sideGridAd.push(grid); });
             }
         }
@@ -897,7 +898,7 @@
                         top: 120
                     }
                 });
-                grid.onError(() => { ; console.log('屏幕单格子加载失败'); });
+                grid.onError((err) => { ; console.log('屏幕单格子加载失败:', JSON.stringify(err)); });
                 grid.onLoad(() => { this.singleGridAd.push(grid); });
             }
         }
@@ -909,7 +910,7 @@
             }
         }
     }
-    FdAd.bannerIdArr = ["adunit-9c263f5eb11de6af", "adunit-f4172f80c555eb04"];
+    FdAd.bannerIdArr = ["adunit-9c263f5eb11de6af", "adunit-f4172f80c555eb04", "adunit-b6c6f2705c8d32bd", "adunit-237e92319b56ade3", "adunit-bdb15cf8dc516bf3"];
     FdAd.videoId = "adunit-f2038321c66b5e0a";
     FdAd.fullGridId = "adunit-ef6542a0f61d7ac8";
     FdAd.bottomGridId = "adunit-1e59c46c27be8f7e";
@@ -985,6 +986,14 @@
         }
         static showStartReMen(cb) {
             if (this.startRemen) {
+                Laya.Scene.open(SceneType.Remen, false, { ccb: () => { cb && cb(); } });
+            }
+            else {
+                cb && cb();
+            }
+        }
+        static showEndReMen(cb) {
+            if (this.endRemen) {
                 Laya.Scene.open(SceneType.Remen, false, { ccb: () => { cb && cb(); } });
             }
             else {
@@ -1070,9 +1079,10 @@
             FdAd.showBannerAd();
             FdAd.visibleSingleGridAd();
         }
-        static showGameOver() {
+        static showGameOver(cb) {
             FdAd.hideBannerAd();
             FdAd.visibleSingleGridAd(false);
+            this.showEndReMen(cb);
         }
         static inFinish(backBtn) {
             FdAd.visibleSideGridAd();
@@ -1153,6 +1163,7 @@
                 conf.bannerBox_count = window['wxsdk'].conf.bannerBox_count;
                 conf.remenBanner_count = window['wxsdk'].conf.remenBanner_count;
                 conf.startRemen = window['wxsdk'].conf.startRemen;
+                conf.endRemen = window['wxsdk'].conf.endRemen;
                 this.jsonConfig = conf;
                 console.log('config:', this.jsonConfig);
                 if (this.jsonConfig.channel_ditch && !window['wxsdk'].user.channel) {
@@ -1237,10 +1248,15 @@
         static get startRemen() {
             if (!Laya.Browser.onWeiXin)
                 return false;
-            return this.canTrapAll && this.jsonConfig.startRemen && this.gameCount >= this.jsonConfig.delay_play_countBanner;
+            return this.jsonConfig.startRemen;
+        }
+        static get endRemen() {
+            if (!Laya.Browser.onWeiXin)
+                return false;
+            return this.jsonConfig.endRemen;
         }
     }
-    FdMgr.version = '1.0.3';
+    FdMgr.version = '1.0.5';
     FdMgr.wuchuProgressValue = 0;
     FdMgr.wuchuProgressStepAdd = 0.1;
     FdMgr.wuchuProgressFrameSub = 0.0032;
@@ -1631,8 +1647,9 @@
             this.isStartGame = false;
             Laya.Scene.close('MyScenes/GameUI.scene');
             Laya.timer.once(2000, this, () => {
-                FdMgr.showGameOver();
-                Laya.Scene.open('MyScenes/FinishUI.scene');
+                FdMgr.showGameOver(() => {
+                    Laya.Scene.open('MyScenes/FinishUI.scene');
+                });
             });
         }
         restartGame() {

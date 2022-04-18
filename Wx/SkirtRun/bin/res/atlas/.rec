@@ -1,4 +1,14 @@
 D .
+D box
+P 28E94D95 jx_an_01.png
+P CE33713A jx_jdt_01$bar.png
+P BB4E980F jx_jdt_01.png
+P 2A4BF6A7 jx_kd_01.png
+P 5144857D jx_lw_01.png
+P 53CDC8AC jx_tx_01.png
+P 0314A914 jx_wz_01.png
+P D203956D jx_wz_02.png
+P E1CAE1F1 jx_wz_03.png
 D comp
 P 316AD948 btn_close.png
 P 5B258D17 button.png
@@ -38,6 +48,19 @@ P 0587871F vscroll$up.png
 P 5FD17798 vscroll.png
 P DDDDFB9E vslider$bar.png
 P 01BAE7F5 vslider.png
+D fdRes
+P 42373F57 bt_1.png
+P 2ECE9F28 bx_1.png
+P 207ADB8C dk_1.png
+P 802E208F fg_1.png
+P 9DC9FA24 gq_1.png
+P 4ECFC0A2 jxyx_1.png
+P 5E252414 qd_1.png
+P FBD786AD qx_1.png
+P B89EED70 rmtj_1.png
+P 8C122D72 sz_1.png
+P F90B2C2E ts_1.png
+P D7AE6141 wgkw_1.png
 D finishUI
 P AFC22AFC js_bt_sb.png
 P B032CD1E js_bt_sl.png
@@ -72,7 +95,7 @@ P B9CA664C pfy_dk_2.png
 P F81BBF7E UiShopClose.png
 D startUI
 P 7F947085 ksy_btn_ksyx.png
-P 466D94C3 ksy_btn_qzzb.png
+P 7E657270 ksy_btn_qzzb.png
 P CECEB868 ksy_dk_1.png
 P 20C3E5B2 ksy_sz_1.png
 P F7FECDED ksy_wz_1.png

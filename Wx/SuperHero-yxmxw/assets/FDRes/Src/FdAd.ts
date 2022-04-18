@@ -4,13 +4,13 @@ import FdMgr from "./FdMgr";
 import { FDNode } from "./FDNode";
 
 export default class FdAd {
-    static bannerIdArr: string[] = ["adunit-896f73c6bab09d0d", "adunit-8ea26216cd29a678"];
+    static bannerIdArr: string[] = ["adunit-896f73c6bab09d0d", "adunit-8ea26216cd29a678", "adunit-30abd00e39d10c84", "adunit-07d84a13268b2a6c", "adunit-335fb155899e3b78"];
     static videoId = "adunit-caf8013bb82c56ba";
     static fullGridId = "adunit-7c75229eb1e287ce";
     static bottomGridId = "adunit-d5cd357f3c4ee2c1";
     static sideGridId = "adunit-27328eca675a986c";
     static singleGridId = "adunit-eb032ab8c53a1efd";
-
+    
     static inidAd() {
         if (!WECHAT) return;
         this.initBanner();
@@ -102,7 +102,8 @@ export default class FdAd {
             this.bannerAds[this.bannerIndex] && this.bannerAds[this.bannerIndex].hide()
             this.bannerTimesArr[this.bannerIndex] = 0
             this.bannerShowCount[this.bannerIndex]++
-            if (this.bannerShowCount[this.bannerIndex] >= 3) {
+            if (this.bannerShowCount[this.bannerIndex] >= FdMgr.jsonConfig.updateBanner) {
+                this.bannerShowCount[this.bannerIndex] = 0
                 this.bannerAds[this.bannerIndex] && this.bannerAds[this.bannerIndex].destroy()
                 this.bannerAds[this.bannerIndex] = null
                 this.bannerAds[this.bannerIndex] = this.createBannerAd(this.bannerIndex)

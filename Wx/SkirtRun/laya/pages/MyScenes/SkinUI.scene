@@ -2,9 +2,9 @@
     "x":0,
     "type":"Scene",
     "selectedBox":2,
-    "selecteID":7,
+    "selecteID":16,
     "searchKey":"Scene",
-    "props":{"width":750,"sceneColor":"#000000","height":1334},
+    "props":{"width":750,"sceneColor":"#000000","runtime":"View/SkinUI.ts","height":1334},
     "nodeParent":-1,
     "maxID":19,
     "label":"Scene",
@@ -101,25 +101,27 @@
                             "props":{"y":0,"x":0,"renderType":"render"},
                             "nodeParent":18,
                             "label":"Box",
-                            "isOpen":null,
+                            "isOpen":true,
                             "isDirectory":true,
                             "isAniNode":false,
                             "hasChild":true,
                             "compId":17,
                             "child":[
                                 {
+                                    "x":60,
                                     "type":"Image",
                                     "searchKey":"Image,item",
                                     "props":{"width":184,"name":"item","height":370},
                                     "nodeParent":17,
                                     "label":"item",
-                                    "isOpen":false,
+                                    "isOpen":true,
                                     "isDirectory":true,
                                     "isAniNode":false,
                                     "hasChild":true,
                                     "compId":8,
                                     "child":[
                                         {
+                                            "x":75,
                                             "type":"Image",
                                             "searchKey":"Image,dk1",
                                             "props":{"skin":"skinUI/pfy_dk_1.png","name":"dk1","centerX":0},
@@ -133,6 +135,7 @@
                                                 ]
                                         },
                                         {
+                                            "x":75,
                                             "type":"Image",
                                             "searchKey":"Image,dk2",
                                             "props":{"skin":"skinUI/pfy_dk_2.png","name":"dk2"},
@@ -146,6 +149,7 @@
                                                 ]
                                         },
                                         {
+                                            "x":75,
                                             "type":"Image",
                                             "searchKey":"Image,icon",
                                             "props":{"y":15,"skin":"skinUI/Skirt/Skirt_1.png","name":"icon","centerX":0},
@@ -159,6 +163,7 @@
                                                 ]
                                         },
                                         {
+                                            "x":75,
                                             "type":"Image",
                                             "searchKey":"Image,using",
                                             "props":{"y":200,"x":0,"skin":"skinUI/pfy_btn_1.png","name":"using"},
@@ -172,6 +177,7 @@
                                                 ]
                                         },
                                         {
+                                            "x":75,
                                             "type":"Image",
                                             "searchKey":"Image,unlocked",
                                             "props":{"y":200,"x":0,"skin":"skinUI/pfy_btn_2.png","name":"unlocked"},
@@ -185,6 +191,7 @@
                                                 ]
                                         },
                                         {
+                                            "x":75,
                                             "type":"Image",
                                             "searchKey":"Image,buyBtn",
                                             "props":{"y":241,"x":92,"skin":"skinUI/pfy_btn_3.png","name":"buyBtn","anchorY":0.5,"anchorX":0.5},
@@ -211,11 +218,12 @@
                                                 }]
                                         },
                                         {
+                                            "x":75,
                                             "type":"Image",
-                                            "searchKey":"Image",
-                                            "props":{"y":331,"x":92,"skin":"skinUI/pfy_btn_4.png","anchorY":0.5,"anchorX":0.5},
+                                            "searchKey":"Image,adBtn",
+                                            "props":{"y":331,"x":92,"skin":"skinUI/pfy_btn_4.png","name":"adBtn","anchorY":0.5,"anchorX":0.5},
                                             "nodeParent":8,
-                                            "label":"Image",
+                                            "label":"adBtn",
                                             "isDirectory":false,
                                             "isAniNode":false,
                                             "hasChild":false,

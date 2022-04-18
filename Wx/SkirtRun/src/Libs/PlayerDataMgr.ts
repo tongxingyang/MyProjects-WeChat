@@ -1,6 +1,7 @@
+import Utility from "../Mod/Utility"
 
 export class PlayerData {
-    grade: number = 1
+    grade: number = 3
     coin: number = 0
     skinId: number = 0
     skinArr: number[] = [1, 0, 0, 0, 0, 0, 0, 0]
@@ -8,6 +9,12 @@ export class PlayerData {
 
 export default class PlayerDataMgr {
     private static _playerData: PlayerData = null
+    static levelDataArr: any[] = []
+    static colorArr: string[] = [
+        '#e20000', '#ff9700', '#ffe300', '#00af30', '#0065ff', '#a500b7',
+        '#ff9f38', '#f1694a', '#f63373', '#ff9f38', '#fb519c', '#ff6ee2',
+        '#ff95fa', '#16e4f4', '#20b1ef', '#2381ee'
+    ]
 
     //获取用户数据
     public static getPlayerData(): PlayerData {
@@ -34,9 +41,21 @@ export default class PlayerDataMgr {
             case 1:
                 return 400
             case 2:
-                return 500
+                return 400
             case 3:
-                return 600
+                return 400
+            case 4:
+                return 400
+            case 5:
+                return 400
+            case 6:
+                return 400
+            case 7:
+                return 400
         }
+    }
+
+    public static getRandColor(): string {
+        return Utility.getRandomItemInArr(this.colorArr)
     }
 }

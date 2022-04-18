@@ -1,7 +1,7 @@
 import FdAd from "./FdAd";
 
 export default class FdMgr {
-    static version: string = '1.0.3'
+    static version: string = '1.0.5'
     static wuchuProgressValue = 0;
     static wuchuProgressStepAdd = 0.1;
     static wuchuProgressFrameSub = 0.0032;
@@ -75,6 +75,15 @@ export default class FdMgr {
     /**开始游戏热门推荐 */
     static showStartReMen(cb?) {
         if (this.startRemen) {
+            Laya.Scene.open(SceneType.Remen, false, { ccb: () => { cb && cb() } });
+        }
+        else {
+            cb && cb();
+        }
+    }
+    /**游戏结束热门推荐 */
+    static showEndReMen(cb?) {
+        if (this.endRemen) {
             Laya.Scene.open(SceneType.Remen, false, { ccb: () => { cb && cb() } });
         }
         else {
@@ -174,9 +183,10 @@ export default class FdMgr {
     }
 
     /**游戏结束 */
-    static showGameOver() {
+    static showGameOver(cb?: Function) {
         FdAd.hideBannerAd()
         FdAd.visibleSingleGridAd(false)
+        this.showEndReMen(cb)
     }
 
     /**进入结算页 */
@@ -264,6 +274,7 @@ export default class FdMgr {
             conf.bannerBox_count = window['wxsdk'].conf.bannerBox_count
             conf.remenBanner_count = window['wxsdk'].conf.remenBanner_count
             conf.startRemen = window['wxsdk'].conf.startRemen
+            conf.endRemen = window['wxsdk'].conf.endRemen
             this.jsonConfig = conf
             console.log('config:', this.jsonConfig)
 
@@ -337,7 +348,11 @@ export default class FdMgr {
     }
     static get startRemen() {
         if (!Laya.Browser.onWeiXin) return false
-        return this.canTrapAll && this.jsonConfig.startRemen && this.gameCount >= this.jsonConfig.delay_play_countBanner;
+        return this.jsonConfig.startRemen
+    }
+    static get endRemen() {
+        if (!Laya.Browser.onWeiXin) return false
+        return this.jsonConfig.endRemen
     }
 }
 
@@ -367,6 +382,7 @@ class config {
     bannerBox_count: number;
     remenBanner_count: number;
     startRemen: boolean;
+    endRemen: boolean;
 }
 
 enum SceneType {

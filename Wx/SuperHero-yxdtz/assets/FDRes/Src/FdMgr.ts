@@ -7,7 +7,7 @@ import { FDNode } from "./FDNode";
 import { Remen } from "./Remen";
 
 export default class FdMgr {
-    static version: string = '1.0.4'
+    static version: string = '1.0.5'
     static wuchuProgressValue = 0;
     static wuchuProgressStepAdd = 0.1;
     static wuchuProgressFrameSub = 0.0032;

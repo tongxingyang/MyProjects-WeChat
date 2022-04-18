@@ -1,7 +1,7 @@
 import FdAd from "./FdAd";
 
 export default class FdMgr {
-    static version: string = '1.0.2'
+    static version: string = '1.0.4'
     static wuchuProgressValue = 0;
     static wuchuProgressStepAdd = 0.1;
     static wuchuProgressFrameSub = 0.0032;
@@ -91,22 +91,72 @@ export default class FdMgr {
         }
     }
     //点击开始游戏
+    private static hadClickStart: boolean = false
+    private static hadShowHomeGiftBox: boolean = false
     static clickStart(cb?: Function) {
-        FdAd.hideBanner()
-        this.closeBannerNativeUI()
-        this.closeFDHomeUI()
         Laya.timer.clear(this, this.delayChangeToNative)
-        if (this.jsonConfig.is_startBtnLate) {
-            FdAd.reportAdClick(FdAd.showNativeAd())
-            Laya.timer.once(500, this, () => {
+        let func = () => {
+            if (this.jsonConfig.is_startBtnLate) {
+                FdAd.reportAdClick(FdAd.showNativeAd())
+                Laya.timer.once(500, this, () => {
+                    this.gameProcessUI1(cb)
+                })
+            } else {
                 this.gameProcessUI1(cb)
-            })
-        } else {
-            this.gameProcessUI1(cb)
+            }
+            this.hadClickStart = false
+            this.hadShowHomeGiftBox = false
+        }
+
+        if (!this.hadShowHomeGiftBox && !this.hadClickStart) {
+            this.hadClickStart = true
+            if (this.jsonConfig.Button_clickpop == 0) {
+                FdAd.hideBanner()
+                this.closeBannerNativeUI()
+                this.closeFDHomeUI()
+                func()
+            } else if (this.jsonConfig.Button_clickpop == 1) {
+                Laya.timer.once(this.jsonConfig.Button_isinvalid * 1000, this, () => {
+                    FdAd.hideBanner()
+                    this.closeBannerNativeUI()
+                    this.closeFDHomeUI()
+                    this.showGiftBoxUI(0, 0, 0, () => { this.hadShowHomeGiftBox = true; this.inHome() })
+                })
+            } else if (this.jsonConfig.Button_clickpop == 2) {
+                Laya.timer.once(this.jsonConfig.Button_isinvalid * 1000, this, () => {
+                    FdAd.hideBanner()
+                    this.closeBannerNativeUI()
+                    this.closeFDHomeUI()
+                    this.showGiftBoxUI(Math.random() < 0.5 ? 1 : 2, 0, 0, () => { this.hadShowHomeGiftBox = true; this.inHome() })
+                })
+            }
+        } else if (this.hadShowHomeGiftBox) {
+            FdAd.hideBanner()
+            this.closeBannerNativeUI()
+            this.closeFDHomeUI()
+            func()
         }
     }
     //进入游戏中
-    static inGame() {
+    private static gameGiftTimeArr: any[] = []
+    private static gameGiftBoxOCB: Function = null //游戏中打开礼包宝箱界面时回调
+    private static gameGiftBoxCCB: Function = null //游戏中关闭礼包宝箱界面时回调
+    static inGame(gameGiftBoxOCB?: Function, gameGiftBoxCCB?: Function) {
+        this.showGameAd()
+
+        this.gameGiftBoxOCB = gameGiftBoxOCB
+        this.gameGiftBoxCCB = gameGiftBoxCCB
+        this.gameGiftTimeArr = [].concat(this.jsonConfig.Second_the_up)
+        for (let i = this.gameGiftTimeArr.length - 1; i >= 0; i--) {
+            if (i <= 0) continue
+            this.gameGiftTimeArr[i] = this.gameGiftTimeArr[i] - this.gameGiftTimeArr[i - 1]
+        }
+        if (!this.gameGiftTimeArr || this.gameGiftTimeArr.length <= 0) return
+        Laya.timer.once(this.gameGiftTimeArr.shift() * 1000, this, this.showGameGiftBoxUI)
+    }
+    //游戏中广告展示
+    private static showGameAd() {
+        Laya.timer.clear(this, this.delayChangeToNative)
         //原生广告
         if (this.jsonConfig.level_nativeType == 0 || this.jsonConfig.level_nativeType == 2) {
             //没有原生广告是否用banner代替
@@ -122,9 +172,23 @@ export default class FdMgr {
             this.showGridNativeUI()
         }
     }
+    //展示游戏中礼包宝箱
+    private static showGameGiftBoxUI() {
+        FdAd.hideBanner()
+        this.closeBannerNativeUI()
+        this.closeGridNativeUI()
+        this.gameGiftBoxOCB && this.gameGiftBoxOCB()
+        this.showGiftBoxUI(Math.random() < 0.5 ? 1 : 2, 1, (this.jsonConfig.Second_the_up.length - 1) - this.gameGiftTimeArr.length, () => {
+            this.gameGiftBoxCCB && this.gameGiftBoxCCB()
+            this.showGameAd()
+            if (!this.gameGiftTimeArr || this.gameGiftTimeArr.length <= 0) return
+            Laya.timer.once(this.gameGiftTimeArr.shift() * 1000, this, this.showGameGiftBoxUI)
+        })
+    }
     //游戏结束
     static gameOver(cb?: Function) {
         Laya.timer.clear(this, this.delayChangeToNative)
+        Laya.timer.clear(this, this.showGameGiftBoxUI)
         FdAd.hideBanner()
         this.closeBannerNativeUI()
         this.closeGridNativeUI()
@@ -136,15 +200,38 @@ export default class FdMgr {
         this.showMiddleNativeUI(null, true)
     }
     //点击回到首页
+    private static hadClickBackBtn: boolean = false
+    private static hadShowBackGiftBox: boolean = false
     static backToHome(cb?: Function) {
-        this.closeMiddleNativeUI()
-        if (this.jsonConfig.is_nextBtnLate) {
-            FdAd.reportAdClick(FdAd.showNativeAd())
+        let func = () => {
+            if (this.jsonConfig.is_nextBtnLate) {
+                FdAd.reportAdClick(FdAd.showNativeAd())
+            }
+            this.gameProcessUI3(() => {
+                this.gameProcessUI0(cb)
+            })
+            this.hadClickBackBtn = false
+            this.hadShowBackGiftBox = false
         }
-        FdAd.hideBanner()
-        this.gameProcessUI3(() => {
-            this.gameProcessUI0(cb)
-        })
+
+        if (!this.hadShowBackGiftBox && !this.hadClickBackBtn) {
+            this.hadClickBackBtn = true
+            if (this.jsonConfig.Super_giftbag == 0) {
+                this.closeMiddleNativeUI()
+                FdAd.hideBanner()
+                func()
+            } else if (this.jsonConfig.Super_giftbag == 1) {
+                Laya.timer.once(this.jsonConfig.Button_isinvalid2 * 1000, this, () => {
+                    this.closeMiddleNativeUI()
+                    FdAd.hideBanner()
+                    this.showGiftBoxUI(0, 2, 0, () => { this.hadShowBackGiftBox = true; this.inFinish() })
+                })
+            }
+        } else if (this.hadShowBackGiftBox) {
+            this.closeMiddleNativeUI()
+            FdAd.hideBanner()
+            func()
+        }
     }
 
     //首页之前 界面
@@ -266,6 +353,16 @@ export default class FdMgr {
     static closeGridNativeUI() {
         Laya.Scene.close(SceneType.GridNativeUI)
     }
+    /**
+     * 礼包宝箱界面
+     * @param giftType 界面类型 0：超级礼包  1：神秘宝箱  2：超级宝箱
+     * @param fromId   位于哪个界面  0：主界面  1：游戏界面  2：结算页面
+     * @param gameUIIndex  游戏界面第n次打开 
+     * @param cb 关闭页面回调函数
+     */
+    static showGiftBoxUI(giftType: number, fromId: number, gameUIIndex: number, cb?: Function) {
+        Laya.Scene.open(SceneType.GiftBoxUI, false, { ccb: cb, giftType: giftType, fromId: fromId, gameUIIndex: gameUIIndex })
+    }
 
     /**屏蔽场景值 */
     public static get allowScene() {
@@ -301,6 +398,18 @@ export default class FdMgr {
                 this.jsonConfig.gameProcess_setting = [1, 2, 3]
                 this.jsonConfig.is_touchMoveNativeAd = false
                 this.jsonConfig.level_nativeType = 2
+                this.jsonConfig.Button_clickpop = 0
+                this.jsonConfig.Button_isinvalid = 0
+                this.jsonConfig.Reward_interface_delayed = 0
+                this.jsonConfig.Second_the_up = 0
+                this.jsonConfig.Close_thepage = 0
+                this.jsonConfig.Super_giftbag = 0
+                this.jsonConfig.Button_isinvalid2 = 0
+                this.jsonConfig.Reward_interface_delayed2 = 0
+                this.jsonConfig.ADplacement = 0
+                this.jsonConfig.Touchnative = 0
+                this.jsonConfig.Touchnative2 = 0
+                this.jsonConfig.Touchnative3 = 0
             }
 
             console.log('config:', this.jsonConfig)
@@ -329,5 +438,18 @@ enum SceneType {
     FDHomeUI = "FDScene/FDHomeUI.scene",
     GridNativeUI = "FDScene/GridNativeUI.scene",
     MiddleNativeUI = "FDScene/MiddleNativeUI.scene",
-    PrivacyUI = "FDScene/PrivacyUI.scene"
+    PrivacyUI = "FDScene/PrivacyUI.scene",
+    GiftBoxUI = "FDScene/GiftBoxUI.scene"
+}
+
+export enum GiftType {
+    Box1 = 0,
+    Box2 = 1,
+    Box3 = 2
+}
+
+export enum GiftFromId {
+    From_Home = 0,
+    From_Game = 1,
+    From_Finish = 2
 }

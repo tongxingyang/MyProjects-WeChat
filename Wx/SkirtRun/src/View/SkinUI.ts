@@ -1,5 +1,8 @@
 import PlayerDataMgr from "../Libs/PlayerDataMgr"
 import Utility from "../Mod/Utility"
+import GameLogic from "../Crl/GameLogic"
+import SoundMgr from "../Mod/SoundMgr"
+import FdAd from "../FanDong/FdAd"
 
 export default class SkinUI extends Laya.Scene {
     constructor() {
@@ -16,6 +19,11 @@ export default class SkinUI extends Laya.Scene {
         this.size(Laya.stage.displayWidth, Laya.stage.displayHeight)
         Laya.timer.frameLoop(1, this, this.onMyUpdate)
         this.chooseId = PlayerDataMgr.getPlayerData().skinId
+        Utility.addClickEvent(this.closeBtn, this, () => {
+            GameLogic.Share._cameraCrl.resetCamera()
+            Laya.Scene.open("MyScenes/StartUI.scene")
+        })
+        this.initList()
     }
 
     onClosed() {
@@ -59,8 +67,10 @@ export default class SkinUI extends Laya.Scene {
     }
 
     chooseCB(id: number) {
+        SoundMgr.instance.playSoundEffect('Click.mp3')
         if (this.chooseId == id) return
         this.chooseId = id
+        GameLogic.Share._playerCrl.changeFirstSkirt(id)
         if (PlayerDataMgr.getPlayerData().skinArr[id] == 1) {
             PlayerDataMgr.getPlayerData().skinId = id
             PlayerDataMgr.setPlayerData()
@@ -74,6 +84,7 @@ export default class SkinUI extends Laya.Scene {
             return
         }
         this.chooseId = id
+        GameLogic.Share._playerCrl.changeFirstSkirt(id)
         PlayerDataMgr.getPlayerData().coin -= PlayerDataMgr.getCostById(id)
         PlayerDataMgr.getPlayerData().skinArr[id] = 1
         PlayerDataMgr.getPlayerData().skinId = id
@@ -85,12 +96,13 @@ export default class SkinUI extends Laya.Scene {
         let id: number = arr[0]
         let cb = () => {
             this.chooseId = id
+            GameLogic.Share._playerCrl.changeFirstSkirt(id)
             PlayerDataMgr.getPlayerData().skinArr[id] = 1
             PlayerDataMgr.getPlayerData().skinId = id
             PlayerDataMgr.setPlayerData()
             this.myList.array = PlayerDataMgr.getPlayerData().skinArr;
         }
-        cb()
+        FdAd.showVideoAd(cb)
     }
 
     onMyUpdate() {

@@ -69,13 +69,13 @@ export default class FinishUI extends Laya.Scene {
     }
 
     closeCB() {
-        this.close()
         FdMgr.backToHome(() => {
             if (GameLogic.Share.isWin) {
                 PlayerDataMgr.getPlayerData().grade++
                 PlayerDataMgr.setPlayerData()
             }
             GameLogic.Share.restartGame()
+            this.close()
             Laya.Scene.open('MyScenes/StartUI.scene', false)
         })
     }

@@ -1,113 +1,6 @@
 (function () {
     'use strict';
 
-    class PlayerData {
-        constructor() {
-            this.grade = 1;
-            this.bodyArr = [1, 0, 0, 0, 0, 0];
-            this.headArr = [1, 1, 1, 1, 1, 0, 0, 0, 0, 0];
-            this.legArr = [1, 1, 1, 1, 1, 0, 0, 0, 0, 0];
-            this.tailArr = [1, 1, 0, 0];
-            this.wingsArr = [0, 0];
-        }
-    }
-    class ItemData {
-        constructor() {
-            this.head = [
-                [2, 1, 25], [4, 2, 30], [6, 3, 35], [8, 4, 40], [10, 5, 45],
-                [12, 6, 50], [14, 7, 55], [16, 8, 60], [18, 9, 65], [20, 10, 70]
-            ];
-            this.leg = [
-                [2, 1, 25], [4, 2, 30], [6, 3, 35], [8, 4, 40], [10, 5, 45],
-                [12, 6, 50], [14, 7, 55], [16, 8, 60], [18, 9, 65], [20, 10, 70]
-            ];
-            this.tail = [[5, 2, 20], [10, 4, 30], [15, 6, 40], [20, 8, 50]];
-            this.wings = [[10, 5, 50], [10, 5, 50]];
-        }
-    }
-    class PlayerDataMgr {
-        static getPlayerData() {
-            if (!localStorage.getItem('playerData')) {
-                this._playerData = new PlayerData();
-                localStorage.setItem('playerData', JSON.stringify(this._playerData));
-            }
-            else {
-                if (this._playerData == null) {
-                    this._playerData = JSON.parse(localStorage.getItem('playerData'));
-                }
-            }
-            return this._playerData;
-        }
-        static setPlayerData() {
-            localStorage.setItem('playerData', JSON.stringify(this._playerData));
-        }
-        static getBodyName(index) {
-            let arr = ['美洲狮 身体', '大象 身体', '青蛙 身体', '长颈鹿 身体', '马 身体', '霸王龙 身体'];
-            return arr[index];
-        }
-        static getHeadName(index) {
-            let arr = ['美洲狮 头', '鹿 头', '鸭子 头', '大象 头', '青蛙 头', '长颈鹿 头', '马 头', '人类 头', '独角兽 头', '霸王龙 头'];
-            return arr[index];
-        }
-        static getLegName(index) {
-            let arr = ['美洲狮 腿', '大象 腿', '青蛙 腿', '青蛙 腿', '长颈鹿 腿', '马 腿', '人类 手', '人类 腿', '霸王龙 腿', '霸王龙 腿'];
-            return arr[index];
-        }
-        static getTailName(index) {
-            let arr = ['美洲狮 尾巴', '大象 尾巴', '长颈鹿 尾巴', '马 尾巴'];
-            return arr[index];
-        }
-        static getWingsName(index) {
-            let arr = ['蝙蝠 翅膀', '独角兽 翅膀'];
-            return arr[index];
-        }
-        static getDataByType(type) {
-            let data = [];
-            if (type == 0) {
-                data = this._playerData.headArr;
-            }
-            else if (type == 1) {
-                data = this._playerData.legArr;
-            }
-            else if (type == 2) {
-                data = this._playerData.tailArr;
-            }
-            else if (type == 3) {
-                data = this._playerData.wingsArr;
-            }
-            return data;
-        }
-        static getItemData() {
-            if (!this._itemData) {
-                this._itemData = new ItemData();
-            }
-            return this._itemData;
-        }
-        static getInvalidSkins() {
-            let arr = [];
-            for (let i = 0; i < 4; i++) {
-                let dataArr = this.getDataByType(i);
-                for (let j = 0; j < dataArr.length; j++) {
-                    if (dataArr[j] == 0) {
-                        arr.push([i, j]);
-                    }
-                }
-            }
-            return arr;
-        }
-        static unlockBody() {
-            for (let i = 0; i < this._playerData.bodyArr.length; i++) {
-                if (this._playerData.bodyArr[i] == 0) {
-                    this._playerData.bodyArr[i] = 1;
-                    this.setPlayerData();
-                    return;
-                }
-            }
-        }
-    }
-    PlayerDataMgr._playerData = null;
-    PlayerDataMgr._itemData = null;
-
     class WxApi {
         static LoginWx(cb) {
             if (!Laya.Browser.onWeiXin)
@@ -185,6 +78,12 @@
                     Laya.Browser.window.wx.vibrateLong();
                 }
             }
+        }
+        static loopVibrate() {
+            Laya.timer.loop(200, this, this.DoVibrate);
+        }
+        static stopLoopVibrate() {
+            Laya.timer.clear(this, this.DoVibrate);
         }
         static OpenAlert(msg, dur = 2000, icon = false) {
             if (Laya.Browser.onWeiXin) {
@@ -279,6 +178,19 @@
                     else {
                         funC(node.getChildAt(i));
                     }
+                }
+            };
+            funC(rootNode);
+            return targetNode;
+        }
+        static findNodeByNameArr(rootNode, name) {
+            let targetNode = [];
+            let funC = (node) => {
+                for (let i = 0; i < node.numChildren; i++) {
+                    if (node.getChildAt(i).name.search(name) != -1) {
+                        targetNode.push(node.getChildAt(i));
+                    }
+                    funC(node.getChildAt(i));
                 }
             };
             funC(rootNode);
@@ -609,7 +521,79 @@
         static getVector3(x, y, z) {
             return new Laya.Vector3(Number(x), Number(y), Number(z));
         }
+        static d3_getRgbByHex(_hexColor) {
+            var color = [], rgb = [];
+            let hexColor = _hexColor.replace(/#/, "");
+            if (hexColor.length == 3) {
+                var tmp = [];
+                for (var i = 0; i < 3; i++) {
+                    tmp.push(hexColor.charAt(i) + hexColor.charAt(i));
+                }
+                hexColor = tmp.join("");
+            }
+            for (var i = 0; i < 4; i++) {
+                color[i] = "0x" + hexColor.substr(i * 2, 2);
+                rgb.push(parseInt(color[i]));
+            }
+            return new Laya.Vector4(rgb[0] / 255, rgb[1] / 255, rgb[2] / 255, 1);
+        }
     }
+
+    class PlayerData {
+        constructor() {
+            this.grade = 3;
+            this.coin = 0;
+            this.skinId = 0;
+            this.skinArr = [1, 0, 0, 0, 0, 0, 0, 0];
+        }
+    }
+    class PlayerDataMgr {
+        static getPlayerData() {
+            if (!localStorage.getItem('playerData')) {
+                this._playerData = new PlayerData();
+                localStorage.setItem('playerData', JSON.stringify(this._playerData));
+            }
+            else {
+                if (this._playerData == null) {
+                    this._playerData = JSON.parse(localStorage.getItem('playerData'));
+                }
+            }
+            return this._playerData;
+        }
+        static setPlayerData() {
+            localStorage.setItem('playerData', JSON.stringify(this._playerData));
+        }
+        static getCostById(id) {
+            switch (id) {
+                case 0:
+                    return 0;
+                case 1:
+                    return 400;
+                case 2:
+                    return 400;
+                case 3:
+                    return 400;
+                case 4:
+                    return 400;
+                case 5:
+                    return 400;
+                case 6:
+                    return 400;
+                case 7:
+                    return 400;
+            }
+        }
+        static getRandColor() {
+            return Utility.getRandomItemInArr(this.colorArr);
+        }
+    }
+    PlayerDataMgr._playerData = null;
+    PlayerDataMgr.levelDataArr = [];
+    PlayerDataMgr.colorArr = [
+        '#e20000', '#ff9700', '#ffe300', '#00af30', '#0065ff', '#a500b7',
+        '#ff9f38', '#f1694a', '#f63373', '#ff9f38', '#fb519c', '#ff6ee2',
+        '#ff95fa', '#16e4f4', '#20b1ef', '#2381ee'
+    ];
 
     class CameraCrl extends Laya.Script {
         constructor() {
@@ -620,28 +604,489 @@
         }
         onDisable() {
         }
+        selectSkirt() {
+            GameLogic.Share.isSelectingSkin = true;
+            let myPos = this.myOwner.transform.position.clone();
+            myPos.y = 2;
+            myPos.z = 5;
+            this.myOwner.transform.position = myPos;
+            this.myOwner.transform.rotate(new Laya.Vector3(0, 180, 0), false, false);
+        }
+        resetCamera() {
+            GameLogic.Share.isSelectingSkin = false;
+            this.myOwner.transform.position = GameLogic.Share.camStartPos;
+            this.myOwner.transform.rotation = GameLogic.Share.camStartRotation;
+        }
         onUpdate() {
-            if (GameLogic.Share.isGameOver) {
+            if (!GameLogic.Share._player || GameLogic.Share._playerCrl.isDied || GameLogic.Share.isSelectingSkin) {
                 return;
             }
-            if (GameLogic.Share._player && !GameLogic.Share._player.destroyed) {
-                if (!GameLogic.Share.isMeet) {
-                    let pos = this.myOwner.transform.position.clone();
-                    pos.x = GameLogic.Share._player.transform.position.clone().x;
-                    Laya.Vector3.lerp(this.myOwner.transform.position.clone(), pos, 0.1, pos);
-                    this.myOwner.transform.position = pos;
-                }
-                else {
-                    let pos = this.myOwner.transform.position.clone();
-                    pos.x = (GameLogic.Share._player.transform.position.x + GameLogic.Share._enemy.transform.position.x) / 2;
-                    Laya.Vector3.lerp(this.myOwner.transform.position.clone(), pos, 0.1, pos);
-                    this.myOwner.transform.position = pos;
-                    let dt = Math.abs(GameLogic.Share._player.transform.position.x - GameLogic.Share._enemy.transform.position.x);
-                    if (dt > 10)
-                        dt = 10;
-                    this.myOwner.fieldOfView = 60 + 10 * (dt / 10);
+            let pos = GameLogic.Share._player.transform.position.clone();
+            let myPos = this.myOwner.transform.position.clone();
+            myPos.x = pos.x;
+            myPos.y = pos.y + 4.5;
+            myPos.z = pos.z - 5;
+            Laya.Vector3.lerp(this.myOwner.transform.position.clone(), myPos, 0.2, myPos);
+            this.myOwner.transform.position = myPos;
+        }
+    }
+
+    var PlayerAni;
+    (function (PlayerAni) {
+        PlayerAni["Ani_Idle"] = "idle";
+        PlayerAni["Ani_Dance"] = "dance";
+        PlayerAni["Ani_Fall"] = "fall";
+        PlayerAni["Ani_Fly_1"] = "fly_1";
+        PlayerAni["Ani_Fly_2"] = "fly_2";
+        PlayerAni["Ani_Walk"] = "walk";
+        PlayerAni["Ani_Jump"] = "jump";
+        PlayerAni["Ani_Hurt"] = "hurt";
+    })(PlayerAni || (PlayerAni = {}));
+
+    class PlayerCrl extends Laya.Script {
+        constructor() {
+            super();
+            this.myOwner = null;
+            this._ani = null;
+            this.skirtArr = [];
+            this.topArr = [];
+            this.hairArr = [];
+            this.hitFX = null;
+            this.flyFX = null;
+            this.baseSpeed = 0.065;
+            this.speed = 0;
+            this.fallSpeed = -0.055;
+            this.touchX = 375;
+            this.edgeMax = 1.8;
+            this.curAniName = PlayerAni.Ani_Idle;
+            this.emptyMax = -0.17;
+            this.canMove = true;
+            this.hadLeg = false;
+            this.isJumping = false;
+            this.isFalling = false;
+            this.isHurt = false;
+            this.isDied = false;
+            this.isPlayingFlySound = false;
+        }
+        onAwake() {
+            this.myOwner = this.owner;
+            this._ani = this.myOwner.getChildAt(0).getComponent(Laya.Animator);
+            this.skirtArr = Utility.findNodeByNameArr(this.myOwner, 'Skirt');
+            this.topArr = Utility.findNodeByNameArr(this.myOwner, 'Top');
+            this.hairArr = Utility.findNodeByNameArr(this.myOwner, 'Hair');
+            this.hitFX = this.myOwner.getChildByName('Hit_FX');
+            this.hitFX.active = false;
+            this.flyFX = this.myOwner.getChildByName('Fly_FX');
+            this.flyFX.active = false;
+            this.playAni(PlayerAni.Ani_Idle);
+            this.initData();
+            this.changeFirstSkirt(PlayerDataMgr.getPlayerData().skinId);
+        }
+        get myPos() {
+            return this.myOwner.transform.position.clone();
+        }
+        initData() {
+            for (let i = 0; i < this.hairArr.length; i++) {
+                this.hairArr[i].active = i == 0;
+                let ms = this.hairArr[i];
+                let mat = ms.meshRenderer.material;
+                mat.albedoColor = Utility.d3_getRgbByHex(PlayerDataMgr.getRandColor());
+            }
+            for (let i = 0; i < this.topArr.length; i++) {
+                this.topArr[i].active = i == this.topArr.length - 1;
+                let ms = this.topArr[i];
+                let mat = ms.skinnedMeshRenderer.material;
+                mat.albedoColor = Utility.d3_getRgbByHex(PlayerDataMgr.getRandColor());
+            }
+            for (let i = 1; i < this.skirtArr.length; i++) {
+                let skirt = this.skirtArr[i];
+                let ms = skirt;
+                let mat = ms.skinnedMeshRenderer.material;
+                mat.tilingOffset = new Laya.Vector4(1, 1, 0, this.emptyMax);
+            }
+        }
+        playAni(name, speed = 1, normalizedTime = 0) {
+            if (name == this.curAniName)
+                return;
+            if (name == PlayerAni.Ani_Fly_1)
+                speed = 0.85;
+            if (name == PlayerAni.Ani_Walk)
+                speed = 1.2;
+            this._ani.crossFade(name, 0.2, 0, normalizedTime);
+            this._ani.speed = speed;
+            this.curAniName = name;
+        }
+        changeFirstSkirt(id, isReset = false) {
+            let dir = isReset ? "res/Texture/Skirt_Color_1.png" : "res/Texture/Skirt_" + (id + 1) + ".png";
+            let ms = this.skirtArr[0];
+            Laya.Texture2D.load(dir, Laya.Handler.create(this, (texture) => {
+                ms.skinnedMeshRenderer.material.albedoTexture = texture;
+                ms.skinnedMeshRenderer.material.albedoColor = new Laya.Vector4(1, 1, 1, 1);
+            }));
+        }
+        changeHair(id, color) {
+            for (let i = 0; i < this.hairArr.length; i++) {
+                let hair = this.hairArr[i];
+                hair.active = i == id - 1;
+                if (hair.active) {
+                    let ms = hair;
+                    let mat = ms.meshRenderer.material;
+                    mat.albedoColor = Utility.d3_getRgbByHex(color);
                 }
             }
+        }
+        changeTop(id, color) {
+            for (let i = 0; i < this.topArr.length; i++) {
+                let top = this.topArr[i];
+                top.active = i == id - 1;
+                if (top.active) {
+                    let ms = this.topArr[i];
+                    let mat = ms.skinnedMeshRenderer.material;
+                    mat.albedoColor = Utility.d3_getRgbByHex(color);
+                }
+            }
+        }
+        decSkirt() {
+            if (GameLogic.Share.isGameOver)
+                return;
+            for (let i = this.skirtArr.length - 1; i >= 0; i--) {
+                let skirt = this.skirtArr[i];
+                let ms = skirt;
+                let mat = ms.skinnedMeshRenderer.material;
+                let os = mat.tilingOffset.clone();
+                if (os.w <= this.emptyMax)
+                    continue;
+                os.w -= 0.17 / 50;
+                if (os.w < this.emptyMax)
+                    os.w = this.emptyMax;
+                mat.tilingOffset = os;
+                this.playFlySound();
+                break;
+            }
+        }
+        playFlySound() {
+            if (this.isPlayingFlySound)
+                return;
+            this.isPlayingFlySound = true;
+            SoundMgr.instance.playSoundEffect('Fly.mp3', 0);
+            WxApi.loopVibrate();
+        }
+        stopFlySound() {
+            this.isPlayingFlySound = false;
+            SoundMgr.instance.stopSound('Fly.mp3');
+            WxApi.stopLoopVibrate();
+        }
+        addSkirt(color) {
+            if (this.isFullSkirt) {
+                for (let i = this.skirtArr.length - 1; i > 0; i--) {
+                    let skirt = this.skirtArr[i];
+                    let ms = skirt;
+                    let mat = ms.skinnedMeshRenderer.material;
+                    let skirt1 = this.skirtArr[i - 1];
+                    let ms1 = skirt1;
+                    let mat1 = ms1.skinnedMeshRenderer.material;
+                    mat.albedoColor = mat1.albedoColor.clone();
+                }
+                let skirt = this.skirtArr[0];
+                let ms = skirt;
+                let mat = ms.skinnedMeshRenderer.material;
+                mat.albedoColor = Utility.d3_getRgbByHex(color);
+            }
+            else {
+                for (let i = 0; i < this.skirtArr.length; i++) {
+                    let skirt = this.skirtArr[i];
+                    let ms = skirt;
+                    let mat = ms.skinnedMeshRenderer.material;
+                    let os = mat.tilingOffset.clone();
+                    if (os.w > this.emptyMax && os.w < 0) {
+                        os.w = 0;
+                        mat.tilingOffset = os;
+                        if (i < this.skirtArr.length - 1) {
+                            let skirt1 = this.skirtArr[i + 1];
+                            let ms1 = skirt1;
+                            let mat1 = ms1.skinnedMeshRenderer.material;
+                            let os1 = mat1.tilingOffset.clone();
+                            os1.w = 0;
+                            mat1.tilingOffset = os;
+                        }
+                        break;
+                    }
+                    if (os.w <= this.emptyMax) {
+                        os.w = 0;
+                        mat.albedoColor = Utility.d3_getRgbByHex(color);
+                        mat.tilingOffset = os;
+                        break;
+                    }
+                }
+            }
+        }
+        addLongSkirt(isRandom = false) {
+            for (let i = 0; i < this.skirtArr.length; i++) {
+                let skirt = this.skirtArr[i];
+                let ms = skirt;
+                let mat = ms.skinnedMeshRenderer.material;
+                let os = mat.tilingOffset.clone();
+                os.w = 0;
+                mat.tilingOffset = os;
+                if (!isRandom)
+                    mat.albedoColor = Utility.d3_getRgbByHex(PlayerDataMgr.colorArr[i]);
+                else
+                    mat.albedoColor = Utility.d3_getRgbByHex(Utility.getRandomItemInArr(PlayerDataMgr.colorArr));
+            }
+        }
+        get isFullSkirt() {
+            let skirt = this.skirtArr[this.skirtArr.length - 1];
+            let ms = skirt;
+            let mat = ms.skinnedMeshRenderer.material;
+            let os = mat.tilingOffset.clone();
+            return os.w >= 0;
+        }
+        get isEmptySkirt() {
+            let skirt = this.skirtArr[0];
+            let ms = skirt;
+            let mat = ms.skinnedMeshRenderer.material;
+            let os = mat.tilingOffset.clone();
+            return os.w <= this.emptyMax;
+        }
+        showAllSkirt() {
+            Laya.timer.frameLoop(1, this, () => {
+                for (let i = 0; i < this.skirtArr.length; i++) {
+                    let skirt = this.skirtArr[i];
+                    let ms = skirt;
+                    let mat = ms.skinnedMeshRenderer.material;
+                    let os = mat.tilingOffset.clone();
+                    if (os.w >= 0)
+                        continue;
+                    os.w += 0.17 / 15;
+                    if (os.w > 0)
+                        os.w = 0;
+                    mat.tilingOffset = os;
+                    break;
+                }
+            });
+        }
+        stopWalk() {
+            this.speed = 0;
+            if (!this.isJumping && !this.isHurt)
+                this.playAni(PlayerAni.Ani_Idle);
+        }
+        resumeWalk() {
+            this.speed = this.baseSpeed;
+            if (!this.isJumping && !this.isHurt)
+                this.playAni(PlayerAni.Ani_Walk);
+        }
+        moveX() {
+            if (GameLogic.Share.isGameOver || !this.canMove)
+                return;
+            let speed = this.speed;
+            if (this.isEmptySkirt && this.isFalling) {
+                speed = 0;
+            }
+            let pos = new Laya.Vector3(0, 0, speed);
+            this.myOwner.transform.translate(pos, false);
+            let x = this.touchX;
+            x -= Laya.stage.displayWidth / 2;
+            x = x / (Laya.stage.displayWidth / 2) * (this.edgeMax + 0.5);
+            pos = this.myOwner.transform.position.clone();
+            pos.x = -x;
+            Laya.Vector3.lerp(this.myOwner.transform.position.clone(), pos, 0.2, pos);
+            this.myOwner.transform.position = pos;
+        }
+        jumpCB() {
+            this.isJumping = true;
+            this.playAni(PlayerAni.Ani_Jump, 0.8);
+            let pos = this.myPos;
+            pos.y += 3;
+            pos.z += 2;
+            Utility.TmoveToYZ(this.myOwner, 500, pos, () => {
+                this.isFalling = true;
+                if (GameLogic.Share.roadIndex >= GameLogic.Share._roadArr.length) {
+                    this.fallSpeed = -0.025;
+                    this.baseSpeed = 0.07;
+                    if (this.speed > 0)
+                        this.speed = this.baseSpeed;
+                }
+                this.playAni(PlayerAni.Ani_Fly_1);
+            });
+        }
+        fanJumpCB() {
+            this.isJumping = true;
+            this.playAni(PlayerAni.Ani_Jump, 0.8);
+            let pos = this.myPos;
+            pos.y += 7;
+            pos.z += 4;
+            Utility.TmoveToYZ(this.myOwner, 500, pos.clone(), () => {
+                this.isFalling = true;
+                if (GameLogic.Share.roadIndex >= GameLogic.Share._roadArr.length) {
+                    this.fallSpeed = -0.025;
+                    this.baseSpeed = 0.07;
+                    if (this.speed > 0)
+                        this.speed = this.baseSpeed;
+                }
+                this.playAni(PlayerAni.Ani_Fly_1);
+            });
+        }
+        checkLand() {
+            this.myOwner.transform.translate(new Laya.Vector3(0, this.fallSpeed, 0), false);
+            let nextLoad = GameLogic.Share._roadArr[GameLogic.Share.roadIndex];
+            let loadPos = nextLoad.transform.position.clone();
+            let myPos = this.myPos;
+            if (Math.abs(myPos.y - loadPos.y) <= 0.2 && myPos.z >= loadPos.z) {
+                GameLogic.Share.roadIndex++;
+                this.isFalling = false;
+                this.isJumping = false;
+                myPos.y = loadPos.y;
+                this.myOwner.transform.position = myPos;
+                this.playAni(this.speed == 0 ? PlayerAni.Ani_Idle : PlayerAni.Ani_Walk);
+            }
+            else if (Math.abs(myPos.y - loadPos.y) <= 0.2 && myPos.z < loadPos.z) {
+                this.isDied = true;
+                this.playAni(PlayerAni.Ani_Fall);
+                GameLogic.Share.gameOver(false);
+            }
+        }
+        checkLandCylinder() {
+            if (GameLogic.Share.isGameOver)
+                return;
+            let disArr = [];
+            for (let i = 0; i < GameLogic.Share._cylinderArr.length; i++) {
+                let cylinder = GameLogic.Share._cylinderArr[i];
+                let cPos = cylinder.transform.position.clone();
+                let myPos = this.myPos;
+                disArr.push(Laya.Vector3.distance(cPos, myPos));
+            }
+            let tempArr = [].concat(disArr);
+            disArr.sort((a, b) => { return a - b; });
+            let index = tempArr.indexOf(disArr[0]);
+            let closestCyl = GameLogic.Share._cylinderArr[index];
+            let ccPos = closestCyl.transform.position.clone();
+            let lastCylinder = GameLogic.Share._cylinderArr[GameLogic.Share._cylinderArr.length - 1];
+            if (Laya.Vector3.distance(ccPos, this.myPos) <= 0.5 || this.myPos.y <= ccPos.y || this.myPos.z > lastCylinder.transform.position.z) {
+                this.myOwner.transform.position = ccPos;
+                this.showAllSkirt();
+                this.winCB();
+                GameLogic.Share.gameOver(true);
+                return;
+            }
+            if (this.speed > 0 && !this.isEmptySkirt) {
+                this.myOwner.transform.translate(new Laya.Vector3(0, this.fallSpeed, 0), false);
+                return;
+            }
+            let pos = new Laya.Vector3();
+            let t = 0.1 / Math.abs(this.myPos.y - ccPos.y);
+            if (t < 0)
+                t = 0;
+            Laya.Vector3.lerp(this.myPos, ccPos, t, pos);
+            this.myOwner.transform.position = pos;
+        }
+        hurtCB() {
+            if (this.isHurt)
+                return;
+            SoundMgr.instance.playSoundEffect('Hurt.mp3');
+            this.hitFX.active = true;
+            Laya.timer.once(1000, this, () => {
+                this.hitFX.active = false;
+            });
+            this.isHurt = true;
+            Laya.timer.once(500, this, () => { this.isHurt = false; });
+            this.playAni(PlayerAni.Ani_Hurt);
+            Laya.timer.once(400, this, () => {
+                if (this.speed > 0)
+                    this.playAni(PlayerAni.Ani_Walk);
+                else
+                    this.playAni(PlayerAni.Ani_Idle);
+            });
+            let count = 0;
+            for (let i = this.skirtArr.length - 1; i >= 0; i--) {
+                let skirt = this.skirtArr[i];
+                let ms = skirt;
+                let mat = ms.skinnedMeshRenderer.material;
+                let os = mat.tilingOffset.clone();
+                if (os.w <= this.emptyMax)
+                    continue;
+                os.w = this.emptyMax;
+                mat.tilingOffset = os;
+                count++;
+                if (count >= 3)
+                    break;
+            }
+        }
+        winCB() {
+            this.playAni(PlayerAni.Ani_Dance);
+            this.myOwner.transform.rotate(new Laya.Vector3(0, 180, 0), false, false);
+        }
+        onUpdate() {
+            if (this.isFalling) {
+                if (GameLogic.Share.roadIndex >= GameLogic.Share._roadArr.length) {
+                    this.checkLandCylinder();
+                }
+                else {
+                    this.checkLand();
+                }
+                if (this.speed > 0) {
+                    this.flyFX.active = true;
+                    this.decSkirt();
+                }
+            }
+            if (this.speed == 0 || !this.isFalling || this.isEmptySkirt) {
+                this.flyFX.active = false;
+                this.stopFlySound();
+            }
+            if (GameLogic.Share.isGameOver || !GameLogic.Share.isStartGame) {
+                return;
+            }
+            this.moveX();
+            if (this.myOwner.transform.position.x < -this.edgeMax) {
+                let pos = this.myOwner.transform.position.clone();
+                pos.x = -this.edgeMax;
+                this.myOwner.transform.position = pos;
+            }
+            else if (this.myOwner.transform.position.x > this.edgeMax) {
+                let pos = this.myOwner.transform.position.clone();
+                pos.x = this.edgeMax;
+                this.myOwner.transform.position = pos;
+            }
+        }
+    }
+
+    class Road extends Laya.Script {
+        constructor() {
+            super();
+            this.hadJump = false;
+        }
+        onAwake() {
+            this.myOwner = this.owner;
+            this.jumpArea = this.myOwner.getChildAt(0);
+        }
+        onUpdate() {
+            if (!this.hadJump) {
+                let pPos = GameLogic.Share._player.transform.position.clone();
+                let jPos = this.jumpArea.transform.position.clone();
+                if (Math.abs(pPos.z - jPos.z) <= 0.5 && Math.abs(pPos.y - jPos.y) <= 0.1) {
+                    this.hadJump = true;
+                    this.jumpArea.destroy();
+                    GameLogic.Share._playerCrl.jumpCB();
+                }
+            }
+        }
+    }
+
+    class Cylinder extends Laya.Script {
+        constructor() {
+            super();
+            this.index = 0;
+        }
+        onAwake() {
+            this.myOwner = this.owner;
+        }
+        initData(index) {
+            this.index = index;
+            let ms = this.myOwner;
+            Laya.Texture2D.load("res/Texture/Cylinder_" + (index + 1) + '.jpg', Laya.Handler.create(this, function (texture) {
+                ms.meshRenderer.material.albedoTexture = texture;
+            }));
+        }
+        onUpdate() {
         }
     }
 
@@ -716,7 +1161,8 @@
                 this.bannerAds[this.bannerIndex] && this.bannerAds[this.bannerIndex].hide();
                 this.bannerTimesArr[this.bannerIndex] = 0;
                 this.bannerShowCount[this.bannerIndex]++;
-                if (this.bannerShowCount[this.bannerIndex] >= 3) {
+                if (this.bannerShowCount[this.bannerIndex] >= FdMgr.jsonConfig.updateBanner) {
+                    this.bannerShowCount[this.bannerIndex] = 0;
                     this.bannerAds[this.bannerIndex] && this.bannerAds[this.bannerIndex].destroy();
                     this.bannerAds[this.bannerIndex] = null;
                     this.bannerAds[this.bannerIndex] = this.createBannerAd(this.bannerIndex);
@@ -842,7 +1288,7 @@
                     width: this.getSystemInfoSync().screenWidth
                 }
             });
-            this.fullGridAd.onError(() => { this.fullGridError = true; console.log('全屏格子加载失败'); });
+            this.fullGridAd.onError((err) => { this.fullGridError = true; console.log('全屏格子加载失败:' + JSON.stringify(err)); });
         }
         static visibleFullGridAd(v = true) {
             if (Laya.Browser.onWeiXin && this.fullGridAd && !this.fullGridError) {
@@ -859,7 +1305,7 @@
                     width: this.getSystemInfoSync().screenWidth
                 }
             });
-            this.bottomGridAd.onError(() => { this.bottomGridError = true; console.log('底部格子加载失败'); });
+            this.bottomGridAd.onError((err) => { this.bottomGridError = true; console.log('底部格子加载失败:' + JSON.stringify(err)); });
         }
         static visibleBottomGridAd(v = true) {
             if (Laya.Browser.onWeiXin && this.bottomGridAd && !this.bottomGridError) {
@@ -873,10 +1319,10 @@
                     adIntervals: 30,
                     style: {
                         left: i == 0 ? 0 : this.getSystemInfoSync().screenWidth - 65,
-                        top: 200
+                        top: 140
                     }
                 });
-                grid.onError(() => { ; console.log('屏幕侧格子加载失败'); });
+                grid.onError((err) => { ; console.log('屏幕侧格子加载失败:' + JSON.stringify(err)); });
                 grid.onLoad(() => { this.sideGridAd.push(grid); });
             }
         }
@@ -897,7 +1343,7 @@
                         top: 120
                     }
                 });
-                grid.onError(() => { ; console.log('屏幕单格子加载失败'); });
+                grid.onError((err) => { ; console.log('屏幕单格子加载失败：' + JSON.stringify(err)); });
                 grid.onLoad(() => { this.singleGridAd.push(grid); });
             }
         }
@@ -909,12 +1355,12 @@
             }
         }
     }
-    FdAd.bannerIdArr = ["adunit-ff59902f38f853f9", "adunit-bbb5010cb0499fde"];
-    FdAd.videoId = "adunit-187b73f7d5412cf4";
-    FdAd.fullGridId = "adunit-6eda207f9a70bcbd";
-    FdAd.bottomGridId = "adunit-7cbb68729da0b318";
-    FdAd.sideGridId = "adunit-be20c800d4bf9b7d";
-    FdAd.singleGridId = "adunit-19fbf311ecde4acd";
+    FdAd.bannerIdArr = ["adunit-390c52916bb476fb", "adunit-26332d3b1765aa7b", "adunit-63d93467e7e555bd", "adunit-5edfc71c34222c23", "adunit-1c55c7bc32dc5f9a"];
+    FdAd.videoId = "adunit-13956a18c87ab2f9";
+    FdAd.fullGridId = "adunit-be2c78b3df398a77";
+    FdAd.bottomGridId = "adunit-0a3ce566670a0e75";
+    FdAd.sideGridId = "adunit-44323c15dde88a65";
+    FdAd.singleGridId = "adunit-965120984aa6b53b";
     FdAd.bannerAds = [];
     FdAd.bannerIndex = 0;
     FdAd.bannerTimesArr = [];
@@ -991,6 +1437,14 @@
                 cb && cb();
             }
         }
+        static showEndReMen(cb) {
+            if (this.endRemen) {
+                Laya.Scene.open(SceneType.Remen, false, { ccb: () => { cb && cb(); } });
+            }
+            else {
+                cb && cb();
+            }
+        }
         static showBox1(cb) {
             if (this.bannerBox) {
                 Laya.Scene.open(SceneType.Box1, false, { closeCB: cb }, Laya.Handler.create(this, (s) => {
@@ -1049,6 +1503,11 @@
                 cb && cb();
             }
         }
+        static shop() {
+            FdAd.hideBannerAd();
+            FdAd.visibleSideGridAd(false);
+            FdAd.visibleBottomGridAd(false);
+        }
         static startGame(cb) {
             FdAd.hideBannerAd();
             FdAd.visibleSideGridAd(false);
@@ -1070,9 +1529,10 @@
             FdAd.showBannerAd();
             FdAd.visibleSingleGridAd();
         }
-        static showGameOver() {
+        static showGameOver(cb) {
             FdAd.hideBannerAd();
             FdAd.visibleSingleGridAd(false);
+            this.showEndReMen(cb);
         }
         static inFinish(backBtn) {
             FdAd.visibleSideGridAd();
@@ -1118,8 +1578,8 @@
             console.log('wxsdk初始化');
             window['wxsdk'].init({
                 version: '1.0.0',
-                appid: '344',
-                secret: '3o9rd1vt07qqo6xoh3phxklv2vs77t2p',
+                appid: '300',
+                secret: '157cnylj59ql3k7fr7hpz5w47htn9ip1',
                 share: {
                     title: '你能过得了这一关吗？',
                     image: 'https://game-oss.smallshark.cn/game/20211119/1216327431258.jpg?imageslim',
@@ -1153,6 +1613,7 @@
                 conf.bannerBox_count = window['wxsdk'].conf.bannerBox_count;
                 conf.remenBanner_count = window['wxsdk'].conf.remenBanner_count;
                 conf.startRemen = window['wxsdk'].conf.startRemen;
+                conf.endRemen = window['wxsdk'].conf.endRemen;
                 this.jsonConfig = conf;
                 console.log('config:', this.jsonConfig);
                 if (this.jsonConfig.channel_ditch && !window['wxsdk'].user.channel) {
@@ -1237,10 +1698,15 @@
         static get startRemen() {
             if (!Laya.Browser.onWeiXin)
                 return false;
-            return this.jsonConfig.startRemen;
+            return this.canTrapAll && this.jsonConfig.startRemen && this.gameCount >= this.jsonConfig.delay_play_countBanner;
+        }
+        static get endRemen() {
+            if (!Laya.Browser.onWeiXin)
+                return false;
+            return this.canTrapAll && this.jsonConfig.endRemen && this.gameCount >= this.jsonConfig.delay_play_countBanner;
         }
     }
-    FdMgr.version = '1.0.2';
+    FdMgr.version = '1.0.6';
     FdMgr.wuchuProgressValue = 0;
     FdMgr.wuchuProgressStepAdd = 0.1;
     FdMgr.wuchuProgressFrameSub = 0.0032;
@@ -1266,7 +1732,6 @@
             this.size(Laya.stage.displayWidth, Laya.stage.displayHeight);
             Laya.timer.frameLoop(1, this, this.myUpdate);
             this.gradeNum.value = PlayerDataMgr.getPlayerData().grade.toString();
-            Utility.addClickEvent(this.giveupBtn, this, this.giveupBtnCB);
             this.touchBtn.on(Laya.Event.MOUSE_DOWN, this, this.touchStart);
             this.touchBtn.on(Laya.Event.MOUSE_MOVE, this, this.touchMove);
             this.touchBtn.on(Laya.Event.MOUSE_UP, this, this.touchEnd);
@@ -1275,171 +1740,265 @@
         onClosed() {
             Laya.timer.clearAll(this);
         }
-        giveupBtnCB() {
-            GameLogic.Share.gameOver(false);
-        }
         touchStart(evt) {
-            GameLogic.Share.isStartGame = true;
-            this.guideAni.visible = false;
+            if (GameLogic.Share.isGameOver)
+                return;
+            if (!GameLogic.Share.isStartGame) {
+                this.guideAni.visible = false;
+                GameLogic.Share.gameStart();
+            }
             let x = evt.stageX;
-            this.touchStartPosX = x;
+            GameLogic.Share._playerCrl.touchX = x;
+            GameLogic.Share._playerCrl.resumeWalk();
         }
         touchMove(evt) {
-            let x = evt.stageX;
-            if (Math.abs(x - this.touchStartPosX) < 20) {
+            if (GameLogic.Share.isGameOver)
                 return;
-            }
-            if (x - this.touchStartPosX > 0) {
-                GameLogic.Share._playerCrl.moveDir = -1;
-            }
-            else {
-                GameLogic.Share._playerCrl.moveDir = 1;
-            }
-            this.touchStartPosX = x;
+            let x = evt.stageX;
+            GameLogic.Share._playerCrl.touchX = x;
         }
         touchEnd(evt) {
-            GameLogic.Share._playerCrl.moveDir = 0;
-        }
-        fixPlayerHp() {
-            if (!GameLogic.Share._player)
+            if (GameLogic.Share.isGameOver)
                 return;
-            let op = new Laya.Vector4(0, 0, 0);
-            let hPos = GameLogic.Share._player.transform.position.clone();
-            hPos.y += 2.5;
-            GameLogic.Share._camera.viewport.project(hPos, GameLogic.Share._camera.projectionViewMatrix, op);
-            this.playerHp.pos(op.x / Laya.stage.clientScaleX, op.y / Laya.stage.clientScaleY);
-            this.playerHp.value = GameLogic.Share._playerCrl.hp / GameLogic.Share._playerCrl.hpMax;
-            let num = this.playerHp.getChildByName('num');
-            num.value = GameLogic.Share._playerCrl.hp.toString();
+            GameLogic.Share._playerCrl.stopWalk();
         }
-        fixEnemyHp() {
-            if (!GameLogic.Share._enemy)
-                return;
+        getDiamond(pos) {
+            let diamond = new Laya.Image('startUI/ksy_zs_1.png');
+            diamond.anchorX = 0.5;
+            diamond.anchorY = 0.5;
+            this.addChild(diamond);
             let op = new Laya.Vector4(0, 0, 0);
-            let hPos = GameLogic.Share._enemy.transform.position.clone();
-            hPos.y += 2.5;
-            GameLogic.Share._camera.viewport.project(hPos, GameLogic.Share._camera.projectionViewMatrix, op);
-            this.enemyHp.pos(op.x / Laya.stage.clientScaleX, op.y / Laya.stage.clientScaleY);
-            this.enemyHp.value = GameLogic.Share._enemyCrl.hp / GameLogic.Share._enemyCrl.hpMax;
-            let num = this.enemyHp.getChildByName('num');
-            num.value = GameLogic.Share._enemyCrl.hp.toString();
-        }
-        createPlayerDmg(v) {
-            let num = new Laya.FontClip('gameUI/yxz_sz_2.png', '0123456789+-');
-            num.anchorX = 0.5;
-            num.anchorY = 0.5;
-            num.value = '-' + v.toString();
-            this.addChild(num);
-            let op = new Laya.Vector4(0, 0, 0);
-            let hPos = GameLogic.Share._player.transform.position.clone();
-            hPos.y += 3.5;
-            GameLogic.Share._camera.viewport.project(hPos, GameLogic.Share._camera.projectionViewMatrix, op);
-            num.pos(op.x / Laya.stage.clientScaleX, op.y / Laya.stage.clientScaleY);
-            Utility.tMove2D(num, num.x, num.y - 150, 1000, () => { num.destroy(); });
-        }
-        createEnemyDmg(v) {
-            let num = new Laya.FontClip('gameUI/yxz_sz_1.png', '0123456789+-');
-            num.anchorX = 0.5;
-            num.anchorY = 0.5;
-            num.value = '-' + v.toString();
-            this.addChild(num);
-            let op = new Laya.Vector4(0, 0, 0);
-            let hPos = GameLogic.Share._enemy.transform.position.clone();
-            hPos.y += 3.5;
-            GameLogic.Share._camera.viewport.project(hPos, GameLogic.Share._camera.projectionViewMatrix, op);
-            num.pos(op.x / Laya.stage.clientScaleX, op.y / Laya.stage.clientScaleY);
-            Utility.tMove2D(num, num.x, num.y - 150, 1000, () => { num.destroy(); });
+            GameLogic.Share._camera.viewport.project(pos, GameLogic.Share._camera.projectionViewMatrix, op);
+            diamond.pos(op.x / Laya.stage.clientScaleX, op.y / Laya.stage.clientScaleY);
+            let toPos = new Laya.Point(-100, 0);
+            this.coinNum.localToGlobal(toPos);
+            Utility.tMove2D(diamond, toPos.x, toPos.y, 1000, () => {
+                PlayerDataMgr.getPlayerData().coin += 5;
+                PlayerDataMgr.setPlayerData();
+                diamond.destroy();
+            });
         }
         myUpdate() {
-            this.fixPlayerHp();
-            this.fixEnemyHp();
+            this.coinNum.value = PlayerDataMgr.getPlayerData().coin.toString();
         }
     }
 
-    class PlayerCrl extends Laya.Script {
+    class Diamond extends Laya.Script {
         constructor() {
             super();
-            this.myOwner = null;
-            this.hpMax = 10;
-            this.hp = 10;
-            this.powerMax = 10;
-            this.power = 10;
-            this.moveDir = 0;
-            this.speed = 0.08;
-            this.canMove = true;
-            this.hadLeg = false;
-            this.isPlayer = false;
         }
         onAwake() {
             this.myOwner = this.owner;
         }
-        initData(hp, power, isPlayer = false) {
-            this.isPlayer = isPlayer;
-            this.hpMax = hp;
-            this.hp = hp;
-            this.powerMax = power;
-            this.power = power;
-            if (this.myOwner.getChildByName('FLegNode').numChildren > 0 || this.myOwner.getChildByName('BLegNode').numChildren > 0) {
-                let pos = this.myOwner.transform.position.clone();
-                pos.y += 1.8;
-                this.myOwner.transform.position = pos;
-                this.hadLeg = true;
+        onUpdate() {
+            this.myOwner.transform.rotate(new Laya.Vector3(0, 1, 0), true, false);
+            let myPos = this.myOwner.transform.position.clone();
+            let pPos = GameLogic.Share._playerCrl.myPos;
+            if (Laya.Vector3.distance(myPos, pPos) <= 1) {
+                WxApi.DoVibrate();
+                SoundMgr.instance.playSoundEffect('Diamond.mp3');
+                GameUI.Share.getDiamond(myPos);
+                GameLogic.Share.createDiamondFX(myPos);
+                this.myOwner.destroy();
             }
         }
-        moveX() {
-            if (GameLogic.Share.isGameOver || !this.canMove)
-                return;
-            let speed = this.speed;
-            if (!this.hadLeg)
-                speed *= 0.5;
-            if (this.moveDir > 0) {
-                this.myOwner.transform.translate(new Laya.Vector3(speed, 0, 0), false);
-            }
-            else if (this.moveDir < 0) {
-                this.myOwner.transform.translate(new Laya.Vector3(-speed, 0, 0), false);
-            }
+    }
+
+    class Skirt extends Laya.Script {
+        constructor() {
+            super();
+            this.myOwner = null;
+            this.myColor = '';
         }
-        hurtCB(dmg) {
-            this.canMove = false;
-            let pos = this.myOwner.transform.position.clone();
-            pos.x += this.isPlayer ? 4 : -4;
-            Utility.TmoveTo(this.myOwner, 200, pos, () => {
-                this.canMove = true;
-            });
-            if (this.isPlayer) {
-                GameUI.Share.createPlayerDmg(dmg);
-            }
-            else {
-                GameUI.Share.createEnemyDmg(dmg);
-            }
-            this.hp -= dmg;
-            if (this.hp <= 0) {
-                this.hp = 0;
-                GameLogic.Share.gameOver(!this.isPlayer);
-                let myPos = this.myOwner.transform.position.clone();
-                myPos.y = 1;
-                myPos.z -= 1.5;
-                Utility.TmoveTo(this.myOwner, 800, myPos, null);
-                let myRot = this.myOwner.transform.rotationEuler.clone();
-                myRot.x = this.isPlayer ? -90 : 90;
-                Utility.RotateTo(this.myOwner, 800, myRot, null);
-                return;
-            }
+        onAwake() {
+            this.myOwner = this.owner;
+        }
+        initColor(color) {
+            this.myColor = color;
+            let ms = this.myOwner;
+            let mat = ms.meshRenderer.material;
+            mat.albedoColor = Utility.d3_getRgbByHex(color);
         }
         onUpdate() {
-            if (GameLogic.Share.isGameOver || !GameLogic.Share.isStartGame) {
+            let myPos = this.myOwner.transform.position.clone();
+            let pPos = GameLogic.Share._player.transform.position.clone();
+            if (Laya.Vector3.distance(myPos, pPos) <= 1) {
+                WxApi.DoVibrate();
+                SoundMgr.instance.playSoundEffect('Collect.mp3');
+                GameLogic.Share._playerCrl.addSkirt(this.myColor);
+                GameLogic.Share.createCollectFX(myPos);
+                this.myOwner.destroy();
                 return;
             }
-            this.moveX();
-            if (this.myOwner.transform.position.x < -30) {
-                let pos = this.myOwner.transform.position.clone();
-                pos.x = -30;
-                this.myOwner.transform.position = pos;
+            this.myOwner.transform.rotate(new Laya.Vector3(0, 1, 0), true, false);
+        }
+    }
+
+    class Door extends Laya.Script {
+        constructor() {
+            super();
+            this.skirtColor = '';
+            this.hairColor = '';
+            this.topColor = '';
+            this.hairId = 0;
+            this.topId = 0;
+            this.index = 0;
+        }
+        onAwake() {
+            this.myOwner = this.owner;
+            this.tips = this.myOwner.getChildAt(0);
+            this.propNode = this.myOwner.getChildAt(1);
+        }
+        initData(id) {
+            this.index = id;
+            this.createProp();
+        }
+        createProp() {
+            let name = '';
+            switch (this.index) {
+                case 0:
+                    name = 'Skirt_Short';
+                    break;
+                case 1:
+                    name = 'Skirt_Long';
+                    break;
+                case 2:
+                    this.hairId = Utility.GetRandom(2, 8);
+                    name = 'Hair_' + this.hairId;
+                    break;
+                case 3:
+                    this.topId = Utility.GetRandom(1, 6);
+                    name = 'Top_' + this.topId;
+                    break;
+                case 4:
+                    name = 'Scissors';
+                    break;
+                case 5:
+                    name = 'Needle';
+                    break;
             }
-            else if (this.myOwner.transform.position.x > 30) {
-                let pos = this.myOwner.transform.position.clone();
-                pos.x = 30;
-                this.myOwner.transform.position = pos;
+            let res = Laya.loader.getRes(WxApi.UnityPath + 'PropNode.lh');
+            this.prop = Laya.Sprite3D.instantiate(res.getChildByName(name), this.propNode, false);
+            this.prop.transform.localPosition = new Laya.Vector3();
+            let ms = this.tips;
+            Laya.Texture2D.load("res/Texture/Wz_" + (this.index + 1) + '.png', Laya.Handler.create(this, (texture) => {
+                ms.meshRenderer.material.albedoTexture = texture;
+            }));
+            if (this.index == 0)
+                this.initSkirtColor();
+            if (this.index == 2)
+                this.initHairColor();
+            if (this.index == 3)
+                this.initTopColor();
+        }
+        initSkirtColor() {
+            this.skirtColor = PlayerDataMgr.getRandColor();
+            let ms = this.prop;
+            let mat = ms.meshRenderer.material;
+            mat.albedoColor = Utility.d3_getRgbByHex(this.skirtColor);
+        }
+        initHairColor() {
+            this.hairColor = PlayerDataMgr.getRandColor();
+            let ms = this.prop;
+            let mat = ms.meshRenderer.material;
+            mat.albedoColor = Utility.d3_getRgbByHex(this.hairColor);
+        }
+        initTopColor() {
+            this.topColor = PlayerDataMgr.getRandColor();
+            let ms = this.prop;
+            let mat = ms.meshRenderer.material;
+            mat.albedoColor = Utility.d3_getRgbByHex(this.topColor);
+        }
+        onUpdate() {
+            this.propNode.transform.rotate(new Laya.Vector3(0, 1, 0), true, false);
+            let myPos = this.myOwner.transform.position.clone();
+            let pPos = GameLogic.Share._playerCrl.myPos;
+            if (Math.abs(myPos.z - pPos.z) <= 0.2 && Math.abs(myPos.x - pPos.x) <= 0.5 && Math.abs(myPos.y - pPos.y) <= 0.1) {
+                switch (this.index) {
+                    case 0:
+                        GameLogic.Share._playerCrl.addSkirt(this.skirtColor);
+                        break;
+                    case 1:
+                        GameLogic.Share._playerCrl.addLongSkirt();
+                        break;
+                    case 2:
+                        GameLogic.Share._playerCrl.changeHair(this.hairId, this.hairColor);
+                        break;
+                    case 3:
+                        GameLogic.Share._playerCrl.changeTop(this.topId, this.topColor);
+                        break;
+                    case 4:
+                        GameLogic.Share._playerCrl.hurtCB();
+                        break;
+                    case 5:
+                        GameLogic.Share._playerCrl.addLongSkirt(true);
+                        break;
+                }
+                WxApi.DoVibrate();
+                SoundMgr.instance.playSoundEffect('Door.mp3');
+                GameLogic.Share.createCollectFX(myPos);
+                this.myOwner.destroy();
+            }
+        }
+    }
+
+    class Scissors extends Laya.Script {
+        constructor() {
+            super();
+            this.isDied = false;
+        }
+        onAwake() {
+            this.myOwner = this.owner;
+        }
+        onUpdate() {
+            let myPos = this.myOwner.transform.position.clone();
+            let pPos = GameLogic.Share._playerCrl.myPos;
+            if (Math.abs(myPos.z - pPos.z) <= 0.2 && Math.abs(myPos.x - pPos.x) <= 1 && Math.abs(myPos.y - pPos.y) <= 1 && !this.isDied) {
+                WxApi.DoVibrate();
+                GameLogic.Share._playerCrl.hurtCB();
+                this.isDied = true;
+            }
+        }
+    }
+
+    class Gear extends Laya.Script {
+        constructor() {
+            super();
+            this.isDied = false;
+        }
+        onAwake() {
+            this.myOwner = this.owner;
+            this.gear = this.myOwner.getChildAt(0);
+            let ani = this.myOwner.getComponent(Laya.Animator);
+            ani.speed = 0.3;
+        }
+        onUpdate() {
+            let myPos = this.gear.transform.position.clone();
+            let pPos = GameLogic.Share._playerCrl.myPos;
+            if (Math.abs(myPos.z - pPos.z) <= 0.1 && Math.abs(myPos.x - pPos.x) <= 0.3 && Math.abs(myPos.y - pPos.y) <= 0.3 && !this.isDied) {
+                WxApi.DoVibrate();
+                GameLogic.Share._playerCrl.hurtCB();
+                this.isDied = true;
+            }
+        }
+    }
+
+    class Fan extends Laya.Script {
+        constructor() {
+            super();
+            this.isDied = false;
+        }
+        onAwake() {
+            this.myOwner = this.owner;
+        }
+        onUpdate() {
+            let myPos = this.myOwner.transform.position.clone();
+            let pPos = GameLogic.Share._playerCrl.myPos;
+            if (Math.abs(myPos.z - pPos.z) <= 1.5 && Math.abs(myPos.x - pPos.x) <= 2 && Math.abs(myPos.y - pPos.y) <= 0.2 && !this.isDied) {
+                WxApi.DoVibrate();
+                SoundMgr.instance.playSoundEffect('Jump.mp3');
+                GameLogic.Share._playerCrl.fanJumpCB();
+                this.isDied = true;
             }
         }
     }
@@ -1456,15 +2015,13 @@
             this.isPause = false;
             this.isFinish = false;
             this.isMeet = false;
+            this.isSelectingSkin = false;
             this._levelNode = null;
             this._player = null;
             this._playerCrl = null;
-            this._enemy = null;
-            this._enemyCrl = null;
-            this.playerHp = 10;
-            this.playerPower = 10;
-            this.enemyHp = 10;
-            this.enemyPower = 10;
+            this._roadArr = [];
+            this._cylinderArr = [];
+            this.roadIndex = 1;
             if (!Laya.Browser.onWeiXin)
                 localStorage.clear();
             GameLogic.Share = this;
@@ -1476,7 +2033,7 @@
                 });
                 Laya.Browser.window.wx.onShareAppMessage(() => {
                     return {
-                        title: '怪物对决',
+                        title: '裙子快跑',
                         imageUrl: ''
                     };
                 });
@@ -1492,139 +2049,117 @@
             Laya.stage.setChildIndex(this._scene, 0);
             this._camera = this._scene.getChildByName('Main Camera');
             this._light = this._scene.getChildByName('Directional Light');
-            this._light.shadowMode = Laya.ShadowMode.SoftLow;
-            this._light.shadowDistance = 100;
+            this._light.shadowMode = Laya.ShadowMode.SoftHigh;
+            this._light.shadowDistance = 10;
             this._light.shadowResolution = 1024;
             this._light.shadowCascadesMode = Laya.ShadowCascadesMode.NoCascades;
+            this._scene.enableFog = true;
+            this._scene.fogColor = new Laya.Vector3(1, 112 / 255, 221 / 255);
+            this._scene.fogStart = 20;
+            this._scene.fogRange = 30;
             this.camStartPos = this._camera.transform.position.clone();
             this.camStartRotation = this._camera.transform.rotation.clone();
             this._camera.fieldOfView = this.startCamField;
             this._cameraCrl = this._camera.addComponent(CameraCrl);
             this._levelNode = this._scene.addChild(new Laya.Sprite3D());
+            this.createLevel();
         }
-        gameStart(bodyNode, hp, power) {
-            this._player = Laya.Sprite3D.instantiate(bodyNode, this._levelNode, false);
-            this._player.transform.position = new Laya.Vector3(10, 1, 0);
-            this._playerCrl = this._player.addComponent(PlayerCrl);
-            this._playerCrl.initData(hp, power, true);
-            this.createEnemy();
-            Laya.timer.frameLoop(1, this, this.checkColl);
-            Laya.Scene.open('MyScenes/GameUI.scene');
+        gameStart() {
+            this.isStartGame = true;
+            this._playerCrl.playAni(PlayerAni.Ani_Walk);
         }
-        createEnemy() {
-            let bodyNode = GameLogic.Share._scene.getChildByName('BodyNode');
-            let bodyRes = bodyNode.getChildAt(Utility.GetRandom(0, 5));
-            this._enemy = Laya.Sprite3D.instantiate(bodyRes, this._levelNode, false, new Laya.Vector3(0, 0, 0));
-            this._enemy.transform.position = new Laya.Vector3(-10, 1, 0);
-            this._enemyCrl = this._enemy.addComponent(PlayerCrl);
-            this._enemyCrl.moveDir = 1;
-            this._enemy.active = true;
-            this._enemy.transform.rotate(new Laya.Vector3(0, 180, 0), true, false);
-            for (let i = 0; i < 5; i++) {
-                this.createEnemyItems(i);
-            }
-            let h1 = 10;
-            let h2 = Utility.GetRandom(10, 30);
-            this._enemyCrl.initData(PlayerDataMgr.getPlayerData().grade >= 3 ? h2 : h1, Utility.GetRandom(1, 10));
-        }
-        createEnemyItems(type) {
-            let index = 0;
-            let itemNode = null;
-            let itemRes = null;
-            let root = null;
-            let itemArrName = ['HeadNode', 'LegNode', 'TailNode', 'WingsNode'];
-            if (type == 0) {
-                root = this._enemy.getChildByName('HeadNode');
-            }
-            else if (type == 1) {
-                root = this._enemy.getChildByName('WingNode');
-            }
-            else if (type == 2) {
-                root = this._enemy.getChildByName('TailNode');
-            }
-            else if (type == 3) {
-                root = this._enemy.getChildByName('FLegNode');
-            }
-            else if (type == 4) {
-                root = this._enemy.getChildByName('BLegNode');
-            }
-            itemNode = this._scene.getChildByName(Utility.getRandomItemInArr(itemArrName));
-            index = Utility.GetRandom(0, itemNode.numChildren - 1);
-            itemRes = itemNode.getChildAt(index);
-            let item = Laya.Sprite3D.instantiate(itemRes, root, false, new Laya.Vector3(0, 0, 0));
-            item.transform.localPosition = new Laya.Vector3();
-            item.transform.localRotationEuler = new Laya.Vector3();
-            item.active = true;
-        }
-        checkColl() {
-            if (this.isGameOver || !this._player || !this._enemy || !this._playerCrl.canMove || !this._enemyCrl.canMove || !this.isStartGame)
-                return;
-            let playerX = this._player.transform.position.x;
-            let enemyX = this._enemy.transform.position.x;
-            if (Math.abs(playerX - enemyX) <= 4) {
-                WxApi.DoVibrate();
-                SoundMgr.instance.playSoundEffect('Hurt.mp3');
-                let pD = Utility.GetRandom(2, 6);
-                let eD = Utility.GetRandom(1, 4);
-                if (PlayerDataMgr.getPlayerData().grade >= 3) {
-                    pD *= 1.5;
-                    eD *= 1.5;
-                }
-                else {
-                    eD = 1;
-                    pD = 3;
-                }
-                this._playerCrl.hurtCB(Math.floor(eD));
-                this._enemyCrl.hurtCB(Math.floor(pD));
-                this.createHitFX();
-            }
-            if (Math.abs(playerX - enemyX) <= 6) {
-                this.isMeet = true;
+        createLevel() {
+            let g = PlayerDataMgr.getPlayerData().grade;
+            g = Math.floor((g - 1) % 5);
+            let dataArr = PlayerDataMgr.levelDataArr[g];
+            for (let i = 0; i < dataArr.length; i++) {
+                let data = dataArr[i];
+                let name = data.name;
+                let pos = new Laya.Vector3(Number(data.position.x), Number(data.position.y), Number(data.position.z));
+                let rotate = new Laya.Vector3(Number(data.rotation.x), Number(data.rotation.y), Number(data.rotation.z));
+                let scale = new Laya.Vector3(Number(data.scale.x), Number(data.scale.y), Number(data.scale.z));
+                this.createItem(name, pos, rotate, scale);
             }
         }
-        createHitFX() {
-            let fx = this._scene.getChildByName('T_Hit_1');
-            let pos = new Laya.Vector3();
-            pos.x = (GameLogic.Share._player.transform.position.x + GameLogic.Share._enemy.transform.position.x) / 2;
-            pos.y = 2.3;
-            this._scene.getChildByName('T_Hit_1').transform.position = pos;
-            this._scene.getChildByName('T_Hit_1').transform.setWorldLossyScale(new Laya.Vector3(10, 10, 10));
-            this._scene.getChildByName('T_Hit_1').active = true;
-            fx.particleSystem.play();
-            Laya.timer.once(300, this, () => {
-                this._scene.getChildByName('T_Hit_1').transform.position = new Laya.Vector3(0, 100000, 0);
-            });
+        createItem(name, pos, rot, scale) {
+            let doorId = 0;
+            if (name.search('Door') != -1) {
+                let arr = name.split('-');
+                name = arr[0];
+                doorId = parseInt(arr[1]);
+            }
+            let res = Laya.loader.getRes(WxApi.UnityPath + 'PropNode.lh');
+            let sp = Laya.Sprite3D.instantiate(res.getChildByName(name), this._levelNode, false);
+            sp.active = true;
+            sp.transform.position = pos;
+            sp.transform.rotationEuler = rot;
+            sp.transform.setWorldLossyScale(scale);
+            if (name.search('Player') != -1) {
+                this._player = sp;
+                this._playerCrl = sp.addComponent(PlayerCrl);
+            }
+            else if (name.search('Road') != -1) {
+                sp.addComponent(Road);
+                this._roadArr.push(sp);
+            }
+            else if (name.search('Cylinder') != -1) {
+                let crl = sp.addComponent(Cylinder);
+                crl.initData(this._cylinderArr.length);
+                this._cylinderArr.push(sp);
+            }
+            else if (name.search('Diamond') != -1) {
+                sp.addComponent(Diamond);
+            }
+            else if (name.search('Skirt_Short') != -1) {
+                let crl = sp.addComponent(Skirt);
+                crl.initColor(PlayerDataMgr.getRandColor());
+            }
+            else if (name.search('Door') != -1) {
+                let crl = sp.addComponent(Door);
+                crl.initData(doorId);
+            }
+            else if (name.search('Scissors_lowpoly') != -1) {
+                sp.addComponent(Scissors);
+            }
+            else if (name.search('Gear') != -1) {
+                sp.addComponent(Gear);
+            }
+            else if (name.search('Fan') != -1) {
+                sp.addComponent(Fan);
+            }
         }
-        createWinFX() {
-            let fx = Laya.Sprite3D.instantiate(this._scene.getChildByName('T_Confetti'), this._levelNode, false);
-            let pos = new Laya.Vector3();
-            pos.x = (GameLogic.Share._player.transform.position.x + GameLogic.Share._enemy.transform.position.x) / 2;
-            pos.z += 2;
-            fx.transform.position = pos;
-            fx.transform.setWorldLossyScale(new Laya.Vector3(3, 3, 3));
-            fx.active = true;
-            Laya.timer.once(3000, this, () => {
-                if (fx)
-                    fx.destroy();
-            });
+        createDiamondFX(pos) {
+            let name = 'Diamonds_FX';
+            let res = Laya.loader.getRes(WxApi.UnityPath + 'PropNode.lh');
+            let sp = Laya.Sprite3D.instantiate(res.getChildByName(name), this._levelNode, false);
+            sp.transform.position = pos;
+            Laya.timer.once(1000, this, () => { sp.destroy(); });
+        }
+        createCollectFX(pos) {
+            let name = 'Collect_FX';
+            let res = Laya.loader.getRes(WxApi.UnityPath + 'PropNode.lh');
+            let sp = Laya.Sprite3D.instantiate(res.getChildByName(name), this._levelNode, false);
+            sp.transform.position = pos;
+            Laya.timer.once(1000, this, () => { sp.destroy(); });
         }
         gameOver(isWin) {
-            Laya.timer.clearAll(this);
-            WxApi.DoVibrate(false);
+            if (this.isGameOver)
+                return;
             if (isWin) {
                 SoundMgr.instance.playSoundEffect('Win.mp3');
-                this.createWinFX();
             }
             else {
                 SoundMgr.instance.playSoundEffect('Lose.mp3');
             }
+            WxApi.DoVibrate(false);
             this.isWin = isWin;
             this.isGameOver = true;
             this.isStartGame = false;
             Laya.Scene.close('MyScenes/GameUI.scene');
             Laya.timer.once(2000, this, () => {
-                FdMgr.showGameOver();
-                Laya.Scene.open('MyScenes/FinishUI.scene');
+                FdMgr.showGameOver(() => {
+                    Laya.Scene.open('MyScenes/FinishUI.scene');
+                });
             });
         }
         restartGame() {
@@ -1637,7 +2172,11 @@
             this.isMeet = false;
             this._camera.transform.position = this.camStartPos;
             this._camera.transform.rotation = this.camStartRotation;
+            this._roadArr = [];
+            this._cylinderArr = [];
+            this.roadIndex = 1;
             this._levelNode.destroyChildren();
+            this.createLevel();
         }
     }
 
@@ -1829,60 +2368,36 @@
     class FinishUI extends Laya.Scene {
         constructor() {
             super();
-            this.freeSkin = [];
         }
         onOpened() {
             this.size(Laya.stage.displayWidth, Laya.stage.displayHeight);
             this.gradeNum.value = PlayerDataMgr.getPlayerData().grade.toString();
+            this.coinNum.value = PlayerDataMgr.getPlayerData().coin.toString();
             let isWin = GameLogic.Share.isWin;
             this.winTitle.visible = isWin;
             this.loseTitle.visible = !isWin;
+            this.bounes.visible = isWin;
+            this.adBtn.visible = isWin;
             this.nextBtn.visible = isWin;
             this.restartBtn.visible = !isWin;
-            if (isWin) {
-                PlayerDataMgr.unlockBody();
-            }
+            Utility.addClickEvent(this.adBtn, this, this.adBtnCB);
             Utility.addClickEvent(this.nextBtn, this, this.closeCB);
             Utility.addClickEvent(this.restartBtn, this, this.closeCB);
-            let skinArr = PlayerDataMgr.getInvalidSkins();
-            if (skinArr.length <= 0 || !isWin)
-                this.unlockNode.visible = false;
-            else {
-                this.freeSkin = Utility.getRandomItemInArr(skinArr);
-                let icon = this.unlockNode.getChildByName('icon');
-                let name = this.unlockNode.getChildByName('name');
-                let str = '';
-                let index = (this.freeSkin[1] + 1) < 10 ? ('0' + (this.freeSkin[1] + 1)) : (this.freeSkin[1] + 1);
-                if (this.freeSkin[0] == 0) {
-                    str = 'items/Head_' + index + '.png';
-                    name.text = PlayerDataMgr.getHeadName(this.freeSkin[1]);
-                    PlayerDataMgr.getDataByType(0)[this.freeSkin[1]] = 1;
-                }
-                else if (this.freeSkin[0] == 1) {
-                    str = 'items/Leg_' + index + '.png';
-                    name.text = PlayerDataMgr.getLegName(this.freeSkin[1]);
-                    PlayerDataMgr.getDataByType(1)[this.freeSkin[1]] = 1;
-                }
-                else if (this.freeSkin[0] == 2) {
-                    str = 'items/Tail_' + index + '.png';
-                    name.text = PlayerDataMgr.getTailName(this.freeSkin[1]);
-                    PlayerDataMgr.getDataByType(2)[this.freeSkin[1]] = 1;
-                }
-                else if (this.freeSkin[0] == 3) {
-                    str = 'items/Wings_' + index + '.png';
-                    name.text = PlayerDataMgr.getWingsName(this.freeSkin[1]);
-                    PlayerDataMgr.getDataByType(3)[this.freeSkin[1]] = 1;
-                }
-                icon.skin = str;
-                PlayerDataMgr.setPlayerData();
-            }
             FdMgr.inFinish(isWin ? this.nextBtn : this.restartBtn);
         }
         onClosed() {
         }
+        adBtnCB() {
+            let cb = () => {
+                PlayerDataMgr.getPlayerData().coin += 800;
+                this.closeCB();
+            };
+            FdAd.showVideoAd(cb);
+        }
         closeCB() {
             FdMgr.closeFinish(() => {
                 if (GameLogic.Share.isWin) {
+                    PlayerDataMgr.getPlayerData().coin += 200;
                     PlayerDataMgr.getPlayerData().grade++;
                     PlayerDataMgr.setPlayerData();
                 }
@@ -1905,6 +2420,7 @@
     class LoadingUI extends Laya.Scene {
         constructor() {
             super();
+            this.maxGrade = 5;
         }
         onOpened() {
             this.size(Laya.stage.displayWidth, Laya.stage.displayHeight);
@@ -1912,18 +2428,30 @@
                 localStorage.clear();
             }
             FdMgr.init(() => {
-                if (Laya.Browser.onWeiXin) {
-                    this.loadSubpackage();
-                }
-                else {
-                    this.loadRes();
-                }
+                this.loadJsonData(1);
             });
             Laya.timer.frameLoop(1, this, () => {
                 this.bar.value += 0.01;
             });
         }
         onClosed() {
+        }
+        loadJsonData(index) {
+            Utility.loadJson('res/configs/Level' + index + '.json', (data) => {
+                PlayerDataMgr.levelDataArr.push(data);
+                index++;
+                if (index > this.maxGrade) {
+                    if (Laya.Browser.onWeiXin)
+                        this.loadSubpackage();
+                    else
+                        this.loadRes();
+                    console.log('levelDataArr:', PlayerDataMgr.levelDataArr);
+                    return;
+                }
+                else {
+                    this.loadJsonData(index);
+                }
+            });
         }
         loadSubpackage() {
             const loadTask = Laya.Browser.window.wx.loadSubpackage({
@@ -1943,7 +2471,7 @@
         }
         loadRes() {
             var resUrl = [
-                WxApi.UnityPath + 'SampleScene.ls'
+                WxApi.UnityPath + 'PropNode.lh'
             ];
             Laya.loader.create(resUrl, Laya.Handler.create(this, this.onComplete), Laya.Handler.create(this, this.onProgress));
         }
@@ -1956,419 +2484,95 @@
         }
     }
 
-    class SelectUI extends Laya.Scene {
+    class SkinUI extends Laya.Scene {
         constructor() {
             super();
-            this.totalDna = 175;
-            this.curHp = 0;
-            this.curPower = 0;
-            this.selectType = 0;
-            this.selectIndex = 0;
-            this.itemCount = 0;
-            this.hadShowAd = false;
-            this.canStart = false;
-            this.scene3D = null;
-            this.light = null;
-            this.camera = null;
-            this.body = null;
-            this.itemSp = null;
-            this.choosBodyId = 0;
-            this.choosItemId = 0;
-            this.itemNode = null;
+            this.chooseId = 0;
         }
         onOpened() {
             this.size(Laya.stage.displayWidth, Laya.stage.displayHeight);
-            this.gradeNum.value = PlayerDataMgr.getPlayerData().grade.toString();
-            Laya.timer.frameLoop(1, this, this.myUpdate);
-            Utility.addClickEvent(this.nextBtn, this, this.nextBtnCB);
-            Utility.addClickEvent(this.adBtn, this, this.adBtnCB);
-            this.init3DScene();
-            this.initBodyList();
-            this.initItemList();
-            let img = this.nextBtn.getChildAt(0);
-            img.visible = PlayerDataMgr.getPlayerData().grade <= 1;
+            Laya.timer.frameLoop(1, this, this.onMyUpdate);
+            this.chooseId = PlayerDataMgr.getPlayerData().skinId;
+            Utility.addClickEvent(this.closeBtn, this, () => {
+                GameLogic.Share._cameraCrl.resetCamera();
+                Laya.Scene.open("MyScenes/StartUI.scene");
+            });
+            this.initList();
         }
         onClosed() {
-            Laya.timer.clearAll(this);
-            this.scene3D.destroy();
         }
-        updateCurData(hp, power, dna) {
-            this.totalDna -= dna;
-            this.curHp += hp;
-            this.curPower += power;
-            this.dnaNum.text = this.totalDna.toString();
-            this.hpNum.text = this.curHp.toString();
-            this.powerNum.text = this.curPower.toString();
-            this.nextBtn.gray = false;
-            this.canStart = true;
-            if (this.itemCount >= 3) {
-                let img = this.nextBtn.getChildAt(0);
-                img.visible = PlayerDataMgr.getPlayerData().grade <= 1;
-            }
-            if (this.itemCount == 1 && PlayerDataMgr.getPlayerData().grade <= 1) {
-                this.itemList.scrollTo(9);
-                Laya.Tween.clearAll(this.finger);
-                this.guide2();
-            }
-            else if (this.itemCount == 2 && PlayerDataMgr.getPlayerData().grade <= 1) {
-                Laya.Tween.clearAll(this.finger);
-                this.guide3();
-            }
+        initList() {
+            let arr = [].concat(PlayerDataMgr.getPlayerData().skinArr);
+            this.myList.vScrollBarSkin = '';
+            this.myList.array = arr;
+            this.myList.repeatX = 3;
+            this.myList.repeatY = Math.floor(arr.length / 3);
+            this.myList.renderHandler = Laya.Handler.create(this, this.onListRender, null, false);
         }
-        init3DScene() {
-            this.scene3D = Laya.stage.addChild(new Laya.Scene3D());
-            Laya.stage.setChildIndex(this.scene3D, 2);
-            this.light = this.scene3D.addChild(new Laya.DirectionLight());
-            this.light.color = new Laya.Vector3(1, 1, 1);
-            this.light.transform.rotationEuler = new Laya.Vector3(0, 180, 0);
-            this.camera = this.scene3D.addChild(new Laya.Camera(0, 0.1, 1000));
-            this.camera.transform.translate(new Laya.Vector3(0, 0, -15));
-            this.camera.transform.rotate(new Laya.Vector3(0, 180, 0), true, false);
-            this.camera.clearFlag = Laya.BaseCamera.CLEARFLAG_DEPTHONLY;
-            this.camera.orthographicVerticalSize = 20;
-            this.camera.orthographic = true;
-            this.createBody(0);
-        }
-        createBody(index) {
-            if (this.body)
-                this.body.destroy();
-            let bodyNode = GameLogic.Share._scene.getChildByName('BodyNode');
-            let bodyRes = bodyNode.getChildAt(index);
-            this.body = Laya.Sprite3D.instantiate(bodyRes, this.scene3D, false, new Laya.Vector3(0, 0, 0));
-            this.body.transform.position = new Laya.Vector3(0, 4, 0);
-            this.body.active = true;
-        }
-        createItemSp(type, index) {
-            if (this.itemSp)
-                this.itemSp.destroy();
-            let itemNode = null;
-            let itemRes = null;
-            if (type == 0) {
-                itemNode = GameLogic.Share._scene.getChildByName('HeadNode');
-            }
-            else if (type == 1) {
-                itemNode = GameLogic.Share._scene.getChildByName('LegNode');
-            }
-            else if (type == 2) {
-                itemNode = GameLogic.Share._scene.getChildByName('TailNode');
-            }
-            else if (type == 3) {
-                itemNode = GameLogic.Share._scene.getChildByName('WingsNode');
-            }
-            itemRes = itemNode.getChildAt(index);
-            this.itemSp = Laya.Sprite3D.instantiate(itemRes, this.scene3D, false, new Laya.Vector3(0, 0, 0));
-            this.itemSp.transform.position = new Laya.Vector3(1, 0, 0);
-            this.itemSp.getComponent(Laya.Animator).speed = 0;
-        }
-        initBodyList() {
-            let arr = [].concat(PlayerDataMgr.getPlayerData().bodyArr);
-            for (let i = arr.length - 1; i >= 0; i--) {
-                if (arr[i] == 0)
-                    arr.splice(i, 1);
-            }
-            this.bodyList.vScrollBarSkin = '';
-            this.bodyList.array = arr;
-            this.bodyList.repeatX = 2;
-            this.bodyList.repeatY = Math.floor(arr.length / 2);
-            this.bodyList.renderHandler = Laya.Handler.create(this, this.onBodyListRender, null, false);
-        }
-        onBodyListRender(cell, index) {
-            if (index >= this.bodyList.array.length) {
+        onListRender(cell, index) {
+            if (index >= this.myList.array.length) {
                 return;
             }
             var item = cell.getChildByName('item');
-            let selectIcon = item.getChildByName('selectIcon');
+            let dk1 = item.getChildByName('dk1');
+            let dk2 = item.getChildByName('dk2');
             let icon = item.getChildByName('icon');
-            let name = item.getChildByName('name');
-            selectIcon.skin = index == this.choosBodyId ? 'selectUI/xz_dk_xzst3.png' : 'selectUI/xz_dk_xzst2.png';
-            let indexStr = index + 1 < 10 ? '0' + (index + 1).toString() : (index + 1).toString();
-            icon.skin = 'items/Body_' + indexStr + '.png';
-            name.text = PlayerDataMgr.getBodyName(index);
-            item.off(Laya.Event.CLICK, this, this.selectBody);
-            item.on(Laya.Event.CLICK, this, this.selectBody, [index]);
+            let using = item.getChildByName('using');
+            let unlocked = item.getChildByName('unlocked');
+            let buyBtn = item.getChildByName('buyBtn');
+            let cost = buyBtn.getChildByName('cost');
+            let adBtn = item.getChildByName('adBtn');
+            dk2.visible = this.chooseId == index;
+            icon.skin = 'skinUI/Skirt/Skirt_' + (index + 1) + '.png';
+            using.visible = PlayerDataMgr.getPlayerData().skinId == index;
+            unlocked.visible = PlayerDataMgr.getPlayerData().skinId != index && PlayerDataMgr.getPlayerData().skinArr[index] == 1;
+            buyBtn.visible = PlayerDataMgr.getPlayerData().skinArr[index] == 0;
+            cost.value = PlayerDataMgr.getCostById(index).toString();
+            adBtn.visible = PlayerDataMgr.getPlayerData().skinArr[index] == 0;
+            icon.off(Laya.Event.CLICK, this, this.chooseCB);
+            icon.on(Laya.Event.CLICK, this, this.chooseCB, [index]);
+            Utility.addClickEvent(buyBtn, this, this.buyBtnCB, [index]);
+            Utility.addClickEvent(adBtn, this, this.adBtnCB, [index]);
         }
-        selectBody(index) {
+        chooseCB(id) {
             SoundMgr.instance.playSoundEffect('Click.mp3');
-            if (index == this.choosBodyId) {
+            if (this.chooseId == id)
+                return;
+            this.chooseId = id;
+            GameLogic.Share._playerCrl.changeFirstSkirt(id);
+            if (PlayerDataMgr.getPlayerData().skinArr[id] == 1) {
+                PlayerDataMgr.getPlayerData().skinId = id;
+                PlayerDataMgr.setPlayerData();
+            }
+            this.myList.array = PlayerDataMgr.getPlayerData().skinArr;
+        }
+        buyBtnCB(arr) {
+            let id = arr[0];
+            if (PlayerDataMgr.getPlayerData().coin < PlayerDataMgr.getCostById(id)) {
                 return;
             }
-            this.choosBodyId = index;
-            this.createBody(index);
-            this.initBodyList();
+            this.chooseId = id;
+            GameLogic.Share._playerCrl.changeFirstSkirt(id);
+            PlayerDataMgr.getPlayerData().coin -= PlayerDataMgr.getCostById(id);
+            PlayerDataMgr.getPlayerData().skinArr[id] = 1;
+            PlayerDataMgr.getPlayerData().skinId = id;
+            PlayerDataMgr.setPlayerData();
+            this.myList.array = PlayerDataMgr.getPlayerData().skinArr;
         }
-        nextBtnCB() {
-            if (this.bodyList.visible) {
-                this.bodyList.visible = false;
-                this.itemList.visible = true;
-                this.nextBtn.skin = 'selectUI/xz_btn_kszd.png';
-                this.nextBtn.gray = true;
-                let img = this.nextBtn.getChildAt(0);
-                img.visible = false;
-                if (PlayerDataMgr.getPlayerData().grade <= 1) {
-                    this.guide1();
-                }
-            }
-            if (this.canStart) {
-                GameLogic.Share.gameStart(this.body, this.curHp, this.curPower);
-            }
-        }
-        createItem(index) {
-            if (this.itemNode)
-                this.itemNode.destroy();
-            let item = GameLogic.Share._scene.getChildByName('BodyNode');
-            let itemRes = item.getChildAt(index);
-            this.itemNode = Laya.Sprite3D.instantiate(itemRes, this.scene3D, false, new Laya.Vector3(0, 0, 0));
-            this.itemNode.transform.position = new Laya.Vector3(0, 4, 0);
-            this.itemNode.active = true;
-        }
-        updateItemList() {
-            let arr = [].concat(PlayerDataMgr.getPlayerData().headArr);
-            arr = arr.concat(PlayerDataMgr.getPlayerData().legArr);
-            arr = arr.concat(PlayerDataMgr.getPlayerData().tailArr);
-            arr = arr.concat(PlayerDataMgr.getPlayerData().wingsArr);
-            this.itemList.array = arr;
-        }
-        initItemList() {
-            let arr = [].concat(PlayerDataMgr.getPlayerData().headArr);
-            arr = arr.concat(PlayerDataMgr.getPlayerData().legArr);
-            arr = arr.concat(PlayerDataMgr.getPlayerData().tailArr);
-            arr = arr.concat(PlayerDataMgr.getPlayerData().wingsArr);
-            this.itemList.vScrollBarSkin = '';
-            this.itemList.array = arr;
-            this.itemList.repeatX = 3;
-            this.itemList.repeatY = Math.floor(arr.length / 3);
-            this.itemList.renderHandler = Laya.Handler.create(this, this.onItemListRender, null, false);
-        }
-        onItemListRender(cell, index) {
-            if (index >= this.itemList.array.length) {
-                return;
-            }
-            let type = 0;
-            var item = cell.getChildByName('item');
-            let icon = item.getChildByName('icon');
-            let name = item.getChildByName('name');
-            let hpBar = item.getChildByName('hpBar');
-            let hpNum = item.getChildByName('hpNum');
-            let powerBar = item.getChildByName('powerBar');
-            let powerNum = item.getChildByName('powerNum');
-            let bottomBg = item.getChildByName('bottomBg');
-            let dnaNum = bottomBg.getChildByName('dnaNum');
-            let adBg = item.getChildByName('adBg');
-            let str = '';
-            let tempIndex = 0;
-            if (index < 10) {
-                type = 0;
-                tempIndex = index;
-                let indexStr = tempIndex + 1 < 10 ? '0' + (tempIndex + 1).toString() : (tempIndex + 1).toString();
-                str = 'items/Head_' + indexStr + '.png';
-                name.text = PlayerDataMgr.getHeadName(tempIndex);
-                hpBar.value = PlayerDataMgr.getItemData().head[tempIndex][0] / 20;
-                hpNum.value = PlayerDataMgr.getItemData().head[tempIndex][0];
-                powerBar.value = PlayerDataMgr.getItemData().head[tempIndex][1] / 10;
-                powerNum.value = PlayerDataMgr.getItemData().head[tempIndex][1];
-                dnaNum.value = PlayerDataMgr.getItemData().head[tempIndex][2];
-                adBg.visible = PlayerDataMgr.getPlayerData().headArr[tempIndex] == 0;
-                bottomBg.skin = this.totalDna >= PlayerDataMgr.getItemData().head[tempIndex][2] ? 'selectUI/xz_dk_xzbj3.png' : 'selectUI/xz_dk_xzbj2.png';
-            }
-            else if (index < 20) {
-                type = 1;
-                tempIndex = index - 10;
-                let indexStr = tempIndex + 1 < 10 ? '0' + (tempIndex + 1).toString() : (tempIndex + 1).toString();
-                str = 'items/Leg_' + indexStr + '.png';
-                name.text = PlayerDataMgr.getLegName(tempIndex);
-                hpBar.value = PlayerDataMgr.getItemData().leg[tempIndex][0] / 20;
-                hpNum.value = PlayerDataMgr.getItemData().leg[tempIndex][0];
-                powerBar.value = PlayerDataMgr.getItemData().leg[tempIndex][1] / 10;
-                powerNum.value = PlayerDataMgr.getItemData().leg[tempIndex][1];
-                dnaNum.value = PlayerDataMgr.getItemData().leg[tempIndex][2];
-                adBg.visible = PlayerDataMgr.getPlayerData().legArr[tempIndex] == 0;
-                bottomBg.skin = this.totalDna >= PlayerDataMgr.getItemData().leg[tempIndex][2] ? 'selectUI/xz_dk_xzbj3.png' : 'selectUI/xz_dk_xzbj2.png';
-            }
-            else if (index < 24) {
-                type = 2;
-                tempIndex = index - 20;
-                let indexStr = tempIndex + 1 < 10 ? '0' + (tempIndex + 1).toString() : (tempIndex + 1).toString();
-                str = 'items/Tail_' + indexStr + '.png';
-                name.text = PlayerDataMgr.getTailName(tempIndex);
-                hpBar.value = PlayerDataMgr.getItemData().tail[tempIndex][0] / 20;
-                hpNum.value = PlayerDataMgr.getItemData().tail[tempIndex][0];
-                powerBar.value = PlayerDataMgr.getItemData().tail[tempIndex][1] / 10;
-                powerNum.value = PlayerDataMgr.getItemData().tail[tempIndex][1];
-                dnaNum.value = PlayerDataMgr.getItemData().tail[tempIndex][2];
-                adBg.visible = PlayerDataMgr.getPlayerData().tailArr[tempIndex] == 0;
-                bottomBg.skin = this.totalDna >= PlayerDataMgr.getItemData().tail[tempIndex][2] ? 'selectUI/xz_dk_xzbj3.png' : 'selectUI/xz_dk_xzbj2.png';
-            }
-            else if (index < 26) {
-                type = 3;
-                tempIndex = index - 24;
-                let indexStr = tempIndex + 1 < 10 ? '0' + (tempIndex + 1).toString() : (tempIndex + 1).toString();
-                str = 'items/Wings_' + indexStr + '.png';
-                name.text = PlayerDataMgr.getWingsName(tempIndex);
-                hpBar.value = PlayerDataMgr.getItemData().wings[tempIndex][0] / 20;
-                hpNum.value = PlayerDataMgr.getItemData().wings[tempIndex][0];
-                powerBar.value = PlayerDataMgr.getItemData().wings[tempIndex][1] / 10;
-                powerNum.value = PlayerDataMgr.getItemData().wings[tempIndex][1];
-                dnaNum.value = PlayerDataMgr.getItemData().wings[tempIndex][2];
-                adBg.visible = PlayerDataMgr.getPlayerData().wingsArr[tempIndex] == 0;
-                bottomBg.skin = this.totalDna >= PlayerDataMgr.getItemData().wings[tempIndex][2] ? 'selectUI/xz_dk_xzbj3.png' : 'selectUI/xz_dk_xzbj2.png';
-            }
-            icon.skin = str;
-            icon.off(Laya.Event.MOUSE_DOWN, this, this.selecItemDown);
-            icon.off(Laya.Event.CLICK, this, this.selectItemUp);
-            icon.on(Laya.Event.MOUSE_DOWN, this, this.selecItemDown, [type, tempIndex]);
-            icon.on(Laya.Event.CLICK, this, this.selectItemUp, [type, tempIndex]);
-        }
-        selecItemDown(type, index) {
-            SoundMgr.instance.playSoundEffect('Click.mp3');
-            this.selectType = type;
-            this.selectIndex = index;
-            if (this.totalDna < this.getItemDataFromTypeIndex()[2]) {
-                return;
-            }
-            if (PlayerDataMgr.getDataByType(type)[index] == 0) {
-                return;
-            }
-            this.itemList.scrollBar.touchScrollEnable = false;
-            this.createItemSp(type, index);
-            this.on(Laya.Event.MOUSE_MOVE, this, this.fullBtnMove);
-            this.on(Laya.Event.MOUSE_UP, this, this.fullBtnEnd);
-            Laya.Tween.clearAll(this.finger);
-            this.finger.visible = false;
-        }
-        selectItemUp(type, index) {
-            console.log('click');
-            if (PlayerDataMgr.getDataByType(type)[index] == 0) {
-                let cb = () => {
-                    PlayerDataMgr.getDataByType(type)[index] = 1;
-                    PlayerDataMgr.setPlayerData();
-                    this.updateItemList();
-                };
-                FdAd.showVideoAd(cb);
-                return;
-            }
-        }
-        fullBtnMove() {
-            if (this.itemList.scrollBar.touchScrollEnable || !this.itemSp) {
-                return;
-            }
-            this.itemSp.active = true;
-            let pos = new Laya.Vector3(Laya.stage.mouseX, Laya.stage.mouseY - 150, 0);
-            this.camera.convertScreenCoordToOrthographicCoord(pos, pos);
-            pos.z = 0;
-            this.itemSp.transform.position = pos;
-            let itemNode = this.checkFixItemNode();
-            if (itemNode) {
-                this.itemSp.transform.rotationEuler = itemNode.transform.rotationEuler.clone();
-            }
-        }
-        fullBtnEnd() {
-            this.itemList.scrollBar.touchScrollEnable = true;
-            this.off(Laya.Event.MOUSE_MOVE, this, this.fullBtnMove);
-            this.off(Laya.Event.MOUSE_UP, this, this.fullBtnEnd);
-            let itemNode = this.checkFixItemNode();
-            if (itemNode) {
-                this.addItemToBody(itemNode);
-            }
-            else {
-                this.itemSp.destroy();
-            }
-        }
-        checkFixItemNode() {
-            for (let i = 0; i < this.body.numChildren; i++) {
-                let itemNode = this.body.getChildAt(i);
-                let itemNodePos = itemNode.transform.position.clone();
-                let itemPos = this.itemSp.transform.position.clone();
-                if (Laya.Vector3.distance(itemNodePos, itemPos) <= 1) {
-                    return itemNode;
-                }
-            }
-            return null;
-        }
-        addItemToBody(itemNode) {
-            this.itemCount++;
-            SoundMgr.instance.playSoundEffect('Get.mp3');
-            WxApi.DoVibrate();
-            let item = Laya.Sprite3D.instantiate(this.itemSp, itemNode, false);
-            item.transform.localPosition = new Laya.Vector3();
-            item.transform.localRotationEuler = new Laya.Vector3();
-            item.getComponent(Laya.Animator).speed = 1;
-            this.itemSp.destroy();
-            this.updateCurData(this.getItemDataFromTypeIndex()[0], this.getItemDataFromTypeIndex()[1], this.getItemDataFromTypeIndex()[2]);
-            this.updateItemList();
-        }
-        getItemDataFromTypeIndex() {
-            let data = [];
-            if (this.selectType == 0) {
-                data = PlayerDataMgr.getItemData().head[this.selectIndex];
-            }
-            else if (this.selectType == 1) {
-                data = PlayerDataMgr.getItemData().leg[this.selectIndex];
-            }
-            else if (this.selectType == 2) {
-                data = PlayerDataMgr.getItemData().tail[this.selectIndex];
-            }
-            else if (this.selectType == 3) {
-                data = PlayerDataMgr.getItemData().wings[this.selectIndex];
-            }
-            return data;
-        }
-        adBtnCB() {
+        adBtnCB(arr) {
+            let id = arr[0];
             let cb = () => {
-                this.totalDna += 150;
-                this.dnaNum.text = this.totalDna.toString();
-                this.adBtn.visible = false;
-                this.updateItemList();
+                this.chooseId = id;
+                GameLogic.Share._playerCrl.changeFirstSkirt(id);
+                PlayerDataMgr.getPlayerData().skinArr[id] = 1;
+                PlayerDataMgr.getPlayerData().skinId = id;
+                PlayerDataMgr.setPlayerData();
+                this.myList.array = PlayerDataMgr.getPlayerData().skinArr;
             };
             FdAd.showVideoAd(cb);
         }
-        guide1() {
-            this.finger.visible = true;
-            this.finger.pos(183, this.height - 472);
-            this.finger.scale(2, 2);
-            Laya.Tween.to(this.finger, { scaleX: 1, scaleY: 1 }, 300, null, new Laya.Handler(this, () => {
-                Laya.Tween.to(this.finger, { x: 530, y: 300 }, 1000, null, new Laya.Handler(this, () => {
-                    this.guide1();
-                }));
-            }));
-        }
-        guide2() {
-            this.finger.visible = true;
-            this.finger.pos(this.width / 2, this.height - 472);
-            this.finger.scale(2, 2);
-            Laya.Tween.to(this.finger, { scaleX: 1, scaleY: 1 }, 300, null, new Laya.Handler(this, () => {
-                Laya.Tween.to(this.finger, { x: 255, y: 500 }, 1000, null, new Laya.Handler(this, () => {
-                    this.guide2();
-                }));
-            }));
-        }
-        guide3() {
-            this.finger.visible = true;
-            this.finger.pos(this.width / 2, this.height - 472);
-            this.finger.scale(2, 2);
-            Laya.Tween.to(this.finger, { scaleX: 1, scaleY: 1 }, 300, null, new Laya.Handler(this, () => {
-                Laya.Tween.to(this.finger, { x: 475, y: 500 }, 1000, null, new Laya.Handler(this, () => {
-                    this.guide3();
-                }));
-            }));
-        }
-        myUpdate() {
-        }
-    }
-
-    class ScaleLoop extends Laya.Script {
-        constructor() {
-            super();
-        }
-        onAwake() {
-            this.myOwnwer = this.owner;
-            this.scaleLoop(this.myOwnwer, 1.1, 400);
-        }
-        scaleLoop(node, rate, t) {
-            var tw = Laya.Tween.to(node, { scaleX: rate, scaleY: rate }, t, null, new Laya.Handler(this, () => {
-                Laya.Tween.to(node, { scaleX: 1, scaleY: 1 }, t, null, new Laya.Handler(this, () => {
-                    this.scaleLoop(node, rate, t);
-                }));
-            }));
+        onMyUpdate() {
+            this.coinNum.value = PlayerDataMgr.getPlayerData().coin.toString();
         }
     }
 
@@ -2377,16 +2581,28 @@
             super();
         }
         onOpened() {
+            this.gradeNum.value = PlayerDataMgr.getPlayerData().grade.toString();
             this.size(Laya.stage.displayWidth, Laya.stage.displayHeight);
             Utility.addClickEvent(this.startBtn, this, this.startBtnCB);
+            Utility.addClickEvent(this.skinBtn, this, this.skinBtnCB);
+            Laya.timer.frameLoop(1, this, this.myUpdate);
+            SoundMgr.instance.playMusic('Bgm.mp3');
             FdMgr.inHomePage();
         }
         onClosed() {
         }
         startBtnCB() {
             FdMgr.startGame(() => {
-                Laya.Scene.open('MyScenes/SelectUI.scene');
+                Laya.Scene.open('MyScenes/GameUI.scene');
             });
+        }
+        skinBtnCB() {
+            FdMgr.shop();
+            GameLogic.Share._cameraCrl.selectSkirt();
+            Laya.Scene.open('MyScenes/SkinUI.scene');
+        }
+        myUpdate() {
+            this.coinNum.value = PlayerDataMgr.getPlayerData().coin.toString();
         }
     }
 
@@ -2421,8 +2637,7 @@
             reg("View/GameUI.ts", GameUI);
             reg("Libs/FixNodeY.ts", FixNodeY);
             reg("View/LoadingUI.ts", LoadingUI);
-            reg("View/SelectUI.ts", SelectUI);
-            reg("Libs/ScaleLoop.ts", ScaleLoop);
+            reg("View/SkinUI.ts", SkinUI);
             reg("View/StartUI.ts", StartUI);
             reg("Mod/UpDownLoop.ts", UpDownLoop);
         }
@@ -2433,7 +2648,7 @@
     GameConfig.screenMode = "vertical";
     GameConfig.alignV = "top";
     GameConfig.alignH = "left";
-    GameConfig.startScene = "FDScene/Box1.scene";
+    GameConfig.startScene = "MyScenes/StartUI.scene";
     GameConfig.sceneRoot = "";
     GameConfig.debug = false;
     GameConfig.stat = false;

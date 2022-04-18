@@ -28,7 +28,7 @@ export default class GameUI extends Laya.Scene {
         this.touchBtn.on(Laya.Event.MOUSE_MOVE, this, this.touchMove)
         this.touchBtn.on(Laya.Event.MOUSE_UP, this, this.touchEnd)
 
-        FdMgr.inGame()
+        FdMgr.inGame(() => { GameLogic.Share.isPause = true }, () => { GameLogic.Share.isPause = false })
     }
     onClosed() {
         Laya.timer.clearAll(this)

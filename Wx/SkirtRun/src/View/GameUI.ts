@@ -1,6 +1,7 @@
 import GameLogic from "../Crl/GameLogic"
 import PlayerDataMgr from "../Libs/PlayerDataMgr"
 import Utility from "../Mod/Utility"
+import FdMgr from "../FanDong/FdMgr"
 
 export default class GameUI extends Laya.Scene {
     constructor() {
@@ -23,31 +24,50 @@ export default class GameUI extends Laya.Scene {
         this.touchBtn.on(Laya.Event.MOUSE_DOWN, this, this.touchStart)
         this.touchBtn.on(Laya.Event.MOUSE_MOVE, this, this.touchMove)
         this.touchBtn.on(Laya.Event.MOUSE_UP, this, this.touchEnd)
+
+        FdMgr.inGame()
     }
     onClosed() {
         Laya.timer.clearAll(this)
     }
 
     touchStart(evt: Laya.Event) {
-        GameLogic.Share.isStartGame = true
-        this.guideAni.visible = false
+        if (GameLogic.Share.isGameOver) return
+        if (!GameLogic.Share.isStartGame) {
+            this.guideAni.visible = false
+            GameLogic.Share.gameStart()
+        }
         let x = evt.stageX
-        this.touchStartPosX = x
+        GameLogic.Share._playerCrl.touchX = x
+        GameLogic.Share._playerCrl.resumeWalk()
     }
     touchMove(evt: Laya.Event) {
+        if (GameLogic.Share.isGameOver) return
         let x = evt.stageX
-        if (Math.abs(x - this.touchStartPosX) < 20) {
-            return
-        }
-        if (x - this.touchStartPosX > 0) {
-            GameLogic.Share._playerCrl.moveDir = -1
-        } else {
-            GameLogic.Share._playerCrl.moveDir = 1
-        }
-        this.touchStartPosX = x
+        GameLogic.Share._playerCrl.touchX = x
     }
     touchEnd(evt: Laya.Event) {
-        GameLogic.Share._playerCrl.moveDir = 0
+        if (GameLogic.Share.isGameOver) return
+        GameLogic.Share._playerCrl.stopWalk()
+    }
+
+    getDiamond(pos: Laya.Vector3) {
+        let diamond: Laya.Image = new Laya.Image('startUI/ksy_zs_1.png')
+        diamond.anchorX = 0.5
+        diamond.anchorY = 0.5
+        this.addChild(diamond)
+
+        let op: Laya.Vector4 = new Laya.Vector4(0, 0, 0)
+        GameLogic.Share._camera.viewport.project(pos, GameLogic.Share._camera.projectionViewMatrix, op)
+        diamond.pos(op.x / Laya.stage.clientScaleX, op.y / Laya.stage.clientScaleY)
+
+        let toPos: Laya.Point = new Laya.Point(-100, 0)
+        this.coinNum.localToGlobal(toPos)
+        Utility.tMove2D(diamond, toPos.x, toPos.y, 1000, () => {
+            PlayerDataMgr.getPlayerData().coin += 5
+            PlayerDataMgr.setPlayerData()
+            diamond.destroy();
+        })
     }
 
     myUpdate() {

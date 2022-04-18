@@ -716,7 +716,8 @@
                 this.bannerAds[this.bannerIndex] && this.bannerAds[this.bannerIndex].hide();
                 this.bannerTimesArr[this.bannerIndex] = 0;
                 this.bannerShowCount[this.bannerIndex]++;
-                if (this.bannerShowCount[this.bannerIndex] >= 3) {
+                if (this.bannerShowCount[this.bannerIndex] >= FdMgr.jsonConfig.updateBanner) {
+                    this.bannerShowCount[this.bannerIndex] = 0;
                     this.bannerAds[this.bannerIndex] && this.bannerAds[this.bannerIndex].destroy();
                     this.bannerAds[this.bannerIndex] = null;
                     this.bannerAds[this.bannerIndex] = this.createBannerAd(this.bannerIndex);
@@ -909,7 +910,7 @@
             }
         }
     }
-    FdAd.bannerIdArr = ["adunit-ff59902f38f853f9", "adunit-bbb5010cb0499fde"];
+    FdAd.bannerIdArr = ["adunit-ff59902f38f853f9", "adunit-bbb5010cb0499fde", "adunit-3b015616b2c42d5f", "adunit-b6c253b039480f22", "adunit-017b1837cd0e3bb9"];
     FdAd.videoId = "adunit-187b73f7d5412cf4";
     FdAd.fullGridId = "adunit-6eda207f9a70bcbd";
     FdAd.bottomGridId = "adunit-7cbb68729da0b318";
@@ -1240,7 +1241,7 @@
             return this.jsonConfig.startRemen;
         }
     }
-    FdMgr.version = '1.0.2';
+    FdMgr.version = '1.0.3';
     FdMgr.wuchuProgressValue = 0;
     FdMgr.wuchuProgressStepAdd = 0.1;
     FdMgr.wuchuProgressFrameSub = 0.0032;

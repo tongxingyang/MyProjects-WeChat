@@ -51,15 +51,17 @@ export default class PlayerCrl extends Laya.Script {
     }
 
     hurtCB(dmg: number) {
+        if (GameLogic.Share.isPause) return
+        
         this.canMove = false
         let pos = this.myOwner.transform.position.clone()
         pos.x += this.isPlayer ? 4 : -4
         Utility.TmoveTo(this.myOwner, 200, pos, () => {
             this.canMove = true
         })
-        if(this.isPlayer){
+        if (this.isPlayer) {
             GameUI.Share.createPlayerDmg(dmg)
-        }else{
+        } else {
             GameUI.Share.createEnemyDmg(dmg)
         }
         this.hp -= dmg
@@ -78,7 +80,7 @@ export default class PlayerCrl extends Laya.Script {
     }
 
     onUpdate(): void {
-        if (GameLogic.Share.isGameOver || !GameLogic.Share.isStartGame) {
+        if (GameLogic.Share.isGameOver || !GameLogic.Share.isStartGame || GameLogic.Share.isPause) {
             return
         }
 
