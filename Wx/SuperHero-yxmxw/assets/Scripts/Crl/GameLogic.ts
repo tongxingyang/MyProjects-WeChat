@@ -34,8 +34,8 @@ export class GameLogic extends Component {
 
     gameStart() {
         this.lvIndex = Math.floor((PlayerDataMgr.getPlayerData().grade - 1) % PlayerDataMgr.maxGrade)
-        if (!FdMgr.isVersionValid && this.lvIndex == 0) {
-            this.lvIndex = 5
+        if (!FdMgr.isVersionValid && this.lvIndex < 5) {
+            this.lvIndex += 5
         }
         this.levelNode.children[this.lvIndex].active = true
     }

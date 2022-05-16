@@ -8,12 +8,15 @@ const { ccclass, property } = _decorator;
 @ccclass('Remen')
 export class Remen extends Component {
 
+    @property(Node)
+    adPic: Node = null
+
     ccb: Function = null
 
     onShowCB: Function = null
     clickCount: number = 0
 
-    type: RemenType = RemenType.Remen_Loading
+    type: RemenType = RemenType.Remen_Banner
 
     onDisable() {
         if (WECHAT) {
@@ -22,13 +25,10 @@ export class Remen extends Component {
         this.unscheduleAllCallbacks()
         FdAd.hideBannerAd()
         FdAd.visibleFullGridAd(false)
-        FdMgr.visibleVideoBanner(false)
-        FdAd.visibleBottomGridAd(false)
         this.ccb && this.ccb()
     }
 
-    showUI(ccb?: Function, type: RemenType = RemenType.Remen_Loading) {
-        this.type = type
+    showUI(ccb?: Function, showAdPic: boolean = false) {
         this.ccb = ccb
         this.clickCount = 0
         this.onShowCB = () => {
@@ -38,14 +38,19 @@ export class Remen extends Component {
             window['wx'].onShow(this.onShowCB)
         }
         this.node.active = true
-        FdAd.visibleFullGridAd()
+        if (showAdPic)
+            this.adPic.active = true
+        else {
+            this.adPic.active = false
+            if (!FdAd.getIsFullGridAdError())
+                FdAd.visibleFullGridAd()
+            else if (FdMgr.canTrapAll && FdAd.getIsFullGridAdError()) {
+                this.adPic.active = true
+            }
+        }
 
-        if (type == RemenType.Remen_Loading && FdMgr.remenBanner) {
+        if (FdMgr.remenBanner) {
             this.bannerShowHide();
-        } else if (type == RemenType.Remen_Start && FdMgr.startRemen_late) {
-            this.bannerVideoShowHide();
-        } else if (type == RemenType.Remen_End && FdMgr.endRemen_late) {
-            this.gridShowHide();
         }
 
         FdAd.bannerIndex = 0;
@@ -60,23 +65,9 @@ export class Remen extends Component {
             }, 0.8)
         }, 1)
     }
-    bannerVideoShowHide() {
-        FdMgr.visibleVideoBanner(false)
-        this.scheduleOnce(() => {
-            FdMgr.visibleVideoBanner(true, false)
-            this.scheduleOnce(() => {
-                this.bannerVideoShowHide();
-            }, 0.8)
-        }, 1)
-    }
-    gridShowHide() {
-        FdAd.visibleBottomGridAd(false);
-        this.scheduleOnce(() => {
-            FdAd.visibleBottomGridAd();
-            this.scheduleOnce(() => {
-                this.gridShowHide();
-            }, 0.8)
-        }, 1)
+
+    videoBtn() {
+        FdAd.showVideoAd()
     }
 
     continueBtnCB() {

@@ -23,7 +23,6 @@ export default class GiftBoxUI extends Laya.Scene {
     adData: any = null
     hadClick: boolean = false
     hadWuchu: boolean = false
-    stayTime: number = 0
     giftType: number = 0
     fromId: number = 0
     gameUIIndex: number = 0
@@ -49,7 +48,6 @@ export default class GiftBoxUI extends Laya.Scene {
         FDUtils.addClickEvent(this.closeNativeBtn, this, this.closeNativeBtnCB)
 
         this.initNative()
-        Laya.timer.loop(100, this, () => { this.stayTime += 0.1 })
 
         this.onShowCB = () => {
             if (this.hadClick) {
@@ -67,7 +65,7 @@ export default class GiftBoxUI extends Laya.Scene {
     onClosed() {
         if (FdAd.oppoPlatform && this.onShowCB) Laya.Browser.window['qg'].offShow(this.onShowCB)
         Laya.timer.clearAll(this)
-        if (this.stayTime >= FdMgr.jsonConfig.account_refNativeAd) FdAd.nextNativeIndex()
+        FdAd.shareNativeAd.hideAd(this.adData.adId)
         this.ccb && this.ccb()
     }
 
@@ -105,10 +103,9 @@ export default class GiftBoxUI extends Laya.Scene {
         this.close()
     }
 
-    initNative() {
+    async initNative() {
         this.hadClick = false
-        FdAd.nextNativeIndex()
-        this.adData = FdAd.showNativeAd()
+        this.adData = (await FdAd.shareNativeAd.showAd()).adInfo
         if (!this.adData) { this.root.visible = false; this.adBtn.visible = false; return }
         this.pic.skin = this.adData.imgUrlList[0] ? this.adData.imgUrlList[0] : this.adData.iconUrlList[0]
         this.desc.text = this.adData.desc
@@ -123,7 +120,7 @@ export default class GiftBoxUI extends Laya.Scene {
     adBtnCB(isMissTouch: boolean = false) {
         if (this.hadClick || !this.adData) return
         this.hadClick = true
-        FdAd.reportAdClick(this.adData)
+        FdAd.shareNativeAd.clickAd(this.adData.adId)
         if (isMissTouch) {
             if (!this.hadWuchu) this.hadWuchu = true
             FdMgr.setNativeMissTouched()

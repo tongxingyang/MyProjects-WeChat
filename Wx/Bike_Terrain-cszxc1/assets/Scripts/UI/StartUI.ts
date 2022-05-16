@@ -37,7 +37,7 @@ export class StartUI extends Component {
     }
 
     shopBtnCB() {
-        FdAd.visibleSideGridAd(false)
+        FdMgr.inShop()
         UINode.Share.showUI(UIType.UI_SHOP)
         GameLogic.Share.showShopCam()
     }

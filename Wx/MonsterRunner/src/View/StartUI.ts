@@ -29,13 +29,7 @@ export default class StartUI extends Laya.Scene {
     }
 
     skinBtnCB() {
-        FdAd.visibleSideGridAd(false)
-        FdAd.visibleTopGrid(false)
-        if (FdMgr.banner_gezi_switch) {
-            FdAd.hideBannerAd()
-        } else {
-            FdAd.visibleBottomGridAd(false)
-        }
+        FdMgr.inShop()
         GameLogic.Share._levelNode.active = false
         Laya.Scene.open('MyScenes/SkinUI.scene')
     }

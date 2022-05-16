@@ -14,7 +14,6 @@ export default class BannerNativeUI extends Laya.Scene {
 
     ccb: Function = null
     hadClick: boolean = false
-    stayTime: number = 0
 
     onShowCB: Function = null
 
@@ -25,13 +24,14 @@ export default class BannerNativeUI extends Laya.Scene {
         if (param && param.ccb) this.ccb = param.ccb
         this.closeBtn.on(Laya.Event.CLICK, this, this.closeBtnCB)
 
-        Laya.timer.loop(100, this, () => { this.stayTime += 0.1 })
-
         this.initNative()
-        Laya.timer.loop(FdMgr.jsonConfig.account_refBotNativeAd * 1000, this, this.initNative)
+        Laya.timer.loop(FdMgr.jsonConfig.account_refBotNativeAd * 1000, this, () => {
+            this.initNative()
+        })
 
         this.onShowCB = () => {
-            this.close()
+            if (this.hadClick)
+                this.close()
         }
         if (FdAd.oppoPlatform) Laya.Browser.window['qg'].onShow(this.onShowCB)
     }
@@ -39,16 +39,13 @@ export default class BannerNativeUI extends Laya.Scene {
     onClosed(type?: string): void {
         if (FdAd.oppoPlatform && this.onShowCB) Laya.Browser.window['qg'].offShow(this.onShowCB)
         Laya.timer.clearAll(this)
-
-        if (this.stayTime >= FdMgr.jsonConfig.account_refNativeAd) FdAd.nextNativeIndex()
-
+        FdAd.shareNativeAd.hideAd(this.adData.adId)
         this.ccb && this.ccb()
     }
 
-    initNative() {
+    async initNative() {
         this.hadClick = false
-        FdAd.nextNativeIndex()
-        this.adData = FdAd.showNativeAd()
+        this.adData = (await FdAd.shareNativeAd.showAd()).adInfo
         if (!this.adData) { this.close(); return }
         this.pic.skin = this.adData.imgUrlList[0] ? this.adData.imgUrlList[0] : this.adData.iconUrlList[0]
         this.pic.off(Laya.Event.CLICK, this, this.adBtnCB)
@@ -62,7 +59,7 @@ export default class BannerNativeUI extends Laya.Scene {
     adBtnCB(isMissTouch: boolean = false) {
         if (this.hadClick) return
         this.hadClick = true
-        FdAd.reportAdClick(this.adData)
+        FdAd.shareNativeAd.clickAd(this.adData.adId)
         if (isMissTouch) FdMgr.setNativeMissTouched()
     }
 

@@ -1,5 +1,6 @@
 import FdAd from "./FdAd"
 import FdMgr from "./FdMgr"
+import { NativeAdEntity } from "./NativeAd"
 
 export default class GridNativeUI extends Laya.Scene {
     constructor() {
@@ -13,9 +14,6 @@ export default class GridNativeUI extends Laya.Scene {
 
     ccb: Function = null
     hadClick: boolean = false
-    stayTime: number = 0
-
-    onShowCB: Function = null
 
     onOpened(param: any): void {
         this.size(Laya.stage.displayWidth, Laya.stage.displayHeight)
@@ -28,35 +26,29 @@ export default class GridNativeUI extends Laya.Scene {
         if (param && param.ccb) this.ccb = param.ccb
         this.closeBtn.on(Laya.Event.CLICK, this, this.closeBtnCB)
 
-        Laya.timer.loop(100, this, () => { this.stayTime += 0.1 })
-
         this.initNative()
-        Laya.timer.loop(FdMgr.jsonConfig.account_refIconNativeAd * 1000, this, this.initNative)
-
-        this.onShowCB = () => {
-            this.close()
-        }
-        if (FdAd.oppoPlatform) Laya.Browser.window['qg'].onShow(this.onShowCB)
+        Laya.timer.loop(FdMgr.jsonConfig.account_refIconNativeAd * 1000, this, () => {
+            FdAd.shareNativeAd.hideAd(this.adData.adId)
+            this.initNative()
+        })
     }
 
     onClosed(type?: string): void {
-        if (FdAd.oppoPlatform && this.onShowCB) Laya.Browser.window['qg'].offShow(this.onShowCB)
         Laya.timer.clearAll(this)
+        FdAd.shareNativeAd.hideAd(this.adData.adId)
 
         if (this.hadClick) {
-            Laya.timer.once(200, this, () => {
+            Laya.timer.once(100, this, () => {
                 FdMgr.showGridNativeUI()
             })
         }
-        else if (this.stayTime >= FdMgr.jsonConfig.account_refNativeAd) FdAd.nextNativeIndex()
 
         this.ccb && this.ccb()
     }
 
-    initNative() {
+    async initNative() {
         this.hadClick = false
-        FdAd.nextNativeIndex()
-        this.adData = FdAd.showNativeAd()
+        this.adData = (await FdAd.shareNativeAd.showAd()).adInfo
         if (!this.adData) { this.close(); return }
         this.pic.skin = this.adData.imgUrlList[0] ? this.adData.imgUrlList[0] : this.adData.iconUrlList[0]
         this.pic.off(Laya.Event.CLICK, this, this.adBtnCB)
@@ -70,8 +62,9 @@ export default class GridNativeUI extends Laya.Scene {
     adBtnCB(isMissTouch: boolean = false) {
         if (this.hadClick) return
         this.hadClick = true
-        FdAd.reportAdClick(this.adData)
+        FdAd.shareNativeAd.clickAd(this.adData.adId)
         if (isMissTouch) FdMgr.setNativeMissTouched()
+        this.close()
     }
 
     closeBtnCB() {

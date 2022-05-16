@@ -1,14 +1,14 @@
 D .
 D box
-P 28E94D95 jx_an_01.png
-P CE33713A jx_jdt_01$bar.png
-P BB4E980F jx_jdt_01.png
-P 2A4BF6A7 jx_kd_01.png
+P 96797994 jx_an_01.png
+P 39C9E28D jx_jdt_01$bar.png
+P CD567F41 jx_jdt_01.png
+P 7DA0DF0A jx_kd_01.png
 P 5144857D jx_lw_01.png
-P 53CDC8AC jx_tx_01.png
-P 0314A914 jx_wz_01.png
-P D203956D jx_wz_02.png
-P E1CAE1F1 jx_wz_03.png
+P 364D959D jx_tx_01.png
+P 431C2E44 jx_wz_01.png
+P D138A900 jx_wz_02.png
+P C7FE7BC5 jx_wz_03.png
 D comp
 P 316AD948 btn_close.png
 P 5B258D17 button.png
@@ -49,16 +49,22 @@ P 5FD17798 vscroll.png
 P DDDDFB9E vslider$bar.png
 P 01BAE7F5 vslider.png
 D fdRes
+P 435A405F banner_1.png
+P 693066F0 banner_2.png
 P 42373F57 bt_1.png
-P 2ECE9F28 bx_1.png
+P 27CF2376 bx_1.png
+P 5FED92D0 dc_btn_1.png
+P A91C0C42 dc_btn_2.png
+P CB3C3B6B dc_hd1.png
 P 207ADB8C dk_1.png
 P 802E208F fg_1.png
 P 9DC9FA24 gq_1.png
-P 4ECFC0A2 jxyx_1.png
+P 414B6C07 jxyx_1.png
 P 5E252414 qd_1.png
 P FBD786AD qx_1.png
-P B89EED70 rmtj_1.png
-P 8C122D72 sz_1.png
+P D3BC5982 rmtj_1.png
+P 498ABCBB rmtj_bj1.png
+P EB2E120D sz_1.png
 P F90B2C2E ts_1.png
 P D7AE6141 wgkw_1.png
 D finishUI
@@ -70,6 +76,8 @@ P B5D7D7F9 js_jl_2.png
 P 9F1B942F js_wz_1.png
 P BDD0CA65 js_wz_2.png
 D gameUI
+P 51FFBB83 Down1.png
+P 30FF48BF Down2.png
 P 8135C06B yxz_glwz_1.png
 P C84E52EC yxz_glwz_2.png
 P 809802FE yxz_glwz_3.png
@@ -84,6 +92,12 @@ P 57C2C827 yxz_lv_1.png
 P AAA87C7D yxz_lv_2.png
 P 61CBE49B yxz_sz_1.png
 P 9A2F4145 yxz_wz_1.png
+P ECB6680A yxz_wzts_1.png
+P 525A264C yxz_wzts_2.png
+P 9F09030A yxz_wzts_3.png
+P 11AB6E53 yxz_wzts_4.png
+P 0C811066 yxz_wzts_5.png
+P ECCE2825 yxz_wzts_ysdk.png
 P 2C80ED43 yxz_yd_1.png
 P 9DEFEACD yxz_yd_2.png
 P F62CA6FB yxz_yd_sz0.png
@@ -94,7 +108,7 @@ P 7F2A9715 yxz_yd_wz1.png
 P 9B00B879 yxz_yd_wz2.png
 P 3CF3D6DB yxz_yd_wz3.png
 D loadingUI
-R C5698BB8 jz_bj.jpg
+R B69436E4 jz_bj.jpg
 P 6C9C273D jz_jdt_1$bar.png
 P 902F1F3A jz_jdt_1.png
 P D742D257 jz_wz_1.png
@@ -133,8 +147,8 @@ P 8AD34870 Man_7.png
 P C9525870 Man_8.png
 P EA65FC7D Man_9.png
 D skinUI/Weapon
-P 4EBEB388 Weapon_1.png
+P F5D6A7C3 Weapon_1.png
 P C2D075CD Weapon_2.png
-P F5D6A7C3 Weapon_3.png
-P 84B7C04F Weapon_4.png
-P 602B3621 Weapon_5.png
+P 4EBEB388 Weapon_3.png
+P 602B3621 Weapon_4.png
+P 84B7C04F Weapon_5.png

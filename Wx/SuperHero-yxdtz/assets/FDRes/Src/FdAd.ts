@@ -1,21 +1,31 @@
-import { WECHAT } from "cc/env";
+import { PREVIEW, WECHAT } from "cc/env";
 import Utility from "../../Scripts/Mod/Utility";
 import FdMgr from "./FdMgr";
 import { FDNode } from "./FDNode";
 
 export default class FdAd {
-    static bannerIdArr: string[] = ["adunit-97207cb05592db9e", "adunit-aba481dfadb15bce", "adunit-69900948d73b8e3c", "adunit-412e1251e58673e0", "adunit-f442c78c1dff6b7b"];
-    static videoId = "adunit-43c17a5b45812050";
-    static fullGridId = "adunit-158cfcf7c3eaf222";
-    static bottomGridId = "adunit-fb16904c31994546";
-    static sideGridId = "adunit-7a7e5bc83a51a889";
-    static singleGridId = "adunit-e96d73fe0daa4192";
-    
-    static inidAd() {
-        if (!WECHAT) return;
+    static bannerIdArr: string[] = [];
+    static videoId: string[] = [];
+    static fullGridId: string[] = [];
+    static bottomGridId: string[] = [];
+    static sideGridId: string[] = [];
+    static singleGridId: string[] = [];
+    static interstitialId: string[] = [];
+
+    static inidAd(cb?: Function) {
+        if (!WECHAT) { cb && cb(); return };
         this.initBanner();
         this.createVideoAd();
         this.initGridAD()
+        this.createInterstitialAd()
+
+        let func = () => {
+            if (this.isFullGridAdLoaded) {
+                FDNode.Share.unschedule(func)
+                cb && cb()
+            }
+        }
+        FDNode.Share.schedule(func)
     }
 
     static sysInfo: any;
@@ -70,12 +80,14 @@ export default class FdAd {
             this.stopCountBannerTime()
             return
         }
-        // if (this.bannerErrorArr[this.bannerIndex]) {
-        //     this.bannerIndex++
-        //     if (this.bannerIndex >= this.bannerIdArr.length) this.bannerIndex = 0
-        //     this.showBannerAd()
-        //     return
-        // }
+        for (let i = 0; i < this.bannerErrorArr.length; i++) {
+            if (this.bannerErrorArr[this.bannerIndex]) {
+                this.bannerIndex++
+                if (this.bannerIndex >= this.bannerIdArr.length) this.bannerIndex = 0
+            } else {
+                break
+            }
+        }
 
         this.bannerAds[this.bannerIndex] && this.bannerAds[this.bannerIndex].show()
         this.stopCountBannerTime()
@@ -88,7 +100,8 @@ export default class FdAd {
     }
 
     static hideBannerAd() {
-        if (!WECHAT || this.isAllBannerError) {
+        if (!WECHAT) return
+        if (this.isAllBannerError) {
             this.stopCountBannerTime()
             return;
         }
@@ -167,7 +180,7 @@ export default class FdAd {
                 videoAd.offClose(onCloseVideo);
             }
 
-            var videoAd = window['wx'].createRewardedVideoAd({ adUnitId: self.videoId });
+            var videoAd = window['wx'].createRewardedVideoAd({ adUnitId: self.videoId[0] });
             videoAd.onLoad(onLoadVideo);
             videoAd.onError(onErrorVideo);
             videoAd.onClose(onCloseVideo);
@@ -243,9 +256,15 @@ export default class FdAd {
     //全屏格子
     static fullGridAd: any = null
     static fullGridError: boolean = false
+    private static isFullGridAdLoaded: boolean = false
     private static createFullGrid() {
+        if (!WECHAT) return
+        if (this.fullGridAd) {
+            this.fullGridAd.destroy()
+            this.fullGridAd = null
+        }
         this.fullGridAd = window['wx'].createCustomAd({
-            adUnitId: this.fullGridId,
+            adUnitId: this.fullGridId[0],
             adIntervals: 30,
             style: {
                 left: 0,
@@ -253,31 +272,46 @@ export default class FdAd {
                 width: this.getSystemInfoSync().screenWidth
             }
         });
-        this.fullGridAd.onError(() => { this.fullGridError = true; console.log('全屏格子加载失败') })
+        this.fullGridAd.onError((err) => { this.isFullGridAdLoaded = true; this.fullGridError = true; console.log('全屏格子加载失败:', JSON.stringify(err)) })
+        this.fullGridAd.onLoad(() => { this.isFullGridAdLoaded = true; this.fullGridError = false; })
     }
     static visibleFullGridAd(v: boolean = true) {
         if (WECHAT && this.fullGridAd && !this.fullGridError) {
             v ? this.fullGridAd.show() : this.fullGridAd.hide()
         }
     }
+    static getIsFullGridAdError() {
+        if (this.fullGridError) this.createFullGrid()
+        return this.fullGridError
+    }
 
     //底部格子
     static bottomGridAd: any = null
     static bottomGridError: boolean = false
     private static createBottomGrid() {
+        if (this.bottomGridAd) {
+            this.bottomGridAd.destroy()
+            this.bottomGridAd = null
+        }
         this.bottomGridAd = window['wx'].createCustomAd({
-            adUnitId: this.bottomGridId,
+            adUnitId: this.bottomGridId[0],
             adIntervals: 30,
             style: {
-                left: 47,
+                left: 0,
                 top: this.getSystemInfoSync().screenHeight - 110,
                 width: this.getSystemInfoSync().screenWidth
             }
         });
-        this.bottomGridAd.onError(() => { this.bottomGridError = true; console.log('底部格子加载失败') })
+        this.bottomGridAd.onError((err) => { this.bottomGridError = true; console.log('底部格子加载失败:', JSON.stringify(err)) })
+        this.bottomGridAd.onLoad(() => { this.bottomGridError = false; })
     }
     static visibleBottomGridAd(v: boolean = true) {
-        if (WECHAT && this.bottomGridAd && !this.bottomGridError) {
+        if (!WECHAT) return
+        if (this.bottomGridError) {
+            this.createBottomGrid()
+            return
+        }
+        if (this.bottomGridAd) {
             v ? this.bottomGridAd.show() : this.bottomGridAd.hide()
         }
     }
@@ -285,49 +319,96 @@ export default class FdAd {
     //屏幕侧格子
     static sideGridAd: any[] = []
     private static createSideGrid() {
+        for (let i = 0; i < this.sideGridAd.length; i++) {
+            this.sideGridAd[i].destroy()
+            this.sideGridAd = []
+        }
         for (let i = 0; i < 2; i++) {
             let grid = window['wx'].createCustomAd({
-                adUnitId: this.sideGridId,
+                adUnitId: this.sideGridId[0],
                 adIntervals: 30,
                 style: {
                     left: i == 0 ? 0 : this.getSystemInfoSync().screenWidth - 65,
-                    top: 200
+                    top: this.getSystemInfoSync().screenHeight / 2 - 220
                 }
             });
-            grid.onError(() => { ; console.log('屏幕侧格子加载失败') })
+            grid.onError((err) => { ; console.log('屏幕侧格子加载失败:', JSON.stringify(err)) })
             grid.onLoad(() => { this.sideGridAd.push(grid) })
         }
     }
     static visibleSideGridAd(v: boolean = true) {
-        if (WECHAT && this.sideGridAd.length > 0) {
-            for (let i = 0; i < this.sideGridAd.length; i++) {
-                v ? this.sideGridAd[i].show() : this.sideGridAd[i].hide()
-            }
+        if (!WECHAT) return
+        if (this.sideGridAd.length <= 0) {
+            this.createSideGrid()
+            return
+        }
+        for (let i = 0; i < this.sideGridAd.length; i++) {
+            v ? this.sideGridAd[i].show() : this.sideGridAd[i].hide()
         }
     }
 
     //屏幕单格子
     static singleGridAd: any[] = []
     private static createSingleGrid() {
+        for (let i = 0; i < this.singleGridAd.length; i++) {
+            this.singleGridAd[i].destroy()
+            this.singleGridAd = []
+        }
         for (let i = 0; i < 2; i++) {
             let grid = window['wx'].createCustomAd({
-                adUnitId: this.singleGridId,
+                adUnitId: this.singleGridId[0],
                 adIntervals: 30,
                 style: {
                     left: i == 0 ? 0 : this.getSystemInfoSync().screenWidth - 65,
                     top: 120
                 }
             });
-            grid.onError(() => { ; console.log('屏幕单格子加载失败') })
+            grid.onError((err) => { ; console.log('屏幕单格子加载失败:', JSON.stringify(err)) })
             grid.onLoad(() => { this.singleGridAd.push(grid) })
         }
     }
     static visibleSingleGridAd(v: boolean = true) {
-        if (WECHAT && this.singleGridAd.length > 0) {
-            for (let i = 0; i < this.singleGridAd.length; i++) {
-                v ? this.singleGridAd[i].show() : this.singleGridAd[i].hide()
-            }
+        if (!WECHAT) return
+        if (this.singleGridAd.length <= 0) {
+            this.createSingleGrid()
+            return
+        }
+        for (let i = 0; i < this.singleGridAd.length; i++) {
+            v ? this.singleGridAd[i].show() : this.singleGridAd[i].hide()
         }
     }
     //#endregion
+
+    //插屏广告
+    private static intersititialAd: any = null
+    private static intersititialCB: Function = null
+    private static intersititialError: boolean = false
+    private static createInterstitialAd() {
+        if (!WECHAT) return
+        if (this.intersititialAd) {
+            this.intersititialAd.offError()
+            this.intersititialAd.offLoad()
+            this.intersititialAd.offClose()
+            this.intersititialAd.destroy();
+            this.intersititialAd = null
+        }
+        this.intersititialAd = window['wx'].createInterstitialAd({
+            adUnitId: this.interstitialId[0]
+        })
+        this.intersititialAd.onError((err) => { this.intersititialError = true; console.log('插屏广告加载失败:', JSON.stringify(err)) })
+        this.intersititialAd.onLoad(() => { this.intersititialError = false })
+        this.intersititialAd.onClose(() => { this.intersititialCB && this.intersititialCB() })
+        this.intersititialAd.load()
+    }
+    static showInterstitialAd(cb?: Function) {
+        if (PREVIEW || !this.intersititialAd || this.intersititialError) {
+            if (this.intersititialError) this.createInterstitialAd()
+            cb && cb()
+            return
+        }
+        this.intersititialCB = cb
+        this.intersititialAd.show().then(() => { }).catch(err => {
+            this.intersititialCB && this.intersititialCB()
+        });
+    }
 }

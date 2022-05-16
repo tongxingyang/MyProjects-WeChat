@@ -55,7 +55,7 @@ export default class GameLogic {
             });
             Laya.Browser.window.wx.onShareAppMessage(() => {
                 return {
-                    title: '蚊子快冲',
+                    title: '蚊子大作战',
                     imageUrl: '' // 图片 URL
                 }
             })
@@ -226,7 +226,6 @@ export default class GameLogic {
     }
 
     finishCB(isWin: boolean) {
-        FdMgr.showGameOver()
         this.isGameOver = true
         this.isWin = isWin
         this.isStartGame = false
@@ -255,7 +254,9 @@ export default class GameLogic {
             Utility.RotateTo(this._camera, 1000, camEr, null)
         } else {
             Laya.timer.once(2000, this, () => {
-                Laya.Scene.open('MyScenes/FinishUI.scene')
+                FdMgr.showGameOver(()=>{
+                    Laya.Scene.open('MyScenes/FinishUI.scene')
+                })
             })
         }
     }
@@ -306,7 +307,9 @@ export default class GameLogic {
                         })
                     }
                     Laya.timer.once(2000, this, () => {
-                        Laya.Scene.open('MyScenes/FinishUI.scene')
+                        FdMgr.showGameOver(()=>{
+                            Laya.Scene.open('MyScenes/FinishUI.scene')
+                        })
                     })
                 })
             })

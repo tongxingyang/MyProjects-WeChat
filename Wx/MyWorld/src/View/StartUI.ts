@@ -21,7 +21,12 @@ export default class StartUI extends Laya.Scene {
         Utility.addClickEvent(this.skinBtn, this, this.skinBtnCB)
         Laya.timer.frameLoop(1, this, this.myUpdate)
 
+        SoundMgr.instance.playMusic('Bgm1.mp3')
         FdMgr.inHomePage()
+
+        if (!FdMgr.isVersionValid) {
+            this.skinBtn.visible = false
+        }
     }
     onClosed() {
     }
@@ -33,7 +38,7 @@ export default class StartUI extends Laya.Scene {
     }
 
     skinBtnCB() {
-        FdMgr.shop()
+        FdMgr.inShop()
         GameLogic.Share._cameraCrl.selectSkirt()
         Laya.Scene.open('MyScenes/SkinUI.scene');
     }

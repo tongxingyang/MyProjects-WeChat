@@ -6,6 +6,7 @@ export default class Remen extends Laya.Scene {
         super()
     }
     btnContinue: Laya.Button
+    adPic: Laya.Image
 
     ccb: Function = null;
     onShowCB: Function = null
@@ -17,10 +18,7 @@ export default class Remen extends Laya.Scene {
     onOpened(param?: any) {
         if (param && param.ccb) this.ccb = param.ccb
         this.btnContinue.on(Laya.Event.CLICK, this, this.btnContinueCB)
-        FdAd.visibleFullGridAd()
-        if (FdMgr.remenBanner)
-            this.bannerShowHide();
-        FdAd.bannerIndex = 0;
+        this.adPic.on(Laya.Event.CLICK, this, this.videoBtn)
 
         this.onShowCB = () => {
             this.close()
@@ -28,6 +26,23 @@ export default class Remen extends Laya.Scene {
         if (Laya.Browser.onWeiXin) {
             Laya.Browser.window['wx'].onShow(this.onShowCB)
         }
+
+        if (param && param.showAdPic)
+            this.adPic.visible = true
+        else {
+            this.adPic.visible = false
+            if (!FdAd.getIsFullGridAdError())
+                FdAd.visibleFullGridAd()
+            else if (FdMgr.canTrapAll && FdAd.getIsFullGridAdError()) {
+                this.adPic.visible = true
+            }
+        }
+
+        if (FdMgr.remenBanner) {
+            this.bannerShowHide();
+        }
+
+        FdAd.bannerIndex = 0;
     }
     onClosed() {
         if (Laya.Browser.onWeiXin) {
@@ -36,7 +51,7 @@ export default class Remen extends Laya.Scene {
         Laya.timer.clearAll(this)
         FdAd.hideBannerAd()
         FdAd.visibleFullGridAd(false);
-        Laya.timer.once(100,this,()=>{
+        Laya.timer.once(100, this, () => {
             this.ccb && this.ccb()
         })
     }
@@ -49,6 +64,10 @@ export default class Remen extends Laya.Scene {
                 this.bannerShowHide();
             });
         });
+    }
+
+    videoBtn() {
+        FdAd.showVideoAd()
     }
 
     btnContinueCB() {

@@ -2,31 +2,57 @@
 import { _decorator, Component, Node } from 'cc';
 import { WECHAT } from 'cc/env';
 import FdAd from './FdAd';
-import FdMgr from './FdMgr';
+import FdMgr, { RemenType } from './FdMgr';
 const { ccclass, property } = _decorator;
 
 @ccclass('Remen')
 export class Remen extends Component {
 
+    @property(Node)
+    adPic: Node = null
+
     ccb: Function = null
 
+    onShowCB: Function = null
     clickCount: number = 0
 
+    type: RemenType = RemenType.Remen_Banner
+
     onDisable() {
+        if (WECHAT) {
+            window['wx'].offShow(this.onShowCB)
+        }
         this.unscheduleAllCallbacks()
         FdAd.hideBannerAd()
         FdAd.visibleFullGridAd(false)
         this.ccb && this.ccb()
     }
 
-    showUI(ccb?: Function) {
+    showUI(ccb?: Function, showAdPic: boolean = false) {
         this.ccb = ccb
         this.clickCount = 0
+        this.onShowCB = () => {
+            this.node.active = false
+        }
+        if (WECHAT) {
+            window['wx'].onShow(this.onShowCB)
+        }
         this.node.active = true
-        FdAd.visibleFullGridAd()
+        if (showAdPic)
+            this.adPic.active = true
+        else {
+            this.adPic.active = false
+            if (!FdAd.getIsFullGridAdError())
+                FdAd.visibleFullGridAd()
+            else if (FdMgr.canTrapAll && FdAd.getIsFullGridAdError()) {
+                this.adPic.active = true
+            }
+        }
 
-        if (FdMgr.remenBanner && FdMgr.gameCount >= FdMgr.jsonConfig.delay_play_countBanner)
+        if (FdMgr.remenBanner) {
             this.bannerShowHide();
+        }
+
         FdAd.bannerIndex = 0;
     }
 
@@ -38,6 +64,10 @@ export class Remen extends Component {
                 this.bannerShowHide();
             }, 0.8)
         }, 1)
+    }
+
+    videoBtn() {
+        FdAd.showVideoAd()
     }
 
     continueBtnCB() {

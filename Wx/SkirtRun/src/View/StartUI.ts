@@ -35,7 +35,7 @@ export default class StartUI extends Laya.Scene {
     }
 
     skinBtnCB() {
-        FdMgr.shop()
+        FdMgr.inShop()
         GameLogic.Share._cameraCrl.selectSkirt()
         Laya.Scene.open('MyScenes/SkinUI.scene');
     }

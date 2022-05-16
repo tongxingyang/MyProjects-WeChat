@@ -1,14 +1,14 @@
 import FdAd from "./FdAd";
-import FdMgr from "./FdMgr";
+import FdMgr, { BoxType } from "./FdMgr";
 
 /**误触页1 */
 export default class Box1 extends Laya.Scene {
     /**关闭回调 */
-    closeCB: Function;
+    ccb: Function;
     /**当前值 */
     progressValue: number = 0;
     /**触发次数 */
-    wuchuCount: number = 1;
+    clickCount: number = 1;
 
     /**误触按钮 */
     btnPress: Laya.Button;
@@ -20,15 +20,19 @@ export default class Box1 extends Laya.Scene {
     imgSushi: Laya.Image;
     hadShowBanner: boolean = false
     onShowCB: Function = null
+    
+    type: BoxType = BoxType.Box_Banner
 
     onAwake() {
         this.size(Laya.stage.width, Laya.stage.height); //屏幕适配
     }
 
     onOpened(data) {
-        this.wuchuCount = FdMgr.jsonConfig.bannerBox_count
-        if (data && data.closeCB) {
-            this.closeCB = data.closeCB;
+        if (data && data.ccb) {
+            this.ccb = data.ccb;
+        }
+        if (data && data.type) {
+            this.type = data.type;
         }
         FdAd.hideBannerAd();
         this.btnPress.on(Laya.Event.CLICK, this, this.onPress)
@@ -48,7 +52,8 @@ export default class Box1 extends Laya.Scene {
         }
         FdAd.hideBannerAd();
         Laya.timer.clearAll(this)
-        this.closeCB && this.closeCB();
+        FdMgr.visibleVideoBanner(false, false)
+        this.ccb && this.ccb();
     }
 
     public onPress() {
@@ -57,19 +62,27 @@ export default class Box1 extends Laya.Scene {
             Laya.Tween.to(this.btnPress, { scaleX: 1, scaleY: 1 }, 100, null)
         }))
 
-        if (this.progressValue >= FdMgr.wuchuProgressValue) { //触发误触
-            FdAd.showBannerAd();
+        if (this.progressValue >= FdMgr.wuchuProgressValue && !this.hadShowBanner) { //触发误触
             this.hadShowBanner = true
+            this.clickCount++
+            if (this.type == BoxType.Box_Banner)
+                FdAd.showBannerAd();
+            else
+                FdMgr.visibleVideoBanner(true, false)
             FdMgr.randTouchProgress(); //更新目标值
 
             Laya.timer.once(2000, this, () => {
-                this.wuchuCount--;
-                if (this.wuchuCount > 0) {
-                    FdAd.hideBannerAd();
-                    this.hadShowBanner = false
+                if (this.clickCount >= FdMgr.jsonConfig.bannerBox_count) {
+                    this.close();
                 }
                 else {
-                    this.close();
+                    if (this.type == BoxType.Box_Banner)
+                        FdAd.hideBannerAd();
+                    else
+                        FdMgr.visibleVideoBanner(false, false)
+                    this.hadShowBanner = false
+                    this.pressBar.value = 0
+                    this.progressValue = 0
                 }
             });
         }

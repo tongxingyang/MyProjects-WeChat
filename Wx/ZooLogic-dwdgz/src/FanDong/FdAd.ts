@@ -1,27 +1,35 @@
-import Utility from "../Mod/Utility";
 import FdMgr from "./FdMgr";
 
-
 export default class FdAd {
-    static bannerIdArr: string[] = ["adunit-09c06c2b0c94fe06", "adunit-1dfd3fda79c0019d", "adunit-896d4eb78920a7d9", "adunit-50da2c5e9358037b", "adunit-dbfbc994cd19b5f6"];
-    static videoId = "adunit-0333bcd027bfb093";
-    static fullGridId = "adunit-8cdf6ebd71d5124b";
-    static bottomGridId = "adunit-11e0cc4445fb0de0";
-    static sideGridId = "adunit-7e20e1ee6b314e59";
-    static singleGridId = "adunit-c95e8cf03e2e86d8";
-    
-    static inidAd() {
-        if (!Laya.Browser.onWeiXin) return;
+    static bannerIdArr: string[] = [];
+    static videoId: string[] = [];
+    static fullGridId: string[] = [];
+    static bottomGridId: string[] = [];
+    static sideGridId: string[] = [];
+    static singleGridId: string[] = [];
+    static interstitialId: string[] = [];
+
+    static inidAd(cb?: Function) {
+        if (!Laya.Browser.onWeiXin) { cb && cb(); return };
         this.initBanner();
         this.createVideoAd();
         this.initGridAD()
+        this.createInterstitialAd()
+
+        let func = () => {
+            if (this.isFullGridAdLoaded) {
+                Laya.timer.clear(this, func)
+                cb && cb()
+            }
+        }
+        Laya.timer.loop(100, this, func)
     }
 
     static sysInfo: any;
     static getSystemInfoSync() {
         if (!Laya.Browser.onWeiXin) return;
         if (!this.sysInfo) {
-            this.sysInfo = window['wx'].getSystemInfoSync();
+            this.sysInfo = Laya.Browser.window['wx'].getSystemInfoSync();
         }
         return this.sysInfo;
     }
@@ -34,7 +42,7 @@ export default class FdAd {
     static bannerErrorArr: boolean[] = []
     static initBanner() {
         if (!Laya.Browser.onWeiXin) return;
-        this.bannerIdArr = Utility.shuffleArr(this.bannerIdArr)
+        this.bannerIdArr = this.shuffleArr(this.bannerIdArr)
         console.log('bannerId 数组排列：', this.bannerIdArr)
         if (!FdMgr.canTrapAll && this.bannerAds.length > 1) {
             this.bannerAds.splice(0, this.bannerAds.length - 1)
@@ -68,12 +76,14 @@ export default class FdAd {
             this.stopCountBannerTime()
             return
         }
-        // if (this.bannerErrorArr[this.bannerIndex]) {
-        //     this.bannerIndex++
-        //     if (this.bannerIndex >= this.bannerIdArr.length) this.bannerIndex = 0
-        //     this.showBannerAd()
-        //     return
-        // }
+        for (let i = 0; i < this.bannerErrorArr.length; i++) {
+            if (this.bannerErrorArr[this.bannerIndex]) {
+                this.bannerIndex++
+                if (this.bannerIndex >= this.bannerIdArr.length) this.bannerIndex = 0
+            } else {
+                break
+            }
+        }
 
         this.bannerAds[this.bannerIndex] && this.bannerAds[this.bannerIndex].show()
         this.stopCountBannerTime()
@@ -83,7 +93,8 @@ export default class FdAd {
     }
 
     static hideBannerAd() {
-        if (!Laya.Browser.onWeiXin || this.isAllBannerError) {
+        if (!Laya.Browser.onWeiXin) return
+        if (this.isAllBannerError) {
             this.stopCountBannerTime()
             return;
         }
@@ -162,7 +173,7 @@ export default class FdAd {
                 videoAd.offClose(onCloseVideo);
             }
 
-            var videoAd = Laya.Browser.window['wx'].createRewardedVideoAd({ adUnitId: self.videoId });
+            var videoAd = Laya.Browser.window['wx'].createRewardedVideoAd({ adUnitId: self.videoId[0] });
             videoAd.onLoad(onLoadVideo);
             videoAd.onError(onErrorVideo);
             videoAd.onClose(onCloseVideo);
@@ -238,9 +249,15 @@ export default class FdAd {
     //全屏格子
     static fullGridAd: any = null
     static fullGridError: boolean = false
+    private static isFullGridAdLoaded: boolean = false
     private static createFullGrid() {
+        if (!Laya.Browser.onWeiXin) return
+        if (this.fullGridAd) {
+            this.fullGridAd.destroy()
+            this.fullGridAd = null
+        }
         this.fullGridAd = Laya.Browser.window['wx'].createCustomAd({
-            adUnitId: this.fullGridId,
+            adUnitId: this.fullGridId[0],
             adIntervals: 30,
             style: {
                 left: 0,
@@ -248,31 +265,46 @@ export default class FdAd {
                 width: this.getSystemInfoSync().screenWidth
             }
         });
-        this.fullGridAd.onError(() => { this.fullGridError = true; console.log('全屏格子加载失败') })
+        this.fullGridAd.onError((err) => { this.isFullGridAdLoaded = true; this.fullGridError = true; console.log('全屏格子加载失败:', JSON.stringify(err)) })
+        this.fullGridAd.onLoad(() => { this.isFullGridAdLoaded = true; this.fullGridError = false; })
     }
     static visibleFullGridAd(v: boolean = true) {
         if (Laya.Browser.onWeiXin && this.fullGridAd && !this.fullGridError) {
             v ? this.fullGridAd.show() : this.fullGridAd.hide()
         }
     }
+    static getIsFullGridAdError() {
+        if (this.fullGridError) this.createFullGrid()
+        return this.fullGridError
+    }
 
     //底部格子
     static bottomGridAd: any = null
     static bottomGridError: boolean = false
     private static createBottomGrid() {
+        if (this.bottomGridAd) {
+            this.bottomGridAd.destroy()
+            this.bottomGridAd = null
+        }
         this.bottomGridAd = Laya.Browser.window['wx'].createCustomAd({
-            adUnitId: this.bottomGridId,
+            adUnitId: this.bottomGridId[0],
             adIntervals: 30,
             style: {
-                left: 47,
+                left: 0,
                 top: this.getSystemInfoSync().screenHeight - 110,
                 width: this.getSystemInfoSync().screenWidth
             }
         });
-        this.bottomGridAd.onError(() => { this.bottomGridError = true; console.log('底部格子加载失败') })
+        this.bottomGridAd.onError((err) => { this.bottomGridError = true; console.log('底部格子加载失败:', JSON.stringify(err)) })
+        this.bottomGridAd.onLoad(() => { this.bottomGridError = false; })
     }
     static visibleBottomGridAd(v: boolean = true) {
-        if (Laya.Browser.onWeiXin && this.bottomGridAd && !this.bottomGridError) {
+        if (!Laya.Browser.onWeiXin) return
+        if (this.bottomGridError) {
+            this.createBottomGrid()
+            return
+        }
+        if (this.bottomGridAd) {
             v ? this.bottomGridAd.show() : this.bottomGridAd.hide()
         }
     }
@@ -280,49 +312,107 @@ export default class FdAd {
     //屏幕侧格子
     static sideGridAd: any[] = []
     private static createSideGrid() {
+        for (let i = 0; i < this.sideGridAd.length; i++) {
+            this.sideGridAd[i].destroy()
+            this.sideGridAd = []
+        }
         for (let i = 0; i < 2; i++) {
             let grid = Laya.Browser.window['wx'].createCustomAd({
-                adUnitId: this.sideGridId,
+                adUnitId: this.sideGridId[0],
                 adIntervals: 30,
                 style: {
                     left: i == 0 ? 0 : this.getSystemInfoSync().screenWidth - 65,
-                    top: 200
+                    top: this.getSystemInfoSync().screenHeight / 2 - 220
                 }
             });
-            grid.onError(() => { ; console.log('屏幕侧格子加载失败') })
+            grid.onError((err) => { ; console.log('屏幕侧格子加载失败:', JSON.stringify(err)) })
             grid.onLoad(() => { this.sideGridAd.push(grid) })
         }
     }
     static visibleSideGridAd(v: boolean = true) {
-        if (Laya.Browser.onWeiXin && this.sideGridAd.length > 0) {
-            for (let i = 0; i < this.sideGridAd.length; i++) {
-                v ? this.sideGridAd[i].show() : this.sideGridAd[i].hide()
-            }
+        if (!Laya.Browser.onWeiXin) return
+        if (this.sideGridAd.length <= 0) {
+            this.createSideGrid()
+            return
+        }
+        for (let i = 0; i < this.sideGridAd.length; i++) {
+            v ? this.sideGridAd[i].show() : this.sideGridAd[i].hide()
         }
     }
 
     //屏幕单格子
     static singleGridAd: any[] = []
     private static createSingleGrid() {
+        for (let i = 0; i < this.singleGridAd.length; i++) {
+            this.singleGridAd[i].destroy()
+            this.singleGridAd = []
+        }
         for (let i = 0; i < 2; i++) {
             let grid = Laya.Browser.window['wx'].createCustomAd({
-                adUnitId: this.singleGridId,
+                adUnitId: this.singleGridId[0],
                 adIntervals: 30,
                 style: {
                     left: i == 0 ? 0 : this.getSystemInfoSync().screenWidth - 65,
                     top: 120
                 }
             });
-            grid.onError(() => { ; console.log('屏幕单格子加载失败') })
+            grid.onError((err) => { ; console.log('屏幕单格子加载失败:', JSON.stringify(err)) })
             grid.onLoad(() => { this.singleGridAd.push(grid) })
         }
     }
     static visibleSingleGridAd(v: boolean = true) {
-        if (Laya.Browser.onWeiXin && this.singleGridAd.length > 0) {
-            for (let i = 0; i < this.singleGridAd.length; i++) {
-                v ? this.singleGridAd[i].show() : this.singleGridAd[i].hide()
-            }
+        if (!Laya.Browser.onWeiXin) return
+        if (this.singleGridAd.length <= 0) {
+            this.createSingleGrid()
+            return
+        }
+        for (let i = 0; i < this.singleGridAd.length; i++) {
+            v ? this.singleGridAd[i].show() : this.singleGridAd[i].hide()
         }
     }
     //#endregion
+
+    //插屏广告
+    private static intersititialAd: any = null
+    private static intersititialCB: Function = null
+    private static intersititialError: boolean = false
+    private static createInterstitialAd() {
+        if (!Laya.Browser.onWeiXin) return
+        if (this.intersititialAd) {
+            this.intersititialAd.offError()
+            this.intersititialAd.offLoad()
+            this.intersititialAd.offClose()
+            this.intersititialAd.destroy();
+            this.intersititialAd = null
+        }
+        this.intersititialAd = Laya.Browser.window['wx'].createInterstitialAd({
+            adUnitId: this.interstitialId[0]
+        })
+        this.intersititialAd.onError((err) => { this.intersititialError = true; console.log('插屏广告加载失败:', JSON.stringify(err)) })
+        this.intersititialAd.onLoad(() => { this.intersititialError = false })
+        this.intersititialAd.onClose(() => { this.intersititialCB && this.intersititialCB() })
+        this.intersititialAd.load()
+    }
+    static showInterstitialAd(cb?: Function) {
+        if (!Laya.Browser.onWeiXin || !this.intersititialAd || this.intersititialError) {
+            if (this.intersititialError) this.createInterstitialAd()
+            cb && cb()
+            return
+        }
+        this.intersititialCB = cb
+        this.intersititialAd.show().then(() => { }).catch(err => {
+            this.intersititialCB && this.intersititialCB()
+        });
+    }
+
+
+    //打乱数组
+    public static shuffleArr(arr: any[]) {
+        let i = arr.length;
+        while (i) {
+            let j = Math.floor(Math.random() * i--);
+            [arr[j], arr[i]] = [arr[i], arr[j]];
+        }
+        return arr;
+    }
 }

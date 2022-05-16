@@ -27,7 +27,7 @@ export default class SkinUI extends Laya.Scene {
     }
 
     onClosed() {
-
+        GameLogic.Share._playerCrl.changeSkin(PlayerDataMgr.getPlayerData().skinId)
     }
 
     initList() {
@@ -70,6 +70,7 @@ export default class SkinUI extends Laya.Scene {
         SoundMgr.instance.playSoundEffect('Click.mp3')
         if (this.chooseId == id) return
         this.chooseId = id
+        GameLogic.Share._playerCrl.changeSkin(this.chooseId)
         if (PlayerDataMgr.getPlayerData().skinArr[id] == 1) {
             PlayerDataMgr.getPlayerData().skinId = id
             PlayerDataMgr.setPlayerData()
@@ -83,21 +84,25 @@ export default class SkinUI extends Laya.Scene {
             return
         }
         this.chooseId = id
+        GameLogic.Share._playerCrl.changeSkin(this.chooseId)
         PlayerDataMgr.getPlayerData().coin -= PlayerDataMgr.getCostById(id)
         PlayerDataMgr.getPlayerData().skinArr[id] = 1
         PlayerDataMgr.getPlayerData().skinId = id
         PlayerDataMgr.setPlayerData()
         this.myList.array = PlayerDataMgr.getPlayerData().skinArr;
+        SoundMgr.instance.playSoundEffect('Reward.mp3')
     }
 
     adBtnCB(arr: any[]) {
         let id: number = arr[0]
         let cb = () => {
             this.chooseId = id
+            GameLogic.Share._playerCrl.changeSkin(this.chooseId)
             PlayerDataMgr.getPlayerData().skinArr[id] = 1
             PlayerDataMgr.getPlayerData().skinId = id
             PlayerDataMgr.setPlayerData()
             this.myList.array = PlayerDataMgr.getPlayerData().skinArr;
+            SoundMgr.instance.playSoundEffect('Reward.mp3')
         }
         FdAd.showVideoAd(cb)
     }

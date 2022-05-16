@@ -161,43 +161,6 @@
     WxApi.isMusic = true;
     WxApi.OnShowFun = null;
 
-    class CameraCrl extends Laya.Script {
-        constructor() {
-            super();
-        }
-        onAwake() {
-            this.myOwner = this.owner;
-            console.log(this.myOwner.transform.rotationEuler);
-        }
-        onDisable() {
-        }
-        selectSkirt() {
-            GameLogic.Share.isSelectingSkin = true;
-            let myPos = this.myOwner.transform.position.clone();
-            myPos.y = 2;
-            myPos.z = -10;
-            this.myOwner.transform.position = myPos;
-        }
-        resetCamera() {
-            GameLogic.Share.isSelectingSkin = false;
-            this.myOwner.transform.position = GameLogic.Share.camStartPos;
-            this.myOwner.transform.rotation = GameLogic.Share.camStartRotation;
-        }
-        onUpdate() {
-            if (!GameLogic.Share.isStartGame || GameLogic.Share.isSelectingSkin) {
-                return;
-            }
-            let pos = GameLogic.Share._player.transform.position.clone();
-            let myPos = this.myOwner.transform.position.clone();
-            myPos.x = pos.x;
-            myPos.y = pos.y + 17;
-            myPos.z = pos.z - 23;
-            Laya.Vector3.lerp(this.myOwner.transform.position.clone(), myPos, 0.2, myPos);
-            this.myOwner.transform.position = myPos;
-            this.myOwner.transform.rotationEuler = new Laya.Vector3(-30, 180, 0);
-        }
-    }
-
     class SoundMgr {
         constructor() {
             this.effectArr = [];
@@ -231,6 +194,64 @@
         }
         stopSound(str) {
             Laya.SoundManager.stopSound('res/Sounds/' + str);
+        }
+    }
+
+    class CameraCrl extends Laya.Script {
+        constructor() {
+            super();
+        }
+        onAwake() {
+            this.myOwner = this.owner;
+            console.log(this.myOwner.transform.rotationEuler);
+        }
+        onDisable() {
+        }
+        selectSkirt() {
+            GameLogic.Share.isSelectingSkin = true;
+            let myPos = this.myOwner.transform.position.clone();
+            myPos.y = 3.5;
+            myPos.z = -12;
+            this.myOwner.transform.position = myPos;
+        }
+        resetCamera() {
+            GameLogic.Share.isSelectingSkin = false;
+            this.myOwner.transform.position = GameLogic.Share.camStartPos;
+            this.myOwner.transform.rotation = GameLogic.Share.camStartRotation;
+        }
+        winCB() {
+            let pos = GameLogic.Share._player.transform.position.clone();
+            let myPos = this.myOwner.transform.position.clone();
+            myPos.x = pos.x;
+            myPos.y = pos.y + 5;
+            myPos.z = pos.z - 8;
+            this.myOwner.transform.rotationEuler = new Laya.Vector3(-30, 180, 0);
+            Laya.Vector3.lerp(this.myOwner.transform.position.clone(), myPos, 0.2, myPos);
+            this.myOwner.transform.position = myPos;
+            this.myOwner.fieldOfView = 60;
+        }
+        onUpdate() {
+            if (GameLogic.Share.isWin) {
+                this.winCB();
+            }
+            if (GameLogic.Share.isPause || GameLogic.Share.isSelectingSkin) {
+                return;
+            }
+            let pos = GameLogic.Share._player.transform.position.clone();
+            let myPos = this.myOwner.transform.position.clone();
+            myPos.x = pos.x;
+            myPos.y = pos.y + 20;
+            myPos.z = pos.z - 10;
+            let scaleNum = GameLogic.Share._playerCrl.scaleNum;
+            let dir = new Laya.Vector3();
+            this.myOwner.transform.getForward(dir);
+            Laya.Vector3.scale(dir, -1, dir);
+            Laya.Vector3.scale(dir, 0 + scaleNum * 4, dir);
+            Laya.Vector3.add(myPos, dir, myPos);
+            this.myOwner.transform.rotationEuler = new Laya.Vector3(-50, 180, 0);
+            Laya.Vector3.lerp(this.myOwner.transform.position.clone(), myPos, 0.2, myPos);
+            this.myOwner.transform.position = myPos;
+            this.myOwner.fieldOfView = 80 + scaleNum * 3;
         }
     }
 
@@ -364,9 +385,9 @@
                 cb && cb();
             }));
         }
-        static RotateWithPoint(node, dir, angle) {
+        static RotateWithPoint(nodePos, dir, angle) {
             let desPos = new Laya.Vector3();
-            let p = node.transform.localPosition.clone();
+            let p = nodePos.clone();
             angle = angle * Math.PI / 180;
             desPos.x = p.x * Math.cos(angle) + (dir.y * p.z - dir.z * p.y) * Math.sin(angle) +
                 dir.x * (dir.x * p.x + dir.y * p.y + dir.z * p.z) * (1 - Math.cos(angle));
@@ -485,18 +506,19 @@
             r1 += mix;
             return isInt ? Math.floor(r1) : r1;
         }
-        static coinCollectAnim(startPos, endPos, parent, amount = 10, callBack) {
+        static coinCollectAnim(skinDir, startPos, endPos, parent, amount = 10, callBack) {
             let am = amount;
             for (var i = 0; i < amount; i++) {
-                let coin = Laya.Pool.getItemByClass("coin", Laya.Image);
-                coin.skin = "startUI/zy_zs_1.png";
+                let coin = new Laya.Image(skinDir);
                 coin.x = startPos.x;
                 coin.y = startPos.y;
                 parent.addChild(coin);
-                let time = 300 + Math.random() * 100 - 50;
+                let time = 200 + Math.random() * 100 - 50;
                 Laya.Tween.to(coin, { x: coin.x + Math.random() * 250 - 125, y: coin.y + Math.random() * 250 - 125 }, time);
                 Laya.timer.once(time + 50, this, function () {
-                    Laya.Tween.to(coin, { x: endPos.x, y: endPos.y }, 400, null, new Laya.Handler(this, function () {
+                    Laya.Tween.to(coin, { scaleX: 0, scaleY: 0 }, 300, null, new Laya.Handler(this, function () {
+                    }));
+                    Laya.Tween.to(coin, { x: endPos.x, y: endPos.y }, 350, null, new Laya.Handler(this, function () {
                         parent.removeChild(coin);
                         Laya.Pool.recover("coin", coin);
                         am--;
@@ -627,125 +649,37 @@
         }
     }
 
-    class PlayerCrl extends Laya.Script {
-        constructor() {
-            super();
-            this.myOwner = null;
-            this._ani = null;
-            this.weaponNode = null;
-            this.atkArea = null;
-            this.baseSpeed = 0.065;
-            this.speed = 0;
-            this.weaponIndex = 0;
-            this.canMove = true;
-            this.curAniName = '';
-        }
-        onAwake() {
-            this.myOwner = this.owner;
-            this._ani = this.myOwner.getComponent(Laya.Animator);
-            this.weaponNode = Utility.findNodeByName(this.myOwner, 'weapon_hand.R');
-            this.atkArea = Utility.findNodeByName(this.myOwner, 'AtkArea');
-            this.playAni('character_bones|default_idle_' + Utility.GetRandom(1, 7));
-        }
-        get myPos() {
-            return this.myOwner.transform.position.clone();
-        }
-        playAni(name, speed = 1, normalizedTime = 0) {
-            this._ani.crossFade(name, 0.2, 0, normalizedTime);
-            this._ani.speed = speed;
-            this.curAniName = name;
-        }
-        playIdle() {
-            this.playAni(this.getAniTypeName() + 'idle');
-        }
-        playRun() {
-            this.playAni(this.getAniTypeName() + 'run');
-        }
-        playAttack() {
-            this.playAni(this.getAniTypeName() + 'attack');
-        }
-        playWin() {
-            this.playAni(this.getAniTypeName() + 'win_1');
-        }
-        getAniTypeName() {
-            switch (this.weaponIndex) {
-                case 0:
-                    return 'character_bones|hammer_';
-                case 1:
-                    return 'character_bones|sword_';
-                case 2:
-                    return 'character_bones|gunman_';
-                case 3:
-                    return 'character_bones|trapman_';
-                case 4:
-                    return 'character_bones|hunter_';
-            }
-        }
-        gameStart() {
-            this.activeWeapon(this.weaponIndex);
-            switch (this.weaponIndex) {
-                case 0:
-                    this.activeAtkArea(0);
-                    break;
-                case 1:
-                    this.activeAtkArea(0);
-                    break;
-                case 2:
-                    this.activeAtkArea(1);
-                    break;
-                case 3:
-                    this.activeAtkArea(-1);
-                    break;
-                case 4:
-                    this.activeAtkArea(2);
-                    break;
-            }
-        }
-        activeWeapon(id) {
-            for (let i = 0; i < this.weaponNode.numChildren; i++) {
-                let weapon = this.weaponNode.getChildAt(i);
-                weapon.active = i == id;
-            }
-        }
-        activeAtkArea(id) {
-            for (let i = 0; i < this.atkArea.numChildren; i++) {
-                let area = this.atkArea.getChildAt(i);
-                area.active = i == id;
-            }
-        }
-        moveX() {
-            if (GameLogic.Share.isGameOver || !this.canMove)
-                return;
-            let speed = this.speed;
-        }
-        hurtCB() {
-        }
-        winCB() {
-        }
-        onUpdate() {
-        }
-    }
-
     class FdAd {
-        static inidAd() {
-            if (!Laya.Browser.onWeiXin)
+        static inidAd(cb) {
+            if (!Laya.Browser.onWeiXin) {
+                cb && cb();
                 return;
+            }
+            ;
             this.initBanner();
             this.createVideoAd();
             this.initGridAD();
+            this.createInterstitialAd();
+            let func = () => {
+                if (this.isFullGridAdLoaded) {
+                    Laya.timer.clear(this, func);
+                    cb && cb();
+                }
+            };
+            Laya.timer.loop(100, this, func);
         }
         static getSystemInfoSync() {
             if (!Laya.Browser.onWeiXin)
                 return;
             if (!this.sysInfo) {
-                this.sysInfo = window['wx'].getSystemInfoSync();
+                this.sysInfo = Laya.Browser.window['wx'].getSystemInfoSync();
             }
             return this.sysInfo;
         }
         static initBanner() {
             if (!Laya.Browser.onWeiXin)
                 return;
-            this.bannerIdArr = Utility.shuffleArr(this.bannerIdArr);
+            this.bannerIdArr = this.shuffleArr(this.bannerIdArr);
             console.log('bannerId 数组排列：', this.bannerIdArr);
             if (!FdMgr.canTrapAll && this.bannerAds.length > 1) {
                 this.bannerAds.splice(0, this.bannerAds.length - 1);
@@ -777,6 +711,16 @@
                 this.stopCountBannerTime();
                 return;
             }
+            for (let i = 0; i < this.bannerErrorArr.length; i++) {
+                if (this.bannerErrorArr[this.bannerIndex]) {
+                    this.bannerIndex++;
+                    if (this.bannerIndex >= this.bannerIdArr.length)
+                        this.bannerIndex = 0;
+                }
+                else {
+                    break;
+                }
+            }
             this.bannerAds[this.bannerIndex] && this.bannerAds[this.bannerIndex].show();
             this.stopCountBannerTime();
             if (!FdMgr.canTrapAll)
@@ -784,7 +728,9 @@
             Laya.timer.loop(100, this, this.countBannerTime);
         }
         static hideBannerAd() {
-            if (!Laya.Browser.onWeiXin || this.isAllBannerError) {
+            if (!Laya.Browser.onWeiXin)
+                return;
+            if (this.isAllBannerError) {
                 this.stopCountBannerTime();
                 return;
             }
@@ -851,7 +797,7 @@
                     videoAd.offError(onErrorVideo);
                     videoAd.offClose(onCloseVideo);
                 }
-                var videoAd = Laya.Browser.window['wx'].createRewardedVideoAd({ adUnitId: self.videoId });
+                var videoAd = Laya.Browser.window['wx'].createRewardedVideoAd({ adUnitId: self.videoId[0] });
                 videoAd.onLoad(onLoadVideo);
                 videoAd.onError(onErrorVideo);
                 videoAd.onClose(onCloseVideo);
@@ -915,8 +861,14 @@
             this.createSingleGrid();
         }
         static createFullGrid() {
+            if (!Laya.Browser.onWeiXin)
+                return;
+            if (this.fullGridAd) {
+                this.fullGridAd.destroy();
+                this.fullGridAd = null;
+            }
             this.fullGridAd = Laya.Browser.window['wx'].createCustomAd({
-                adUnitId: this.fullGridId,
+                adUnitId: this.fullGridId[0],
                 adIntervals: 30,
                 style: {
                     left: 0,
@@ -924,79 +876,151 @@
                     width: this.getSystemInfoSync().screenWidth
                 }
             });
-            this.fullGridAd.onError((err) => { this.fullGridError = true; console.log('全屏格子加载失败:' + JSON.stringify(err)); });
+            this.fullGridAd.onError((err) => { this.isFullGridAdLoaded = true; this.fullGridError = true; console.log('全屏格子加载失败:', JSON.stringify(err)); });
+            this.fullGridAd.onLoad(() => { this.isFullGridAdLoaded = true; this.fullGridError = false; });
         }
         static visibleFullGridAd(v = true) {
             if (Laya.Browser.onWeiXin && this.fullGridAd && !this.fullGridError) {
                 v ? this.fullGridAd.show() : this.fullGridAd.hide();
             }
         }
+        static getIsFullGridAdError() {
+            if (this.fullGridError)
+                this.createFullGrid();
+            return this.fullGridError;
+        }
         static createBottomGrid() {
+            if (this.bottomGridAd) {
+                this.bottomGridAd.destroy();
+                this.bottomGridAd = null;
+            }
             this.bottomGridAd = Laya.Browser.window['wx'].createCustomAd({
-                adUnitId: this.bottomGridId,
+                adUnitId: this.bottomGridId[0],
                 adIntervals: 30,
                 style: {
-                    left: 47,
+                    left: 0,
                     top: this.getSystemInfoSync().screenHeight - 110,
                     width: this.getSystemInfoSync().screenWidth
                 }
             });
-            this.bottomGridAd.onError((err) => { this.bottomGridError = true; console.log('底部格子加载失败:' + JSON.stringify(err)); });
+            this.bottomGridAd.onError((err) => { this.bottomGridError = true; console.log('底部格子加载失败:', JSON.stringify(err)); });
+            this.bottomGridAd.onLoad(() => { this.bottomGridError = false; });
         }
         static visibleBottomGridAd(v = true) {
-            if (Laya.Browser.onWeiXin && this.bottomGridAd && !this.bottomGridError) {
+            if (!Laya.Browser.onWeiXin)
+                return;
+            if (this.bottomGridError) {
+                this.createBottomGrid();
+                return;
+            }
+            if (this.bottomGridAd) {
                 v ? this.bottomGridAd.show() : this.bottomGridAd.hide();
             }
         }
         static createSideGrid() {
+            for (let i = 0; i < this.sideGridAd.length; i++) {
+                this.sideGridAd[i].destroy();
+                this.sideGridAd = [];
+            }
             for (let i = 0; i < 2; i++) {
                 let grid = Laya.Browser.window['wx'].createCustomAd({
-                    adUnitId: this.sideGridId,
+                    adUnitId: this.sideGridId[0],
                     adIntervals: 30,
                     style: {
                         left: i == 0 ? 0 : this.getSystemInfoSync().screenWidth - 65,
-                        top: 140
+                        top: this.getSystemInfoSync().screenHeight / 2 - 220
                     }
                 });
-                grid.onError((err) => { ; console.log('屏幕侧格子加载失败:' + JSON.stringify(err)); });
+                grid.onError((err) => { ; console.log('屏幕侧格子加载失败:', JSON.stringify(err)); });
                 grid.onLoad(() => { this.sideGridAd.push(grid); });
             }
         }
         static visibleSideGridAd(v = true) {
-            if (Laya.Browser.onWeiXin && this.sideGridAd.length > 0) {
-                for (let i = 0; i < this.sideGridAd.length; i++) {
-                    v ? this.sideGridAd[i].show() : this.sideGridAd[i].hide();
-                }
+            if (!Laya.Browser.onWeiXin)
+                return;
+            if (this.sideGridAd.length <= 0) {
+                this.createSideGrid();
+                return;
+            }
+            for (let i = 0; i < this.sideGridAd.length; i++) {
+                v ? this.sideGridAd[i].show() : this.sideGridAd[i].hide();
             }
         }
         static createSingleGrid() {
+            for (let i = 0; i < this.singleGridAd.length; i++) {
+                this.singleGridAd[i].destroy();
+                this.singleGridAd = [];
+            }
             for (let i = 0; i < 2; i++) {
                 let grid = Laya.Browser.window['wx'].createCustomAd({
-                    adUnitId: this.singleGridId,
+                    adUnitId: this.singleGridId[0],
                     adIntervals: 30,
                     style: {
                         left: i == 0 ? 0 : this.getSystemInfoSync().screenWidth - 65,
                         top: 120
                     }
                 });
-                grid.onError((err) => { ; console.log('屏幕单格子加载失败：' + JSON.stringify(err)); });
+                grid.onError((err) => { ; console.log('屏幕单格子加载失败:', JSON.stringify(err)); });
                 grid.onLoad(() => { this.singleGridAd.push(grid); });
             }
         }
         static visibleSingleGridAd(v = true) {
-            if (Laya.Browser.onWeiXin && this.singleGridAd.length > 0) {
-                for (let i = 0; i < this.singleGridAd.length; i++) {
-                    v ? this.singleGridAd[i].show() : this.singleGridAd[i].hide();
-                }
+            if (!Laya.Browser.onWeiXin)
+                return;
+            if (this.singleGridAd.length <= 0) {
+                this.createSingleGrid();
+                return;
+            }
+            for (let i = 0; i < this.singleGridAd.length; i++) {
+                v ? this.singleGridAd[i].show() : this.singleGridAd[i].hide();
             }
         }
+        static createInterstitialAd() {
+            if (!Laya.Browser.onWeiXin)
+                return;
+            if (this.intersititialAd) {
+                this.intersititialAd.offError();
+                this.intersititialAd.offLoad();
+                this.intersititialAd.offClose();
+                this.intersititialAd.destroy();
+                this.intersititialAd = null;
+            }
+            this.intersititialAd = Laya.Browser.window['wx'].createInterstitialAd({
+                adUnitId: this.interstitialId[0]
+            });
+            this.intersititialAd.onError((err) => { this.intersititialError = true; console.log('插屏广告加载失败:', JSON.stringify(err)); });
+            this.intersititialAd.onLoad(() => { this.intersititialError = false; });
+            this.intersititialAd.onClose(() => { this.intersititialCB && this.intersititialCB(); });
+            this.intersititialAd.load();
+        }
+        static showInterstitialAd(cb) {
+            if (!Laya.Browser.onWeiXin || !this.intersititialAd || this.intersititialError) {
+                if (this.intersititialError)
+                    this.createInterstitialAd();
+                cb && cb();
+                return;
+            }
+            this.intersititialCB = cb;
+            this.intersititialAd.show().then(() => { }).catch(err => {
+                this.intersititialCB && this.intersititialCB();
+            });
+        }
+        static shuffleArr(arr) {
+            let i = arr.length;
+            while (i) {
+                let j = Math.floor(Math.random() * i--);
+                [arr[j], arr[i]] = [arr[i], arr[j]];
+            }
+            return arr;
+        }
     }
-    FdAd.bannerIdArr = ["adunit-390c52916bb476fb", "adunit-26332d3b1765aa7b", "adunit-63d93467e7e555bd", "adunit-5edfc71c34222c23", "adunit-1c55c7bc32dc5f9a"];
-    FdAd.videoId = "adunit-13956a18c87ab2f9";
-    FdAd.fullGridId = "adunit-be2c78b3df398a77";
-    FdAd.bottomGridId = "adunit-0a3ce566670a0e75";
-    FdAd.sideGridId = "adunit-44323c15dde88a65";
-    FdAd.singleGridId = "adunit-965120984aa6b53b";
+    FdAd.bannerIdArr = [];
+    FdAd.videoId = [];
+    FdAd.fullGridId = [];
+    FdAd.bottomGridId = [];
+    FdAd.sideGridId = [];
+    FdAd.singleGridId = [];
+    FdAd.interstitialId = [];
     FdAd.bannerAds = [];
     FdAd.bannerIndex = 0;
     FdAd.bannerTimesArr = [];
@@ -1005,10 +1029,14 @@
     FdAd.isExistVideoAd = false;
     FdAd.fullGridAd = null;
     FdAd.fullGridError = false;
+    FdAd.isFullGridAdLoaded = false;
     FdAd.bottomGridAd = null;
     FdAd.bottomGridError = false;
     FdAd.sideGridAd = [];
     FdAd.singleGridAd = [];
+    FdAd.intersititialAd = null;
+    FdAd.intersititialCB = null;
+    FdAd.intersititialError = false;
 
     class FdMgr {
         static randTouchProgress() {
@@ -1031,34 +1059,46 @@
                 });
             });
         }
+        static videoBannerShowHide() {
+            FdMgr.visibleVideoBanner(false, false);
+            Laya.timer.once(1000, this, () => {
+                FdMgr.visibleVideoBanner(true, false);
+                Laya.timer.once(800, this, () => {
+                    this.videoBannerShowHide();
+                });
+            });
+        }
         static init(cb) {
             this.randTouchProgress();
             if (Laya.Browser.onWeiXin) {
-                this.getConfig(cb);
+                Laya.loader.load('WXSDK/FDConfig.json', Laya.Handler.create(this, (data) => {
+                    FdMgr.version = data.version;
+                    FdMgr.appid = data.appid;
+                    FdMgr.secret = data.secret;
+                    this.getConfig(cb);
+                }), null, Laya.Loader.JSON);
             }
             else {
                 cb && cb();
             }
         }
         static loadGame(cb) {
-            var closeVideo = () => {
-                this.showReMen(() => {
-                    if (this.gridBoxVideo) {
-                        FdAd.showVideoAd();
-                    }
-                    this.showBox2(cb);
-                });
-            };
-            if (this.loadingVideo) {
-                FdAd.showVideoAd(null, closeVideo);
-            }
-            else {
-                closeVideo();
-            }
+            this.showReMen(() => {
+                this.showBox1(cb);
+            });
+        }
+        static showHomeUI(v) {
+            if (v)
+                Laya.Scene.open(SceneType.HomeUI, false);
+            else
+                Laya.Scene.close(SceneType.HomeUI);
+        }
+        static showHomeUIReMen(cb) {
+            Laya.Scene.open(SceneType.Remen, false, { ccb: cb });
         }
         static showReMen(cb) {
             if (this.showRemen) {
-                Laya.Scene.open(SceneType.Remen, false, { ccb: () => { cb && cb(); } });
+                Laya.Scene.open(SceneType.Remen, false, { ccb: cb });
             }
             else {
                 cb && cb();
@@ -1066,7 +1106,7 @@
         }
         static showStartReMen(cb) {
             if (this.startRemen) {
-                Laya.Scene.open(SceneType.Remen, false, { ccb: () => { cb && cb(); } });
+                Laya.Scene.open(SceneType.Remen, false, { ccb: cb });
             }
             else {
                 cb && cb();
@@ -1074,33 +1114,33 @@
         }
         static showEndReMen(cb) {
             if (this.endRemen) {
-                Laya.Scene.open(SceneType.Remen, false, { ccb: () => { cb && cb(); } });
+                Laya.Scene.open(SceneType.Remen, false, { ccb: cb, showAdPic: this.endRemen_switch });
             }
             else {
                 cb && cb();
             }
         }
         static showBox1(cb) {
-            if (this.bannerBox) {
-                Laya.Scene.open(SceneType.Box1, false, { closeCB: cb }, Laya.Handler.create(this, (s) => {
-                    Laya.stage.addChild(s);
-                    s.size(Laya.stage.width, Laya.stage.height);
-                }));
+            if (this.firstBox) {
+                Laya.Scene.open(SceneType.Box1, false, { ccb: cb, type: this.firstBox_switch ? BoxType.Box_VideoBanner : BoxType.Box_Banner });
             }
             else {
                 cb && cb();
             }
         }
         static showBox2(cb) {
-            if (this.gridBox) {
-                Laya.Scene.open(SceneType.Box2, false, { closeCB: cb }, Laya.Handler.create(this, (s) => {
-                    Laya.stage.addChild(s);
-                    s.size(Laya.stage.width, Laya.stage.height);
-                }));
+            if (this.bannerBox) {
+                Laya.Scene.open(SceneType.Box1, false, { ccb: cb, type: this.bannerBox_switch ? BoxType.Box_VideoBanner : BoxType.Box_Banner });
             }
             else {
                 cb && cb();
             }
+        }
+        static visibleVideoBanner(visible, showFinger = true) {
+            if (visible)
+                Laya.Scene.open(SceneType.VideoBanner, false, { showFinger: showFinger });
+            else
+                Laya.Scene.close(SceneType.VideoBanner);
         }
         static showVirtualWxpage(cb) {
             if (this.showVitualWx && Laya.Browser.onWeiXin) {
@@ -1114,92 +1154,82 @@
                         }
                         else {
                             this.showVirtualCount = 0;
-                            this.showBox1(cb);
+                            cb && cb();
                         }
                     }
                 });
             }
             else {
-                this.showBox1(cb);
-            }
-        }
-        static inHomePage(cb) {
-            FdAd.visibleSideGridAd();
-            if (this.banner_gezi_switch) {
-                FdAd.showBannerAd();
-            }
-            else {
-                FdAd.visibleBottomGridAd();
-            }
-            if (this.homepageVideo) {
-                FdAd.showVideoAd(null, cb);
-            }
-            else {
                 cb && cb();
             }
         }
-        static shop() {
+        static inHomePage(cb) {
+            this.showHomeUI(true);
+            FdAd.showInterstitialAd();
+            FdAd.visibleSideGridAd();
+            FdAd.showBannerAd();
+            cb && cb();
+        }
+        static inShop() {
+            this.showHomeUI(false);
             FdAd.hideBannerAd();
             FdAd.visibleSideGridAd(false);
             FdAd.visibleBottomGridAd(false);
         }
         static startGame(cb) {
+            this.showHomeUI(false);
             FdAd.hideBannerAd();
             FdAd.visibleSideGridAd(false);
             FdAd.visibleBottomGridAd(false);
-            if (this.startVideo) {
-                FdAd.showVideoAd(null, () => {
-                    this.showVirtualWxpage(() => {
-                        this.showStartReMen(cb);
+            FdAd.showInterstitialAd(() => {
+                this.showStartReMen(() => {
+                    this.showBox2(() => {
+                        this.showVirtualWxpage(cb);
                     });
                 });
-            }
-            else {
-                this.showVirtualWxpage(() => {
-                    this.showStartReMen(cb);
-                });
-            }
+            });
         }
         static inGame() {
             FdAd.showBannerAd();
             FdAd.visibleSingleGridAd();
         }
         static showGameOver(cb) {
+            this.visibleVideoBanner(false);
             FdAd.hideBannerAd();
             FdAd.visibleSingleGridAd(false);
             this.showEndReMen(cb);
         }
         static inFinish(backBtn) {
+            FdAd.showInterstitialAd();
             FdAd.visibleSideGridAd();
             FdAd.hideBannerAd();
             if (this.endBanner) {
-                this.bannerShowHide();
+                if (this.endBanner_switch)
+                    this.videoBannerShowHide();
+                else
+                    this.bannerShowHide();
                 if (backBtn)
                     backBtn.bottom = 20;
             }
             else {
                 if (backBtn)
                     backBtn.bottom = 300;
-                if (this.banner_gezi_switch) {
-                    FdAd.showBannerAd();
-                }
-                else {
-                    FdAd.visibleBottomGridAd();
-                }
+                FdAd.showBannerAd();
             }
         }
         static closeFinish(cb) {
             Laya.timer.clearAll(this);
-            FdAd.hideBannerAd();
             FdAd.visibleBottomGridAd(false);
             FdAd.visibleSideGridAd(false);
+            this.visibleVideoBanner(false);
+            FdAd.hideBannerAd();
             this.gameCount++;
             this.loadGame(() => {
-                cb && cb();
+                Laya.timer.frameOnce(1, this, cb);
             });
         }
         static get allowScene() {
-            if (Laya.Browser.onWeiXin) {
+            if (Laya.Browser.onWeiXin && this.jsonConfig.sceneList) {
                 var launchInfo = Laya.Browser.window['wx'].getLaunchOptionsSync();
                 let scene = launchInfo.scene.toString();
                 let arr = this.jsonConfig.sceneList.split(',');
@@ -1208,55 +1238,37 @@
             return true;
         }
         static getConfig(cb) {
-            var launchInfo = Laya.Browser.window['wx'].getLaunchOptionsSync();
-            console.log("当前场景：", launchInfo.scene);
-            console.log('wxsdk初始化');
             window['wxsdk'].init({
-                version: '1.0.0',
-                appid: '300',
-                secret: '157cnylj59ql3k7fr7hpz5w47htn9ip1',
+                version: FdMgr.version,
+                appid: FdMgr.appid,
+                secret: FdMgr.secret,
                 share: {
                     title: '你能过得了这一关吗？',
                     image: 'https://game-oss.smallshark.cn/game/20211119/1216327431258.jpg?imageslim',
                 },
             });
             window['wxsdk'].onInit(() => {
-                console.log('wxsdk初始化成功:', window['wxsdk'].user);
+                console.log('wxsdk初始化成功:', window['wxsdk']);
                 let conf = new config();
-                conf.allowMistouch = window['wxsdk'].conf.allowMistouch;
-                conf.bannerBox = window['wxsdk'].conf.bannerBox;
-                conf.gridBox = window['wxsdk'].conf.gridBox;
-                conf.startVideo = window['wxsdk'].conf.startVideo;
-                conf.homepageVideo = window['wxsdk'].conf.homepageVideo;
-                conf.gridBoxVideo = window['wxsdk'].conf.gridBoxVideo;
-                conf.showRemen = window['wxsdk'].conf.showRemen;
-                conf.sceneList = window['wxsdk'].conf.sceneList;
-                conf.version = window['wxsdk'].conf.version;
-                conf.showVitualWx = window['wxsdk'].conf.showVitualWx;
-                conf.refresh_banner_time = window['wxsdk'].conf.refresh_banner_time;
-                conf.channel_ditch = window['wxsdk'].conf.channel_ditch;
-                conf.updateBanner = window['wxsdk'].conf.updateBanner;
-                conf.loadingVideo = window['wxsdk'].conf.loadingVideo;
-                conf.remenBanner = window['wxsdk'].conf.remenBanner;
-                conf.delay_play_count = window['wxsdk'].conf.delay_play_count;
-                conf.delay_play_countBanner = window['wxsdk'].conf.delay_play_countBanner;
-                conf.delay_play_countVideo = window['wxsdk'].conf.delay_play_countVideo;
-                conf.banner_gezi_switch = window['wxsdk'].conf.banner_gezi_switch;
-                conf.loadingGezi = window['wxsdk'].conf.loadingGezi;
-                conf.vitualWx_count = window['wxsdk'].conf.vitualWx_count;
-                conf.endBanner = window['wxsdk'].conf.endBanner;
-                conf.bannerBox_count = window['wxsdk'].conf.bannerBox_count;
-                conf.remenBanner_count = window['wxsdk'].conf.remenBanner_count;
-                conf.startRemen = window['wxsdk'].conf.startRemen;
-                conf.endRemen = window['wxsdk'].conf.endRemen;
-                this.jsonConfig = conf;
+                for (let key in conf) {
+                    conf[key] = window['wxsdk'].conf[key];
+                }
+                this.jsonConfig = window['wxsdk'].conf;
                 console.log('config:', this.jsonConfig);
                 if (this.jsonConfig.channel_ditch && !window['wxsdk'].user.channel) {
                     this.jsonConfig.allowMistouch = false;
                     console.log('config1:', this.jsonConfig);
                 }
-                FdAd.inidAd();
-                cb && cb();
+                FdAd.bannerIdArr = window['wxsdk'].conf.bannerIds ? window['wxsdk'].conf.bannerIds.split(',') : [];
+                FdAd.videoId = window['wxsdk'].conf.videoIds ? window['wxsdk'].conf.videoIds.split(',') : [];
+                FdAd.fullGridId = window['wxsdk'].conf.fullGridIds ? window['wxsdk'].conf.fullGridIds.split(',') : [];
+                FdAd.bottomGridId = window['wxsdk'].conf.bottomGridIds ? window['wxsdk'].conf.bottomGridIds.split(',') : [];
+                FdAd.sideGridId = window['wxsdk'].conf.sideGridIds ? window['wxsdk'].conf.sideGridIds.split(',') : [];
+                FdAd.singleGridId = window['wxsdk'].conf.singleGridIds ? window['wxsdk'].conf.singleGridIds.split(',') : [];
+                FdAd.interstitialId = window['wxsdk'].conf.interstitialIds ? window['wxsdk'].conf.interstitialIds.split(',') : [];
+                FdAd.inidAd(() => {
+                    cb && cb();
+                });
             });
             window['wxsdk'].login();
         }
@@ -1273,27 +1285,7 @@
         static get bannerBox() {
             if (!Laya.Browser.onWeiXin)
                 return false;
-            return this.canTrapAll && this.jsonConfig.bannerBox && this.gameCount >= this.jsonConfig.delay_play_count;
-        }
-        static get gridBox() {
-            if (!Laya.Browser.onWeiXin)
-                return false;
-            return this.canTrapAll && this.jsonConfig.gridBox && this.gameCount >= this.jsonConfig.delay_play_count;
-        }
-        static get startVideo() {
-            if (!Laya.Browser.onWeiXin)
-                return false;
-            return this.canTrapAll && this.jsonConfig.startVideo && this.gameCount >= this.jsonConfig.delay_play_countVideo;
-        }
-        static get homepageVideo() {
-            if (!Laya.Browser.onWeiXin)
-                return false;
-            return this.canTrapAll && this.jsonConfig.homepageVideo && this.gameCount >= this.jsonConfig.delay_play_count;
-        }
-        static get gridBoxVideo() {
-            if (!Laya.Browser.onWeiXin)
-                return false;
-            return this.canTrapAll && this.jsonConfig.gridBoxVideo && this.gameCount >= this.jsonConfig.delay_play_count;
+            return this.canTrapAll && this.jsonConfig.bannerBox;
         }
         static get showRemen() {
             if (!Laya.Browser.onWeiXin)
@@ -1303,45 +1295,62 @@
         static get showVitualWx() {
             if (!Laya.Browser.onWeiXin)
                 return false;
-            return this.canTrapAll && this.jsonConfig.showVitualWx && this.gameCount >= this.jsonConfig.delay_play_countVideo;
-        }
-        static get loadingVideo() {
-            if (!Laya.Browser.onWeiXin)
-                return false;
-            return this.canTrapAll && this.jsonConfig.loadingVideo;
+            return this.canTrapAll && this.jsonConfig.showVitualWx;
         }
         static get remenBanner() {
             if (!Laya.Browser.onWeiXin)
                 return false;
-            return this.canTrapAll && this.jsonConfig.remenBanner && this.gameCount >= this.jsonConfig.delay_play_countBanner;
-        }
-        static get banner_gezi_switch() {
-            if (!Laya.Browser.onWeiXin)
-                return true;
-            return this.jsonConfig.banner_gezi_switch;
-        }
-        static get loadingGezi() {
-            if (!Laya.Browser.onWeiXin)
-                return false;
-            return this.canTrapAll && this.jsonConfig.loadingGezi;
+            return this.canTrapAll && this.jsonConfig.remenBanner;
         }
         static get endBanner() {
             if (!Laya.Browser.onWeiXin)
                 return false;
-            return this.canTrapAll && this.jsonConfig.endBanner && this.gameCount >= this.jsonConfig.delay_play_countBanner;
+            return this.canTrapAll && this.jsonConfig.endBanner;
         }
         static get startRemen() {
             if (!Laya.Browser.onWeiXin)
                 return false;
-            return this.canTrapAll && this.jsonConfig.startRemen && this.gameCount >= this.jsonConfig.delay_play_countBanner;
+            return this.jsonConfig.startRemen;
         }
         static get endRemen() {
             if (!Laya.Browser.onWeiXin)
                 return false;
-            return this.canTrapAll && this.jsonConfig.endRemen && this.gameCount >= this.jsonConfig.delay_play_countBanner;
+            return this.jsonConfig.endRemen;
+        }
+        static get endRemen_switch() {
+            if (!Laya.Browser.onWeiXin)
+                return false;
+            return this.canTrapAll && this.jsonConfig.endRemen_switch;
+        }
+        static get firstBox_switch() {
+            if (!Laya.Browser.onWeiXin)
+                return false;
+            return this.jsonConfig.firstBox_switch;
+        }
+        static get firstBox() {
+            if (!Laya.Browser.onWeiXin)
+                return false;
+            return this.jsonConfig.firstBox;
+        }
+        static get bannerBox_switch() {
+            if (!Laya.Browser.onWeiXin)
+                return false;
+            return this.jsonConfig.bannerBox_switch;
+        }
+        static get endBanner_switch() {
+            if (!Laya.Browser.onWeiXin)
+                return false;
+            return this.jsonConfig.endBanner_switch;
+        }
+        static get homeViedo() {
+            if (!Laya.Browser.onWeiXin)
+                return false;
+            return this.jsonConfig.homeViedo;
         }
     }
-    FdMgr.version = '1.0.6';
+    FdMgr.version = '1.0.7';
+    FdMgr.appid = '';
+    FdMgr.secret = '';
     FdMgr.wuchuProgressValue = 0;
     FdMgr.wuchuProgressStepAdd = 0.1;
     FdMgr.wuchuProgressFrameSub = 0.0032;
@@ -1352,10 +1361,756 @@
     var SceneType;
     (function (SceneType) {
         SceneType["Remen"] = "FDScene/Remen.scene";
-        SceneType["VitrualWx"] = "FDScene/VitrualWx.scene";
         SceneType["Box1"] = "FDScene/Box1.scene";
-        SceneType["Box2"] = "FDScene/Box2.scene";
+        SceneType["VideoBanner"] = "FDScene/VideoBanner.scene";
+        SceneType["HomeUI"] = "FDScene/HomeUI.scene";
     })(SceneType || (SceneType = {}));
+    var BoxType;
+    (function (BoxType) {
+        BoxType[BoxType["Box_Banner"] = 0] = "Box_Banner";
+        BoxType[BoxType["Box_VideoBanner"] = 1] = "Box_VideoBanner";
+    })(BoxType || (BoxType = {}));
+
+    class GameUI extends Laya.Scene {
+        constructor() {
+            super();
+        }
+        onOpened() {
+            GameUI.Share = this;
+            this.size(Laya.stage.displayWidth, Laya.stage.displayHeight);
+            Laya.timer.frameLoop(1, this, this.myUpdate);
+            this.touchBtn.on(Laya.Event.MOUSE_DOWN, this, this.touchStart);
+            this.touchBtn.on(Laya.Event.MOUSE_MOVE, this, this.touchMove);
+            this.touchBtn.on(Laya.Event.MOUSE_UP, this, this.touchEnd);
+            this.curGrade.value = PlayerDataMgr.getPlayerData().grade.toString();
+            this.nextGrade.value = (PlayerDataMgr.getPlayerData().grade + 1).toString();
+            this.touchBtn.visible = false;
+            this.showWeaponTips();
+            GameLogic.Share.gameStart();
+            SoundMgr.instance.playMusic('Bgm.mp3');
+            this.createDir();
+            FdMgr.inGame();
+        }
+        onClosed() {
+            this.DirNode.destroyChildren();
+            Laya.timer.clearAll(this);
+        }
+        touchStart(evt) {
+            if (GameLogic.Share.isGameOver)
+                return;
+            if (!GameLogic.Share.isStartGame) {
+                this.guideAni.visible = false;
+                GameLogic.Share.isStartGame = true;
+                GameLogic.Share.enemyStart();
+                GameLogic.Share.enemyHunt();
+                if (PlayerDataMgr.getPlayerData().grade == 1) {
+                    this.NewerGuide.visible = true;
+                    Laya.timer.once(3000, this, () => { this.NewerGuide.visible = false; });
+                }
+            }
+            let x = evt.stageX;
+            let y = evt.stageY;
+            this.joyStickBg.visible = true;
+            this.joyStickBg.pos(x, y);
+            this.joyStick.pos(105, 105);
+            this.touchStartPos = new Laya.Vector3(x, y);
+        }
+        touchMove(evt) {
+            if (GameLogic.Share.isGameOver) {
+                this.joyStickBg.visible = false;
+                return;
+            }
+            let x = evt.stageX;
+            let y = evt.stageY;
+            let pos = new Laya.Vector3(x, y);
+            let dir = new Laya.Vector3(0, 0, 0);
+            Laya.Vector3.subtract(new Laya.Vector3(this.touchStartPos.x, 0, this.touchStartPos.y), new Laya.Vector3(pos.x, 0, pos.y), dir);
+            Laya.Vector3.normalize(dir, dir);
+            GameLogic.Share._playerCrl.myDir = dir.clone();
+            dir = new Laya.Vector3();
+            if (Laya.Vector3.distance(pos, this.touchStartPos) <= 105) {
+                this.joyStick.pos(x - this.touchStartPos.x + 105, y - this.touchStartPos.y + 105);
+            }
+            else {
+                Laya.Vector3.subtract(pos, this.touchStartPos, dir);
+                Laya.Vector3.normalize(dir, dir);
+                Laya.Vector3.scale(dir, 105, dir);
+                Laya.Vector3.add(new Laya.Vector3(105, 105), dir, dir);
+                this.joyStick.pos(dir.x, dir.y);
+            }
+        }
+        touchEnd(evt) {
+            this.joyStickBg.visible = false;
+            GameLogic.Share._playerCrl.tempDir = GameLogic.Share._playerCrl.myDir.clone();
+            GameLogic.Share._playerCrl.myDir = new Laya.Vector3();
+            if (GameLogic.Share.isGameOver)
+                return;
+            GameLogic.Share._playerCrl.attack();
+        }
+        showTips(v) {
+            Laya.timer.clear(this, this.delayShowTips);
+            if (v == 2) {
+                SoundMgr.instance.playSoundEffect('kill_double.mp3');
+                this.tips.skin = 'gameUI/yxz_glwz_1.png';
+            }
+            else if (v == 3) {
+                SoundMgr.instance.playSoundEffect('kill_multi.mp3');
+                this.tips.skin = 'gameUI/yxz_glwz_2.png';
+            }
+            else if (v == 4) {
+                SoundMgr.instance.playSoundEffect('kill_ultra.mp3');
+                this.tips.skin = 'gameUI/yxz_glwz_3.png';
+            }
+            else {
+                let id = Utility.GetRandom(4, 6);
+                this.tips.skin = 'gameUI/yxz_glwz_' + id + '.png';
+                SoundMgr.instance.playSoundEffect(id != 6 ? 'Good.mp3' : 'Perfect.mp3');
+            }
+            this.tips.visible = true;
+            this.tips.scale(1, 1);
+            Laya.timer.once(1000, this, this.delayShowTips);
+        }
+        delayShowTips() {
+            Utility.scaleTo2D(this.tips, 0, 100, () => { this.tips.visible = false; });
+        }
+        showWeaponTips() {
+            this.weaponTips.visible = true;
+            let g = PlayerDataMgr.getPlayerData().grade;
+            g = Math.floor((g - 1) % 5) + 1;
+            this.weaponName.skin = 'gameUI/yxz_wzts_' + g + '.png';
+            this.weaponPic.skin = 'skinUI/Weapon/Weapon_' + g + '.png';
+            Laya.timer.once(2000, this, () => {
+                this.weaponTips.visible = false;
+                this.touchBtn.visible = true;
+            });
+            this.weaponName.pos(this.weaponName.x, this.weaponName.y - 500);
+            Utility.tMove2D(this.weaponName, this.weaponName.x, this.weaponName.y + 500, 500, null);
+        }
+        getCoins(nodePos) {
+            SoundMgr.instance.playSoundEffect('GetCoin.mp3');
+            let op = new Laya.Vector4(0, 0, 0);
+            let hPos = nodePos;
+            GameLogic.Share._camera.viewport.project(hPos, GameLogic.Share._camera.projectionViewMatrix, op);
+            let pos = new Laya.Vector2(op.x / Laya.stage.clientScaleX, op.y / Laya.stage.clientScaleY);
+            Utility.coinCollectAnim('startUI/ksy_jb.png', pos, new Laya.Vector2(35, 95), this, 5, () => {
+                PlayerDataMgr.getPlayerData().coin += 5;
+                PlayerDataMgr.setPlayerData();
+                SoundMgr.instance.playSoundEffect('AddCoin.mp3');
+            });
+        }
+        createDir() {
+            for (let i = 0; i < GameLogic.Share._enemyNode.numChildren; i++) {
+                let dir = new Laya.Image(GameLogic.Share._sceneId == 1 ? 'gameUI/Down1.png' : 'gameUI/Down2.png');
+                dir.anchorX = 0.5;
+                dir.anchorY = 1;
+                this.DirNode.addChild(dir);
+                dir.pos(-100, -100);
+                dir.visible = false;
+            }
+        }
+        fixEnemyDir() {
+            for (let i = 0; i < this.DirNode.numChildren; i++) {
+                let dir = this.DirNode.getChildAt(i);
+                dir.visible = false;
+                dir.pos(-100, -100);
+            }
+            for (let i = 0; i < GameLogic.Share._enemyNode.numChildren; i++) {
+                let enemy = GameLogic.Share._enemyNode.getChildAt(i);
+                let ePos = enemy.transform.position.clone();
+                let op = new Laya.Vector4(0, 0, 0);
+                let hPos = ePos;
+                GameLogic.Share._camera.viewport.project(hPos, GameLogic.Share._camera.projectionViewMatrix, op);
+                let pos = new Laya.Vector2(op.x / Laya.stage.clientScaleX, op.y / Laya.stage.clientScaleY);
+                let dir = this.DirNode.getChildAt(i);
+                if ((pos.x > 0 && pos.y > 0 && pos.x < this.displayWidth && pos.y < this.displayHeight)) {
+                    dir.visible = false;
+                    continue;
+                }
+                if (pos.x > this.width - 20) {
+                    pos.x = this.width - 20;
+                    dir.rotation = -90;
+                }
+                if (pos.x < 20) {
+                    pos.x = 20;
+                    dir.rotation = 90;
+                }
+                if (pos.y > this.height - 20) {
+                    pos.y = this.height - 20;
+                    dir.rotation = 0;
+                }
+                if (pos.y < 20) {
+                    pos.y = 20;
+                    dir.rotation = 180;
+                }
+                if (pos.x <= 20 && pos.y <= 20)
+                    dir.rotation = 135;
+                if (pos.x <= 20 && pos.y >= this.height - 20)
+                    dir.rotation = 45;
+                if (pos.x >= this.width - 20 && pos.y <= 20)
+                    dir.rotation = 225;
+                if (pos.x >= this.width - 20 && pos.y >= this.height - 20)
+                    dir.rotation = -45;
+                dir.pos(pos.x, pos.y);
+                dir.visible = true;
+            }
+        }
+        myUpdate() {
+            this.coinNum.value = PlayerDataMgr.getPlayerData().coin.toString();
+            this.leftNum.value = (GameLogic.Share._enemyNode.numChildren + 1).toString();
+            this.pBar.value = (GameLogic.Share._enemyCount - GameLogic.Share._curEnemyCount) / GameLogic.Share._enemyCount;
+            this.fixEnemyDir();
+        }
+    }
+
+    class Man extends Laya.Script {
+        constructor() {
+            super();
+            this.myOwner = null;
+            this._ani = null;
+            this.weaponNode = null;
+            this.atkArea = null;
+            this.steve = null;
+            this.smoke_1 = null;
+            this.smoke_beat = null;
+            this.myDir = new Laya.Vector3();
+            this.tempDir = new Laya.Vector3();
+            this.speed = 0.2;
+            this.weaponIndex = 0;
+            this.areaIndex = 0;
+            this.scaleNum = 1;
+            this.canMove = true;
+            this.isDied = false;
+            this.isPlayer = true;
+            this.curAniName = '';
+        }
+        onAwake() {
+            this.myOwner = this.owner;
+            this._ani = this.myOwner.getComponent(Laya.Animator);
+            this.weaponNode = Utility.findNodeByName(this.myOwner, 'weapon_hand.R');
+            this.atkArea = Utility.findNodeByName(this.myOwner, 'AtkArea');
+            this.steve = Utility.findNodeByName(this.myOwner, 'Steve');
+            this.smoke_1 = Utility.findNodeByName(this.myOwner, 'Smoke_1');
+            this.smoke_beat = Utility.findNodeByName(this.myOwner, 'Smoke_Beat');
+            this.playAni('character_bones|default_idle_' + Utility.GetRandom(1, 7));
+        }
+        onDestroy() {
+            Laya.timer.clearAll(this);
+        }
+        get myPos() {
+            return this.myOwner.transform.position.clone();
+        }
+        changeSkin(id) {
+            let dir = "res/Texture/Man_" + (id + 1) + ".png";
+            let ms = this.steve;
+            Laya.Texture2D.load(dir, Laya.Handler.create(this, (texture) => {
+                ms.skinnedMeshRenderer.material.albedoTexture = texture;
+                if (!FdMgr.isVersionValid) {
+                    ms.skinnedMeshRenderer.material.albedoColor = new Laya.Vector4(0, 0, 0, 1);
+                }
+            }));
+        }
+        playAni(name, speed = 1, normalizedTime = 0) {
+            if (name.search('idle') != -1 && this.curAniName == this.getAniTypeName() + 'idle')
+                return;
+            if (name.search('run') != -1 && this.curAniName == this.getAniTypeName() + 'run')
+                return;
+            this._ani.play(name, 0, normalizedTime);
+            this._ani.speed = speed;
+            this.curAniName = name;
+        }
+        playIdle() {
+            this.playAni(this.getAniTypeName() + 'idle');
+        }
+        playRun() {
+            this.playAni(this.getAniTypeName() + 'run');
+        }
+        playAttack() {
+            this.playAni(this.getAniTypeName() + 'attack', 1.5);
+        }
+        playWin() {
+            this.playAni(this.getAniTypeName() + 'win_1');
+        }
+        getAniTypeName() {
+            switch (this.weaponIndex) {
+                case 0:
+                    return 'character_bones|hammer_';
+                case 1:
+                    return 'character_bones|sword_';
+                case 2:
+                    return 'character_bones|gunman_';
+                case 3:
+                    return 'character_bones|trapman_';
+                case 4:
+                    return 'character_bones|hunter_';
+            }
+        }
+        activeWeapon(id) {
+            for (let i = 0; i < this.weaponNode.numChildren; i++) {
+                let weapon = this.weaponNode.getChildAt(i);
+                weapon.active = i == id;
+            }
+        }
+        activeAtkArea(id) {
+            this.areaIndex = id;
+            for (let i = 0; i < this.atkArea.numChildren; i++) {
+                let area = this.atkArea.getChildAt(i);
+                area.active = i == id;
+            }
+        }
+        move() {
+            if (GameLogic.Share.isGameOver || !this.canMove || this.isDied)
+                return;
+            if (Laya.Vector3.scalarLength(this.myDir) > 0)
+                this.playRun();
+            this.checkCollision();
+            let speed = this.speed;
+            if (this.isPlayer)
+                speed += this.scaleNum * 0.02;
+            let pos = this.myOwner.transform.position.clone();
+            let dir = new Laya.Vector3(0, 0, 0);
+            let sp = speed;
+            Laya.Vector3.scale(this.myDir, sp, dir);
+            Laya.Vector3.add(pos, dir, pos);
+            this.myOwner.transform.position = pos;
+        }
+        rotateMySelf() {
+            if (this.isDied || !this.canMove || Laya.Vector3.equals(this.myDir, new Laya.Vector3())) {
+                return;
+            }
+            let angle = new Laya.Quaternion();
+            let dir = new Laya.Vector3();
+            Laya.Vector3.scale(this.myDir, -1, dir);
+            Laya.Quaternion.rotationLookAt(dir, new Laya.Vector3(0, 1, 0), angle);
+            Laya.Quaternion.invert(angle, angle);
+            Laya.Quaternion.lerp(this.myOwner.transform.localRotation.clone(), angle, 0.2, angle);
+            this.myOwner.transform.localRotation = angle;
+            let a = this.myOwner.transform.localRotationEuler.clone();
+            a.x = 0;
+            this.myOwner.transform.localRotationEuler = a;
+        }
+        stronger() {
+            this.scaleNum += 0.3;
+            this.myOwner.transform.setWorldLossyScale(new Laya.Vector3(this.scaleNum, this.scaleNum, this.scaleNum));
+            this.smoke_beat.transform.setWorldLossyScale(new Laya.Vector3(this.scaleNum, this.scaleNum, this.scaleNum));
+        }
+        hurtCB(fromPlayer = false) {
+            if (this.isDied)
+                return;
+            SoundMgr.instance.playSoundEffect('Hurt.mp3');
+            WxApi.DoVibrate();
+            GameLogic.Share.createHitFX(this.myOwner);
+            Laya.timer.clearAll(this);
+            this.isDied = true;
+            this.atkArea.active = false;
+            if (!this.isPlayer) {
+                if (fromPlayer) {
+                    GameLogic.Share._playerCrl.stronger();
+                }
+                GameUI.Share.getCoins(this.myPos);
+                GameLogic.Share._curEnemyCount--;
+                this.myOwner.destroy();
+                if (GameLogic.Share._enemyNode.numChildren <= 0) {
+                    GameLogic.Share.gameOver(true);
+                }
+            }
+            else {
+                GameLogic.Share.gameOver(false);
+                this.dieCB();
+                this.playIdle();
+            }
+        }
+        dieCB() {
+            let r = this.myOwner.transform.localRotationEuler.clone();
+            r.x -= 90;
+            Utility.RotateTo(this.myOwner, 300, r, null);
+        }
+        checkCollision() {
+            let l1 = GameLogic.Share._sceneId == 1 ? 3 : 3.5;
+            let l2 = GameLogic.Share._sceneId == 1 ? 2.5 : 3;
+            let arr = GameLogic.Share._sceneId == 1 ? GameLogic.Share._cubeArr1 : GameLogic.Share._cubeArr2;
+            for (let i = 0; i < arr.length; i++) {
+                let cube = arr[i];
+                let cPos = cube.transform.position.clone();
+                if (this.myPos.x <= cPos.x + l1 && this.myPos.x >= cPos.x - l1 && this.myPos.z <= cPos.z + l1 && this.myPos.z >= cPos.z - l1) {
+                    if (this.myPos.x >= cPos.x + l2 && this.myDir.x < 0) {
+                        this.myDir.x = 0;
+                    }
+                    if (this.myPos.x <= cPos.x - l2 && this.myDir.x > 0) {
+                        this.myDir.x = 0;
+                    }
+                    if (this.myPos.z >= cPos.z + l2 && this.myDir.z < 0) {
+                        this.myDir.z = 0;
+                    }
+                    if (this.myPos.z <= cPos.z - l2 && this.myDir.z > 0) {
+                        this.myDir.z = 0;
+                    }
+                }
+            }
+        }
+        checkAniComplete() {
+            if (this._ani.getCurrentAnimatorPlayState().animatorState.name.search('attack') != -1) {
+                if (this._ani.getCurrentAnimatorPlayState().normalizedTime >= 1) {
+                    this.playIdle();
+                }
+            }
+        }
+        onUpdate() {
+            if (GameLogic.Share.isGameOver || !GameLogic.Share.isStartGame || this.isDied)
+                return;
+            this.move();
+            this.rotateMySelf();
+            this.checkAniComplete();
+        }
+    }
+
+    class TNT extends Laya.Script {
+        constructor() {
+            super();
+            this.myOwner = null;
+            this.isPlayer = false;
+            this.scaleNum = 1;
+        }
+        onAwake() {
+            this.myOwner = this.owner;
+            Laya.timer.once(2000, this, () => {
+                GameLogic.Share.createBoomFX(this.myOwner);
+                this.myOwner.destroy();
+            });
+        }
+        onDestroy() {
+            Laya.timer.clearAll(this);
+        }
+        initData(isPlayer, scaleNum) {
+            this.isPlayer = isPlayer;
+            this.scaleNum = scaleNum;
+        }
+        onUpdate() {
+            if (this.isPlayer) {
+                for (let i = 0; i < GameLogic.Share._enemyNode.numChildren; i++) {
+                    let enemy = GameLogic.Share._enemyNode.getChildAt(i);
+                    let ePos = enemy.transform.position.clone();
+                    let crl = enemy.getComponent(Enemy);
+                    let myPos = this.myOwner.transform.position.clone();
+                    if (Laya.Vector3.distance(myPos, ePos) <= this.scaleNum) {
+                        crl.hurtCB(this.isPlayer);
+                        SoundMgr.instance.playSoundEffect('Boom.mp3');
+                        GameLogic.Share.createBoomFX(this.myOwner);
+                        this.myOwner.destroy();
+                        break;
+                    }
+                }
+            }
+            else {
+                let player = GameLogic.Share._player;
+                let pPos = player.transform.position.clone();
+                let crl = player.getComponent(PlayerCrl);
+                let myPos = this.myOwner.transform.position.clone();
+                if (Laya.Vector3.distance(myPos, pPos) <= this.scaleNum) {
+                    crl.hurtCB(this.isPlayer);
+                    SoundMgr.instance.playSoundEffect('Boom.mp3');
+                    GameLogic.Share.createBoomFX(this.myOwner);
+                    this.myOwner.destroy();
+                }
+            }
+        }
+    }
+
+    class Enemy extends Man {
+        constructor() {
+            super();
+        }
+        initData(skinId) {
+            this.speed = 0.1;
+            this.isPlayer = false;
+            this.changeSkin(skinId);
+        }
+        gameStart() {
+            this.playIdle();
+            this.weaponIndex = Utility.GetRandom(0, 4);
+            this.activeWeapon(this.weaponIndex);
+        }
+        hunt() {
+            if (this.isDied || PlayerDataMgr.getPlayerData().grade <= 1)
+                return;
+            switch (this.weaponIndex) {
+                case 0:
+                    this.activeAtkArea(0);
+                    break;
+                case 1:
+                    this.activeAtkArea(0);
+                    break;
+                case 2:
+                    this.activeAtkArea(1);
+                    break;
+                case 3:
+                    this.activeAtkArea(-1);
+                    break;
+                case 4:
+                    this.activeAtkArea(2);
+                    break;
+            }
+            this.smoke_1.active = true;
+            this.myDir = new Laya.Vector3(Math.random() * 2 - 1, 0, Math.random() * 2 - 1);
+            Laya.Vector3.normalize(this.myDir, this.myDir);
+            Laya.timer.once(Math.random() * 2000 + 2000, this, () => {
+                this.attack();
+            });
+        }
+        attack() {
+            if (!this.canMove || this.isDied) {
+                return;
+            }
+            this.canMove = false;
+            Laya.timer.once(500, this, () => { this.canMove = true; this.hunt(); });
+            this.playAttack();
+            let delay = 0;
+            switch (this.weaponIndex) {
+                case 0:
+                    delay = 400;
+                    break;
+                case 1:
+                    delay = 200;
+                    break;
+                case 2:
+                    delay = 150;
+                    break;
+                case 3:
+                    delay = 200;
+                    break;
+                case 4:
+                    delay = 150;
+                    break;
+            }
+            Laya.timer.once(delay, this, this.checkHitOpponet);
+        }
+        checkHitOpponet() {
+            if (this.weaponIndex != 3) {
+                if (this.weaponIndex == 0) {
+                    this.smoke_beat.active = true;
+                    Laya.timer.once(1000, this, () => { this.smoke_beat.active = false; });
+                }
+                let arr = [];
+                let area = this.atkArea.getChildAt(this.areaIndex);
+                for (let i = 0; i < area.numChildren; i++) {
+                    let node = area.getChildAt(i);
+                    let pos = node.transform.position.clone();
+                    arr.push(new Laya.Vector2(pos.x, pos.z));
+                }
+                let player = GameLogic.Share._player;
+                let ePos = player.transform.position.clone();
+                let crl = player.getComponent(PlayerCrl);
+                if (Utility.pointInPolygon(new Laya.Vector2(ePos.x, ePos.z), arr)) {
+                    crl.hurtCB();
+                }
+            }
+            else {
+                this.createTnt();
+            }
+        }
+        createTnt() {
+            for (let i = 0; i < 3; i++) {
+                let tntRes = GameLogic.Share._scene.getChildByName('TNT_1');
+                let tnt = Laya.Sprite3D.instantiate(tntRes, GameLogic.Share._levelNode, false, new Laya.Vector3(0, 0, 0));
+                tnt.active = true;
+                let pos = this.myPos;
+                pos.y += 1;
+                tnt.transform.position = pos;
+                let crl = tnt.addComponent(TNT);
+                crl.initData(false, this.scaleNum);
+                tnt.transform.setWorldLossyScale(new Laya.Vector3(this.scaleNum, this.scaleNum, this.scaleNum));
+                let desPos = new Laya.Vector3();
+                let dir = this.myDir.clone();
+                let s = this.scaleNum / 2;
+                if (s < 1)
+                    s = 1;
+                let dis = 4 * s;
+                if (i == 1) {
+                    dis = 8 * s;
+                    dir = Utility.RotateWithPoint(dir, new Laya.Vector3(0, 1, 0), 30);
+                }
+                else if (i == 2) {
+                    dis = 8 * s;
+                    dir = Utility.RotateWithPoint(dir, new Laya.Vector3(0, 1, 0), -30);
+                }
+                Laya.Vector3.scale(dir, dis, dir);
+                Laya.Vector3.add(this.myPos, dir, desPos);
+                Utility.TmoveTo(tnt, 100, desPos, null);
+            }
+        }
+    }
+
+    class PlayerCrl extends Man {
+        constructor() {
+            super();
+        }
+        initData(weaponIndex, skinId) {
+            this.weaponIndex = weaponIndex;
+            this.changeSkin(skinId);
+            Laya.timer.frameLoop(10, this, this.myUpdate);
+        }
+        gameStart() {
+            this.playIdle();
+            this.activeWeapon(this.weaponIndex);
+            switch (this.weaponIndex) {
+                case 0:
+                    this.activeAtkArea(0);
+                    break;
+                case 1:
+                    this.activeAtkArea(0);
+                    break;
+                case 2:
+                    this.activeAtkArea(1);
+                    break;
+                case 3:
+                    this.activeAtkArea(-1);
+                    break;
+                case 4:
+                    this.activeAtkArea(2);
+                    break;
+            }
+            this.smoke_1.active = true;
+        }
+        attack() {
+            if (!this.canMove || this.isDied) {
+                return;
+            }
+            this.canMove = false;
+            Laya.timer.once(500, this, () => { this.canMove = true; });
+            this.playAttack();
+            let delay = 0;
+            switch (this.weaponIndex) {
+                case 0:
+                    delay = 400;
+                    break;
+                case 1:
+                    delay = 200;
+                    break;
+                case 2:
+                    delay = 150;
+                    break;
+                case 3:
+                    delay = 100;
+                    break;
+                case 4:
+                    delay = 150;
+                    break;
+            }
+            Laya.timer.once(delay, this, this.checkHitOpponet);
+        }
+        checkHitOpponet() {
+            switch (this.weaponIndex) {
+                case 0:
+                    SoundMgr.instance.playSoundEffect('Hammer.mp3');
+                    break;
+                case 1:
+                    SoundMgr.instance.playSoundEffect('Sword.mp3');
+                    break;
+                case 2:
+                    SoundMgr.instance.playSoundEffect('Gun.mp3');
+                    break;
+                case 3:
+                    SoundMgr.instance.playSoundEffect('Trap.mp3');
+                    break;
+                case 4:
+                    SoundMgr.instance.playSoundEffect('Hunter.mp3');
+                    break;
+            }
+            if (this.weaponIndex != 3) {
+                Utility.objectShake(GameLogic.Share._camera, 0.1, 0.5);
+                WxApi.DoVibrate();
+                if (this.weaponIndex == 0) {
+                    this.smoke_beat.active = true;
+                    Laya.timer.once(1000, this, () => { this.smoke_beat.active = false; });
+                }
+                else if (this.weaponIndex == 2 || this.weaponIndex == 4) {
+                    this.weaponNode.getChildAt(this.weaponIndex).getChildAt(0).active = true;
+                    Laya.timer.once(1000, this, () => {
+                        this.weaponNode.getChildAt(this.weaponIndex).getChildAt(0).active = false;
+                    });
+                }
+                let arr = [];
+                let area = this.atkArea.getChildAt(this.areaIndex);
+                for (let i = 0; i < area.numChildren; i++) {
+                    let node = area.getChildAt(i);
+                    let pos = node.transform.position.clone();
+                    arr.push(new Laya.Vector2(pos.x, pos.z));
+                }
+                let count = 0;
+                for (let i = GameLogic.Share._enemyNode.numChildren - 1; i >= 0; i--) {
+                    let enemy = GameLogic.Share._enemyNode.getChildAt(i);
+                    let ePos = enemy.transform.position.clone();
+                    let crl = enemy.getComponent(Enemy);
+                    if (Utility.pointInPolygon(new Laya.Vector2(ePos.x, ePos.z), arr)) {
+                        count++;
+                        crl.hurtCB(true);
+                    }
+                }
+                if (count > 0)
+                    GameUI.Share.showTips(count);
+            }
+            else {
+                this.createTnt();
+            }
+        }
+        createTnt() {
+            for (let i = 0; i < 3; i++) {
+                let tntRes = GameLogic.Share._scene.getChildByName('TNT_1');
+                let tnt = Laya.Sprite3D.instantiate(tntRes, GameLogic.Share._levelNode, false, new Laya.Vector3(0, 0, 0));
+                tnt.active = true;
+                let pos = this.myPos;
+                pos.y += 1;
+                tnt.transform.position = pos;
+                let crl = tnt.addComponent(TNT);
+                crl.initData(true, this.scaleNum);
+                tnt.transform.setWorldLossyScale(new Laya.Vector3(this.scaleNum, this.scaleNum, this.scaleNum));
+                let desPos = new Laya.Vector3();
+                let dir = this.tempDir.clone();
+                let s = this.scaleNum / 2;
+                if (s < 1)
+                    s = 1;
+                let dis = 4 * s;
+                if (i == 1) {
+                    dis = 8 * s;
+                    dir = Utility.RotateWithPoint(dir, new Laya.Vector3(0, 1, 0), 30);
+                }
+                else if (i == 2) {
+                    dis = 8 * s;
+                    dir = Utility.RotateWithPoint(dir, new Laya.Vector3(0, 1, 0), -30);
+                }
+                Laya.Vector3.scale(dir, dis, dir);
+                Laya.Vector3.add(this.myPos, dir, desPos);
+                Utility.TmoveTo(tnt, 100, desPos, null);
+            }
+        }
+        winCB() {
+            this.atkArea.active = false;
+            this.smoke_1.active = false;
+            this.playWin();
+            this.myOwner.transform.rotationEuler = new Laya.Vector3(0, 180, 0);
+            this.scaleNum = 1;
+            this.myOwner.transform.setWorldLossyScale(new Laya.Vector3(1, 1, 1));
+        }
+        myUpdate() {
+            if (this.weaponIndex != 3) {
+                let arr = [];
+                let area = this.atkArea.getChildAt(this.areaIndex);
+                for (let i = 0; i < area.numChildren; i++) {
+                    let node = area.getChildAt(i);
+                    let pos = node.transform.position.clone();
+                    arr.push(new Laya.Vector2(pos.x, pos.z));
+                }
+                for (let i = GameLogic.Share._enemyNode.numChildren - 1; i >= 0; i--) {
+                    let enemy = GameLogic.Share._enemyNode.getChildAt(i);
+                    let ePos = enemy.transform.position.clone();
+                    let crl = enemy.getComponent(Enemy);
+                    if (Utility.pointInPolygon(new Laya.Vector2(ePos.x, ePos.z), arr)) {
+                        this.attack();
+                        break;
+                    }
+                }
+            }
+        }
+    }
 
     class GameLogic {
         constructor() {
@@ -1366,12 +2121,18 @@
             this.isStartGame = false;
             this.isGameOver = false;
             this.isWin = false;
-            this.isPause = false;
+            this.isPause = true;
             this.isFinish = false;
             this.isSelectingSkin = false;
             this._levelNode = null;
+            this._enemyNode = null;
             this._player = null;
             this._playerCrl = null;
+            this._cubeArr1 = [];
+            this._cubeArr2 = [];
+            this._sceneId = 1;
+            this._enemyCount = 15;
+            this._curEnemyCount = 15;
             if (!Laya.Browser.onWeiXin)
                 localStorage.clear();
             GameLogic.Share = this;
@@ -1407,17 +2168,53 @@
             this.camStartRotation = this._camera.transform.rotation.clone();
             this._camera.fieldOfView = this.startCamField;
             this._cameraCrl = this._camera.addComponent(CameraCrl);
+            let cubeNode = this._scene.getChildByName('Scene_1').getChildByName('CubeNode');
+            for (let i = 0; i < cubeNode.numChildren; i++) {
+                this._cubeArr1.push(cubeNode.getChildAt(i));
+            }
+            let cubeNode1 = this._scene.getChildByName('Scene_2').getChildByName('CubeNode');
+            for (let i = 0; i < cubeNode1.numChildren; i++) {
+                this._cubeArr2.push(cubeNode1.getChildAt(i));
+            }
             this._levelNode = this._scene.addChild(new Laya.Sprite3D());
             this.createLevel();
         }
         gameStart() {
-            this.isStartGame = true;
+            GameLogic.Share.isPause = false;
+            this._light.shadowDistance = 100;
             this._playerCrl.gameStart();
+            this.enemyStart();
+        }
+        enemyStart() {
+            for (let i = 0; i < this._enemyNode.numChildren; i++) {
+                let enemy = this._enemyNode.getChildAt(i);
+                let crl = enemy.getComponent(Enemy);
+                crl.gameStart();
+            }
+        }
+        enemyHunt() {
+            for (let i = 0; i < this._enemyNode.numChildren; i++) {
+                let enemy = this._enemyNode.getChildAt(i);
+                let crl = enemy.getComponent(Enemy);
+                crl.hunt();
+            }
         }
         createLevel() {
-            let g = PlayerDataMgr.getPlayerData().grade;
-            g = Math.floor((g - 1) % 5);
+            this._enemyNode = this._levelNode.addChild(new Laya.Sprite3D());
+            this._sceneId = Math.random() > 0.5 ? 1 : 2;
+            this._scene.getChildByName('Scene_1').active = false;
+            this._scene.getChildByName('Scene_2').active = false;
+            this._scene.getChildByName('Scene_' + this._sceneId).active = true;
+            if (!FdMgr.isVersionValid) {
+                let ms = this._scene.getChildByName('Scene_1').getChildAt(1);
+                let ms1 = this._scene.getChildByName('Scene_2').getChildAt(1);
+                Laya.Texture2D.load('res/Texture/Man_9.png', Laya.Handler.create(this, (texture) => {
+                    ms.meshRenderer.sharedMaterial.albedoTexture = texture;
+                    ms1.meshRenderer.sharedMaterial.albedoTexture = texture;
+                }));
+            }
             this.createPlayer();
+            this.createEnemy();
         }
         createPlayer() {
             let res = this._scene.getChildByName('Model');
@@ -1426,14 +2223,101 @@
             this._player.transform.position = new Laya.Vector3();
             this._player.transform.localRotationEuler = new Laya.Vector3(0, 180, 0);
             this._playerCrl = this._player.addComponent(PlayerCrl);
+            let g = PlayerDataMgr.getPlayerData().grade;
+            g = Math.floor((g - 1) % 5);
+            this._playerCrl.initData(g, PlayerDataMgr.getPlayerData().skinId);
+        }
+        createEnemy() {
+            if (PlayerDataMgr.getPlayerData().grade == 1) {
+                this._enemyCount = 3;
+                this._curEnemyCount = 3;
+                for (let i = 0; i < 3; i++) {
+                    let pos = new Laya.Vector3();
+                    if (i == 0)
+                        pos = new Laya.Vector3(0, 0, 7);
+                    if (i == 1)
+                        pos = new Laya.Vector3(7, 0, 7);
+                    if (i == 2)
+                        pos = new Laya.Vector3(7, 0, 0);
+                    let res = this._scene.getChildByName('Model');
+                    let enemy = Laya.Sprite3D.instantiate(res, this._enemyNode, false, new Laya.Vector3(0, 0, 0));
+                    enemy.active = true;
+                    enemy.transform.position = pos;
+                    enemy.transform.localRotationEuler = new Laya.Vector3(0, 180, 0);
+                    let crl = enemy.addComponent(Enemy);
+                    crl.initData(Utility.GetRandom(0, 10));
+                }
+            }
+            else {
+                let enemyNode = this._scene.getChildByName('Scene_' + this._sceneId).getChildByName('EnemyNode');
+                this._enemyCount = enemyNode.numChildren;
+                if (PlayerDataMgr.getPlayerData().grade == 2)
+                    this._enemyCount = 6;
+                if (PlayerDataMgr.getPlayerData().grade == 3)
+                    this._enemyCount = 10;
+                this._curEnemyCount = this._enemyCount;
+                for (let i = 0; i < this._enemyCount; i++) {
+                    let node = enemyNode.getChildAt(i);
+                    let pos = node.transform.position.clone();
+                    let res = this._scene.getChildByName('Model');
+                    let enemy = Laya.Sprite3D.instantiate(res, this._enemyNode, false, new Laya.Vector3(0, 0, 0));
+                    enemy.active = true;
+                    enemy.transform.position = pos;
+                    enemy.transform.localRotationEuler = new Laya.Vector3(0, 180, 0);
+                    let crl = enemy.addComponent(Enemy);
+                    crl.initData(Utility.GetRandom(0, 10));
+                }
+            }
+        }
+        createHitFX(node) {
+            let res = this._scene.getChildByName('FXNode').getChildByName('Blood_Hit1');
+            let fx = Laya.Sprite3D.instantiate(res, this._levelNode, false, new Laya.Vector3(0, 0, 0));
+            let pos = node.transform.position.clone();
+            pos.y = node.transform.getWorldLossyScale().y / 2;
+            fx.transform.setWorldLossyScale(new Laya.Vector3(2, 2, 2));
+            fx.transform.position = pos;
+            fx.active = true;
+            Laya.timer.once(1000, this, () => { fx.destroy(); });
+        }
+        createBoomFX(node) {
+            let res = this._scene.getChildByName('FXNode').getChildByName('Smoke_Bomb');
+            let fx = Laya.Sprite3D.instantiate(res, this._levelNode, false, new Laya.Vector3(0, 0, 0));
+            let pos = node.transform.position.clone();
+            pos.y = node.transform.getWorldLossyScale().y / 2;
+            let s = node.transform.getWorldLossyScale().clone();
+            fx.transform.setWorldLossyScale(new Laya.Vector3(s.x + 1, s.y + 1, s.z + 1));
+            fx.transform.position = pos;
+            fx.active = true;
+            Laya.timer.once(800, this, () => { fx.destroy(); });
+        }
+        createWinFX() {
+            let res = this._scene.getChildByName('FXNode').getChildByName('WinFX');
+            let fx = Laya.Sprite3D.instantiate(res, this._levelNode, false, new Laya.Vector3(0, 0, 0));
+            let pos = this._player.transform.position.clone();
+            pos.z += 2;
+            fx.transform.position = pos;
+            fx.active = true;
         }
         gameOver(isWin) {
             if (this.isGameOver)
                 return;
+            SoundMgr.instance.stopMusic();
+            if (isWin) {
+                this._playerCrl.winCB();
+                this.createWinFX();
+                Laya.timer.once(500, this, () => {
+                    this.isWin = isWin;
+                });
+                SoundMgr.instance.playSoundEffect('Win.mp3');
+            }
+            else {
+                this.isWin = isWin;
+                SoundMgr.instance.playSoundEffect('Lose.mp3');
+            }
             WxApi.DoVibrate(false);
-            this.isWin = isWin;
             this.isGameOver = true;
             this.isStartGame = false;
+            this.isPause = true;
             Laya.Scene.close('MyScenes/GameUI.scene');
             Laya.timer.once(2000, this, () => {
                 FdMgr.showGameOver(() => {
@@ -1445,9 +2329,10 @@
             this.isStartGame = false;
             this.isGameOver = false;
             this.isWin = false;
-            this.isPause = false;
+            this.isPause = true;
             this._camera.fieldOfView = this.startCamField;
             this.isFinish = false;
+            this._light.shadowDistance = 30;
             this._camera.transform.position = this.camStartPos;
             this._camera.transform.rotation = this.camStartRotation;
             this._levelNode.destroyChildren();
@@ -1459,17 +2344,20 @@
         constructor() {
             super(...arguments);
             this.progressValue = 0;
-            this.wuchuCount = 1;
+            this.clickCount = 1;
             this.hadShowBanner = false;
             this.onShowCB = null;
+            this.type = BoxType.Box_Banner;
         }
         onAwake() {
             this.size(Laya.stage.width, Laya.stage.height);
         }
         onOpened(data) {
-            this.wuchuCount = FdMgr.jsonConfig.bannerBox_count;
-            if (data && data.closeCB) {
-                this.closeCB = data.closeCB;
+            if (data && data.ccb) {
+                this.ccb = data.ccb;
+            }
+            if (data && data.type) {
+                this.type = data.type;
             }
             FdAd.hideBannerAd();
             this.btnPress.on(Laya.Event.CLICK, this, this.onPress);
@@ -1487,25 +2375,34 @@
             }
             FdAd.hideBannerAd();
             Laya.timer.clearAll(this);
-            this.closeCB && this.closeCB();
+            FdMgr.visibleVideoBanner(false, false);
+            this.ccb && this.ccb();
         }
         onPress() {
             this.progressValue += FdMgr.wuchuProgressStepAdd;
             Laya.Tween.to(this.btnPress, { scaleX: 1.2, scaleY: 1.2 }, 100, null, Laya.Handler.create(this, () => {
                 Laya.Tween.to(this.btnPress, { scaleX: 1, scaleY: 1 }, 100, null);
             }));
-            if (this.progressValue >= FdMgr.wuchuProgressValue) {
-                FdAd.showBannerAd();
+            if (this.progressValue >= FdMgr.wuchuProgressValue && !this.hadShowBanner) {
                 this.hadShowBanner = true;
+                this.clickCount++;
+                if (this.type == BoxType.Box_Banner)
+                    FdAd.showBannerAd();
+                else
+                    FdMgr.visibleVideoBanner(true, false);
                 FdMgr.randTouchProgress();
                 Laya.timer.once(2000, this, () => {
-                    this.wuchuCount--;
-                    if (this.wuchuCount > 0) {
-                        FdAd.hideBannerAd();
-                        this.hadShowBanner = false;
+                    if (this.clickCount >= FdMgr.jsonConfig.bannerBox_count) {
+                        this.close();
                     }
                     else {
-                        this.close();
+                        if (this.type == BoxType.Box_Banner)
+                            FdAd.hideBannerAd();
+                        else
+                            FdMgr.visibleVideoBanner(false, false);
+                        this.hadShowBanner = false;
+                        this.pressBar.value = 0;
+                        this.progressValue = 0;
                     }
                 });
             }
@@ -1587,6 +2484,38 @@
         }
     }
 
+    class HomeUI extends Laya.Scene {
+        constructor() {
+            super();
+        }
+        onOpened(param) {
+            this.size(Laya.stage.displayWidth, Laya.stage.displayHeight);
+            this.remenBtn.on(Laya.Event.CLICK, this, this.remenCB);
+            this.videoBtn.on(Laya.Event.CLICK, this, this.videoCB);
+            this.videoBtn.active = FdMgr.homeViedo;
+        }
+        onClosed() {
+        }
+        remenCB() {
+            FdAd.hideBannerAd();
+            FdAd.visibleSideGridAd(false);
+            FdMgr.showHomeUIReMen(() => {
+                FdAd.showBannerAd();
+                FdAd.visibleSideGridAd(true);
+            });
+        }
+        videoCB() {
+            FdAd.showVideoAd(() => {
+                Laya.Browser.window['wx'].showToast({
+                    title: "恭喜获得1000金币！",
+                    duration: 2000,
+                    mask: false,
+                    icon: 'none',
+                });
+            }, null);
+        }
+    }
+
     class Remen extends Laya.Scene {
         constructor() {
             super();
@@ -1601,16 +2530,27 @@
             if (param && param.ccb)
                 this.ccb = param.ccb;
             this.btnContinue.on(Laya.Event.CLICK, this, this.btnContinueCB);
-            FdAd.visibleFullGridAd();
-            if (FdMgr.remenBanner && FdMgr.gameCount >= FdMgr.jsonConfig.delay_play_countBanner)
-                this.bannerShowHide();
-            FdAd.bannerIndex = 0;
+            this.adPic.on(Laya.Event.CLICK, this, this.videoBtn);
             this.onShowCB = () => {
                 this.close();
             };
             if (Laya.Browser.onWeiXin) {
                 Laya.Browser.window['wx'].onShow(this.onShowCB);
             }
+            if (param && param.showAdPic)
+                this.adPic.visible = true;
+            else {
+                this.adPic.visible = false;
+                if (!FdAd.getIsFullGridAdError())
+                    FdAd.visibleFullGridAd();
+                else if (FdMgr.canTrapAll && FdAd.getIsFullGridAdError()) {
+                    this.adPic.visible = true;
+                }
+            }
+            if (FdMgr.remenBanner) {
+                this.bannerShowHide();
+            }
+            FdAd.bannerIndex = 0;
         }
         onClosed() {
             if (Laya.Browser.onWeiXin) {
@@ -1632,11 +2572,43 @@
                 });
             });
         }
+        videoBtn() {
+            FdAd.showVideoAd();
+        }
         btnContinueCB() {
             this.clickCount++;
             if (this.clickCount >= FdMgr.jsonConfig.remenBanner_count) {
                 this.close();
             }
+        }
+    }
+
+    class VideoBanner extends Laya.Scene {
+        constructor() {
+            super();
+        }
+        onOpened(param) {
+            this.size(Laya.stage.displayWidth, Laya.stage.displayHeight);
+            this.banner1.on(Laya.Event.CLICK, this, this.adBtnCB);
+            this.banner2.on(Laya.Event.CLICK, this, this.adBtnCB);
+            let showFinger = false;
+            if (param && param.showFinger)
+                showFinger = showFinger;
+            this.finger.visible = showFinger;
+            this.banner1.visible = Math.random() > 0.5;
+            this.banner2.visible = !this.banner1.visible;
+        }
+        onClosed() {
+        }
+        adBtnCB() {
+            FdAd.showVideoAd(() => {
+                Laya.Browser.window['wx'].showToast({
+                    title: "恭喜获得1000金币！",
+                    duration: 2000,
+                    mask: false,
+                    icon: 'none',
+                });
+            }, null);
         }
     }
 
@@ -1646,7 +2618,6 @@
         }
         onOpened() {
             this.size(Laya.stage.displayWidth, Laya.stage.displayHeight);
-            this.gradeNum.value = PlayerDataMgr.getPlayerData().grade.toString();
             this.coinNum.value = PlayerDataMgr.getPlayerData().coin.toString();
             let isWin = GameLogic.Share.isWin;
             this.winTitle.visible = isWin;
@@ -1679,66 +2650,6 @@
                 GameLogic.Share.restartGame();
                 Laya.Scene.open('MyScenes/StartUI.scene');
             });
-        }
-    }
-
-    class GameUI extends Laya.Scene {
-        constructor() {
-            super();
-        }
-        onOpened() {
-            GameUI.Share = this;
-            this.size(Laya.stage.displayWidth, Laya.stage.displayHeight);
-            Laya.timer.frameLoop(1, this, this.myUpdate);
-            this.touchBtn.on(Laya.Event.MOUSE_DOWN, this, this.touchStart);
-            this.touchBtn.on(Laya.Event.MOUSE_MOVE, this, this.touchMove);
-            this.touchBtn.on(Laya.Event.MOUSE_UP, this, this.touchEnd);
-            FdMgr.inGame();
-        }
-        onClosed() {
-            Laya.timer.clearAll(this);
-        }
-        touchStart(evt) {
-            if (GameLogic.Share.isGameOver)
-                return;
-            if (!GameLogic.Share.isStartGame) {
-                this.guideAni.visible = false;
-                GameLogic.Share.gameStart();
-            }
-            let x = evt.stageX;
-            let y = evt.stageY;
-            this.joyStickBg.visible = true;
-            this.joyStickBg.pos(x, y);
-            this.joyStick.pos(105, 105);
-            this.touchStartPos = new Laya.Vector3(x, y);
-        }
-        touchMove(evt) {
-            if (GameLogic.Share.isGameOver) {
-                this.joyStickBg.visible = false;
-                return;
-            }
-            let x = evt.stageX;
-            let y = evt.stageY;
-            let pos = new Laya.Vector3(x, y);
-            let dir = new Laya.Vector3();
-            if (Laya.Vector3.distance(pos, this.touchStartPos) <= 105) {
-                this.joyStick.pos(x - this.touchStartPos.x + 105, y - this.touchStartPos.y + 105);
-            }
-            else {
-                Laya.Vector3.subtract(pos, this.touchStartPos, dir);
-                Laya.Vector3.normalize(dir, dir);
-                Laya.Vector3.scale(dir, 105, dir);
-                Laya.Vector3.add(new Laya.Vector3(105, 105), dir, dir);
-                this.joyStick.pos(dir.x, dir.y);
-            }
-        }
-        touchEnd(evt) {
-            this.joyStickBg.visible = false;
-            if (GameLogic.Share.isGameOver)
-                return;
-        }
-        myUpdate() {
-            this.coinNum.value = PlayerDataMgr.getPlayerData().coin.toString();
         }
     }
 
@@ -1812,6 +2723,7 @@
             this.initList();
         }
         onClosed() {
+            GameLogic.Share._playerCrl.changeSkin(PlayerDataMgr.getPlayerData().skinId);
         }
         initList() {
             let arr = [].concat(PlayerDataMgr.getPlayerData().skinArr);
@@ -1851,6 +2763,7 @@
             if (this.chooseId == id)
                 return;
             this.chooseId = id;
+            GameLogic.Share._playerCrl.changeSkin(this.chooseId);
             if (PlayerDataMgr.getPlayerData().skinArr[id] == 1) {
                 PlayerDataMgr.getPlayerData().skinId = id;
                 PlayerDataMgr.setPlayerData();
@@ -1863,20 +2776,24 @@
                 return;
             }
             this.chooseId = id;
+            GameLogic.Share._playerCrl.changeSkin(this.chooseId);
             PlayerDataMgr.getPlayerData().coin -= PlayerDataMgr.getCostById(id);
             PlayerDataMgr.getPlayerData().skinArr[id] = 1;
             PlayerDataMgr.getPlayerData().skinId = id;
             PlayerDataMgr.setPlayerData();
             this.myList.array = PlayerDataMgr.getPlayerData().skinArr;
+            SoundMgr.instance.playSoundEffect('Reward.mp3');
         }
         adBtnCB(arr) {
             let id = arr[0];
             let cb = () => {
                 this.chooseId = id;
+                GameLogic.Share._playerCrl.changeSkin(this.chooseId);
                 PlayerDataMgr.getPlayerData().skinArr[id] = 1;
                 PlayerDataMgr.getPlayerData().skinId = id;
                 PlayerDataMgr.setPlayerData();
                 this.myList.array = PlayerDataMgr.getPlayerData().skinArr;
+                SoundMgr.instance.playSoundEffect('Reward.mp3');
             };
             FdAd.showVideoAd(cb);
         }
@@ -1895,7 +2812,11 @@
             Utility.addClickEvent(this.startBtn, this, this.startBtnCB);
             Utility.addClickEvent(this.skinBtn, this, this.skinBtnCB);
             Laya.timer.frameLoop(1, this, this.myUpdate);
+            SoundMgr.instance.playMusic('Bgm1.mp3');
             FdMgr.inHomePage();
+            if (!FdMgr.isVersionValid) {
+                this.skinBtn.visible = false;
+            }
         }
         onClosed() {
         }
@@ -1905,7 +2826,7 @@
             });
         }
         skinBtnCB() {
-            FdMgr.shop();
+            FdMgr.inShop();
             GameLogic.Share._cameraCrl.selectSkirt();
             Laya.Scene.open('MyScenes/SkinUI.scene');
         }
@@ -1940,7 +2861,9 @@
             var reg = Laya.ClassUtils.regClass;
             reg("FanDong/Box1.ts", Box1);
             reg("FanDong/Box2.ts", Box2);
+            reg("FanDong/HomeUI.ts", HomeUI);
             reg("FanDong/Remen.ts", Remen);
+            reg("FanDong/VideoBanner.ts", VideoBanner);
             reg("View/FinishUI.ts", FinishUI);
             reg("View/GameUI.ts", GameUI);
             reg("View/LoadingUI.ts", LoadingUI);
@@ -1955,7 +2878,7 @@
     GameConfig.screenMode = "vertical";
     GameConfig.alignV = "top";
     GameConfig.alignH = "left";
-    GameConfig.startScene = "MyScenes/GameUI.scene";
+    GameConfig.startScene = "FDScene/Box1.scene";
     GameConfig.sceneRoot = "";
     GameConfig.debug = false;
     GameConfig.stat = false;

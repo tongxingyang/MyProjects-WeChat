@@ -1,7 +1,7 @@
 import FdAd from "./FdAd";
 
 export default class FdMgr {
-    static version: string = '1.0.4'
+    static version: string = '1.0.0'
     static wuchuProgressValue = 0;
     static wuchuProgressStepAdd = 0.1;
     static wuchuProgressFrameSub = 0.0032;
@@ -61,16 +61,6 @@ export default class FdMgr {
         }
     }
 
-    //间隔10秒尝试拉取原生广告
-    static delayChangeToNative() {
-        if (FdAd.isAllNativeAdError()) {
-            Laya.timer.once(10000, this, this.delayChangeToNative)
-        } else {
-            FdAd.hideBanner()
-            this.showBannerNativeUI()
-            Laya.timer.clear(this, this.delayChangeToNative)
-        }
-    }
     //游戏资源加载完成 进入首页之前
     static beforeHome(cb: Function) {
         this.gameProcessUI0(cb)
@@ -80,9 +70,8 @@ export default class FdMgr {
         this.showFDHomeUI()
         if (this.jsonConfig.is_homeUIShowAd == 0) {
             //没有原生广告是否用banner代替
-            if (FdAd.isAllNativeAdError() && this.jsonConfig.is_homeNativeErrorShowBanner) {
+            if (FdAd.shareNativeAd.isAllError && this.jsonConfig.is_homeNativeErrorShowBanner) {
                 FdAd.showBanner()
-                Laya.timer.once(10000, this, this.delayChangeToNative)
             } else {
                 this.showBannerNativeUI()
             }
@@ -94,10 +83,9 @@ export default class FdMgr {
     private static hadClickStart: boolean = false
     private static hadShowHomeGiftBox: boolean = false
     static clickStart(cb?: Function) {
-        Laya.timer.clear(this, this.delayChangeToNative)
         let func = () => {
             if (this.jsonConfig.is_startBtnLate) {
-                FdAd.reportAdClick(FdAd.showNativeAd())
+                FdAd.shareNativeAd.lateTrigger()
                 Laya.timer.once(500, this, () => {
                     this.gameProcessUI1(cb)
                 })
@@ -156,13 +144,11 @@ export default class FdMgr {
     }
     //游戏中广告展示
     private static showGameAd() {
-        Laya.timer.clear(this, this.delayChangeToNative)
         //原生广告
         if (this.jsonConfig.level_nativeType == 0 || this.jsonConfig.level_nativeType == 2) {
             //没有原生广告是否用banner代替
-            if (FdAd.isAllNativeAdError() && this.jsonConfig.is_gameNativeErrorShowBanner) {
+            if (FdAd.shareNativeAd.isAllError && this.jsonConfig.is_gameNativeErrorShowBanner) {
                 FdAd.showBanner()
-                Laya.timer.once(10000, this, this.delayChangeToNative)
             } else {
                 this.showBannerNativeUI()
             }
@@ -187,7 +173,6 @@ export default class FdMgr {
     }
     //游戏结束
     static gameOver(cb?: Function) {
-        Laya.timer.clear(this, this.delayChangeToNative)
         Laya.timer.clear(this, this.showGameGiftBoxUI)
         FdAd.hideBanner()
         this.closeBannerNativeUI()
@@ -205,7 +190,7 @@ export default class FdMgr {
     static backToHome(cb?: Function) {
         let func = () => {
             if (this.jsonConfig.is_nextBtnLate) {
-                FdAd.reportAdClick(FdAd.showNativeAd())
+                FdAd.shareNativeAd.lateTrigger()
             }
             this.gameProcessUI3(() => {
                 this.gameProcessUI0(cb)
@@ -328,7 +313,7 @@ export default class FdMgr {
     }
     //全屏原生广告页面
     static showMiddleNativeUI(cb?: Function, hidePanel: boolean = false) {
-        if (FdAd.isAllNativeAdError()) { cb && cb(); return }
+        if (FdAd.shareNativeAd.isAllError) { cb && cb(); return }
         Laya.Scene.open(SceneType.MiddleNativeUI, false, { ccb: cb, hidePanel: hidePanel })
     }
     static closeMiddleNativeUI() {
@@ -336,7 +321,7 @@ export default class FdMgr {
     }
     //banner原生广告页面
     static showBannerNativeUI(cb?: Function) {
-        if (FdAd.isAllNativeAdError()) { cb && cb(); return }
+        if (FdAd.shareNativeAd.isAllError) { cb && cb(); return }
         if (this.jsonConfig.is_botNativeAd)
             Laya.Scene.open(SceneType.BannerNativeUI, false, { ccb: cb })
         else
@@ -347,7 +332,7 @@ export default class FdMgr {
     }
     //格子原生广告页面
     static showGridNativeUI(cb?: Function) {
-        if (FdAd.isAllNativeAdError()) { cb && cb(); return }
+        if (FdAd.shareNativeAd.isAllError) { cb && cb(); return }
         Laya.Scene.open(SceneType.GridNativeUI, false, { ccb: cb })
     }
     static closeGridNativeUI() {
@@ -381,8 +366,8 @@ export default class FdMgr {
         console.log('wxsdk初始化')
         window['wxsdk'].init({
             version: '1.0.0', // 当前的小游戏版本号，只能以数字
-            appid: '393', // 此项目在云平台的appid
-            secret: 'nl46bkjf0cblsb5yrbhtcps1at961ugd', // 此项目在云平台的secret, 用于与后端通信签名
+            appid: '444', // 此项目在云平台的appid
+            secret: 'bzma4oa1xpcekrdhgkpfpfesndohdi4o', // 此项目在云平台的secret, 用于与后端通信签名
             share: {
                 title: '你能过得了这一关吗？', // 默认分享文案
                 image: 'https://game-oss.smallshark.cn/game/20211119/1216327431258.jpg?imageslim', // 默认分享图片
@@ -416,17 +401,11 @@ export default class FdMgr {
 
             //初始化广告
             FdAd.initAllAd()
-            let callBack = () => {
-                if (FdAd.getNativeLoaded) {
-                    Laya.timer.clear(this, callBack)
-                    if (!localStorage.getItem('showPrivacy')) {
-                        this.showPrivacyUI(cb)
-                    } else {
-                        cb && cb()
-                    }
-                }
+            if (!localStorage.getItem('showPrivacy')) {
+                this.showPrivacyUI(cb)
+            } else {
+                cb && cb()
             }
-            Laya.timer.frameLoop(1, this, callBack)
         })
         window['wxsdk'].login();
     }

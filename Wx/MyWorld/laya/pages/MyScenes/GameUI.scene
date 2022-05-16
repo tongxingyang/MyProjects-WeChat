@@ -2,11 +2,11 @@
     "x":0,
     "type":"Scene",
     "selectedBox":2,
-    "selecteID":31,
+    "selecteID":46,
     "searchKey":"Scene",
     "props":{"width":750,"sceneColor":"#000000","runtime":"View/GameUI.ts","height":1334},
     "nodeParent":-1,
-    "maxID":36,
+    "maxID":47,
     "label":"Scene",
     "isOpen":true,
     "isDirectory":true,
@@ -35,14 +35,13 @@
             "props":{"y":100,"x":0,"skin":"startUI/ksy_jb.png","name":"coinNode","left":0,"anchorY":0.5,"anchorX":0.5},
             "nodeParent":2,
             "label":"coinNode",
-            "isOpen":true,
+            "isOpen":false,
             "isDirectory":true,
             "isAniNode":true,
             "hasChild":true,
             "compId":22,
             "child":[
                 {
-                    "x":30,
                     "type":"FontClip",
                     "searchKey":"FontClip,coinNum",
                     "props":{"y":34,"x":70,"var":"coinNum","value":"0","spaceX":-8,"skin":"startUI/ksy_sz1.png","sheet":"0123456789","scaleY":1,"scaleX":1,"centerY":0,"anchorY":0.5,"anchorX":0},
@@ -155,14 +154,13 @@
             "props":{"y":940,"x":-160,"visible":false,"var":"joyStickBg","skin":"gameUI/yxz_kj_1.png","anchorY":0.5,"anchorX":0.5},
             "nodeParent":2,
             "label":"joyStickBg",
-            "isOpen":true,
+            "isOpen":false,
             "isDirectory":true,
             "isAniNode":true,
             "hasChild":true,
             "compId":31,
             "child":[
                 {
-                    "x":30,
                     "type":"Image",
                     "searchKey":"Image,joyStick",
                     "props":{"y":105,"x":105,"var":"joyStick","skin":"gameUI/yxz_kj_2.png","anchorY":0.5,"anchorX":0.5},
@@ -183,14 +181,13 @@
             "props":{"y":900,"x":375,"var":"guideAni","source":"Anims/Guide.ani","autoPlay":true},
             "nodeParent":2,
             "label":"guideAni",
-            "isOpen":true,
+            "isOpen":false,
             "isDirectory":true,
             "isAniNode":true,
             "hasChild":true,
             "compId":33,
             "child":[
                 {
-                    "x":30,
                     "type":"Image",
                     "searchKey":"Image",
                     "props":{"y":-117,"x":0,"skin":"gameUI/yxz_yd_wz1.png","anchorY":0.5,"anchorX":0.5},
@@ -215,6 +212,101 @@
             "isAniNode":true,
             "hasChild":false,
             "compId":35,
+            "child":[
+                ]
+        },
+        {
+            "x":15,
+            "type":"Sprite",
+            "searchKey":"Sprite,weaponTips",
+            "props":{"visible":false,"var":"weaponTips"},
+            "nodeParent":2,
+            "label":"weaponTips",
+            "isOpen":false,
+            "isDirectory":true,
+            "isAniNode":true,
+            "hasChild":true,
+            "compId":36,
+            "child":[
+                {
+                    "type":"Panel",
+                    "searchKey":"Panel",
+                    "props":{"width":750,"mouseThrough":false,"mouseEnabled":true,"height":2000,"bgColor":"#000000","alpha":0.8},
+                    "nodeParent":36,
+                    "label":"Panel",
+                    "isDirectory":false,
+                    "isAniNode":true,
+                    "hasChild":false,
+                    "compId":37,
+                    "child":[
+                        ]
+                },
+                {
+                    "type":"Image",
+                    "searchKey":"Image",
+                    "props":{"y":667,"x":375,"skin":"gameUI/yxz_wzts_ysdk.png","anchorY":0.5,"anchorX":0.5,"alpha":1},
+                    "nodeParent":36,
+                    "label":"Image",
+                    "isOpen":true,
+                    "isDirectory":true,
+                    "isAniNode":true,
+                    "hasChild":true,
+                    "compId":38,
+                    "child":[
+                        {
+                            "type":"Image",
+                            "searchKey":"Image,weaponPic",
+                            "props":{"var":"weaponPic","skin":"skinUI/Weapon/Weapon_1.png","centerY":0,"centerX":0,"anchorY":0.5,"anchorX":0.5},
+                            "nodeParent":38,
+                            "label":"weaponPic",
+                            "isDirectory":false,
+                            "isAniNode":true,
+                            "hasChild":false,
+                            "compId":40,
+                            "child":[
+                                ]
+                        }]
+                },
+                {
+                    "type":"Image",
+                    "searchKey":"Image,weaponName",
+                    "props":{"y":480,"x":375,"var":"weaponName","skin":"gameUI/yxz_wzts_1.png","anchorY":0.5,"anchorX":0.5},
+                    "nodeParent":36,
+                    "label":"weaponName",
+                    "isDirectory":false,
+                    "isAniNode":true,
+                    "hasChild":false,
+                    "compId":39,
+                    "child":[
+                        ]
+                }],
+            "$HIDDEN":true
+        },
+        {
+            "x":15,
+            "type":"Animation",
+            "searchKey":"Animation,NewerGuide",
+            "props":{"y":800,"x":375,"visible":false,"var":"NewerGuide","source":"Anims/NewerGuide.ani","autoPlay":true},
+            "nodeParent":2,
+            "label":"NewerGuide",
+            "isDirectory":false,
+            "isAniNode":true,
+            "hasChild":false,
+            "compId":41,
+            "child":[
+                ]
+        },
+        {
+            "x":15,
+            "type":"Sprite",
+            "searchKey":"Sprite,DirNode",
+            "props":{"var":"DirNode"},
+            "nodeParent":2,
+            "label":"DirNode",
+            "isDirectory":false,
+            "isAniNode":true,
+            "hasChild":false,
+            "compId":44,
             "child":[
                 ]
         }],

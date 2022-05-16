@@ -8,7 +8,6 @@ export default class FinishUI extends Laya.Scene {
     constructor() {
         super()
     }
-    gradeNum: Laya.FontClip
     coinNum: Laya.FontClip
 
     winTitle: Laya.Image
@@ -21,7 +20,6 @@ export default class FinishUI extends Laya.Scene {
 
     onOpened() {
         this.size(Laya.stage.displayWidth, Laya.stage.displayHeight)
-        this.gradeNum.value = PlayerDataMgr.getPlayerData().grade.toString()
         this.coinNum.value = PlayerDataMgr.getPlayerData().coin.toString()
         let isWin = GameLogic.Share.isWin
         this.winTitle.visible = isWin
