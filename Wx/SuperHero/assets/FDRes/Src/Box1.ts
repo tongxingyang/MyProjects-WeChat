@@ -71,7 +71,7 @@ export class Box1 extends Component {
                     this.pBar.progress = 0
                     this.progressValue = 0
                 }
-            }, 2)
+            }, 1)
         }
     }
 
