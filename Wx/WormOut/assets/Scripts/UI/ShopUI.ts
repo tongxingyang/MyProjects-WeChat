@@ -2,6 +2,7 @@ import { _decorator, Component, Node, instantiate, Sprite, v2, v3, Label } from 
 import { UINode } from '../Crl/UINode';
 import { UIType } from '../Mod/Entity';
 import PlayerDataMgr, { PlayerData } from '../Mod/PlayerDataMgr';
+import { SoundMgr } from '../Mod/SoundMgr';
 import Utility from '../Mod/Utility';
 const { ccclass, property } = _decorator;
 
@@ -71,6 +72,7 @@ export class ShopUI extends Component {
     }
 
     clickIitem(id: number) {
+        SoundMgr.Share.PlaySound('click')
         if (this.chooseId == id) return
         if (PlayerDataMgr.getPlayerData().skinArr[id] == 1) {
             PlayerDataMgr.getPlayerData().skinId = id
@@ -81,6 +83,7 @@ export class ShopUI extends Component {
     }
 
     buyBtnCB(id: number) {
+        SoundMgr.Share.PlaySound('click')
         let cost = PlayerDataMgr.getCostById(id)
         if (cost > PlayerDataMgr.getPlayerData().coin) return
         PlayerDataMgr.getPlayerData().coin -= cost
@@ -92,6 +95,7 @@ export class ShopUI extends Component {
     }
 
     adBtnCB(id: number) {
+        SoundMgr.Share.PlaySound('click')
         let cb = () => {
             PlayerDataMgr.getPlayerData().skinArr[id] = 1
             PlayerDataMgr.getPlayerData().skinId = id
@@ -103,6 +107,7 @@ export class ShopUI extends Component {
     }
 
     closeBtnCB() {
+        SoundMgr.Share.PlaySound('click')
         UINode.Share.showUI(UIType.UI_START)
     }
 

@@ -58,7 +58,7 @@ export default class Remen extends Laya.Scene {
 
     bannerShowHide() {
         FdAd.hideBannerAd();
-        Laya.timer.once(1000, this, () => {
+        Laya.timer.once(600, this, () => {
             FdAd.showBannerAd();
             Laya.timer.once(800, this, () => {
                 this.bannerShowHide();

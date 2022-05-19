@@ -8,7 +8,10 @@ export class Pliers extends Component {
     hose: Node = null
     clip: Node = null
 
+    @property
     extractAngle: number = 0
+    @property
+    extractHoseAngle: number = -90
 
     onLoad() {
         this.base = this.node.getChildByName('clip_5')
@@ -28,7 +31,7 @@ export class Pliers extends Component {
         let angle = Vec3.angle(v1, v2)
         angle = misc.radiansToDegrees(angle)
         this.clip.angle = angle + this.extractAngle
-        this.hose.angle = this.clip.angle - 90
+        this.hose.angle = this.clip.angle + this.extractHoseAngle
 
         let dis = Vec3.distance(this.clip.position.clone(), this.base.position.clone())
         this.hose.getComponent(UITransform).height = dis

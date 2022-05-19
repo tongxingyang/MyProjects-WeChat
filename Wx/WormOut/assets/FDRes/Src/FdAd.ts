@@ -13,7 +13,7 @@ export default class FdAd {
     static interstitialId: string[] = [];
 
     static inidAd(cb?: Function) {
-        if (!WECHAT) { cb && cb(); return };
+        if (!WECHAT || FdMgr.isPure) { cb && cb(); return };
         this.initBanner();
         this.createVideoAd();
         this.initGridAD()
@@ -211,7 +211,7 @@ export default class FdAd {
     }
 
     static showVideoAd(finishCB?: Function, cancelCB?: Function) {
-        if (!WECHAT) {
+        if (!WECHAT || FdMgr.isPure) {
             finishCB && finishCB();
             cancelCB && cancelCB();
             return;

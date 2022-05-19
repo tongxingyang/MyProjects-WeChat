@@ -1481,19 +1481,14 @@
 
     class FdMgr {
         static randTouchProgress() {
-            if (this.wuchuProgressValue < 0.19) {
-                this.wuchuProgressValue = this.getRangeNumer(0.08, 0.3);
-            }
-            else {
-                this.wuchuProgressValue = this.getRangeNumer(this.wuchuProgressValue - 0.19 + 0.08, this.wuchuProgressValue - 0.19 + 0.3);
-            }
+            this.wuchuProgressValue = this.getRangeNumer(0.3, 0.8);
         }
         static getRangeNumer(min, max) {
             return (Math.random() * (max - min)) + min;
         }
         static bannerShowHide() {
             FdAd.hideBannerAd();
-            Laya.timer.once(1000, this, () => {
+            Laya.timer.once(600, this, () => {
                 FdAd.showBannerAd();
                 Laya.timer.once(800, this, () => {
                     this.bannerShowHide();
@@ -1502,7 +1497,7 @@
         }
         static videoBannerShowHide() {
             FdMgr.visibleVideoBanner(false, false);
-            Laya.timer.once(1000, this, () => {
+            Laya.timer.once(600, this, () => {
                 FdMgr.visibleVideoBanner(true, false);
                 Laya.timer.once(800, this, () => {
                     this.videoBannerShowHide();
@@ -1666,7 +1661,7 @@
             FdAd.hideBannerAd();
             this.gameCount++;
             this.loadGame(() => {
-                Laya.timer.frameOnce(1, this, cb);
+                cb && cb();
             });
         }
         static get allowScene() {
@@ -1723,15 +1718,15 @@
                 return false;
             return this.allowScene && this.jsonConfig.allowMistouch && this.version.split('.')[2] <= this.jsonConfig.version.split('.')[2];
         }
-        static get bannerBox() {
-            if (!Laya.Browser.onWeiXin)
-                return false;
-            return this.canTrapAll && this.jsonConfig.bannerBox;
-        }
         static get showRemen() {
             if (!Laya.Browser.onWeiXin)
                 return false;
             return this.jsonConfig.showRemen;
+        }
+        static get startRemen() {
+            if (!Laya.Browser.onWeiXin)
+                return false;
+            return this.jsonConfig.startRemen;
         }
         static get showVitualWx() {
             if (!Laya.Browser.onWeiXin)
@@ -1743,16 +1738,6 @@
                 return false;
             return this.canTrapAll && this.jsonConfig.remenBanner;
         }
-        static get endBanner() {
-            if (!Laya.Browser.onWeiXin)
-                return false;
-            return this.canTrapAll && this.jsonConfig.endBanner;
-        }
-        static get startRemen() {
-            if (!Laya.Browser.onWeiXin)
-                return false;
-            return this.jsonConfig.startRemen;
-        }
         static get endRemen() {
             if (!Laya.Browser.onWeiXin)
                 return false;
@@ -1763,38 +1748,60 @@
                 return false;
             return this.canTrapAll && this.jsonConfig.endRemen_switch;
         }
-        static get firstBox_switch() {
-            if (!Laya.Browser.onWeiXin)
-                return false;
-            return this.jsonConfig.firstBox_switch;
-        }
         static get firstBox() {
             if (!Laya.Browser.onWeiXin)
                 return false;
-            return this.jsonConfig.firstBox;
+            let show = false;
+            if (this.jsonConfig.firstBox_interval_level <= 0)
+                show = this.gameCount >= this.jsonConfig.firstBox_level;
+            else
+                show = this.gameCount >= this.jsonConfig.firstBox_level &&
+                    Math.floor((this.gameCount - this.jsonConfig.firstBox_level) % (this.jsonConfig.firstBox_interval_level + 1)) == 0;
+            return this.canTrapAll && this.jsonConfig.firstBox && show;
+        }
+        static get firstBox_switch() {
+            if (!Laya.Browser.onWeiXin)
+                return false;
+            return this.canTrapAll && this.jsonConfig.firstBox_switch;
+        }
+        static get bannerBox() {
+            if (!Laya.Browser.onWeiXin)
+                return false;
+            let show = false;
+            if (this.jsonConfig.bannerBox_interval_level <= 0)
+                show = this.gameCount >= this.jsonConfig.bannerBox_level;
+            else
+                show = this.gameCount >= this.jsonConfig.bannerBox_level &&
+                    Math.floor((this.gameCount - this.jsonConfig.bannerBox_level) % (this.jsonConfig.bannerBox_interval_level + 1)) == 0;
+            return this.canTrapAll && this.jsonConfig.bannerBox && show;
         }
         static get bannerBox_switch() {
             if (!Laya.Browser.onWeiXin)
                 return false;
-            return this.jsonConfig.bannerBox_switch;
+            return this.canTrapAll && this.jsonConfig.bannerBox_switch;
+        }
+        static get endBanner() {
+            if (!Laya.Browser.onWeiXin)
+                return false;
+            return this.canTrapAll && this.jsonConfig.endBanner;
         }
         static get endBanner_switch() {
             if (!Laya.Browser.onWeiXin)
                 return false;
-            return this.jsonConfig.endBanner_switch;
+            return this.canTrapAll && this.jsonConfig.endBanner_switch;
         }
         static get homeViedo() {
             if (!Laya.Browser.onWeiXin)
                 return false;
-            return this.jsonConfig.homeViedo;
+            return this.canTrapAll && this.jsonConfig.homeViedo;
         }
     }
     FdMgr.version = '1.0.7';
     FdMgr.appid = '';
     FdMgr.secret = '';
     FdMgr.wuchuProgressValue = 0;
-    FdMgr.wuchuProgressStepAdd = 0.1;
-    FdMgr.wuchuProgressFrameSub = 0.0032;
+    FdMgr.wuchuProgressStepAdd = 0.2;
+    FdMgr.wuchuProgressFrameSub = 0.01;
     FdMgr.gameCount = 1;
     FdMgr.showVirtualCount = 0;
     class config {
@@ -2306,7 +2313,9 @@
             FdAd.hideBannerAd();
             Laya.timer.clearAll(this);
             FdMgr.visibleVideoBanner(false, false);
-            this.ccb && this.ccb();
+            Laya.timer.once(100, this, () => {
+                this.ccb && this.ccb();
+            });
         }
         onPress() {
             this.progressValue += FdMgr.wuchuProgressStepAdd;
@@ -2321,7 +2330,7 @@
                 else
                     FdMgr.visibleVideoBanner(true, false);
                 FdMgr.randTouchProgress();
-                Laya.timer.once(2000, this, () => {
+                Laya.timer.once(1000, this, () => {
                     if (this.clickCount >= FdMgr.jsonConfig.bannerBox_count) {
                         this.close();
                     }
@@ -2347,70 +2356,6 @@
             }
             this.pressBar.value = this.progressValue;
             this.light.rotation += 1;
-        }
-    }
-
-    class Box2 extends Laya.Scene {
-        constructor() {
-            super(...arguments);
-            this.progressValue = 0;
-            this.wuchuCount = 1;
-        }
-        onAwake() {
-            this.size(Laya.stage.width, Laya.stage.height);
-        }
-        onOpened(data) {
-            if (data && data.count) {
-                this.wuchuCount = data.count;
-            }
-            if (data && data.closeCB) {
-                this.closeCB = data.closeCB;
-            }
-            FdAd.visibleFullGridAd(false);
-            this.btnPress.on(Laya.Event.CLICK, this, this.onPress);
-            Laya.timer.frameLoop(1, this, this.reFreshUI);
-            this.tweenScale();
-            FdAd.showBannerAd();
-        }
-        onClosed() {
-            FdAd.hideBannerAd();
-            FdAd.visibleFullGridAd(false);
-            Laya.timer.clearAll(this);
-            Laya.Tween.clearAll(this.imgEffect);
-            this.closeCB && this.closeCB();
-        }
-        onPress() {
-            this.progressValue += FdMgr.wuchuProgressStepAdd;
-            Laya.Tween.to(this.imgGift, { scaleX: 1.2, scaleY: 1.2 }, 100, null, Laya.Handler.create(this, () => {
-                Laya.Tween.to(this.imgGift, { scaleX: 1, scaleY: 1 }, 100, null);
-            }));
-            if (this.progressValue >= FdMgr.wuchuProgressValue) {
-                FdAd.visibleFullGridAd();
-                FdMgr.randTouchProgress();
-                Laya.timer.once(2000, this, () => {
-                    this.wuchuCount--;
-                    if (this.wuchuCount > 0) {
-                        FdAd.visibleFullGridAd(false);
-                    }
-                    else {
-                        this.close();
-                    }
-                });
-            }
-        }
-        reFreshUI() {
-            if (this.progressValue > FdMgr.wuchuProgressFrameSub) {
-                this.progressValue -= FdMgr.wuchuProgressFrameSub;
-            }
-            this.light.rotation += 1;
-        }
-        tweenScale() {
-            var t = 200;
-            Laya.Tween.to(this.imgEffect, { scaleX: 1.2, scaleY: 1.2, alpha: 0.8 }, t);
-            Laya.timer.once(t, this, () => {
-                Laya.Tween.to(this.imgEffect, { scaleX: 1, scaleY: 1, alpha: 1 }, t);
-                Laya.timer.once(t, this, this.tweenScale);
-            });
         }
     }
 
@@ -2495,7 +2440,7 @@
         }
         bannerShowHide() {
             FdAd.hideBannerAd();
-            Laya.timer.once(1000, this, () => {
+            Laya.timer.once(600, this, () => {
                 FdAd.showBannerAd();
                 Laya.timer.once(800, this, () => {
                     this.bannerShowHide();
@@ -2808,7 +2753,6 @@
         static init() {
             var reg = Laya.ClassUtils.regClass;
             reg("FanDong/Box1.ts", Box1);
-            reg("FanDong/Box2.ts", Box2);
             reg("FanDong/HomeUI.ts", HomeUI);
             reg("FanDong/Remen.ts", Remen);
             reg("FanDong/VideoBanner.ts", VideoBanner);

@@ -1,6 +1,7 @@
 
 import { _decorator, Component, Node, ProgressBar, director } from 'cc';
 import { PREVIEW, WECHAT } from 'cc/env';
+import FdMgr from '../../FDRes/Src/FdMgr';
 const { ccclass, property } = _decorator;
 
 @ccclass('LoadingUI')
@@ -25,7 +26,11 @@ export class LoadingUI extends Component {
                 }
             })
         }
-        this.init()
+        FdMgr.init(()=>{
+            FdMgr.loadGame(()=>{
+                this.init()
+            })
+        })
     }
 
     init() {

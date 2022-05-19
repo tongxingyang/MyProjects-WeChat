@@ -3,14 +3,14 @@ const { ccclass, property } = _decorator;
 
 export class PlayerData {
     grade: number = 1
-    coin: number = 500
+    coin: number = 0
     skinId: number = 0
     skinArr: number[] = [1, 0, 0, 0, 0, 0]
 }
 @ccclass
 export default class PlayerDataMgr {
     private static _playerData: PlayerData
-    public static maxGrade: number = 10
+    public static maxGrade: number = 5
 
     //获取用户数据
     public static getPlayerData(): PlayerData {

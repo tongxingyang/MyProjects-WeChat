@@ -1,5 +1,7 @@
 
 import { _decorator, Component, Node, Label, director } from 'cc';
+import FdMgr from '../../FDRes/Src/FdMgr';
+import { SoundMgr } from '../Mod/SoundMgr';
 const { ccclass, property } = _decorator;
 
 @ccclass('GameUI')
@@ -7,20 +9,19 @@ export class GameUI extends Component {
 
     static Share: GameUI
 
-    @property(Node)
-    line: Node = null
-
-    @property(Label)
-    targetNum: Label = null
-    @property(Node)
-    touchNode: Node = null
-
     start() {
         GameUI.Share = this
         // [3]
+        FdMgr.inGame()
     }
 
     update(deltaTime: number) {
         // [4]
+    }
+
+    restartBtnCB(){
+        SoundMgr.Share.PlaySound('click')
+        FdMgr.reStart()
+        director.loadScene('Game')
     }
 }
