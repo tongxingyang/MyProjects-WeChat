@@ -2,6 +2,7 @@
 import { _decorator, Component, Node, ProgressBar, director } from 'cc';
 import { PREVIEW, WECHAT } from 'cc/env';
 import FdMgr from '../../FDRes/Src/FdMgr';
+import PlayerDataMgr from '../Mod/PlayerDataMgr';
 const { ccclass, property } = _decorator;
 
 @ccclass('LoadingUI')
@@ -13,6 +14,7 @@ export class LoadingUI extends Component {
     start() {
         // [3]
         if (PREVIEW) localStorage.clear()
+        PlayerDataMgr.getPlayerData()
         if (WECHAT) {
             //开启右上角的分享
             window['wx'].showShareMenu({

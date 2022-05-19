@@ -16,6 +16,11 @@ export class FinishUI extends Component {
     start() {
         // [3]
         FdMgr.inFinish(this.nextBtn)
+
+        if (PlayerDataMgr.getPlayerData().grade == 5) {
+            PlayerDataMgr.getPlayerData().coin += 500
+            PlayerDataMgr.setPlayerData()
+        }
     }
 
     adBtnCB() {
