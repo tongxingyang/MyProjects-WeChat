@@ -16,8 +16,6 @@ export class Remen extends Component {
     onShowCB: Function = null
     clickCount: number = 0
 
-    type: RemenType = RemenType.Remen_Banner
-
     onDisable() {
         if (WECHAT) {
             window['wx'].offShow(this.onShowCB)
@@ -63,7 +61,7 @@ export class Remen extends Component {
             this.scheduleOnce(() => {
                 this.bannerShowHide();
             }, 0.8)
-        }, 1)
+        }, 0.6)
     }
 
     videoBtn() {

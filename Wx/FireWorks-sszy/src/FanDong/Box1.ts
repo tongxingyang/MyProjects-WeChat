@@ -53,7 +53,9 @@ export default class Box1 extends Laya.Scene {
         FdAd.hideBannerAd();
         Laya.timer.clearAll(this)
         FdMgr.visibleVideoBanner(false, false)
-        this.ccb && this.ccb();
+        Laya.timer.once(100, this, () => {
+            this.ccb && this.ccb()
+        })
     }
 
     public onPress() {
@@ -71,7 +73,7 @@ export default class Box1 extends Laya.Scene {
                 FdMgr.visibleVideoBanner(true, false)
             FdMgr.randTouchProgress(); //更新目标值
 
-            Laya.timer.once(2000, this, () => {
+            Laya.timer.once(1000, this, () => {
                 if (this.clickCount >= FdMgr.jsonConfig.bannerBox_count) {
                     this.close();
                 }

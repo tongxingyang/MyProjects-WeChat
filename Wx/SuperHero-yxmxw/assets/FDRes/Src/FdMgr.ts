@@ -17,20 +17,15 @@ export enum BoxType {
 }
 
 export default class FdMgr {
-    static version: string = '1.0.7'
+    static version: string = '1.0.8'
     static wuchuProgressValue = 0;
-    static wuchuProgressStepAdd = 0.1;
-    static wuchuProgressFrameSub = 0.0032;
+    static wuchuProgressStepAdd = 0.2;
+    static wuchuProgressFrameSub = 0.01;
     static gameCount: number = 1
 
     /**随机目标误触值 */
     public static randTouchProgress() {
-        if (this.wuchuProgressValue < 0.19) {
-            this.wuchuProgressValue = this.getRangeNumer(0.08, 0.3);
-        }
-        else {
-            this.wuchuProgressValue = this.getRangeNumer(this.wuchuProgressValue - 0.19 + 0.08, this.wuchuProgressValue - 0.19 + 0.3);
-        }
+        this.wuchuProgressValue = this.getRangeNumer(0.3, 0.8);
     }
 
     static getRangeNumer(min, max) {
@@ -44,7 +39,7 @@ export default class FdMgr {
             FDNode.Share.scheduleOnce(() => {
                 FdMgr.bannerShowHide()
             }, 0.8)
-        }, 1)
+        }, 0.6)
     }
     static bannerShow() {
         FdAd.showBannerAd();
@@ -61,7 +56,7 @@ export default class FdMgr {
             FDNode.Share.scheduleOnce(() => {
                 FdMgr.VideoBannerShowHide()
             }, 0.8)
-        }, 1)
+        }, 0.6)
     }
     static videoBannerShow() {
         FdMgr.visibleVideoBanner(true, false)
@@ -183,6 +178,14 @@ export default class FdMgr {
         FdAd.showBannerAd()
 
         cb && cb();
+    }
+
+    /**进入商店 */
+    static inShop() {
+        this.showHomeUI(false)
+        FdAd.hideBannerAd()
+        FdAd.visibleSideGridAd(false)
+        FdAd.visibleBottomGridAd(false)
     }
 
     /**开始游戏 */
@@ -308,13 +311,17 @@ export default class FdMgr {
         if (PREVIEW) return false
         return this.allowScene && this.jsonConfig.allowMistouch && this.version.split('.')[2] <= this.jsonConfig.version.split('.')[2];
     }
-    static get bannerBox() {
-        if (PREVIEW) return false
-        return this.canTrapAll && this.jsonConfig.bannerBox
-    }
     static get showRemen() {
         if (PREVIEW) return false
-        return /* this.canTrapAll &&  */this.jsonConfig.showRemen;
+        return this.jsonConfig.showRemen;
+    }
+    static get startRemen() {
+        if (PREVIEW) return false
+        return this.jsonConfig.startRemen
+    }
+    static get endRemen() {
+        if (PREVIEW) return false
+        return this.jsonConfig.endRemen
     }
     static get showVitualWx() {
         if (PREVIEW) return false
@@ -328,37 +335,43 @@ export default class FdMgr {
         if (PREVIEW) return false
         return this.canTrapAll && this.jsonConfig.endBanner
     }
-    static get startRemen() {
-        if (PREVIEW) return false
-        return this.jsonConfig.startRemen
-    }
-    static get endRemen() {
-        if (PREVIEW) return false
-        return this.jsonConfig.endRemen
-    }
     static get endRemen_switch() {
         if (PREVIEW) return false
         return this.canTrapAll && this.jsonConfig.endRemen_switch
     }
     static get firstBox_switch() {
         if (PREVIEW) return false
-        return this.jsonConfig.firstBox_switch
+        return this.canTrapAll && this.jsonConfig.firstBox_switch
     }
     static get firstBox() {
         if (PREVIEW) return false
-        return this.jsonConfig.firstBox
+        let show = false
+        if (this.jsonConfig.firstBox_interval_level <= 0) show = this.gameCount >= this.jsonConfig.firstBox_level
+        else show = this.gameCount >= this.jsonConfig.firstBox_level &&
+            Math.floor((this.gameCount - this.jsonConfig.firstBox_level) % (this.jsonConfig.firstBox_interval_level + 1)) == 0
+
+        return this.canTrapAll && this.jsonConfig.firstBox && show
+    }
+    static get bannerBox() {
+        if (PREVIEW) return false
+        let show = false
+        if (this.jsonConfig.bannerBox_interval_level <= 0) show = this.gameCount >= this.jsonConfig.bannerBox_level
+        else show = this.gameCount >= this.jsonConfig.bannerBox_level &&
+            Math.floor((this.gameCount - this.jsonConfig.bannerBox_level) % (this.jsonConfig.bannerBox_interval_level + 1)) == 0
+
+        return this.canTrapAll && this.jsonConfig.bannerBox && show
     }
     static get bannerBox_switch() {
         if (PREVIEW) return false
-        return this.jsonConfig.bannerBox_switch
+        return this.canTrapAll && this.jsonConfig.bannerBox_switch
     }
     static get endBanner_switch() {
         if (PREVIEW) return false
-        return this.jsonConfig.endBanner_switch
+        return this.canTrapAll && this.jsonConfig.endBanner_switch
     }
     static get homeViedo() {
         if (PREVIEW) return false
-        return this.jsonConfig.homeViedo
+        return this.canTrapAll && this.jsonConfig.homeViedo
     }
 }
 
@@ -385,4 +398,8 @@ class config {
     firstBox_switch: boolean;
     firstBox: boolean;
     homeViedo: boolean;
+    firstBox_level: number;
+    bannerBox_level: number;
+    firstBox_interval_level: number;
+    bannerBox_interval_level: number;
 }

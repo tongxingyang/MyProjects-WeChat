@@ -274,8 +274,8 @@ export default class FdMgr {
         console.log("当前场景：", launchInfo.scene);
         window['wxsdk'].init({
             version: '1.0.0', // 当前的小游戏版本号，只能以数字
-            appid: '302', // 此项目在云平台的appid
-            secret: '1ozkwjn2c2szuganl37v7faeb0mfv8x5', // 此项目在云平台的secret, 用于与后端通信签名
+            appid: '465', // 此项目在云平台的appid
+            secret: 'ojrimbm641lcdcowz1qexdu7hlivnwhk', // 此项目在云平台的secret, 用于与后端通信签名
             share: {
                 title: '你能过得了这一关吗？', // 默认分享文案
                 image: 'https://game-oss.smallshark.cn/game/20211119/1216327431258.jpg?imageslim', // 默认分享图片

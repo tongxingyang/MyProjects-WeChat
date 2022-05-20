@@ -5,18 +5,13 @@ export default class FdMgr {
     static appid: string = ''
     static secret: string = ''
     static wuchuProgressValue = 0;
-    static wuchuProgressStepAdd = 0.1;
-    static wuchuProgressFrameSub = 0.0032;
+    static wuchuProgressStepAdd = 0.2;
+    static wuchuProgressFrameSub = 0.01;
     static gameCount: number = 1
 
     /**随机目标误触值 */
     public static randTouchProgress() {
-        if (this.wuchuProgressValue < 0.19) {
-            this.wuchuProgressValue = this.getRangeNumer(0.08, 0.3);
-        }
-        else {
-            this.wuchuProgressValue = this.getRangeNumer(this.wuchuProgressValue - 0.19 + 0.08, this.wuchuProgressValue - 0.19 + 0.3);
-        }
+        this.wuchuProgressValue = this.getRangeNumer(0.3, 0.8);
     }
 
     static getRangeNumer(min, max) {
@@ -26,7 +21,7 @@ export default class FdMgr {
     /**banner闪烁 */
     static bannerShowHide() {
         FdAd.hideBannerAd();
-        Laya.timer.once(1000, this, () => {
+        Laya.timer.once(600, this, () => {
             FdAd.showBannerAd();
             Laya.timer.once(800, this, () => {
                 this.bannerShowHide();
@@ -37,7 +32,7 @@ export default class FdMgr {
     /**伪banner闪烁 */
     static videoBannerShowHide() {
         FdMgr.visibleVideoBanner(false, false)
-        Laya.timer.once(1000, this, () => {
+        Laya.timer.once(600, this, () => {
             FdMgr.visibleVideoBanner(true, false)
             Laya.timer.once(800, this, () => {
                 this.videoBannerShowHide();
@@ -232,7 +227,7 @@ export default class FdMgr {
         FdAd.hideBannerAd()
         this.gameCount++
         this.loadGame(() => {
-            Laya.timer.frameOnce(1, this, cb)
+            cb && cb()
         })
     }
 
@@ -296,13 +291,13 @@ export default class FdMgr {
         if (!Laya.Browser.onWeiXin) return false
         return this.allowScene && this.jsonConfig.allowMistouch && this.version.split('.')[2] <= this.jsonConfig.version.split('.')[2];
     }
-    static get bannerBox() {
-        if (!Laya.Browser.onWeiXin) return false
-        return this.canTrapAll && this.jsonConfig.bannerBox
-    }
     static get showRemen() {
         if (!Laya.Browser.onWeiXin) return false
-        return /* this.canTrapAll &&  */this.jsonConfig.showRemen;
+        return this.jsonConfig.showRemen;
+    }
+    static get startRemen() {
+        if (!Laya.Browser.onWeiXin) return false
+        return this.jsonConfig.startRemen
     }
     static get showVitualWx() {
         if (!Laya.Browser.onWeiXin) return false
@@ -312,14 +307,6 @@ export default class FdMgr {
         if (!Laya.Browser.onWeiXin) return false
         return this.canTrapAll && this.jsonConfig.remenBanner
     }
-    static get endBanner() {
-        if (!Laya.Browser.onWeiXin) return false
-        return this.canTrapAll && this.jsonConfig.endBanner
-    }
-    static get startRemen() {
-        if (!Laya.Browser.onWeiXin) return false
-        return this.jsonConfig.startRemen
-    }
     static get endRemen() {
         if (!Laya.Browser.onWeiXin) return false
         return this.jsonConfig.endRemen
@@ -328,25 +315,43 @@ export default class FdMgr {
         if (!Laya.Browser.onWeiXin) return false
         return this.canTrapAll && this.jsonConfig.endRemen_switch
     }
-    static get firstBox_switch() {
-        if (!Laya.Browser.onWeiXin) return false
-        return this.jsonConfig.firstBox_switch
-    }
     static get firstBox() {
         if (!Laya.Browser.onWeiXin) return false
-        return this.jsonConfig.firstBox
+        let show = false
+        if (this.jsonConfig.firstBox_interval_level <= 0) show = this.gameCount >= this.jsonConfig.firstBox_level
+        else show = this.gameCount >= this.jsonConfig.firstBox_level &&
+            Math.floor((this.gameCount - this.jsonConfig.firstBox_level) % (this.jsonConfig.firstBox_interval_level + 1)) == 0
+
+        return this.canTrapAll && this.jsonConfig.firstBox && show
+    }
+    static get firstBox_switch() {
+        if (!Laya.Browser.onWeiXin) return false
+        return this.canTrapAll && this.jsonConfig.firstBox_switch
+    }
+    static get bannerBox() {
+        if (!Laya.Browser.onWeiXin) return false
+        let show = false
+        if (this.jsonConfig.bannerBox_interval_level <= 0) show = this.gameCount >= this.jsonConfig.bannerBox_level
+        else show = this.gameCount >= this.jsonConfig.bannerBox_level &&
+            Math.floor((this.gameCount - this.jsonConfig.bannerBox_level) % (this.jsonConfig.bannerBox_interval_level + 1)) == 0
+
+        return this.canTrapAll && this.jsonConfig.bannerBox && show
     }
     static get bannerBox_switch() {
         if (!Laya.Browser.onWeiXin) return false
-        return this.jsonConfig.bannerBox_switch
+        return this.canTrapAll && this.jsonConfig.bannerBox_switch
+    }
+    static get endBanner() {
+        if (!Laya.Browser.onWeiXin) return false
+        return this.canTrapAll && this.jsonConfig.endBanner
     }
     static get endBanner_switch() {
         if (!Laya.Browser.onWeiXin) return false
-        return this.jsonConfig.endBanner_switch
+        return this.canTrapAll && this.jsonConfig.endBanner_switch
     }
     static get homeViedo() {
         if (!Laya.Browser.onWeiXin) return false
-        return this.jsonConfig.homeViedo
+        return this.canTrapAll && this.jsonConfig.homeViedo
     }
 }
 
@@ -373,6 +378,10 @@ class config {
     firstBox_switch: boolean;
     firstBox: boolean;
     homeViedo: boolean;
+    firstBox_level: number;
+    bannerBox_level: number;
+    firstBox_interval_level: number;
+    bannerBox_interval_level: number;
 }
 
 enum SceneType {
