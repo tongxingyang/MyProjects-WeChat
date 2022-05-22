@@ -10,7 +10,7 @@ export class PlayerData {
 @ccclass
 export default class PlayerDataMgr {
     private static _playerData: PlayerData
-    public static maxGrade: number = 5
+    public static maxGrade: number = 9
 
     //获取用户数据
     public static getPlayerData(): PlayerData {

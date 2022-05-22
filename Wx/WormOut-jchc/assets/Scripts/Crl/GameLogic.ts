@@ -44,8 +44,8 @@ export class GameLogic extends Component {
         this.scheduleOnce(() => {
             let cameraNode = GameLogic.Share.node.getChildByName('Camera')
             tween(cameraNode).to(0.1, { position: v3(0, 0, 0), scale: v3(1, 1, 1) }).start()
-            
-            FdMgr.showGameOver(()=>{
+
+            FdMgr.showGameOver(() => {
                 UINode.Share.showUI(UIType.UI_FINISH)
             })
         }, 2)

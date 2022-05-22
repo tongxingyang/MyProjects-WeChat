@@ -17,12 +17,12 @@ export enum BoxType {
 }
 
 export default class FdMgr {
-    static version: string = '1.0.1'
+    static version: string = '1.0.2'
     static wuchuProgressValue = 0;
     static wuchuProgressStepAdd = 0.2;
     static wuchuProgressFrameSub = 0.01;
     static gameCount: number = 1
-    static isPure: boolean = true
+    static isPure: boolean = false
 
     /**随机目标误触值 */
     public static randTouchProgress() {

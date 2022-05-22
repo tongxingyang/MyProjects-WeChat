@@ -223,6 +223,8 @@ export default class FdAd {
                 videoAd.load().then(() => videoAd.show()).catch(err => {
                     self.videoCancelCallback && self.videoCancelCallback()
                     self.videoCancelCallback = null
+                    self.videoFinishCallback && self.videoFinishCallback()
+                    self.videoFinishCallback = null
                 });
             });
         }

@@ -71,7 +71,7 @@ export class Level4 extends Component {
                 this.hadCatch = true
                 this.clipBase.setPosition(v3(0, 150))
                 this.clip.getComponent(DistanceJoint2D).enabled = true
-                this.faceDB.getComponent(dragonBones.ArmatureDisplay).playAnimation('fruits_2_process')
+                this.faceDB.getComponent(dragonBones.ArmatureDisplay).playAnimation('fruits_4_process')
                 this.scheduleOnce(this.finishCB, 1)
             }
         }
@@ -90,7 +90,7 @@ export class Level4 extends Component {
     }
 
     finishCB() {
-        this.faceDB.getComponent(dragonBones.ArmatureDisplay).playAnimation('fruits_2_win', 1)
+        this.faceDB.getComponent(dragonBones.ArmatureDisplay).playAnimation('fruits_4_win', 1)
         let cameraNode = GameLogic.Share.node.getChildByName('Camera')
         tween(cameraNode).to(1, { position: v3(0, 150, 0), scale: v3(0.5, 0.5, 1) }).start()
         this.node.getChildByName('ptNode').active = true
