@@ -1,5 +1,0 @@
-{
-  "code": "export default class MyBaseScene extends Laya.Scene {\r\n    constructor() {\r\n        super();\r\n    }\r\n    onOpened() {\r\n        console.log('MyBaseScene');\r\n    }\r\n}\r\n//# sourceMappingURL=MyBaseScene.js.map",
-  "references": [],
-  "map": "{\"version\":3,\"file\":\"MyBaseScene.js\",\"sourceRoot\":\"\",\"sources\":[\"../../../src/Libs/MyBaseScene.ts\"],\"names\":[],\"mappings\":\"AAAA,MAAM,CAAC,OAAO,OAAO,WAAY,SAAQ,IAAI,CAAC,KAAK;IAC/C;QACI,KAAK,EAAE,CAAA;IACX,CAAC;IAED,QAAQ;QAEJ,OAAO,CAAC,GAAG,CAAC,aAAa,CAAC,CAAA;IAC9B,CAAC;CACJ\"}"
-}

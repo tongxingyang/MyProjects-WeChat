@@ -1,8 +1,0 @@
-{
-  "code": "import Utility from \"../../Mod/Utility\";\r\nimport GameLogic from \"../GameLogic\";\r\nexport default class Jewel extends Laya.Script {\r\n    constructor() {\r\n        super();\r\n    }\r\n    onAwake() {\r\n        this.myOwner = this.owner;\r\n        this.myBB = Utility.getBoundBox(this.myOwner);\r\n    }\r\n    onDisable() {\r\n    }\r\n    onUpdate() {\r\n        if (GameLogic.Share.isGameOver || !GameLogic.Share.isStartGame || GameLogic.Share.isPause)\r\n            return;\r\n        if (Laya.CollisionUtils.boxContainsBox(this.myBB, GameLogic.Share._playerCrl.getMyBB())) {\r\n            this.myOwner.destroy();\r\n        }\r\n    }\r\n}\r\n//# sourceMappingURL=Jewel.js.map",
-  "references": [
-    "E:/LayaProjects/HighHeels/src/Mod/Utility.ts",
-    "E:/LayaProjects/HighHeels/src/Crl/GameLogic.ts"
-  ],
-  "map": "{\"version\":3,\"file\":\"Jewel.js\",\"sourceRoot\":\"\",\"sources\":[\"../../../../src/Crl/Prop/Jewel.ts\"],\"names\":[],\"mappings\":\"AAAA,OAAO,OAAO,MAAM,mBAAmB,CAAA;AACvC,OAAO,SAAS,MAAM,cAAc,CAAA;AAEpC,MAAM,CAAC,OAAO,OAAO,KAAM,SAAQ,IAAI,CAAC,MAAM;IAC1C;QACI,KAAK,EAAE,CAAA;IACX,CAAC;IAID,OAAO;QACH,IAAI,CAAC,OAAO,GAAG,IAAI,CAAC,KAAsB,CAAA;QAC1C,IAAI,CAAC,IAAI,GAAG,OAAO,CAAC,WAAW,CAAC,IAAI,CAAC,OAAO,CAAC,CAAA;IACjD,CAAC;IAED,SAAS;IAET,CAAC;IAED,QAAQ;QACJ,IAAI,SAAS,CAAC,KAAK,CAAC,UAAU,IAAI,CAAC,SAAS,CAAC,KAAK,CAAC,WAAW,IAAI,SAAS,CAAC,KAAK,CAAC,OAAO;YAAE,OAAM;QAEjG,IAAI,IAAI,CAAC,cAAc,CAAC,cAAc,CAAC,IAAI,CAAC,IAAI,EAAE,SAAS,CAAC,KAAK,CAAC,UAAU,CAAC,OAAO,EAAE,CAAC,EAAE;YAErF,IAAI,CAAC,OAAO,CAAC,OAAO,EAAE,CAAA;SACzB;IACL,CAAC;CACJ\"}"
-}

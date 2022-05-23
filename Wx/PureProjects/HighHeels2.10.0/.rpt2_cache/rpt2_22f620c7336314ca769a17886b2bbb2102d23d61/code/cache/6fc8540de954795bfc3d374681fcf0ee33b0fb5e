@@ -1,7 +1,0 @@
-{
-  "code": "import AdvMgr from \"./AdvMgr\";\r\nexport default class MyApi {\r\n    static showVideo(cb, isNeedEnded = true) {\r\n        if (!Laya.Browser.onWeiXin) {\r\n            cb && cb();\r\n            return;\r\n        }\r\n        AdvMgr.instance.showVideoAd((isEnd) => {\r\n            if (isNeedEnded) {\r\n                isEnd && cb && cb();\r\n            }\r\n            else {\r\n                cb && cb();\r\n            }\r\n        });\r\n    }\r\n}\r\n//# sourceMappingURL=MyApi.js.map",
-  "references": [
-    "E:/微信项目集合/工程/HighHeels2.10.0/src/MyScripts/AdvMgr.ts"
-  ],
-  "map": "{\"version\":3,\"file\":\"MyApi.js\",\"sourceRoot\":\"\",\"sources\":[\"../../../src/MyScripts/MyApi.ts\"],\"names\":[],\"mappings\":\"AAAA,OAAO,MAAM,MAAM,UAAU,CAAC;AAE9B,MAAM,CAAC,OAAO,OAAO,KAAK;IAGf,MAAM,CAAC,SAAS,CAAC,EAAa,EAAE,cAAuB,IAAI;QAC9D,IAAI,CAAC,IAAI,CAAC,OAAO,CAAC,QAAQ,EAAE;YACxB,EAAE,IAAI,EAAE,EAAE,CAAA;YACV,OAAM;SACT;QACD,MAAM,CAAC,QAAQ,CAAC,WAAW,CAAC,CAAC,KAAc,EAAE,EAAE;YAC3C,IAAI,WAAW,EAAE;gBACb,KAAK,IAAI,EAAE,IAAI,EAAE,EAAE,CAAA;aACtB;iBAAM;gBACH,EAAE,IAAI,EAAE,EAAE,CAAA;aACb;QACL,CAAC,CAAC,CAAA;IACN,CAAC;CACJ\"}"
-}

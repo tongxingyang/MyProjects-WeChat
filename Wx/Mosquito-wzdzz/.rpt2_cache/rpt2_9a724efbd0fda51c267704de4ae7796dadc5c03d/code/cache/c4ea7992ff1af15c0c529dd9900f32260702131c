@@ -1,6 +1,0 @@
-{
-  "code": "import Utility from \"../Mod/Utility\";\r\nexport var WomanState;\r\n(function (WomanState) {\r\n    WomanState[\"ANI_IDLE\"] = \"idle\";\r\n    WomanState[\"ANI_SLAP\"] = \"SLAP\";\r\n    WomanState[\"ANI_dry\"] = \"dry\";\r\n})(WomanState || (WomanState = {}));\r\nexport default class Woman extends Laya.Script {\r\n    constructor() {\r\n        super();\r\n        this.myOwner = null;\r\n        this.mosquitoNode = null;\r\n        this._ani = null;\r\n        this.currentAniName = '';\r\n    }\r\n    onAwake() {\r\n        this.myOwner = this.owner;\r\n        this._ani = this.owner.getComponent(Laya.Animator);\r\n        this.mosquitoNode = Utility.findNodeByName(this.myOwner, 'mosquitoNode');\r\n        this.playAnimation(WomanState.ANI_IDLE);\r\n    }\r\n    onDisable() {\r\n    }\r\n    getCurAniName() {\r\n        return this._ani.getControllerLayer().getCurrentPlayState().animatorState.name;\r\n    }\r\n    playAnimation(name, speed = 1, transitionDuration = 0.2) {\r\n        this.currentAniName = name;\r\n        this._ani.speed = speed;\r\n        this._ani.crossFade(name, transitionDuration);\r\n    }\r\n    onUpdate() {\r\n    }\r\n}\r\n",
-  "references": [
-    "E:/FDProjects/Projects/Mosquito-wzdzz/src/Mod/Utility.ts"
-  ]
-}

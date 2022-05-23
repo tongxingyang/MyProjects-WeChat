@@ -1,8 +1,0 @@
-{
-  "code": "import SoundMgr from \"../../Mod/SoundMgr\";\r\nimport Utility from \"../../Mod/Utility\";\r\nimport GameLogic from \"../GameLogic\";\r\nexport default class Heel extends Laya.Script {\r\n    constructor() {\r\n        super();\r\n    }\r\n    onAwake() {\r\n        this.myOwner = this.owner;\r\n        this.myBB = Utility.getBoundBox(this.myOwner);\r\n        let angle = this.myOwner.transform.localRotationEuler.clone();\r\n        angle.y += 90;\r\n        this.myOwner.transform.localRotationEuler = angle;\r\n    }\r\n    onDisable() {\r\n    }\r\n    onUpdate() {\r\n        if (GameLogic.Share.isGameOver || !GameLogic.Share.isStartGame || GameLogic.Share.isPause)\r\n            return;\r\n        this.myOwner.transform.rotate(new Laya.Vector3(0, 1, 0), true, false);\r\n        if (Laya.CollisionUtils.boxContainsBox(this.myBB, GameLogic.Share._playerCrl.getMyBB())) {\r\n            GameLogic.Share._playerCrl.addShoes();\r\n            SoundMgr.instance.playSoundEffect('Get.mp3');\r\n            this.myOwner.destroy();\r\n        }\r\n    }\r\n}\r\n",
-  "references": [
-    "E:/微信项目集合/工程/HighHeels2.10.0/src/Mod/SoundMgr.ts",
-    "E:/微信项目集合/工程/HighHeels2.10.0/src/Mod/Utility.ts",
-    "E:/微信项目集合/工程/HighHeels2.10.0/src/Crl/GameLogic.ts"
-  ]
-}

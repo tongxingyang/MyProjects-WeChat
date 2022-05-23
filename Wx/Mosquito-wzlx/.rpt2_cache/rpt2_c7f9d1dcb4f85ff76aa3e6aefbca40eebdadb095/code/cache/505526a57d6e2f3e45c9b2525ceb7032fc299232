@@ -1,5 +1,0 @@
-{
-  "code": "export default class Runner extends Laya.Script {\r\n    constructor() {\r\n        super();\r\n        this.myOwner = null;\r\n    }\r\n    onAwake() {\r\n        this.myOwner = this.owner;\r\n    }\r\n    onDisable() {\r\n    }\r\n    onUpdate() {\r\n    }\r\n}\r\n//# sourceMappingURL=Runner.js.map",
-  "references": [],
-  "map": "{\"version\":3,\"file\":\"Runner.js\",\"sourceRoot\":\"\",\"sources\":[\"../../../../src/Crl/Prop/Runner.ts\"],\"names\":[],\"mappings\":\"AAAA,MAAM,CAAC,OAAO,OAAO,MAAO,SAAQ,IAAI,CAAC,MAAM;IAC3C;QACI,KAAK,EAAE,CAAA;QAGX,YAAO,GAAkB,IAAI,CAAA;IAF7B,CAAC;IAID,OAAO;QACH,IAAI,CAAC,OAAO,GAAG,IAAI,CAAC,KAAsB,CAAA;IAC9C,CAAC;IAED,SAAS;IAET,CAAC;IAED,QAAQ;IAER,CAAC;CACJ\"}"
-}

@@ -1,7 +1,0 @@
-{
-  "code": "import GameLogic from \"./GameLogic\";\r\nexport default class CameraCrl extends Laya.Script {\r\n    constructor() {\r\n        super();\r\n    }\r\n    onAwake() {\r\n        this.myOwner = this.owner;\r\n    }\r\n    onDisable() {\r\n    }\r\n    onUpdate() {\r\n        let desPos = GameLogic.Share._player.transform.position.clone();\r\n        desPos.y += 4;\r\n        desPos.z -= 6;\r\n        let pos = new Laya.Vector3();\r\n        Laya.Vector3.lerp(this.myOwner.transform.position.clone(), desPos, 0.1, pos);\r\n        this.myOwner.transform.position = pos;\r\n    }\r\n}\r\n//# sourceMappingURL=CameraCrl.js.map",
-  "references": [
-    "E:/LayaProjects/HighHeels/src/Crl/GameLogic.ts"
-  ],
-  "map": "{\"version\":3,\"file\":\"CameraCrl.js\",\"sourceRoot\":\"\",\"sources\":[\"../../../src/Crl/CameraCrl.ts\"],\"names\":[],\"mappings\":\"AAAA,OAAO,SAAS,MAAM,aAAa,CAAA;AAEnC,MAAM,CAAC,OAAO,OAAO,SAAU,SAAQ,IAAI,CAAC,MAAM;IAC9C;QACI,KAAK,EAAE,CAAA;IACX,CAAC;IAID,OAAO;QACH,IAAI,CAAC,OAAO,GAAG,IAAI,CAAC,KAAoB,CAAA;IAC5C,CAAC;IAED,SAAS;IAET,CAAC;IAED,QAAQ;QACJ,IAAI,MAAM,GAAG,SAAS,CAAC,KAAK,CAAC,OAAO,CAAC,SAAS,CAAC,QAAQ,CAAC,KAAK,EAAE,CAAA;QAC/D,MAAM,CAAC,CAAC,IAAI,CAAC,CAAA;QACb,MAAM,CAAC,CAAC,IAAI,CAAC,CAAA;QAEb,IAAI,GAAG,GAAG,IAAI,IAAI,CAAC,OAAO,EAAE,CAAA;QAC5B,IAAI,CAAC,OAAO,CAAC,IAAI,CAAC,IAAI,CAAC,OAAO,CAAC,SAAS,CAAC,QAAQ,CAAC,KAAK,EAAE,EAAE,MAAM,EAAE,GAAG,EAAE,GAAG,CAAC,CAAA;QAC5E,IAAI,CAAC,OAAO,CAAC,SAAS,CAAC,QAAQ,GAAG,GAAG,CAAA;IACzC,CAAC;CACJ\"}"
-}

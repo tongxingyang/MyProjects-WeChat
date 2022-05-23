@@ -1,8 +1,0 @@
-{
-  "code": "import Utility from \"../Mod/Utility\";\r\nimport GameLogic from \"./GameLogic\";\r\nexport default class PropPole extends Laya.Script {\r\n    constructor() {\r\n        super();\r\n        this.myOwner = null;\r\n    }\r\n    onEnable() {\r\n        this.myOwner = this.owner;\r\n    }\r\n    onDisable() {\r\n    }\r\n    onUpdate() {\r\n        if (!GameLogic.Share.isStartGame)\r\n            return;\r\n        let mbb = Utility.getBoundBox(this.myOwner);\r\n        let obb = GameLogic.Share._poleCrl.getMyBound();\r\n        if (Laya.CollisionUtils.intersectsBoxAndBox(mbb, obb)) {\r\n            GameLogic.Share._poleCrl.scalePole(1);\r\n            this.myOwner.destroy();\r\n        }\r\n    }\r\n}\r\n//# sourceMappingURL=PropPole.js.map",
-  "references": [
-    "E:/LayaProjects/PoleRush/src/Mod/Utility.ts",
-    "E:/LayaProjects/PoleRush/src/Crl/GameLogic.ts"
-  ],
-  "map": "{\"version\":3,\"file\":\"PropPole.js\",\"sourceRoot\":\"\",\"sources\":[\"../../../src/Crl/PropPole.ts\"],\"names\":[],\"mappings\":\"AAAA,OAAO,OAAO,MAAM,gBAAgB,CAAA;AACpC,OAAO,SAAS,MAAM,aAAa,CAAA;AAEnC,MAAM,CAAC,OAAO,OAAO,QAAS,SAAQ,IAAI,CAAC,MAAM;IAC7C;QACI,KAAK,EAAE,CAAA;QAGX,YAAO,GAAkB,IAAI,CAAA;IAF7B,CAAC;IAGD,QAAQ;QACJ,IAAI,CAAC,OAAO,GAAG,IAAI,CAAC,KAAsB,CAAA;IAC9C,CAAC;IAED,SAAS;IAET,CAAC;IAED,QAAQ;QACJ,IAAI,CAAC,SAAS,CAAC,KAAK,CAAC,WAAW;YAAE,OAAM;QAExC,IAAI,GAAG,GAAG,OAAO,CAAC,WAAW,CAAC,IAAI,CAAC,OAAO,CAAsC,CAAA;QAChF,IAAI,GAAG,GAAG,SAAS,CAAC,KAAK,CAAC,QAAQ,CAAC,UAAU,EAAE,CAAA;QAC/C,IAAI,IAAI,CAAC,cAAc,CAAC,mBAAmB,CAAC,GAAG,EAAE,GAAG,CAAC,EAAE;YACnD,SAAS,CAAC,KAAK,CAAC,QAAQ,CAAC,SAAS,CAAC,CAAC,CAAC,CAAA;YACrC,IAAI,CAAC,OAAO,CAAC,OAAO,EAAE,CAAA;SACzB;IACL,CAAC;CACJ\"}"
-}

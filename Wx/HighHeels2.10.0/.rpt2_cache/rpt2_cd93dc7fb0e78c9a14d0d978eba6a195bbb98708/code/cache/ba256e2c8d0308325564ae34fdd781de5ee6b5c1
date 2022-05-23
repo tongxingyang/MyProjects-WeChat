@@ -1,7 +1,0 @@
-{
-  "code": "import PlayerDataMgr from \"../Libs/PlayerDataMgr\";\r\nexport default class CoinViewCrl extends Laya.Script {\r\n    constructor() {\r\n        super();\r\n    }\r\n    onAwake() {\r\n        this.myOwner = this.owner;\r\n    }\r\n    onUpdate() {\r\n        this.myOwner.value = PlayerDataMgr.getPlayerData().coin.toString();\r\n    }\r\n}\r\n//# sourceMappingURL=CoinViewCrl.js.map",
-  "references": [
-    "E:/FDProjects/Projects/HighHeels2.10.0/src/Libs/PlayerDataMgr.ts"
-  ],
-  "map": "{\"version\":3,\"file\":\"CoinViewCrl.js\",\"sourceRoot\":\"\",\"sources\":[\"../../../src/Crl/CoinViewCrl.ts\"],\"names\":[],\"mappings\":\"AAAA,OAAO,aAAa,MAAM,uBAAuB,CAAA;AAEjD,MAAM,CAAC,OAAO,OAAO,WAAY,SAAQ,IAAI,CAAC,MAAM;IAChD;QACI,KAAK,EAAE,CAAA;IACX,CAAC;IAID,OAAO;QACH,IAAI,CAAC,OAAO,GAAG,IAAI,CAAC,KAAsB,CAAA;IAC9C,CAAC;IAED,QAAQ;QACJ,IAAI,CAAC,OAAO,CAAC,KAAK,GAAG,aAAa,CAAC,aAAa,EAAE,CAAC,IAAI,CAAC,QAAQ,EAAE,CAAA;IACtE,CAAC;CACJ\"}"
-}
