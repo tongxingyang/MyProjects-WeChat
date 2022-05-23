@@ -711,7 +711,6 @@
                 this.bannerIndex++;
                 if (this.bannerIndex >= this.bannerIdArr.length)
                     this.bannerIndex = 0;
-                this.bannerShowCount[this.bannerIndex]++;
             }
             for (let i = 0; i < this.bannerErrorArr.length; i++) {
                 if (this.bannerErrorArr[this.bannerIndex]) {
@@ -722,6 +721,9 @@
                 else {
                     break;
                 }
+            }
+            if (!isCountTime) {
+                this.bannerShowCount[this.bannerIndex]++;
             }
             this.bannerAds[this.bannerIndex] && this.bannerAds[this.bannerIndex].show();
             this.stopCountBannerTime();
