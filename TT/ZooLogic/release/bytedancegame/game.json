@@ -1,0 +1,9 @@
+{
+    "deviceOrientation": "portrait",
+    "subpackages": [
+        {
+            "name": "unity",
+            "root": "LayaScene_SampleScene"
+        }
+    ]
+}

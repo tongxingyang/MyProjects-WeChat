@@ -1,0 +1,1 @@
+require("weapp-adapter.js"),require("libs/min/laya.qqmini.min.js"),window.loadLib=require,require("index.js");

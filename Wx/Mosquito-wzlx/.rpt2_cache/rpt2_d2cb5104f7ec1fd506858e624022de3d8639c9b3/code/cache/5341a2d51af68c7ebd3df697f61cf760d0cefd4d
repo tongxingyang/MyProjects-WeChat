@@ -1,0 +1,7 @@
+{
+  "code": "import JJUtils from \"../Common/JJUtils\";\r\nexport default class AutoFixPosY extends Laya.Script {\r\n    constructor() {\r\n        super();\r\n        this.isFix = false;\r\n    }\r\n    onAwake() {\r\n        if (this.isFix) {\r\n            let node = this.owner;\r\n            JJUtils.fixNodeY(node);\r\n        }\r\n    }\r\n    onDestroy() {\r\n    }\r\n}\r\n//# sourceMappingURL=AutoFixPosY.js.map",
+  "references": [
+    "E:/LayaProjects/HighHeels/src/JJExport/Common/JJUtils.ts"
+  ],
+  "map": "{\"version\":3,\"file\":\"AutoFixPosY.js\",\"sourceRoot\":\"\",\"sources\":[\"../../../../src/JJExport/Libs/AutoFixPosY.ts\"],\"names\":[],\"mappings\":\"AAAA,OAAO,OAAO,MAAM,mBAAmB,CAAA;AAEvC,MAAM,CAAC,OAAO,OAAO,WAAY,SAAQ,IAAI,CAAC,MAAM;IAChD;QACI,KAAK,EAAE,CAAA;QAIJ,UAAK,GAAY,KAAK,CAAA;IAH7B,CAAC;IAMD,OAAO;QACH,IAAI,IAAI,CAAC,KAAK,EAAE;YACZ,IAAI,IAAI,GAAQ,IAAI,CAAC,KAAK,CAAA;YAC1B,OAAO,CAAC,QAAQ,CAAC,IAAI,CAAC,CAAA;SACzB;IACL,CAAC;IAED,SAAS;IAET,CAAC;CACJ\"}"
+}

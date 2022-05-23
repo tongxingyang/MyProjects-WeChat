@@ -1,0 +1,1 @@
+window.screenOrientation="sensor_landscape",require("./libs/min/laya.core.min.js"),require("./libs/min/laya.ui.min.js"),require("./libs/min/laya.d3.min.js"),require("./WXSDK/wxsdk.min.js"),require("./js/bundle.js");

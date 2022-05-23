@@ -1,0 +1,5 @@
+{
+  "code": "export default class CameraCrl extends Laya.Script {\r\n    constructor() {\r\n        super();\r\n    }\r\n    onAwake() {\r\n        this.myOwner = this.owner;\r\n    }\r\n    onDisable() {\r\n    }\r\n    onUpdate() {\r\n    }\r\n}\r\n//# sourceMappingURL=CameraCrl.js.map",
+  "references": [],
+  "map": "{\"version\":3,\"file\":\"CameraCrl.js\",\"sourceRoot\":\"\",\"sources\":[\"../../../src/Crl/CameraCrl.ts\"],\"names\":[],\"mappings\":\"AACA,MAAM,CAAC,OAAO,OAAO,SAAU,SAAQ,IAAI,CAAC,MAAM;IAC9C;QACI,KAAK,EAAE,CAAA;IACX,CAAC;IAID,OAAO;QACH,IAAI,CAAC,OAAO,GAAG,IAAI,CAAC,KAAoB,CAAA;IAC5C,CAAC;IAED,SAAS;IAET,CAAC;IAED,QAAQ;IAER,CAAC;CACJ\"}"
+}

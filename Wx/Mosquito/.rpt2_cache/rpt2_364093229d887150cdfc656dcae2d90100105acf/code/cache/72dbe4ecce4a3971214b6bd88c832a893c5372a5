@@ -1,0 +1,7 @@
+{
+  "code": "import JJWxBannerAd from \"../Common/JJWxBannerAd\";\r\nexport default class BaseExportUI extends Laya.Scene {\r\n    onAwake() {\r\n        this.size(Laya.stage.width, Laya.stage.height);\r\n        if (this.bg) {\r\n            this.bg.size(Laya.stage.width, Laya.stage.height);\r\n        }\r\n    }\r\n    onClosed() {\r\n        Laya.timer.clearAll(this);\r\n        JJWxBannerAd.Instance.hideBanner();\r\n    }\r\n}\r\n//# sourceMappingURL=BaseExportUI.js.map",
+  "references": [
+    "E:/LayaProjects/HighHeels2.10.0/src/JJExport/Common/JJWxBannerAd.ts"
+  ],
+  "map": "{\"version\":3,\"file\":\"BaseExportUI.js\",\"sourceRoot\":\"\",\"sources\":[\"../../../../src/JJExport/View/BaseExportUI.ts\"],\"names\":[],\"mappings\":\"AAAA,OAAO,YAAY,MAAM,wBAAwB,CAAC;AAElD,MAAM,CAAC,OAAO,OAAO,YAAa,SAAQ,IAAI,CAAC,KAAK;IAGhD,OAAO;QACH,IAAI,CAAC,IAAI,CAAC,IAAI,CAAC,KAAK,CAAC,KAAK,EAAE,IAAI,CAAC,KAAK,CAAC,MAAM,CAAC,CAAC;QAC/C,IAAI,IAAI,CAAC,EAAE,EAAE;YACT,IAAI,CAAC,EAAE,CAAC,IAAI,CAAC,IAAI,CAAC,KAAK,CAAC,KAAK,EAAE,IAAI,CAAC,KAAK,CAAC,MAAM,CAAC,CAAC;SACrD;IACL,CAAC;IAED,QAAQ;QACJ,IAAI,CAAC,KAAK,CAAC,QAAQ,CAAC,IAAI,CAAC,CAAA;QACzB,YAAY,CAAC,QAAQ,CAAC,UAAU,EAAE,CAAC;IACvC,CAAC;CACJ\"}"
+}

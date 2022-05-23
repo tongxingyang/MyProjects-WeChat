@@ -1,0 +1,5 @@
+{
+  "code": "export default class PoleColl extends Laya.Script3D {\r\n    constructor() {\r\n        super();\r\n    }\r\n    onEnable() {\r\n    }\r\n    onDisable() {\r\n    }\r\n    onUpdate() {\r\n    }\r\n    onCollisionEnter(collision) {\r\n    }\r\n    onCollisionStay(collision) {\r\n    }\r\n    onCollisionExit(collision) {\r\n    }\r\n}\r\n//# sourceMappingURL=PoleColl.js.map",
+  "references": [],
+  "map": "{\"version\":3,\"file\":\"PoleColl.js\",\"sourceRoot\":\"\",\"sources\":[\"../../../src/Crl/PoleColl.ts\"],\"names\":[],\"mappings\":\"AAAA,MAAM,CAAC,OAAO,OAAO,QAAS,SAAQ,IAAI,CAAC,QAAQ;IAC/C;QACI,KAAK,EAAE,CAAA;IACX,CAAC;IAED,QAAQ;IAER,CAAC;IAED,SAAS;IAET,CAAC;IAED,QAAQ;IAER,CAAC;IAED,gBAAgB,CAAC,SAAyB;IAE1C,CAAC;IAED,eAAe,CAAC,SAAyB;IAEzC,CAAC;IAED,eAAe,CAAC,SAAyB;IAEzC,CAAC;CACJ\"}"
+}
