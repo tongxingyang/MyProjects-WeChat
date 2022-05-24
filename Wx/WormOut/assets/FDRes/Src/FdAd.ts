@@ -139,7 +139,7 @@ export default class FdAd {
             adUnitId: this.bannerIdArr[index],
             style: {
                 top: sysInfo.screenHeight * 0.8,
-                width: 300,
+                width: 10,
                 left: sysInfo.screenWidth / 2 - 150
             },
             adIntervals: 30
@@ -158,6 +158,7 @@ export default class FdAd {
         bannerAd.onResize(res => {
             let realHeight = bannerAd.style.realHeight + 0.1;
             bannerAd.style.top = sysInfo.screenHeight - realHeight;
+            bannerAd.style.width = 10
         });
         return bannerAd;
     }

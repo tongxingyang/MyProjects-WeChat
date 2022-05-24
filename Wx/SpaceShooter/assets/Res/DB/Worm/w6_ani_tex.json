@@ -1,0 +1,1 @@
+{"width":256,"imagePath":"w6_ani_tex.png","height":128,"name":"w6_ani","SubTexture":[{"width":94,"y":1,"height":82,"name":"w6_wing","x":90},{"y":1,"frameX":0,"frameY":0,"width":87,"frameWidth":88,"height":122,"name":"w6_body","frameHeight":122,"x":1},{"width":38,"y":85,"height":35,"name":"w6_head","x":90},{"width":28,"y":85,"height":29,"name":"w6_mouth","x":130}]}

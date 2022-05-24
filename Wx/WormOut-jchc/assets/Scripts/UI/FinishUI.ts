@@ -34,12 +34,14 @@ export class FinishUI extends Component {
     }
 
     nextBtnCB() {
-        SoundMgr.Share.PlaySound('click')
-        if (GameLogic.Share.isWin) {
-            PlayerDataMgr.getPlayerData().coin += 200
-            PlayerDataMgr.changeGrade(1)
-        }
-        director.loadScene('Game')
+        FdMgr.closeFinish(()=>{
+            SoundMgr.Share.PlaySound('click')
+            if (GameLogic.Share.isWin) {
+                PlayerDataMgr.getPlayerData().coin += 200
+                PlayerDataMgr.changeGrade(1)
+            }
+            director.loadScene('Game')
+        })
     }
 
     // update (deltaTime: number) {

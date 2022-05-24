@@ -21,8 +21,8 @@ export class StartUI extends Component {
 
     startBtnCB() {
         SoundMgr.Share.PlaySound('click')
-        UINode.Share.showUI(UIType.UI_GAME)
         FdMgr.startGame(()=>{
+            UINode.Share.showUI(UIType.UI_GAME)
             GameLogic.Share.gameStart()
         })
     }

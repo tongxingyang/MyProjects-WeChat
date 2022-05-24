@@ -27,6 +27,8 @@ export class Remen extends Component {
     }
 
     showUI(ccb?: Function, showAdPic: boolean = false) {
+        FdAd.hideBannerAd()
+        FdAd.visibleFullGridAd(false)
         this.ccb = ccb
         this.clickCount = 0
         this.onShowCB = () => {

@@ -45,7 +45,8 @@ export class Box1 extends Component {
         if (WECHAT) {
             window['wx'].onShow(this.onShowCB)
         }
-        FdAd.hideBannerAd();
+        FdAd.hideBannerAd()
+        FdAd.visibleFullGridAd(false)
     }
 
     clickBtnCB() {
