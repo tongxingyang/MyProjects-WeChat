@@ -223,8 +223,6 @@ export default class FdAd {
                 videoAd.load().then(() => videoAd.show()).catch(err => {
                     self.videoCancelCallback && self.videoCancelCallback()
                     self.videoCancelCallback = null
-                    self.videoFinishCallback && self.videoFinishCallback()
-                    self.videoFinishCallback = null
                 });
             });
         }
@@ -392,11 +390,12 @@ export default class FdAd {
         })
         this.intersititialAd.onError((err) => { this.intersititialError = true; console.log('插屏广告加载失败:', JSON.stringify(err)) })
         this.intersititialAd.onLoad(() => { this.intersititialError = false })
-        this.intersititialAd.onClose(() => { this.intersititialCB && this.intersititialCB() })
+        this.intersititialAd.onClose(() => { this.intersititialCB && this.intersititialCB(); this.intersititialCB = null })
         this.intersititialAd.load()
     }
     static showInterstitialAd(cb?: Function) {
         if (!Laya.Browser.onWeiXin || !this.intersititialAd || this.intersititialError) {
+            this.intersititialCB = null
             if (this.intersititialError) this.createInterstitialAd()
             cb && cb()
             return
@@ -404,6 +403,7 @@ export default class FdAd {
         this.intersititialCB = cb
         this.intersititialAd.show().then(() => { }).catch(err => {
             this.intersititialCB && this.intersititialCB()
+            this.intersititialCB = null
         });
     }
 

@@ -1,5 +1,6 @@
 import FdAd from "./FdAd"
 import FdMgr from "./FdMgr"
+import PlayerDataMgr from "../Libs/PlayerDataMgr"
 
 export default class HomeUI extends Laya.Scene {
     constructor() {
