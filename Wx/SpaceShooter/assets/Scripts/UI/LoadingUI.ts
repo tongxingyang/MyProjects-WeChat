@@ -3,6 +3,7 @@ import { _decorator, Component, Node, ProgressBar, director } from 'cc';
 import { PREVIEW, WECHAT } from 'cc/env';
 import FdMgr from '../../FDRes/Src/FdMgr';
 import PlayerDataMgr from '../Mod/PlayerDataMgr';
+import Utility from '../Mod/Utility';
 const { ccclass, property } = _decorator;
 
 @ccclass('LoadingUI')

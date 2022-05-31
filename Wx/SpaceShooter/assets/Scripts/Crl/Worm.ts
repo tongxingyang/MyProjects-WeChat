@@ -1,5 +1,10 @@
-import { _decorator, Component, Node, dragonBones, resources, utils, Sprite, v3, Vec3, tween, UITransform } from 'cc';
+import { _decorator, Component, Node, dragonBones, resources, utils, Sprite, v3, Vec3, tween, UITransform, Layers, macro } from 'cc';
+import { PropType } from '../Mod/Entity';
+import { RotateLoop1 } from '../Mod/RotateLoop1';
 import Utility from '../Mod/Utility';
+import { GameLogic } from './GameLogic';
+import { Plane } from './Plane';
+import { WormBullet } from './WormBullet';
 const { ccclass, property } = _decorator;
 
 @ccclass('Worm')
@@ -18,6 +23,10 @@ export class Worm extends Component {
 
     _pointIndex: number = 1
     _isMoveEnd: boolean = false
+    _isDied: boolean = false
+    _type: PropType = null
+
+    _hp: number = 10
 
     onLoad() {
         this._bullet = this.node.getChildByName('bullet')
@@ -25,6 +34,7 @@ export class Worm extends Component {
         this._db = this.node.getChildByName('db')
         this._armatureDisplay = this._db.getComponent(dragonBones.ArmatureDisplay)
         this.initAsset(this.id)
+        this._hp *= GameLogic.Share.waveCount
     }
 
     start() {
@@ -73,7 +83,35 @@ export class Worm extends Component {
         let endPos = this.endGrid.children[id].position.clone()
         tween(this.node).to(0.3, { position: endPos }).call(() => {
             this._isMoveEnd = true
+            this.schedule(this.shootBullet, 5, 2, Math.random() * 5)
         }).start()
+    }
+
+    shootBullet() {
+        let bullet = new Node('wormBullet')
+        let sp = bullet.addComponent(Sprite)
+        Utility.loadSpriteFrame('Texture/Bullets/Worm/w' + this.id + '_bullet', sp)
+        bullet.setPosition(this.node.position)
+        GameLogic.Share.wormBulletNode.addChild(bullet)
+        bullet.layer = bullet.parent.layer
+
+        let dir = v3()
+        Vec3.subtract(dir, Plane.Share.node.position, this.node.position)
+        dir = dir.normalize()
+        let desPos = v3()
+        Vec3.multiplyScalar(desPos, dir, 2000)
+        tween(bullet).to(10, { position: desPos }).call(() => { bullet.destroy() }).start()
+        bullet.addComponent(WormBullet)
+    }
+
+    decHp(dmg: number = 1) {
+        this._hp -= dmg
+        if (this._hp <= 0) {
+            this._isDied = true
+            GameLogic.Share.wormArr.splice(GameLogic.Share.wormArr.indexOf(this.node), 1)
+            if (this._type != null) GameLogic.Share.createProp(this._type, this.node.position)
+            this.node.destroy()
+        }
     }
 
     update(deltaTime: number) {

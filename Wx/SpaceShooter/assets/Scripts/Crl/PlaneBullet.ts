@@ -1,7 +1,9 @@
-import { _decorator, Component, Node, Sprite, Vec3, v3, tween, Tween } from 'cc';
+import { _decorator, Component, Node, Sprite, Vec3, v3, tween, Tween, Intersection2D, UITransform } from 'cc';
 import Utility from '../Mod/Utility';
 import BulletPool from './BulletPool';
+import { GameLogic } from './GameLogic';
 import { Plane } from './Plane';
+import { Worm } from './Worm';
 const { ccclass, property } = _decorator;
 
 @ccclass('PlaneBullet')
@@ -44,8 +46,22 @@ export class PlaneBullet extends Component {
         BulletPool.putBullet(this.node)
     }
 
-    update(deltaTime: number) {
+    checkCollWorm() {
+        for (let i = 0; i < GameLogic.Share.wormArr.length; i++) {
+            let worm = GameLogic.Share.wormArr[i]
+            if (Intersection2D.rectRect(this.getComponent(UITransform).getBoundingBoxToWorld(), worm.getComponent(UITransform).getBoundingBoxToWorld())) {
+                worm.getComponent(Worm).decHp()
+                this.recoveryBullet()
+                break
+            }
+        }
+    }
 
+    update(deltaTime: number) {
+        if (this._type == 6 && this._lv >= 4) {
+            this.node.angle += 20
+        }
+        this.checkCollWorm()
     }
 }
 

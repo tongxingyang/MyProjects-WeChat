@@ -1,6 +1,7 @@
 import { _decorator, Component, Node, dragonBones, resources, Sprite, instantiate, v3, Vec3 } from 'cc';
 import Utility from '../Mod/Utility';
 import BulletPool from './BulletPool';
+import { GameLogic } from './GameLogic';
 import { PlaneBullet } from './PlaneBullet';
 const { ccclass, property } = _decorator;
 
@@ -19,6 +20,9 @@ export class Plane extends Component {
 
     _type: number = 1
     _lv: number = 1
+
+    preLv: number = 1
+    isPowing: boolean = false
 
     onLoad() {
         Plane.Share = this
@@ -43,9 +47,9 @@ export class Plane extends Component {
     }
 
     initAsset(type: number, lv: number) {
-        resources.load('DB/Plane/s' + type + '_' + (Math.floor((this._lv - 1) / 3) + 1) + 'ani_ske', dragonBones.DragonBonesAsset, (err, res) => {
+        resources.load('DB/Plane/s' + type + '_' + (Math.floor((lv - 1) / 3) + 1) + 'ani_ske', dragonBones.DragonBonesAsset, (err, res) => {
             this._armatureDisplay.dragonAsset = res
-            resources.load('DB/Plane/s' + type + '_' + (Math.floor((this._lv - 1) / 3) + 1) + 'ani_tex', dragonBones.DragonBonesAtlasAsset, (err, res) => {
+            resources.load('DB/Plane/s' + type + '_' + (Math.floor((lv - 1) / 3) + 1) + 'ani_tex', dragonBones.DragonBonesAtlasAsset, (err, res) => {
                 this._armatureDisplay.dragonAtlasAsset = res
                 this._armatureDisplay.armatureName = 'Armature'
             })
@@ -59,6 +63,9 @@ export class Plane extends Component {
             this._bulletAni.children[1].active = this._type == 4 && this._lv >= 4 && this._lv <= 6
             this._bulletAni.children[2].active = this._type == 4 && this._lv >= 7
         } else {
+            this._bulletAni.children[0].active = false
+            this._bulletAni.children[1].active = false
+            this._bulletAni.children[2].active = false
             //普通子弹
             for (let i = 0; i < this._lv; i++) {
                 let bullet: Node = null
@@ -83,6 +90,36 @@ export class Plane extends Component {
                 this._bulletNode.addChild(bullet)
             }
         }
+    }
+
+    upgradeLv() {
+        if (this.isPowing) { if (this.preLv < 9) this.preLv++; return }
+        if (this._lv >= 9) return
+        this._lv++
+        this.initAsset(this._type, this._lv)
+    }
+
+    changeType(type: number) {
+        if (this.isPowing) return
+        this._type = type
+        this.initAsset(this._type, this._lv)
+    }
+
+    getPow() {
+        this.isPowing = true
+        this.preLv = this._lv
+        this._lv = 9
+        this.initAsset(this._type, this._lv)
+        this.scheduleOnce(() => {
+            this.isPowing = false
+            this._lv = this.preLv
+            this.initAsset(this._type, this._lv)
+        }, 5)
+    }
+
+    hitCB() {
+        this.node.active = false
+        GameLogic.Share.gameOver(false)
     }
 
     update(deltaTime: number) {

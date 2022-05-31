@@ -39,6 +39,16 @@ export default class Utility {
         target.scheduleOnce(() => { node.active = true }, duration)
     }
 
+    public static getRandomByLength(length: number, count: number = 1) {
+        let arr = []
+        for (let i = 0; i < length; i++) {
+            arr.push(i)
+        }
+        arr = this.shuffleArr(arr)
+        arr = arr.splice(0, count)
+        return arr
+    }
+
     public static getRandomItemInArr(arr: any[]): any {
         return arr[Math.floor(Math.random() * arr.length)]
     }

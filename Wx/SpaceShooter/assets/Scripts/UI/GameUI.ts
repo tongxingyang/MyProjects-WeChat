@@ -11,9 +11,11 @@ export class GameUI extends Component {
 
     static Share: GameUI
 
+    lvNode: Node = null
     touchNode: Node = null
 
     onLoad() {
+        this.lvNode = this.node.getChildByName('lvNode')
         this.touchNode = this.node.getChildByName('touchNode')
         this.touchNode.on(Node.EventType.TOUCH_START, this.touchStart, this)
         this.touchNode.on(Node.EventType.TOUCH_MOVE, this.touchMove, this)
@@ -47,5 +49,8 @@ export class GameUI extends Component {
 
     update(deltaTime: number) {
         // [4]
+        for (let i = 0; i < this.lvNode.children.length; i++) {
+            this.lvNode.children[i].children[0].active = Plane.Share._lv > i + 1
+        }
     }
 }
