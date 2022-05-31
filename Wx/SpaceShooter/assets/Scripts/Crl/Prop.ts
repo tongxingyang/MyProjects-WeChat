@@ -1,6 +1,7 @@
 import { _decorator, Component, Node, resources, Sprite, v3, Intersection2D, UITransform, Vec3 } from 'cc';
 import { PropType } from '../Mod/Entity';
 import Utility from '../Mod/Utility';
+import { GameLogic } from './GameLogic';
 import { Plane } from './Plane';
 const { ccclass, property } = _decorator;
 
@@ -29,6 +30,7 @@ export class Prop extends Component {
     }
 
     update(deltaTime: number) {
+        if (GameLogic.Share.isPause || GameLogic.Share.isGameOver) return
         this.node.translate(v3(0, -2, 0))
 
         if (Vec3.distance(this.node.position, Plane.Share.node.position) <= 100) {

@@ -1,5 +1,6 @@
-import { _decorator, Component, Node, instantiate, Sprite, v2, v3, Label } from 'cc';
+import { _decorator, Component, Node, instantiate, Sprite, v2, v3, Label, dragonBones, resources } from 'cc';
 import FdAd from '../../FDRes/Src/FdAd';
+import { Plane } from '../Crl/Plane';
 import { UINode } from '../Crl/UINode';
 import { UIType } from '../Mod/Entity';
 import PlayerDataMgr, { PlayerData } from '../Mod/PlayerDataMgr';
@@ -35,6 +36,7 @@ export class ShopUI extends Component {
         for (let i = 0; i < PlayerDataMgr.getPlayerData().skinArr.length; i++) {
             let item = instantiate(this.itemPrefab)
             item.position = v3(0, 0)
+            item.active = true
             this.content.addChild(item)
         }
         this.updateItems()
@@ -54,7 +56,7 @@ export class ShopUI extends Component {
             let adBtn = item.getChildByName('adBtn')
 
             dk2.active = this.chooseId == i
-            Utility.loadSpriteFrame('fruits/fruits_' + (i + 1), icon.getComponent(Sprite))
+            Utility.loadSpriteFrame('Texture/plane/plane_' + (i + 1) + '_1', icon.getComponent(Sprite))
             using.active = i == data.skinId
             unlocked.active = data.skinArr[i] == 1 && i != data.skinId
             buyBtn.active = data.skinArr[i] == 0 && data.coin >= PlayerDataMgr.getCostById(i)
@@ -66,16 +68,23 @@ export class ShopUI extends Component {
                 buyBtn.on(Node.EventType.TOUCH_END, () => { this.buyBtnCB(i) }, this)
                 adBtn.on(Node.EventType.TOUCH_END, () => { this.adBtnCB(i) }, this)
             }
-
-            this.iconNode.children[i].active = this.chooseId == i
         }
+        this.initAsset(this.chooseId)
         this.hadInit = true
+    }
+    initAsset(type: number) {
+        resources.load('DB/Plane/s' + (type + 1) + '_1ani_ske', dragonBones.DragonBonesAsset, (err, res) => {
+            this.iconNode.getComponent(dragonBones.ArmatureDisplay).dragonAsset = res
+            resources.load('DB/Plane/s' + (type + 1) + '_1ani_tex', dragonBones.DragonBonesAtlasAsset, (err, res) => {
+                this.iconNode.getComponent(dragonBones.ArmatureDisplay).dragonAtlasAsset = res
+                this.iconNode.getComponent(dragonBones.ArmatureDisplay).armatureName = 'Armature'
+            })
+        })
     }
 
     clickIitem(id: number) {
         SoundMgr.Share.PlaySound('click')
         if (this.chooseId == id) return
-        SoundMgr.Share.PlaySound('worm_tongue')
         if (PlayerDataMgr.getPlayerData().skinArr[id] == 1) {
             PlayerDataMgr.getPlayerData().skinId = id
             PlayerDataMgr.setPlayerData()
@@ -94,7 +103,6 @@ export class ShopUI extends Component {
         PlayerDataMgr.setPlayerData()
         this.chooseId = id
         this.updateItems()
-        SoundMgr.Share.PlaySound('worm_tongue')
     }
 
     adBtnCB(id: number) {
@@ -105,7 +113,6 @@ export class ShopUI extends Component {
             PlayerDataMgr.setPlayerData()
             this.chooseId = id
             this.updateItems()
-            SoundMgr.Share.PlaySound('worm_tongue')
         }
         FdAd.showVideoAd(cb)
     }
@@ -113,6 +120,8 @@ export class ShopUI extends Component {
     closeBtnCB() {
         SoundMgr.Share.PlaySound('click')
         UINode.Share.showUI(UIType.UI_START)
+        Plane.Share._type = PlayerDataMgr.getPlayerData().skinId + 1
+        Plane.Share.initAsset((PlayerDataMgr.getPlayerData().skinId + 1), Plane.Share._lv)
     }
 
     update(deltaTime: number) {

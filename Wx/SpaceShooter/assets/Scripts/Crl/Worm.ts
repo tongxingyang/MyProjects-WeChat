@@ -88,6 +88,8 @@ export class Worm extends Component {
     }
 
     shootBullet() {
+        if (GameLogic.Share.isPause || GameLogic.Share.isGameOver) return
+        if (Math.random() > 0.5) return
         let bullet = new Node('wormBullet')
         let sp = bullet.addComponent(Sprite)
         Utility.loadSpriteFrame('Texture/Bullets/Worm/w' + this.id + '_bullet', sp)
@@ -115,7 +117,12 @@ export class Worm extends Component {
     }
 
     update(deltaTime: number) {
+        if (GameLogic.Share.isPause || GameLogic.Share.isGameOver) return
         if (this.pointNode && this._pointIndex < this.pointNode.children.length) this.move()
+        if (Vec3.distance(this.node.position, Plane.Share.node.position) <= 100) {
+            this.node.destroy()
+            Plane.Share.hitCB()
+        }
     }
 }
 

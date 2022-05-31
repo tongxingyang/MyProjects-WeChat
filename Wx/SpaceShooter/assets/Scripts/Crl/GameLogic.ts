@@ -77,19 +77,23 @@ export class GameLogic extends Component {
 
     revive() {
         UINode.Share.showUI(UIType.UI_GAME)
+        this.wormBulletNode.destroyAllChildren()
         this.isStart = true
         this.isGameOver = false
         this.isPause = false
         Plane.Share.node.active = true
+        Plane.Share.isInvincible = true
+        this.scheduleOnce(() => { Plane.Share.isInvincible = false }, 2)
     }
 
     gameOver(isWin: boolean) {
         if (this.isGameOver) return
 
+        Plane.Share.node.active = false
         this.isWin = isWin
         this.isStart = false
         this.isGameOver = true
-        this.isPause = false
+        this.isPause = true
 
         if (!isWin && this.reviveCount <= 0) {
             this.reviveCount++

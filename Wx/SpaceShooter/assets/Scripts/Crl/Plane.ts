@@ -23,6 +23,7 @@ export class Plane extends Component {
 
     preLv: number = 1
     isPowing: boolean = false
+    isInvincible: boolean = false
 
     onLoad() {
         Plane.Share = this
@@ -57,6 +58,7 @@ export class Plane extends Component {
     }
 
     createBullet() {
+        if (GameLogic.Share.isPause || GameLogic.Share.isGameOver) return
         if ((this._type == 3 && this._lv >= 7) || (this._type == 4 && this._lv >= 4)) {
             //激光子弹
             this._bulletAni.children[0].active = this._type == 3 && this._lv >= 7
@@ -118,7 +120,7 @@ export class Plane extends Component {
     }
 
     hitCB() {
-        this.node.active = false
+        if (this.isInvincible) return
         GameLogic.Share.gameOver(false)
     }
 
