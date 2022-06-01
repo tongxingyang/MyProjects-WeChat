@@ -15,6 +15,10 @@ export class GameLogic extends Component {
     groupNode: Node = null
     propNode: Node = null
     wormBulletNode: Node = null
+    bossBulletNode: Node = null
+    boss1: Node = null
+    boss2: Node = null
+    boss3: Node = null
 
     wormArr: Node[] = []
 
@@ -31,6 +35,10 @@ export class GameLogic extends Component {
         this.groupNode = this.node.getChildByName('GroupNode')
         this.propNode = this.node.getChildByName('PropNode')
         this.wormBulletNode = this.node.getChildByName('wormBulletNode')
+        this.bossBulletNode = this.node.getChildByName('BossBulletNode')
+        this.boss1 = this.node.getChildByName('Boss1')
+        this.boss2 = this.node.getChildByName('Boss2')
+        this.boss3 = this.node.getChildByName('Boss3')
         BulletPool.initPool()
     }
 
@@ -41,7 +49,8 @@ export class GameLogic extends Component {
     gameStart() {
         tween(this.node.getChildByName('Plane')).to(0.5, { position: v3(0, -(view.getVisibleSize().height / 2 - 350)) }).call(() => {
             this.isStart = true
-            this.createGroup(1)
+            //this.createGroup(1)
+            this.clearGroup()
         }).start()
     }
 
@@ -55,8 +64,8 @@ export class GameLogic extends Component {
 
     clearGroup() {
         this.waveCount++
-        if (this.waveCount > 3) {
-
+        if (this.waveCount > 1) {
+            this.boss3.active = true
         } else {
             this.scheduleOnce(() => {
                 this.createGroup(Utility.GetRandom(1, 10))

@@ -34,8 +34,8 @@ export class FinishUI extends Component {
 
         FdMgr.inFinish(GameLogic.Share.isWin ? this.nextBtn : this.retryBtn)
 
-        if (PlayerDataMgr.getPlayerData().grade == 5) {
-            PlayerDataMgr.getPlayerData().coin += 500
+        if (GameLogic.Share.isWin) {
+            PlayerDataMgr.getPlayerData().coin += 200
             PlayerDataMgr.setPlayerData()
         }
     }

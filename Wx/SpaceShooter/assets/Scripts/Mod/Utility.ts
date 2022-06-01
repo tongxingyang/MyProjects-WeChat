@@ -1,4 +1,4 @@
-import { _decorator, Sprite, SpriteFrame, SpriteAtlas, Vec2, v2, resources, UITransform, Vec3, Quat, v3 } from "cc";
+import { _decorator, Sprite, SpriteFrame, SpriteAtlas, Node, Vec2, v2, resources, UITransform, Vec3, Quat, v3, find, tween } from "cc";
 import { WECHAT } from "cc/env";
 
 const { ccclass, property } = _decorator;
@@ -26,6 +26,12 @@ export default class Utility {
     public static getWorldPos(node, point: Vec3 = v3(0, 0)): Vec3 {
         let out = v3()
         node.getComponent(UITransform).convertToWorldSpaceAR(point, out)
+        return out
+    }
+
+    public static getCanvasPos(node: Node) {
+        let out = v3()
+        find('Canvas').getComponent(UITransform).convertToNodeSpaceAR(this.getWorldPos(node), out)
         return out
     }
 
@@ -115,5 +121,26 @@ export default class Utility {
                 window['wx'].vibrateLong()
             }
         }
+    }
+
+    public static bezierTo(target: any, duration: number, c1: Vec3, c2: Vec3, to: Vec3, opts: any) {
+        opts = opts || Object.create(null);
+        /**
+         * @desc 二阶贝塞尔
+         * @param {number} t 当前百分比
+         * @param {} p1 起点坐标
+         * @param {} cp 控制点
+         * @param {} p2 终点坐标
+         * @returns {any}
+         */
+        let twoBezier = (t: number, p1: Vec3, cp: Vec3, p2: Vec3) => {
+            let x = (1 - t) * (1 - t) * p1.x + 2 * t * (1 - t) * cp.x + t * t * p2.x;
+            let y = (1 - t) * (1 - t) * p1.y + 2 * t * (1 - t) * cp.y + t * t * p2.y;
+            return v3(x, y, 0);
+        };
+        opts.onUpdate = (arg: Vec3, ratio: number) => {
+            target.position = twoBezier(ratio, c1, c2, to);
+        };
+        return tween(target).to(duration, {}, opts);
     }
 }

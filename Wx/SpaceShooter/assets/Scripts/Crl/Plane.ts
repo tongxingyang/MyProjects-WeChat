@@ -121,6 +121,7 @@ export class Plane extends Component {
 
     hitCB() {
         if (this.isInvincible) return
+        GameLogic.Share.isPause = true
         GameLogic.Share.gameOver(false)
     }
 

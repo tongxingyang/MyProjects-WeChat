@@ -1,5 +1,8 @@
 import { _decorator, Component, Node, Sprite, Vec3, v3, tween, Tween, Intersection2D, UITransform } from 'cc';
 import Utility from '../Mod/Utility';
+import { Boss1 } from './Boss1';
+import { Boss2 } from './Boss2';
+import { Boss3 } from './Boss3';
 import BulletPool from './BulletPool';
 import { GameLogic } from './GameLogic';
 import { Plane } from './Plane';
@@ -57,11 +60,33 @@ export class PlaneBullet extends Component {
         }
     }
 
+    checkCollBoss1() {
+        if (GameLogic.Share.boss1.active && !GameLogic.Share.boss1.getComponent(Boss1).isDied && Vec3.distance(this.node.position, GameLogic.Share.boss1.position) <= 150) {
+            GameLogic.Share.boss1.getComponent(Boss1).decHp(1)
+            this.recoveryBullet()
+        }
+    }
+    checkCollBoss2() {
+        if (GameLogic.Share.boss2.active && !GameLogic.Share.boss2.getComponent(Boss2).isDied && Vec3.distance(this.node.position, GameLogic.Share.boss2.position) <= 150) {
+            GameLogic.Share.boss2.getComponent(Boss2).decHp(1)
+            this.recoveryBullet()
+        }
+    }
+    checkCollBoss3() {
+        if (GameLogic.Share.boss3.active && !GameLogic.Share.boss3.getComponent(Boss3).isDied && Vec3.distance(this.node.position, GameLogic.Share.boss3.position) <= 100) {
+            GameLogic.Share.boss3.getComponent(Boss3).decHp(1)
+            this.recoveryBullet()
+        }
+    }
+
     update(deltaTime: number) {
         if (this._type == 6 && this._lv >= 4) {
             this.node.angle += 20
         }
         this.checkCollWorm()
+        this.checkCollBoss1()
+        this.checkCollBoss2()
+        this.checkCollBoss3()
     }
 }
 

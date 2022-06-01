@@ -26,7 +26,7 @@ export class LoadingUI extends Component {
             });
             window['wx'].onShareAppMessage(function (res) {
                 return {
-                    title: '揪出虫子',
+                    title: '银河空战',
                     imageUrl: '',
                 }
             })

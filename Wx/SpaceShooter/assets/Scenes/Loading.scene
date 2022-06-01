@@ -87,7 +87,12 @@
     },
     "_enabled": true,
     "__prefab": null,
-    "clips": [],
+    "clips": [
+      {
+        "__uuid__": "8376498e-253b-486e-a401-f362677e4076",
+        "__expectedType__": "cc.AudioClip"
+      }
+    ],
     "_id": "36KpsJ6M9Lfaq2ruh7gzDj"
   },
   {

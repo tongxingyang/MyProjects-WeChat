@@ -34,14 +34,14 @@ export class GameUI extends Component {
         let pos = evt.getUILocation()
         pos.x -= view.getVisibleSize().width / 2
         pos.y -= view.getVisibleSize().height / 2
-        Plane.Share.node.setPosition(v3(pos.x, pos.y))
+        Plane.Share.node.setPosition(v3(pos.x, pos.y + 100))
     }
     touchMove(evt: EventTouch) {
         if (!GameLogic.Share.isStart || GameLogic.Share.isPause || GameLogic.Share.isGameOver) return
         let pos = evt.getUILocation()
         pos.x -= view.getVisibleSize().width / 2
         pos.y -= view.getVisibleSize().height / 2
-        Plane.Share.node.setPosition(v3(pos.x, pos.y))
+        Plane.Share.node.setPosition(v3(pos.x, pos.y + 100))
     }
     touchEnd(evt: EventTouch) {
         if (!GameLogic.Share.isStart || GameLogic.Share.isPause || GameLogic.Share.isGameOver) return
