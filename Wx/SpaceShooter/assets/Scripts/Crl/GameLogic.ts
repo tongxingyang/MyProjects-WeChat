@@ -16,6 +16,7 @@ export class GameLogic extends Component {
     propNode: Node = null
     wormBulletNode: Node = null
     bossBulletNode: Node = null
+    effectNode: Node = null
     boss1: Node = null
     boss2: Node = null
     boss3: Node = null
@@ -36,6 +37,7 @@ export class GameLogic extends Component {
         this.propNode = this.node.getChildByName('PropNode')
         this.wormBulletNode = this.node.getChildByName('wormBulletNode')
         this.bossBulletNode = this.node.getChildByName('BossBulletNode')
+        this.effectNode = this.node.getChildByName('effectNode')
         this.boss1 = this.node.getChildByName('Boss1')
         this.boss2 = this.node.getChildByName('Boss2')
         this.boss3 = this.node.getChildByName('Boss3')
@@ -49,8 +51,8 @@ export class GameLogic extends Component {
     gameStart() {
         tween(this.node.getChildByName('Plane')).to(0.5, { position: v3(0, -(view.getVisibleSize().height / 2 - 350)) }).call(() => {
             this.isStart = true
-            //this.createGroup(1)
-            this.clearGroup()
+            this.scheduleOnce(() => { Plane.Share.isInvincible = false }, 2)
+            this.createGroup(1)
         }).start()
     }
 
@@ -81,6 +83,30 @@ export class GameLogic extends Component {
             this.propNode.addChild(prop)
             let crl = prop.addComponent(Prop)
             crl.initData(type)
+        })
+    }
+
+    createHit1FX(bossNode: Node) {
+        if (bossNode.getChildByName('bossHit1')) return
+        resources.load('Prefabs/Effects/bossHit1', Prefab, (err, res) => {
+            let fx = instantiate(res)
+            fx.setPosition(v3())
+            fx.setScale(v3(1.5, 1.5, 1))
+            fx.active = true
+            bossNode.addChild(fx)
+            //this.scheduleOnce(() => { fx.destroy(); }, 3)
+        })
+    }
+
+    createBossDiedFX(bossNode: Node) {
+        if (bossNode.getChildByName('bossDied')) return
+        resources.load('Prefabs/Effects/bossDied', Prefab, (err, res) => {
+            let fx = instantiate(res)
+            fx.setPosition(v3())
+            fx.setScale(v3(1.5, 1.5, 1))
+            fx.active = true
+            bossNode.addChild(fx)
+            //this.scheduleOnce(() => { fx.destroy(); }, 3)
         })
     }
 

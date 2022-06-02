@@ -1,4 +1,4 @@
-import { _decorator, Component, Node, Sprite, Vec3, v3, tween, Tween, Intersection2D, UITransform } from 'cc';
+import { _decorator, Component, Node, Sprite, Vec3, v3, tween, Tween, Intersection2D, UITransform, instantiate, Prefab, resources } from 'cc';
 import Utility from '../Mod/Utility';
 import { Boss1 } from './Boss1';
 import { Boss2 } from './Boss2';
@@ -62,21 +62,34 @@ export class PlaneBullet extends Component {
 
     checkCollBoss1() {
         if (GameLogic.Share.boss1.active && !GameLogic.Share.boss1.getComponent(Boss1).isDied && Vec3.distance(this.node.position, GameLogic.Share.boss1.position) <= 150) {
+            this.createBossHitFX(Utility.getCanvasPos(this.node))
             GameLogic.Share.boss1.getComponent(Boss1).decHp(1)
             this.recoveryBullet()
         }
     }
     checkCollBoss2() {
         if (GameLogic.Share.boss2.active && !GameLogic.Share.boss2.getComponent(Boss2).isDied && Vec3.distance(this.node.position, GameLogic.Share.boss2.position) <= 150) {
+            this.createBossHitFX(Utility.getCanvasPos(this.node))
             GameLogic.Share.boss2.getComponent(Boss2).decHp(1)
             this.recoveryBullet()
         }
     }
     checkCollBoss3() {
         if (GameLogic.Share.boss3.active && !GameLogic.Share.boss3.getComponent(Boss3).isDied && Vec3.distance(this.node.position, GameLogic.Share.boss3.position) <= 100) {
+            this.createBossHitFX(Utility.getCanvasPos(this.node))
             GameLogic.Share.boss3.getComponent(Boss3).decHp(1)
             this.recoveryBullet()
         }
+    }
+
+    createBossHitFX(pos) {
+        resources.load('Prefabs/Effects/bossHit', Prefab, (err, res) => {
+            let fx = instantiate(res)
+            fx.setPosition(pos)
+            fx.active = true
+            GameLogic.Share.effectNode.addChild(fx)
+            this.scheduleOnce(() => { fx.destroy(); }, 1)
+        })
     }
 
     update(deltaTime: number) {

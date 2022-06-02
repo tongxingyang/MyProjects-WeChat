@@ -1,4 +1,4 @@
-import { _decorator, Component, Node, dragonBones, resources, Sprite, instantiate, v3, Vec3 } from 'cc';
+import { _decorator, Component, Node, dragonBones, resources, Sprite, instantiate, v3, Vec3, Prefab } from 'cc';
 import Utility from '../Mod/Utility';
 import BulletPool from './BulletPool';
 import { GameLogic } from './GameLogic';
@@ -14,6 +14,7 @@ export class Plane extends Component {
     _bulletNode: Node = null
     _bulletDir: Node = null
     _bullePrefab: Node = null
+    _invicibleNode: Node = null
 
     _db: Node = null
     _armatureDisplay: dragonBones.ArmatureDisplay = null
@@ -23,7 +24,7 @@ export class Plane extends Component {
 
     preLv: number = 1
     isPowing: boolean = false
-    isInvincible: boolean = false
+    isInvincible: boolean = true
 
     onLoad() {
         Plane.Share = this
@@ -33,6 +34,7 @@ export class Plane extends Component {
         this._bullePrefab = this.node.getChildByName("bulletPrefab")
         this._bulletAni = this.node.getChildByName("bulletAni")
         this._bulletDir = this.node.getChildByName("bulletDir")
+        this._invicibleNode = this.node.getChildByName("invicible")
     }
 
     start() {
@@ -95,6 +97,7 @@ export class Plane extends Component {
     }
 
     upgradeLv() {
+        this.createPropFX()
         if (this.isPowing) { if (this.preLv < 9) this.preLv++; return }
         if (this._lv >= 9) return
         this._lv++
@@ -105,6 +108,7 @@ export class Plane extends Component {
         if (this.isPowing) return
         this._type = type
         this.initAsset(this._type, this._lv)
+        this.createPropFX()
     }
 
     getPow() {
@@ -112,6 +116,8 @@ export class Plane extends Component {
         this.preLv = this._lv
         this._lv = 9
         this.initAsset(this._type, this._lv)
+        this.createPropFX()
+        this.createPowFX()
         this.scheduleOnce(() => {
             this.isPowing = false
             this._lv = this.preLv
@@ -119,14 +125,49 @@ export class Plane extends Component {
         }, 5)
     }
 
+    createPropFX() {
+        resources.load('Prefabs/Effects/getProp', Prefab, (err, res) => {
+            let fx = instantiate(res)
+            fx.setPosition(v3())
+            fx.active = true
+            this.node.addChild(fx)
+            this.scheduleOnce(() => { fx.destroy() }, 2)
+        })
+    }
+
+    createPowFX() {
+        resources.load('Prefabs/Effects/getPow', Prefab, (err, res) => {
+            let fx = instantiate(res)
+            fx.setPosition(v3())
+            fx.active = true
+            this.node.addChild(fx)
+            this.scheduleOnce(() => { fx.destroy() }, 5)
+            this.scheduleOnce(() => {
+                fx.getComponent(dragonBones.ArmatureDisplay).playAnimation('idle', -1)
+            }, 0.4)
+        })
+    }
+
+    createDiedFX(cb: Function) {
+        resources.load('Prefabs/Effects/planeDied', Prefab, (err, res) => {
+            let fx = instantiate(res)
+            fx.setPosition(v3())
+            fx.active = true
+            this.node.addChild(fx)
+            this.scheduleOnce(() => { fx.destroy(); cb && cb() }, 2)
+        })
+    }
+
     hitCB() {
         if (this.isInvincible) return
         GameLogic.Share.isPause = true
-        GameLogic.Share.gameOver(false)
+        this.createDiedFX(() => {
+            GameLogic.Share.gameOver(false)
+        })
     }
 
     update(deltaTime: number) {
-
+        this._invicibleNode.active = this.isInvincible && GameLogic.Share.isStart
     }
 }
 

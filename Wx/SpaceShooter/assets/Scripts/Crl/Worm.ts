@@ -1,4 +1,4 @@
-import { _decorator, Component, Node, dragonBones, resources, utils, Sprite, v3, Vec3, tween, UITransform, Layers, macro } from 'cc';
+import { _decorator, Component, Node, dragonBones, resources, utils, Sprite, v3, Vec3, tween, UITransform, Layers, macro, Prefab, instantiate } from 'cc';
 import { PropType } from '../Mod/Entity';
 import { RotateLoop1 } from '../Mod/RotateLoop1';
 import Utility from '../Mod/Utility';
@@ -108,12 +108,35 @@ export class Worm extends Component {
 
     decHp(dmg: number = 1) {
         this._hp -= dmg
+        this.createHitFX()
         if (this._hp <= 0) {
             this._isDied = true
             GameLogic.Share.wormArr.splice(GameLogic.Share.wormArr.indexOf(this.node), 1)
             if (this._type != null) GameLogic.Share.createProp(this._type, this.node.position)
+            this.createDiedFX(Utility.getCanvasPos(this.node))
             this.node.destroy()
         }
+    }
+
+    createHitFX() {
+        resources.load('Prefabs/Effects/wormHit', Prefab, (err, res) => {
+            if (!this.node || !this.node.isValid) return
+            let fx = instantiate(res)
+            fx.setPosition(v3())
+            fx.active = true
+            this.node.addChild(fx)
+            this.scheduleOnce(() => { fx.destroy() }, 0.2)
+        })
+    }
+
+    createDiedFX(pos) {
+        resources.load('Prefabs/Effects/wormDied', Prefab, (err, res) => {
+            let fx = instantiate(res)
+            fx.setPosition(pos)
+            fx.active = true
+            GameLogic.Share.effectNode.addChild(fx)
+            this.scheduleOnce(() => { fx.destroy() }, 1)
+        })
     }
 
     update(deltaTime: number) {

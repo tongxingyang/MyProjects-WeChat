@@ -2,6 +2,7 @@
 import { _decorator, Component, Node, v3, tween, director } from 'cc';
 import FdAd from '../../FDRes/Src/FdAd';
 import FdMgr from '../../FDRes/Src/FdMgr';
+import BulletPool from '../Crl/BulletPool';
 import { GameLogic } from '../Crl/GameLogic';
 import PlayerDataMgr from '../Mod/PlayerDataMgr';
 import { SoundMgr } from '../Mod/SoundMgr';
@@ -53,6 +54,7 @@ export class FinishUI extends Component {
     nextBtnCB() {
         SoundMgr.Share.PlaySound('click')
         FdMgr.closeFinish(() => {
+            BulletPool.clearPool()
             director.loadScene('Game')
         })
     }

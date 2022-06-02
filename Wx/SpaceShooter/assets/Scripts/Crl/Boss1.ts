@@ -65,9 +65,13 @@ export class Boss1 extends Component {
         if (this.isDied || !this.isReady) return
         this.hp -= dmg
         this._hpBar.progress = this.hp / this.hpMax
+        if (this.hp <= this.hpMax / 2) {
+            GameLogic.Share.createHit1FX(this.node)
+        }
         if (this.hp <= 0) {
             this.unscheduleAllCallbacks()
             this.isDied = true
+            GameLogic.Share.gameOver(true)
         }
     }
 
