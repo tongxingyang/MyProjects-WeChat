@@ -1,6 +1,7 @@
 import { _decorator, Component, Node, dragonBones, resources, utils, Sprite, v3, Vec3, tween, UITransform, Layers, macro, Prefab, instantiate } from 'cc';
 import { PropType } from '../Mod/Entity';
 import { RotateLoop1 } from '../Mod/RotateLoop1';
+import { SoundMgr } from '../Mod/SoundMgr';
 import Utility from '../Mod/Utility';
 import { GameLogic } from './GameLogic';
 import { Plane } from './Plane';
@@ -26,7 +27,8 @@ export class Worm extends Component {
     _isDied: boolean = false
     _type: PropType = null
 
-    _hp: number = 10
+    _hp: number = 5
+    endPos: Vec3 = v3()
 
     onLoad() {
         this._bullet = this.node.getChildByName('bullet')
@@ -81,15 +83,27 @@ export class Worm extends Component {
     moveToEnd() {
         let id = this.node.parent.children.indexOf(this.node)
         let endPos = this.endGrid.children[id].position.clone()
+        this.endPos = endPos.clone()
         tween(this.node).to(0.3, { position: endPos }).call(() => {
             this._isMoveEnd = true
             this.schedule(this.shootBullet, 5, 2, Math.random() * 5)
+            this.randMove()
+        }).start()
+    }
+
+    randMove() {
+        let endPos = this.endPos.clone()
+        endPos.x += Math.random() * 100 - 50
+        endPos.y += Math.random() * 100 - 50
+        tween(this.node).to(0.5, { position: endPos }).call(() => {
+            this.randMove()
         }).start()
     }
 
     shootBullet() {
         if (GameLogic.Share.isPause || GameLogic.Share.isGameOver) return
         if (Math.random() > 0.5) return
+        SoundMgr.Share.PlaySound('enemyShoot')
         let bullet = new Node('wormBullet')
         let sp = bullet.addComponent(Sprite)
         Utility.loadSpriteFrame('Texture/Bullets/Worm/w' + this.id + '_bullet', sp)
@@ -109,7 +123,9 @@ export class Worm extends Component {
     decHp(dmg: number = 1) {
         this._hp -= dmg
         this.createHitFX()
+        SoundMgr.Share.PlaySound('enemyHit')
         if (this._hp <= 0) {
+            SoundMgr.Share.PlaySound('enemyDied')
             this._isDied = true
             GameLogic.Share.wormArr.splice(GameLogic.Share.wormArr.indexOf(this.node), 1)
             if (this._type != null) GameLogic.Share.createProp(this._type, this.node.position)

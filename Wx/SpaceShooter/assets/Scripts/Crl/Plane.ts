@@ -1,4 +1,5 @@
 import { _decorator, Component, Node, dragonBones, resources, Sprite, instantiate, v3, Vec3, Prefab } from 'cc';
+import { SoundMgr } from '../Mod/SoundMgr';
 import Utility from '../Mod/Utility';
 import BulletPool from './BulletPool';
 import { GameLogic } from './GameLogic';
@@ -23,8 +24,10 @@ export class Plane extends Component {
     _lv: number = 1
 
     preLv: number = 1
+    lifeCount: number = 3
     isPowing: boolean = false
     isInvincible: boolean = true
+    canHit: boolean = true
 
     onLoad() {
         Plane.Share = this
@@ -46,6 +49,9 @@ export class Plane extends Component {
         this.schedule(this.createBullet, 0.1)
     }
     stopCreateBullet() {
+        this._bulletAni.children[0].active = false
+        this._bulletAni.children[1].active = false
+        this._bulletAni.children[2].active = false
         this.unschedule(this.createBullet)
     }
 
@@ -159,10 +165,24 @@ export class Plane extends Component {
     }
 
     hitCB() {
-        if (this.isInvincible) return
+        if (this.isInvincible || !this.canHit) return
+        this.lifeCount--
+        if (this.lifeCount > 0) { this.createHitFX(); this.canHit = false; this.scheduleOnce(() => { this.canHit = true }, 1); return }
         GameLogic.Share.isPause = true
+        SoundMgr.Share.PlaySound('planeDied')
         this.createDiedFX(() => {
+            SoundMgr.Share.PlaySound('lose')
             GameLogic.Share.gameOver(false)
+        })
+    }
+
+    createHitFX() {
+        resources.load('Prefabs/Effects/wormDied', Prefab, (err, res) => {
+            let fx = instantiate(res)
+            fx.setPosition(v3())
+            fx.active = true
+            this.node.addChild(fx)
+            this.scheduleOnce(() => { fx.destroy() }, 1)
         })
     }
 

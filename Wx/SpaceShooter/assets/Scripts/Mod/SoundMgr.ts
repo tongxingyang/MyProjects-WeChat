@@ -29,14 +29,24 @@ export class SoundMgr extends Component {
     }
 
     loadSounds() {
-        this.clips.forEach((sound) => {
-            let clip = new Node()
-            let crl = clip.addComponent(AudioSource)
-            crl.playOnAwake = false
-            crl.clip = sound
-            clip.name = sound.name
-            this.node.addChild(clip)
+        resources.loadDir('sounds', AudioClip, (err, clips) => {
+            clips.forEach((sound) => {
+                let clip = new Node()
+                let crl = clip.addComponent(AudioSource)
+                crl.playOnAwake = false
+                crl.clip = sound
+                clip.name = sound.name
+                this.node.addChild(clip)
+            })
         })
+        // this.clips.forEach((sound) => {
+        //     let clip = new Node()
+        //     let crl = clip.addComponent(AudioSource)
+        //     crl.playOnAwake = false
+        //     crl.clip = sound
+        //     clip.name = sound.name
+        //     this.node.addChild(clip)
+        // })
     }
 
     PlaySound(key: string, loop: boolean = false, volume: number = 1) {

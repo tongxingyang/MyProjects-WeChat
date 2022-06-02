@@ -1,6 +1,8 @@
 import { _decorator, Component, Node, tween, v3, view, resources, Prefab, instantiate, Vec3 } from 'cc';
 import FdMgr from '../../FDRes/Src/FdMgr';
 import { PropType, UIType } from '../Mod/Entity';
+import PlayerDataMgr from '../Mod/PlayerDataMgr';
+import { SoundMgr } from '../Mod/SoundMgr';
 import Utility from '../Mod/Utility';
 import BulletPool from './BulletPool';
 import { Plane } from './Plane';
@@ -66,8 +68,12 @@ export class GameLogic extends Component {
 
     clearGroup() {
         this.waveCount++
-        if (this.waveCount > 1) {
-            this.boss3.active = true
+        let bossWave = 4
+        if (PlayerDataMgr.getPlayerData().grade == 1) bossWave = 3
+        else if (PlayerDataMgr.getPlayerData().grade == 1) bossWave = 4
+        else bossWave = 5
+        if (this.waveCount > 4) {
+            this['boss' + (Math.floor((PlayerDataMgr.getPlayerData().grade - 1) % 3) + 1)].active = true
         } else {
             this.scheduleOnce(() => {
                 this.createGroup(Utility.GetRandom(1, 10))
@@ -99,7 +105,6 @@ export class GameLogic extends Component {
     }
 
     createBossDiedFX(bossNode: Node) {
-        if (bossNode.getChildByName('bossDied')) return
         resources.load('Prefabs/Effects/bossDied', Prefab, (err, res) => {
             let fx = instantiate(res)
             fx.setPosition(v3())
@@ -116,6 +121,7 @@ export class GameLogic extends Component {
         this.isStart = true
         this.isGameOver = false
         this.isPause = false
+        Plane.Share.lifeCount = 3
         Plane.Share.node.active = true
         Plane.Share.isInvincible = true
         this.scheduleOnce(() => { Plane.Share.isInvincible = false }, 2)
@@ -124,18 +130,24 @@ export class GameLogic extends Component {
     gameOver(isWin: boolean) {
         if (this.isGameOver) return
 
-        Plane.Share.node.active = false
         this.isWin = isWin
         this.isStart = false
         this.isGameOver = true
         this.isPause = true
 
         if (!isWin && this.reviveCount <= 0) {
+            Plane.Share.node.active = false
             this.reviveCount++
             UINode.Share.showUI(UIType.UI_Revive)
             return
         } else {
-            this.scheduleOnce(this.showFinishUI, 2)
+            SoundMgr.Share.PlaySound('win')
+            Plane.Share.stopCreateBullet()
+            this.scheduleOnce(() => {
+                tween(Plane.Share.node).by(1.5, { position: v3(0, 2000) }, { easing: "backIn" }).call(() => {
+                    this.showFinishUI()
+                }).start()
+            }, 1)
         }
     }
 

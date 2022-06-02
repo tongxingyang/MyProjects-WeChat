@@ -1,4 +1,5 @@
 import { _decorator, Component, Node, dragonBones, ProgressBar, v3, view, tween, resources, Prefab, instantiate, Vec3 } from 'cc';
+import { SoundMgr } from '../Mod/SoundMgr';
 import { UpDownLoop } from '../Mod/UpDownLoop';
 import Utility from '../Mod/Utility';
 import { BossBullet1_1 } from './BossBullet/BossBullet1_1';
@@ -63,16 +64,37 @@ export class Boss1 extends Component {
 
     decHp(dmg: number) {
         if (this.isDied || !this.isReady) return
+        SoundMgr.Share.PlaySound('enemyHit')
         this.hp -= dmg
         this._hpBar.progress = this.hp / this.hpMax
+        if (Math.random() * 1 <= 0.02) {
+            this.createClipFX()
+        }
         if (this.hp <= this.hpMax / 2) {
+            this.node.getChildByName('bossSmoke').active = true
             GameLogic.Share.createHit1FX(this.node)
         }
         if (this.hp <= 0) {
             this.unscheduleAllCallbacks()
             this.isDied = true
-            GameLogic.Share.gameOver(true)
+            GameLogic.Share.createBossDiedFX(this.node)
+            this.scheduleOnce(() => {
+                SoundMgr.Share.PlaySound('bossDied')
+                this.node.destroy()
+                GameLogic.Share.gameOver(true)
+            }, 2.5)
         }
+    }
+
+    createClipFX() {
+        resources.load('Prefabs/Effects/Clip', Prefab, (err, res) => {
+            let fx = instantiate(res)
+            fx.setPosition(v3())
+            fx.active = true
+            fx.children[Utility.getRandomItemInArr([0, 1, 2, 3])].active = true
+            this.node.addChild(fx)
+            this.scheduleOnce(() => { fx.destroy(); }, 3)
+        })
     }
 
     attack() {
@@ -88,6 +110,7 @@ export class Boss1 extends Component {
             this.scheduleOnce(() => {
                 resources.load('Prefabs/boss1_bullet1', Prefab, (err, res) => {
                     if (err) return
+                    SoundMgr.Share.PlaySound('rocket')
                     let bullet = instantiate(res)
                     bullet.setScale(v3(1.5, 1.5, 1))
                     GameLogic.Share.bossBulletNode.addChild(bullet)
@@ -99,6 +122,7 @@ export class Boss1 extends Component {
         } else if (type == 2) {
             this.scheduleOnce(() => {
                 for (let i = 0; i < 4; i++) {
+                    SoundMgr.Share.PlaySound('rocket')
                     resources.load('Prefabs/boss1_bullet1', Prefab, (err, res) => {
                         if (err) return
                         let bullet = instantiate(res)
@@ -111,6 +135,7 @@ export class Boss1 extends Component {
             }, 0.5)
         } else if (type == 3) {
             this.scheduleOnce(() => {
+                SoundMgr.Share.PlaySound('bossElectric')
                 resources.load('Prefabs/boss1_bullet2', Prefab, (err, res) => {
                     if (err) return
                     let bullet = instantiate(res)
@@ -129,6 +154,11 @@ export class Boss1 extends Component {
                 Plane.Share.hitCB()
             }
         }
+
+        this._db.children[0].active = this.hp < 0.8 * this.hpMax
+        this._db.children[1].active = this.hp < 0.7 * this.hpMax
+        this._db.children[2].active = this.hp < 0.6 * this.hpMax
+        this._db.children[3].active = this.hp < 0.5 * this.hpMax
     }
 }
 

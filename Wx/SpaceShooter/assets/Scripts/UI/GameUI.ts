@@ -13,10 +13,12 @@ export class GameUI extends Component {
 
     lvNode: Node = null
     touchNode: Node = null
+    lifeNode: Node = null
 
     onLoad() {
         this.lvNode = this.node.getChildByName('lvNode')
         this.touchNode = this.node.getChildByName('touchNode')
+        this.lifeNode = this.node.getChildByName('lifeNode')
         this.touchNode.on(Node.EventType.TOUCH_START, this.touchStart, this)
         this.touchNode.on(Node.EventType.TOUCH_MOVE, this.touchMove, this)
         this.touchNode.on(Node.EventType.TOUCH_END, this.touchEnd, this)
@@ -51,6 +53,11 @@ export class GameUI extends Component {
         // [4]
         for (let i = 0; i < this.lvNode.children.length; i++) {
             this.lvNode.children[i].children[0].active = Plane.Share._lv > i + 1
+        }
+
+        for (let i = 0; i < this.lifeNode.children.length; i++) {
+            let l = this.lifeNode.children[i]
+            l.children[0].active = i < Plane.Share.lifeCount
         }
     }
 }

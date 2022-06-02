@@ -16,6 +16,7 @@ export class StartUI extends Component {
 
     start() {
         // [3]
+        SoundMgr.Share.PlayMusic('bgm')
     }
 
     startBtnCB() {

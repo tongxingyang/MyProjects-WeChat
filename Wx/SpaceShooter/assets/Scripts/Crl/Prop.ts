@@ -1,5 +1,6 @@
 import { _decorator, Component, Node, resources, Sprite, v3, Intersection2D, UITransform, Vec3 } from 'cc';
 import { PropType } from '../Mod/Entity';
+import { SoundMgr } from '../Mod/SoundMgr';
 import Utility from '../Mod/Utility';
 import { GameLogic } from './GameLogic';
 import { Plane } from './Plane';
@@ -12,6 +13,7 @@ export class Prop extends Component {
 
     start() {
 
+        SoundMgr.Share.PlaySound('prop')
     }
 
     initData(type: PropType) {

@@ -1,4 +1,5 @@
 import { _decorator, Component, Node, dragonBones, instantiate, Prefab, ProgressBar, resources, tween, v3, Vec3, view } from 'cc';
+import { SoundMgr } from '../Mod/SoundMgr';
 import { UpDownLoop } from '../Mod/UpDownLoop';
 import Utility from '../Mod/Utility';
 import { BossBullet2_1 } from './BossBullet/BossBullet2_1';
@@ -61,16 +62,38 @@ export class Boss2 extends Component {
 
     decHp(dmg: number) {
         if (this.isDied || !this.isReady) return
+        SoundMgr.Share.PlaySound('enemyHit')
         this.hp -= dmg
         this._hpBar.progress = this.hp / this.hpMax
         if (this.hp <= this.hpMax / 2) {
+            this.node.getChildByName('bossSmoke').active = true
+            GameLogic.Share.createHit1FX(this.node)
+        }
+        if (this.hp <= this.hpMax / 2) {
+            this.node.getChildByName('bossSmoke').active = true
             GameLogic.Share.createHit1FX(this.node)
         }
         if (this.hp <= 0) {
             this.unscheduleAllCallbacks()
             this.isDied = true
-            GameLogic.Share.gameOver(true)
+            GameLogic.Share.createBossDiedFX(this.node)
+            this.scheduleOnce(() => {
+                SoundMgr.Share.PlaySound('bossDied')
+                this.node.destroy()
+                GameLogic.Share.gameOver(true)
+            }, 2.5)
         }
+    }
+
+    createClipFX() {
+        resources.load('Prefabs/Effects/Clip', Prefab, (err, res) => {
+            let fx = instantiate(res)
+            fx.setPosition(v3())
+            fx.active = true
+            fx.children[Utility.getRandomItemInArr([0, 1, 2, 3])].active = true
+            this.node.addChild(fx)
+            this.scheduleOnce(() => { fx.destroy(); }, 3)
+        })
     }
 
     attack() {
@@ -85,6 +108,7 @@ export class Boss2 extends Component {
         if (type == 1) {
             for (let j = 0; j < 3; j++) {
                 this.scheduleOnce(() => {
+                    SoundMgr.Share.PlaySound('bossBullet')
                     for (let i = 0; i < this._atk1.children.length; i++) {
                         let bullet = instantiate(this.node.getChildByName('bullet1'))
                         bullet.active = true
@@ -98,6 +122,7 @@ export class Boss2 extends Component {
             this.scheduleOnce(() => {
                 for (let i = 0; i < 5; i++) {
                     this.scheduleOnce(() => {
+                        SoundMgr.Share.PlaySound('bossBullet')
                         let bullet = instantiate(this.node.getChildByName('bullet2'))
                         bullet.active = true
                         bullet.setPosition(Utility.getCanvasPos(this._atk2))

@@ -1,4 +1,5 @@
-import { _decorator, Component, Node, UITransform, v3 } from 'cc';
+import { _decorator, Component, Node, UITransform, v3, resources, instantiate, Prefab } from 'cc';
+import Utility from '../Mod/Utility';
 import { Boss1 } from './Boss1';
 import { Boss2 } from './Boss2';
 import { Boss3 } from './Boss3';
@@ -27,27 +28,43 @@ export class LaserBullet extends Component {
     }
 
     checkCollBoss1() {
+        if (!GameLogic.Share.boss1 || !GameLogic.Share.boss1.isValid) return
         let bossPos = GameLogic.Share.boss1.getComponent(UITransform).convertToWorldSpaceAR(v3(0, 0, 0))
         let myPos = this.node.getComponent(UITransform).convertToWorldSpaceAR(v3(0, 0, 0))
         if (GameLogic.Share.boss1.active && !GameLogic.Share.boss1.getComponent(Boss1).isDied && Math.abs(bossPos.x - myPos.x) <= 150) {
             GameLogic.Share.boss1.getComponent(Boss1).decHp(1 * Plane.Share._lv)
+            this.createBossHitFX(Utility.getCanvasPos(GameLogic.Share.boss1))
         }
     }
 
     checkCollBoss2() {
+        if (!GameLogic.Share.boss2 || !GameLogic.Share.boss2.isValid) return
         let bossPos = GameLogic.Share.boss2.getComponent(UITransform).convertToWorldSpaceAR(v3(0, 0, 0))
         let myPos = this.node.getComponent(UITransform).convertToWorldSpaceAR(v3(0, 0, 0))
         if (GameLogic.Share.boss2.active && !GameLogic.Share.boss2.getComponent(Boss2).isDied && Math.abs(bossPos.x - myPos.x) <= 150) {
             GameLogic.Share.boss2.getComponent(Boss2).decHp(1 * Plane.Share._lv)
+            this.createBossHitFX(Utility.getCanvasPos(GameLogic.Share.boss2))
         }
     }
 
     checkCollBoss3() {
+        if (!GameLogic.Share.boss3 || !GameLogic.Share.boss3.isValid) return
         let bossPos = GameLogic.Share.boss3.getComponent(UITransform).convertToWorldSpaceAR(v3(0, 0, 0))
         let myPos = this.node.getComponent(UITransform).convertToWorldSpaceAR(v3(0, 0, 0))
         if (GameLogic.Share.boss3.active && !GameLogic.Share.boss3.getComponent(Boss3).isDied && Math.abs(bossPos.x - myPos.x) <= 150) {
             GameLogic.Share.boss3.getComponent(Boss3).decHp(1 * Plane.Share._lv)
+            this.createBossHitFX(Utility.getCanvasPos(GameLogic.Share.boss3))
         }
+    }
+
+    createBossHitFX(pos) {
+        resources.load('Prefabs/Effects/bossHit', Prefab, (err, res) => {
+            let fx = instantiate(res)
+            fx.setPosition(pos)
+            fx.active = true
+            GameLogic.Share.effectNode.addChild(fx)
+            this.scheduleOnce(() => { fx.destroy(); }, 1)
+        })
     }
 
     update(deltaTime: number) {

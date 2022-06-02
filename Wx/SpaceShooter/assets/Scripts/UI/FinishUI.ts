@@ -54,6 +54,9 @@ export class FinishUI extends Component {
     nextBtnCB() {
         SoundMgr.Share.PlaySound('click')
         FdMgr.closeFinish(() => {
+            if(GameLogic.Share.isWin){
+                PlayerDataMgr.changeGrade(1)
+            }
             BulletPool.clearPool()
             director.loadScene('Game')
         })
