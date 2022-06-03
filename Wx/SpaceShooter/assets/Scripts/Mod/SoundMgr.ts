@@ -65,6 +65,10 @@ export class SoundMgr extends Component {
         }
     }
 
+    stopSound(key: string) {
+        this.node.getChildByName(key).getComponent(AudioSource).stop()
+    }
+
     getMusicClip(key: string) {
         return this.node.getChildByName(key).getComponent(AudioSource).clip
     }

@@ -41,12 +41,12 @@ export class Plane extends Component {
     }
 
     start() {
-        this.schedule(this.createBullet, 0.1)
+        this.startCreateBullet()
         this.initAsset(this._type, this._lv)
     }
 
     startCreateBullet() {
-        this.schedule(this.createBullet, 0.1)
+        this.schedule(this.createBullet, this._lv >= 7 ? 0.1 : 0.15)
     }
     stopCreateBullet() {
         this._bulletAni.children[0].active = false
@@ -56,6 +56,8 @@ export class Plane extends Component {
     }
 
     initAsset(type: number, lv: number) {
+        this.stopCreateBullet()
+        this.startCreateBullet()
         resources.load('DB/Plane/s' + type + '_' + (Math.floor((lv - 1) / 3) + 1) + 'ani_ske', dragonBones.DragonBonesAsset, (err, res) => {
             this._armatureDisplay.dragonAsset = res
             resources.load('DB/Plane/s' + type + '_' + (Math.floor((lv - 1) / 3) + 1) + 'ani_tex', dragonBones.DragonBonesAtlasAsset, (err, res) => {
@@ -76,6 +78,8 @@ export class Plane extends Component {
             this._bulletAni.children[0].active = false
             this._bulletAni.children[1].active = false
             this._bulletAni.children[2].active = false
+            // if (GameLogic.Share.isStart)
+            //     SoundMgr.Share.PlaySound('enemyHit')
             //普通子弹
             for (let i = 0; i < this._lv; i++) {
                 let bullet: Node = null
@@ -169,6 +173,7 @@ export class Plane extends Component {
         this.lifeCount--
         if (this.lifeCount > 0) { this.createHitFX(); this.canHit = false; this.scheduleOnce(() => { this.canHit = true }, 1); return }
         GameLogic.Share.isPause = true
+        SoundMgr.Share.StopMuisc('bgm')
         SoundMgr.Share.PlaySound('planeDied')
         this.createDiedFX(() => {
             SoundMgr.Share.PlaySound('lose')

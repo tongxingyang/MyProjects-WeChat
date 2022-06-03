@@ -12,8 +12,6 @@ export class Prop extends Component {
     planeType: number = 0
 
     start() {
-
-        SoundMgr.Share.PlaySound('prop')
     }
 
     initData(type: PropType) {
@@ -36,11 +34,13 @@ export class Prop extends Component {
         this.node.translate(v3(0, -2, 0))
 
         if (Vec3.distance(this.node.position, Plane.Share.node.position) <= 100) {
+            SoundMgr.Share.PlaySound('prop')
             if (this.type == PropType.Prop_Up) {
                 Plane.Share.upgradeLv()
             } else if (this.type == PropType.Prop_Plane) {
                 Plane.Share.changeType(this.planeType)
             } else if (this.type == PropType.Prop_Pow) {
+                SoundMgr.Share.PlaySound('getPow')
                 Plane.Share.getPow()
             }
             this.node.destroy()

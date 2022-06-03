@@ -1,4 +1,5 @@
 import { _decorator, Component, Node, dragonBones, ProgressBar, tween, v3, Vec3, view, UITransform, instantiate, Prefab, resources } from 'cc';
+import PlayerDataMgr from '../Mod/PlayerDataMgr';
 import { SoundMgr } from '../Mod/SoundMgr';
 import { UpDownLoop } from '../Mod/UpDownLoop';
 import Utility from '../Mod/Utility';
@@ -28,6 +29,8 @@ export class Boss3 extends Component {
     isLeft: boolean = true
 
     onLoad() {
+        this.hp = PlayerDataMgr.getBossHp()
+        this.hpMax = PlayerDataMgr.getBossHp()
         this._db = this.node.getChildByName('db')
         this._ani = this._db.getComponent(dragonBones.ArmatureDisplay)
         this._hpBar = this.node.getChildByName('hpBar').getComponent(ProgressBar)
@@ -68,7 +71,6 @@ export class Boss3 extends Component {
 
     decHp(dmg: number) {
         if (this.isDied || !this.isReady) return
-        SoundMgr.Share.PlaySound('enemyHit')
         this.hp -= dmg
         this._hpBar.progress = this.hp / this.hpMax
         if (this.hp <= this.hpMax / 2) {
@@ -80,11 +82,12 @@ export class Boss3 extends Component {
             GameLogic.Share.createHit1FX(this.node)
         }
         if (this.hp <= 0) {
+            Plane.Share.isInvincible = true
             this.unscheduleAllCallbacks()
+            SoundMgr.Share.PlaySound('bossDied')
             this.isDied = true
             GameLogic.Share.createBossDiedFX(this.node)
             this.scheduleOnce(() => {
-                SoundMgr.Share.PlaySound('bossDied')
                 this.node.destroy()
                 GameLogic.Share.gameOver(true)
             }, 2.5)

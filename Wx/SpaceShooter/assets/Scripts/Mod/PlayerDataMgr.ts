@@ -62,4 +62,32 @@ export default class PlayerDataMgr {
 
         return cost
     }
+
+    public static getBossHp() {
+        let hp: number = 0
+
+        switch (this._playerData.grade) {
+            case 1:
+                hp = 300
+                break
+            case 2:
+                hp = 350
+                break
+            case 3:
+                hp = 400
+                break
+            case 4:
+                hp = 450
+                break
+            case 5:
+                hp = 500
+                break
+            default:
+                hp = 500
+                break
+        }
+
+        return hp
+
+    }
 }

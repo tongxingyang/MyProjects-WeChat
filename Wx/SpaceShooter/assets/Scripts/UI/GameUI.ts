@@ -1,9 +1,11 @@
 
-import { _decorator, Component, Node, Label, director, EventTouch, game, view, v3 } from 'cc';
+import { _decorator, Component, Node, Label, director, EventTouch, game, view, v3, Vec3, instantiate, tween, UITransform, Prefab, resources } from 'cc';
 import FdMgr from '../../FDRes/Src/FdMgr';
 import { GameLogic } from '../Crl/GameLogic';
 import { Plane } from '../Crl/Plane';
+import PlayerDataMgr from '../Mod/PlayerDataMgr';
 import { SoundMgr } from '../Mod/SoundMgr';
+import Utility from '../Mod/Utility';
 const { ccclass, property } = _decorator;
 
 @ccclass('GameUI')
@@ -47,6 +49,19 @@ export class GameUI extends Component {
     }
     touchEnd(evt: EventTouch) {
         if (!GameLogic.Share.isStart || GameLogic.Share.isPause || GameLogic.Share.isGameOver) return
+    }
+
+    getCoinEffect(startPos: Vec3) {
+        SoundMgr.Share.PlaySound('getCoin')
+        PlayerDataMgr.getPlayerData().coin += 10
+        PlayerDataMgr.setPlayerData()
+        resources.load('Prefabs/Effects/getCoinFX', Prefab, (err, res) => {
+            let fx = instantiate(res)
+            fx.setPosition(startPos)
+            fx.active = true
+            this.node.addChild(fx)
+            this.scheduleOnce(() => { fx.destroy() }, 2)
+        })
     }
 
     update(deltaTime: number) {

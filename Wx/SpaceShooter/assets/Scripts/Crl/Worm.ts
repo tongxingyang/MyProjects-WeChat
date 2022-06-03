@@ -3,6 +3,7 @@ import { PropType } from '../Mod/Entity';
 import { RotateLoop1 } from '../Mod/RotateLoop1';
 import { SoundMgr } from '../Mod/SoundMgr';
 import Utility from '../Mod/Utility';
+import { GameUI } from '../UI/GameUI';
 import { GameLogic } from './GameLogic';
 import { Plane } from './Plane';
 import { WormBullet } from './WormBullet';
@@ -102,7 +103,7 @@ export class Worm extends Component {
 
     shootBullet() {
         if (GameLogic.Share.isPause || GameLogic.Share.isGameOver) return
-        if (Math.random() > 0.5) return
+        if (Math.random() > 0.4) return
         SoundMgr.Share.PlaySound('enemyShoot')
         let bullet = new Node('wormBullet')
         let sp = bullet.addComponent(Sprite)
@@ -123,13 +124,17 @@ export class Worm extends Component {
     decHp(dmg: number = 1) {
         this._hp -= dmg
         this.createHitFX()
-        SoundMgr.Share.PlaySound('enemyHit')
         if (this._hp <= 0) {
             SoundMgr.Share.PlaySound('enemyDied')
             this._isDied = true
             GameLogic.Share.wormArr.splice(GameLogic.Share.wormArr.indexOf(this.node), 1)
             if (this._type != null) GameLogic.Share.createProp(this._type, this.node.position)
             this.createDiedFX(Utility.getCanvasPos(this.node))
+
+            if (Math.random() < 0.2) {
+                GameUI.Share.getCoinEffect(Utility.getCanvasPos(this.node))
+            }
+
             this.node.destroy()
         }
     }

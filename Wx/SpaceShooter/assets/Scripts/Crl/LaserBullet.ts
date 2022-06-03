@@ -1,4 +1,5 @@
 import { _decorator, Component, Node, UITransform, v3, resources, instantiate, Prefab } from 'cc';
+import { SoundMgr } from '../Mod/SoundMgr';
 import Utility from '../Mod/Utility';
 import { Boss1 } from './Boss1';
 import { Boss2 } from './Boss2';
@@ -10,6 +11,15 @@ const { ccclass, property } = _decorator;
 
 @ccclass('LaserBullet')
 export class LaserBullet extends Component {
+
+    onEnable(){
+        SoundMgr.Share.PlaySound('laser', true, 1)
+    }
+
+    onDisable() {
+        SoundMgr.Share.stopSound('laser')
+    }
+
     start() {
         this.schedule(this.checkCollWorm, 0.2)
         this.schedule(this.checkCollBoss1, 0.2)

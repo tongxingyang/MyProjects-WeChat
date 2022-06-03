@@ -1,5 +1,6 @@
 import { _decorator, Component, Node, instantiate } from 'cc';
 import { PropType } from '../Mod/Entity';
+import PlayerDataMgr from '../Mod/PlayerDataMgr';
 import Utility from '../Mod/Utility';
 import { GameLogic } from './GameLogic';
 import { Worm } from './Worm';
@@ -34,7 +35,7 @@ export class Group extends Component {
 
     createWorm() {
         let count: number = this._endGrid.children.length
-        let arr = Utility.getRandomByLength(count, 4)
+        let arr = Utility.getRandomByLength(count, Utility.GetRandom(2, 4))
         for (let i = 0; i < count; i++) {
             this.scheduleOnce(() => {
                 let worm = instantiate(this._wormPrefab)
@@ -47,7 +48,11 @@ export class Group extends Component {
                 if (arr.indexOf(i) > 0) {
                     crl._type = PropType.Prop_Up
                 } else if (arr.indexOf(i) == 0) {
-                    crl._type = Math.random() > 0.3 ? PropType.Prop_Plane : PropType.Prop_Pow
+                    if (PlayerDataMgr.getPlayerData().grade > 1 || GameLogic.Share.hadShowPow)
+                        crl._type = Math.random() > 0.3 ? PropType.Prop_Plane : PropType.Prop_Pow
+                    else
+                        crl._type = PropType.Prop_Pow
+                    GameLogic.Share.hadShowPow = true
                 }
             }, i * 0.2)
         }

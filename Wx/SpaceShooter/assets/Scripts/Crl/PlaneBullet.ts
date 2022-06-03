@@ -41,7 +41,7 @@ export class PlaneBullet extends Component {
         let desPos = v3()
         Vec3.multiplyScalar(desPos, this._dir, 2000)
         Vec3.add(desPos, desPos, basePos)
-        tween(this.node).to(1, { position: desPos }).call(() => { this.recoveryBullet() }).start()
+        tween(this.node).to(1.5, { position: desPos }).call(() => { this.recoveryBullet() }).start()
     }
 
     recoveryBullet() {
