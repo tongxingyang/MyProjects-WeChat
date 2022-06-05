@@ -4,6 +4,7 @@ import FdAd from '../../FDRes/Src/FdAd';
 import FdMgr from '../../FDRes/Src/FdMgr';
 import BulletPool from '../Crl/BulletPool';
 import { GameLogic } from '../Crl/GameLogic';
+import WormHitPool from '../Crl/WormHitPool';
 import PlayerDataMgr from '../Mod/PlayerDataMgr';
 import { SoundMgr } from '../Mod/SoundMgr';
 const { ccclass, property } = _decorator;
@@ -54,10 +55,11 @@ export class FinishUI extends Component {
     nextBtnCB() {
         SoundMgr.Share.PlaySound('click')
         FdMgr.closeFinish(() => {
-            if(GameLogic.Share.isWin){
+            if (GameLogic.Share.isWin) {
                 PlayerDataMgr.changeGrade(1)
             }
             BulletPool.clearPool()
+            WormHitPool.clearPool()
             director.loadScene('Game')
         })
     }

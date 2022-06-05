@@ -18797,6 +18797,10 @@
     },
     "_enabled": true,
     "__prefab": null,
+    "bossHitFX": {
+      "__uuid__": "665a03ee-bf19-4b91-8e2e-c869d408b9ae",
+      "__expectedType__": "cc.Prefab"
+    },
     "_id": "36MA0mqddE0JFeepotZXPQ"
   },
   {

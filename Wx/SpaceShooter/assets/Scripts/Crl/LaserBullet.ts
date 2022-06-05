@@ -12,7 +12,7 @@ const { ccclass, property } = _decorator;
 @ccclass('LaserBullet')
 export class LaserBullet extends Component {
 
-    onEnable(){
+    onEnable() {
         SoundMgr.Share.PlaySound('laser', true, 1)
     }
 
@@ -28,7 +28,9 @@ export class LaserBullet extends Component {
     }
 
     checkCollWorm() {
+        if (!GameLogic.Share.wormArr) return
         for (let i = 0; i < GameLogic.Share.wormArr.length; i++) {
+            if (!GameLogic.Share.wormArr[i] || !GameLogic.Share.wormArr[i].isValid) continue
             let wormPos = GameLogic.Share.wormArr[i].getComponent(UITransform).convertToWorldSpaceAR(v3(0, 0, 0))
             let myPos = this.node.getComponent(UITransform).convertToWorldSpaceAR(v3(0, 0, 0))
             if (Math.abs(wormPos.x - myPos.x) <= 50) {

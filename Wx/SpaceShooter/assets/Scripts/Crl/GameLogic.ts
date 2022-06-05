@@ -8,11 +8,15 @@ import BulletPool from './BulletPool';
 import { Plane } from './Plane';
 import { Prop } from './Prop';
 import { UINode } from './UINode';
+import WormHitPool from './WormHitPool';
 const { ccclass, property } = _decorator;
 
 @ccclass('GameLogic')
 export class GameLogic extends Component {
     public static Share: GameLogic
+
+    @property(Prefab)
+    bossHitFX: Prefab = null
 
     groupNode: Node = null
     propNode: Node = null
@@ -45,6 +49,7 @@ export class GameLogic extends Component {
         this.boss2 = this.node.getChildByName('Boss2')
         this.boss3 = this.node.getChildByName('Boss3')
         BulletPool.initPool()
+        WormHitPool.initPool()
     }
 
     start() {

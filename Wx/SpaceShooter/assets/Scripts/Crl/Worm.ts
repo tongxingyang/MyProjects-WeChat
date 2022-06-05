@@ -7,12 +7,15 @@ import { GameUI } from '../UI/GameUI';
 import { GameLogic } from './GameLogic';
 import { Plane } from './Plane';
 import { WormBullet } from './WormBullet';
+import WormHitPool from './WormHitPool';
 const { ccclass, property } = _decorator;
 
 @ccclass('Worm')
 export class Worm extends Component {
     pointNode: Node = null
     endGrid: Node = null
+
+    wormHitPrefab: Prefab = null
 
     @property
     id: number = 1
@@ -38,6 +41,10 @@ export class Worm extends Component {
         this._armatureDisplay = this._db.getComponent(dragonBones.ArmatureDisplay)
         this.initAsset(this.id)
         this._hp *= GameLogic.Share.waveCount
+
+        resources.load('Prefabs/Effects/wormHit', Prefab, (err, res) => {
+            this.wormHitPrefab = res
+        })
     }
 
     start() {
@@ -140,14 +147,18 @@ export class Worm extends Component {
     }
 
     createHitFX() {
-        resources.load('Prefabs/Effects/wormHit', Prefab, (err, res) => {
-            if (!this.node || !this.node.isValid) return
-            let fx = instantiate(res)
-            fx.setPosition(v3())
-            fx.active = true
-            this.node.addChild(fx)
-            this.scheduleOnce(() => { fx.destroy() }, 0.2)
-        })
+        let fx = null
+        if (WormHitPool.poolSize > 0) {
+            fx = WormHitPool.getBullet()
+        } else {
+            fx = instantiate(this.wormHitPrefab)
+        }
+        if (!fx || !fx.isValid) return
+        fx.setPosition(v3())
+        fx.active = true
+        fx.getComponent(dragonBones.ArmatureDisplay).playAnimation('W_Hit1')
+        this.node.addChild(fx)
+        GameLogic.Share.scheduleOnce(() => { WormHitPool.putBullet(fx) }, 0.4)
     }
 
     createDiedFX(pos) {

@@ -83,13 +83,11 @@ export class PlaneBullet extends Component {
     }
 
     createBossHitFX(pos) {
-        resources.load('Prefabs/Effects/bossHit', Prefab, (err, res) => {
-            let fx = instantiate(res)
-            fx.setPosition(pos)
-            fx.active = true
-            GameLogic.Share.effectNode.addChild(fx)
-            this.scheduleOnce(() => { fx.destroy(); }, 1)
-        })
+        let fx = instantiate(GameLogic.Share.bossHitFX)
+        fx.setPosition(pos)
+        fx.active = true
+        GameLogic.Share.effectNode.addChild(fx)
+        this.scheduleOnce(() => { fx.destroy(); }, 1)
     }
 
     update(deltaTime: number) {
