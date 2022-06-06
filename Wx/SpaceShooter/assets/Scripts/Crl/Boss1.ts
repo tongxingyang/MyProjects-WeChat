@@ -82,7 +82,7 @@ export class Boss1 extends Component {
             SoundMgr.Share.PlaySound('bossDied')
             this.isDied = true
             GameLogic.Share.createBossDiedFX(this.node)
-            this.scheduleOnce(() => {
+            GameLogic.Share.scheduleOnce(() => {
                 this.node.destroy()
                 GameLogic.Share.gameOver(true)
             }, 2.5)
@@ -90,14 +90,12 @@ export class Boss1 extends Component {
     }
 
     createClipFX() {
-        resources.load('Prefabs/Effects/Clip', Prefab, (err, res) => {
-            let fx = instantiate(res)
-            fx.setPosition(v3())
-            fx.active = true
-            fx.children[Utility.getRandomItemInArr([0, 1, 2, 3])].active = true
-            this.node.addChild(fx)
-            this.scheduleOnce(() => { fx.destroy(); }, 3)
-        })
+        let fx = instantiate(GameLogic.Share.getEffectPrefabByName('Clip'))
+        fx.setPosition(v3())
+        fx.active = true
+        fx.children[Utility.getRandomItemInArr([0, 1, 2, 3])].active = true
+        this.node.addChild(fx)
+        GameLogic.Share.scheduleOnce(() => { if (fx.isValid) fx.destroy(); }, 3)
     }
 
     attack() {
@@ -105,48 +103,39 @@ export class Boss1 extends Component {
         let type = Utility.getRandomItemInArr([1, 2, 3])
         this.isShooting = true
         this._ani.playAnimation('attack', 1)
-        this.scheduleOnce(() => {
+        GameLogic.Share.scheduleOnce(() => {
             this.isShooting = false
             this._ani.playAnimation('idle')
         }, 1.2)
         if (type == 1) {
-            this.scheduleOnce(() => {
-                resources.load('Prefabs/boss1_bullet1', Prefab, (err, res) => {
-                    if (err) return
-                    SoundMgr.Share.PlaySound('rocket')
-                    let bullet = instantiate(res)
-                    bullet.setScale(v3(1.5, 1.5, 1))
-                    GameLogic.Share.bossBulletNode.addChild(bullet)
-                    bullet.position = Utility.getCanvasPos(this._atk1)
-                    let crl = bullet.addComponent(BossBullet1_1)
-                    crl.initDir(true)
-                })
+            GameLogic.Share.scheduleOnce(() => {
+                SoundMgr.Share.PlaySound('rocket')
+                let bullet = instantiate(GameLogic.Share.getEffectPrefabByName('boss1_bullet1'))
+                bullet.setScale(v3(1.5, 1.5, 1))
+                GameLogic.Share.bossBulletNode.addChild(bullet)
+                bullet.position = Utility.getCanvasPos(this._atk1)
+                let crl = bullet.addComponent(BossBullet1_1)
+                crl.initDir(true)
             }, 0.5)
         } else if (type == 2) {
-            this.scheduleOnce(() => {
+            GameLogic.Share.scheduleOnce(() => {
                 for (let i = 0; i < 4; i++) {
                     SoundMgr.Share.PlaySound('rocket')
-                    resources.load('Prefabs/boss1_bullet1', Prefab, (err, res) => {
-                        if (err) return
-                        let bullet = instantiate(res)
-                        GameLogic.Share.bossBulletNode.addChild(bullet)
-                        bullet.position = Utility.getCanvasPos(this._atk2.children[i])
-                        let crl = bullet.addComponent(BossBullet1_1)
-                        crl.initDir(i < 2)
-                    })
+                    let bullet = instantiate(GameLogic.Share.getEffectPrefabByName('boss1_bullet1'))
+                    GameLogic.Share.bossBulletNode.addChild(bullet)
+                    bullet.position = Utility.getCanvasPos(this._atk2.children[i])
+                    let crl = bullet.addComponent(BossBullet1_1)
+                    crl.initDir(i < 2)
                 }
             }, 0.5)
         } else if (type == 3) {
-            this.scheduleOnce(() => {
+            GameLogic.Share.scheduleOnce(() => {
                 SoundMgr.Share.PlaySound('bossElectric')
-                resources.load('Prefabs/boss1_bullet2', Prefab, (err, res) => {
-                    if (err) return
-                    let bullet = instantiate(res)
-                    bullet.setScale(v3(1.5, 1.5, 1))
-                    GameLogic.Share.bossBulletNode.addChild(bullet)
-                    bullet.position = Utility.getCanvasPos(this._atk3)
-                    let crl = bullet.addComponent(BossBullet1_2)
-                })
+                let bullet = instantiate(GameLogic.Share.getEffectPrefabByName('boss1_bullet2'))
+                bullet.setScale(v3(1.5, 1.5, 1))
+                GameLogic.Share.bossBulletNode.addChild(bullet)
+                bullet.position = Utility.getCanvasPos(this._atk3)
+                let crl = bullet.addComponent(BossBullet1_2)
             }, 0.5)
         }
     }

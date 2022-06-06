@@ -81,7 +81,7 @@ export class Boss2 extends Component {
             SoundMgr.Share.PlaySound('bossDied')
             this.isDied = true
             GameLogic.Share.createBossDiedFX(this.node)
-            this.scheduleOnce(() => {
+            GameLogic.Share.scheduleOnce(() => {
                 this.node.destroy()
                 GameLogic.Share.gameOver(true)
             }, 2.5)
@@ -89,14 +89,12 @@ export class Boss2 extends Component {
     }
 
     createClipFX() {
-        resources.load('Prefabs/Effects/Clip', Prefab, (err, res) => {
-            let fx = instantiate(res)
-            fx.setPosition(v3())
-            fx.active = true
-            fx.children[Utility.getRandomItemInArr([0, 1, 2, 3])].active = true
-            this.node.addChild(fx)
-            this.scheduleOnce(() => { fx.destroy(); }, 3)
-        })
+        let fx = instantiate(GameLogic.Share.getEffectPrefabByName('Clip'))
+        fx.setPosition(v3())
+        fx.active = true
+        fx.children[Utility.getRandomItemInArr([0, 1, 2, 3])].active = true
+        this.node.addChild(fx)
+        GameLogic.Share.scheduleOnce(() => { if (fx.isValid) fx.destroy(); }, 3)
     }
 
     attack() {
@@ -104,13 +102,13 @@ export class Boss2 extends Component {
         let type = Utility.getRandomItemInArr([1, 2])
         this.isShooting = true
         this._ani.playAnimation('attack', 1)
-        this.scheduleOnce(() => {
+        GameLogic.Share.scheduleOnce(() => {
             this.isShooting = false
             this._ani.playAnimation('idle')
         }, 1.2)
         if (type == 1) {
             for (let j = 0; j < 3; j++) {
-                this.scheduleOnce(() => {
+                GameLogic.Share.scheduleOnce(() => {
                     SoundMgr.Share.PlaySound('bossBullet')
                     for (let i = 0; i < this._atk1.children.length; i++) {
                         let bullet = instantiate(this.node.getChildByName('bullet1'))
@@ -122,9 +120,9 @@ export class Boss2 extends Component {
                 }, 0.3 + 0.2 * j)
             }
         } else if (type == 2) {
-            this.scheduleOnce(() => {
+            GameLogic.Share.scheduleOnce(() => {
                 for (let i = 0; i < 5; i++) {
-                    this.scheduleOnce(() => {
+                    GameLogic.Share.scheduleOnce(() => {
                         SoundMgr.Share.PlaySound('bossBullet')
                         let bullet = instantiate(this.node.getChildByName('bullet2'))
                         bullet.active = true

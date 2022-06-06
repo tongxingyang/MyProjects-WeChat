@@ -58,13 +58,17 @@ export class Plane extends Component {
     initAsset(type: number, lv: number) {
         this.stopCreateBullet()
         this.startCreateBullet()
-        resources.load('DB/Plane/s' + type + '_' + (Math.floor((lv - 1) / 3) + 1) + 'ani_ske', dragonBones.DragonBonesAsset, (err, res) => {
-            this._armatureDisplay.dragonAsset = res
-            resources.load('DB/Plane/s' + type + '_' + (Math.floor((lv - 1) / 3) + 1) + 'ani_tex', dragonBones.DragonBonesAtlasAsset, (err, res) => {
-                this._armatureDisplay.dragonAtlasAsset = res
-                this._armatureDisplay.armatureName = 'Armature'
-            })
-        })
+        // resources.load('DB/Plane/s' + type + '_' + (Math.floor((lv - 1) / 3) + 1) + 'ani_ske', dragonBones.DragonBonesAsset, (err, res) => {
+        //     this._armatureDisplay.dragonAsset = res
+        //     resources.load('DB/Plane/s' + type + '_' + (Math.floor((lv - 1) / 3) + 1) + 'ani_tex', dragonBones.DragonBonesAtlasAsset, (err, res) => {
+        //         this._armatureDisplay.dragonAtlasAsset = res
+        //         this._armatureDisplay.armatureName = 'Armature'
+        //     })
+        // })
+        let id = (type - 1) * 3 + (Math.floor((lv - 1) / 3) + 1) - 1
+        this._armatureDisplay.dragonAsset = GameLogic.Share.planeDBAsset[id]
+        this._armatureDisplay.dragonAtlasAsset = GameLogic.Share.planeDBAtlasAsset[id]
+        this._armatureDisplay.armatureName = 'Armature'
     }
 
     createBullet() {
@@ -128,7 +132,7 @@ export class Plane extends Component {
         this.initAsset(this._type, this._lv)
         this.createPropFX()
         this.createPowFX()
-        this.scheduleOnce(() => {
+        GameLogic.Share.scheduleOnce(() => {
             this.isPowing = false
             this._lv = this.preLv
             this.initAsset(this._type, this._lv)
@@ -136,42 +140,36 @@ export class Plane extends Component {
     }
 
     createPropFX() {
-        resources.load('Prefabs/Effects/getProp', Prefab, (err, res) => {
-            let fx = instantiate(res)
-            fx.setPosition(v3())
-            fx.active = true
-            this.node.addChild(fx)
-            this.scheduleOnce(() => { fx.destroy() }, 2)
-        })
+        let fx = instantiate(GameLogic.Share.getEffectPrefabByName('getProp'))
+        fx.setPosition(v3())
+        fx.active = true
+        this.node.addChild(fx)
+        GameLogic.Share.scheduleOnce(() => { fx.destroy() }, 2)
     }
 
     createPowFX() {
-        resources.load('Prefabs/Effects/getPow', Prefab, (err, res) => {
-            let fx = instantiate(res)
-            fx.setPosition(v3())
-            fx.active = true
-            this.node.addChild(fx)
-            this.scheduleOnce(() => { fx.destroy() }, 5)
-            this.scheduleOnce(() => {
-                fx.getComponent(dragonBones.ArmatureDisplay).playAnimation('idle', -1)
-            }, 0.4)
-        })
+        let fx = instantiate(GameLogic.Share.getEffectPrefabByName('getPow'))
+        fx.setPosition(v3())
+        fx.active = true
+        this.node.addChild(fx)
+        GameLogic.Share.scheduleOnce(() => { fx.destroy() }, 5)
+        GameLogic.Share.scheduleOnce(() => {
+            fx.getComponent(dragonBones.ArmatureDisplay).playAnimation('idle', -1)
+        }, 0.4)
     }
 
     createDiedFX(cb: Function) {
-        resources.load('Prefabs/Effects/planeDied', Prefab, (err, res) => {
-            let fx = instantiate(res)
-            fx.setPosition(v3())
-            fx.active = true
-            this.node.addChild(fx)
-            this.scheduleOnce(() => { fx.destroy(); cb && cb() }, 2)
-        })
+        let fx = instantiate(GameLogic.Share.getEffectPrefabByName('planeDied'))
+        fx.setPosition(v3())
+        fx.active = true
+        this.node.addChild(fx)
+        GameLogic.Share.scheduleOnce(() => { fx.destroy(); cb && cb() }, 2)
     }
 
     hitCB() {
         if (this.isInvincible || !this.canHit) return
         this.lifeCount--
-        if (this.lifeCount > 0) { this.createHitFX(); this.canHit = false; this.scheduleOnce(() => { this.canHit = true }, 1); return }
+        if (this.lifeCount > 0) { this.createHitFX(); this.canHit = false; GameLogic.Share.scheduleOnce(() => { this.canHit = true }, 1); return }
         GameLogic.Share.isPause = true
         SoundMgr.Share.StopMuisc('bgm')
         SoundMgr.Share.PlaySound('planeDied')
@@ -182,13 +180,11 @@ export class Plane extends Component {
     }
 
     createHitFX() {
-        resources.load('Prefabs/Effects/wormDied', Prefab, (err, res) => {
-            let fx = instantiate(res)
-            fx.setPosition(v3())
-            fx.active = true
-            this.node.addChild(fx)
-            this.scheduleOnce(() => { fx.destroy() }, 1)
-        })
+        let fx = instantiate(GameLogic.Share.getEffectPrefabByName('wormDied'))
+        fx.setPosition(v3())
+        fx.active = true
+        this.node.addChild(fx)
+        GameLogic.Share.scheduleOnce(() => { fx.destroy() }, 1)
     }
 
     update(deltaTime: number) {

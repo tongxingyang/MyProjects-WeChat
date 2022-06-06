@@ -23,7 +23,7 @@ export class Prop extends Component {
             let id = Utility.getRandomItemInArrWithoutSelf(Plane.Share._type, [1, 2, 3, 4, 5, 6])
             this.planeType = id
             let id1 = Math.floor((Plane.Share._lv - 1) % 3) + 1
-            Utility.loadSpriteFrame('Texture/PropPlane/plane_' + id + '_' + id1, this.node.children[1].getComponent(Sprite))
+            this.node.children[1].getComponent(Sprite).spriteFrame = GameLogic.Share.getPropPlaneSPByName('plane_' + id + '_' + id1)
         } else if (type == PropType.Prop_Pow) {
             this.node.children[2].active = true
         }

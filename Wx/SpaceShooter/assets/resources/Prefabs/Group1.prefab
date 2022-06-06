@@ -6024,7 +6024,7 @@
     "_armatureName": "Armature",
     "_animationName": "idle",
     "_animationIndexValue": 1,
-    "_defaultCacheModeValue": 0,
+    "_defaultCacheModeValue": 1,
     "_timeScale": 1,
     "_playTimes": -1,
     "_debugBones": false,

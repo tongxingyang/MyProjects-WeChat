@@ -10,6 +10,9 @@ const { ccclass, property } = _decorator;
 @ccclass('StartUI')
 export class StartUI extends Component {
 
+    @property(Node)
+    loadingPanel: Node = null
+
     onEnable() {
         FdMgr.inHomePage()
     }
@@ -33,7 +36,8 @@ export class StartUI extends Component {
         UINode.Share.showUI(UIType.UI_SHOP)
     }
 
-    // update (deltaTime: number) {
-    //     // [4]
-    // }
+    update(deltaTime: number) {
+        // [4]
+        this.loadingPanel.active = GameLogic.Share.planeDBAsset.length < 18 || GameLogic.Share.planeDBAtlasAsset.length < 18
+    }
 }

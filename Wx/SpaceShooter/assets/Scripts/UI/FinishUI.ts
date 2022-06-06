@@ -58,8 +58,8 @@ export class FinishUI extends Component {
             if (GameLogic.Share.isWin) {
                 PlayerDataMgr.changeGrade(1)
             }
-            BulletPool.clearPool()
-            WormHitPool.clearPool()
+            //BulletPool.clearPool()
+            //WormHitPool.clearPool()
             director.loadScene('Game')
         })
     }

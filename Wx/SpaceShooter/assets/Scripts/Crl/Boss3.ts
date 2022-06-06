@@ -87,7 +87,7 @@ export class Boss3 extends Component {
             SoundMgr.Share.PlaySound('bossDied')
             this.isDied = true
             GameLogic.Share.createBossDiedFX(this.node)
-            this.scheduleOnce(() => {
+            GameLogic.Share.scheduleOnce(() => {
                 this.node.destroy()
                 GameLogic.Share.gameOver(true)
             }, 2.5)
@@ -95,14 +95,12 @@ export class Boss3 extends Component {
     }
 
     createClipFX() {
-        resources.load('Prefabs/Effects/Clip', Prefab, (err, res) => {
-            let fx = instantiate(res)
-            fx.setPosition(v3())
-            fx.active = true
-            fx.children[Utility.getRandomItemInArr([0, 1, 2, 3])].active = true
-            this.node.addChild(fx)
-            this.scheduleOnce(() => { fx.destroy(); }, 3)
-        })
+        let fx = instantiate(GameLogic.Share.getEffectPrefabByName('Clip'))
+        fx.setPosition(v3())
+        fx.active = true
+        fx.children[Utility.getRandomItemInArr([0, 1, 2, 3])].active = true
+        this.node.addChild(fx)
+        GameLogic.Share.scheduleOnce(() => { if (fx.isValid) fx.destroy(); }, 3)
     }
 
     attack() {
@@ -111,16 +109,16 @@ export class Boss3 extends Component {
         this.isShooting = true
         if (type == 1) {
             this._warning.active = true
-            this.scheduleOnce(() => {
+            GameLogic.Share.scheduleOnce(() => {
                 this._ani.playAnimation('attack', 1)
-                this.scheduleOnce(() => {
+                GameLogic.Share.scheduleOnce(() => {
                     this.isShooting = false
                     this._laser1.active = false
                     this._laser2.active = false
                     this._ani.playAnimation('idle')
                 }, 1.2)
 
-                this.scheduleOnce(() => {
+                GameLogic.Share.scheduleOnce(() => {
                     SoundMgr.Share.PlaySound('bossLaser')
                     this._warning.active = false
                     this._laser1.active = true
@@ -129,7 +127,7 @@ export class Boss3 extends Component {
             }, 1)
         } else if (type == 2) {
             this._ani.playAnimation('attack', 1)
-            this.scheduleOnce(() => {
+            GameLogic.Share.scheduleOnce(() => {
                 this.isShooting = false
                 this._aim.active = false
                 this._ani.playAnimation('idle')
@@ -140,9 +138,9 @@ export class Boss3 extends Component {
             this._aim.active = true
             this._aim.parent = GameLogic.Share.node
 
-            this.scheduleOnce(() => {
+            GameLogic.Share.scheduleOnce(() => {
                 for (let i = 0; i < 10; i++) {
-                    this.scheduleOnce(() => {
+                    GameLogic.Share.scheduleOnce(() => {
                         SoundMgr.Share.PlaySound('bossBullet')
                         let bullet = instantiate(this.node.getChildByName('bullet2'))
                         bullet.active = true

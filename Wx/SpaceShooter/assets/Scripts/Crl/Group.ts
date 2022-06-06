@@ -26,7 +26,7 @@ export class Group extends Component {
     }
 
     start() {
-        this.scheduleOnce(() => {
+        GameLogic.Share.scheduleOnce(() => {
             this.warning.active = false
             this.createWorm()
             this.schedule(this.checkClear)
@@ -37,7 +37,7 @@ export class Group extends Component {
         let count: number = this._endGrid.children.length
         let arr = Utility.getRandomByLength(count, Utility.GetRandom(2, 4))
         for (let i = 0; i < count; i++) {
-            this.scheduleOnce(() => {
+            GameLogic.Share.scheduleOnce(() => {
                 let worm = instantiate(this._wormPrefab)
                 worm.active = true
                 this._wormNode.addChild(worm)

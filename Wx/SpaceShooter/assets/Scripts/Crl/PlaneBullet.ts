@@ -32,7 +32,7 @@ export class PlaneBullet extends Component {
     }
 
     initSp() {
-        Utility.loadSpriteFrame('Texture/Bullets/Plane/s' + this._type + '_bullet_' + (Math.floor((this._lv - 1) / 3) + 1).toString(), this.getComponent(Sprite))
+        this.getComponent(Sprite).spriteFrame = GameLogic.Share.getPlaneBulletSPByName('s' + this._type + '_bullet_' + (Math.floor((this._lv - 1) / 3) + 1).toString())
     }
 
     move() {
@@ -87,7 +87,7 @@ export class PlaneBullet extends Component {
         fx.setPosition(pos)
         fx.active = true
         GameLogic.Share.effectNode.addChild(fx)
-        this.scheduleOnce(() => { fx.destroy(); }, 1)
+        GameLogic.Share.scheduleOnce(() => { fx.destroy(); }, 1)
     }
 
     update(deltaTime: number) {

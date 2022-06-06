@@ -1,5 +1,6 @@
 import { _decorator, Component, Node, instantiate, Sprite, v2, v3, Label, dragonBones, resources } from 'cc';
 import FdAd from '../../FDRes/Src/FdAd';
+import { GameLogic } from '../Crl/GameLogic';
 import { Plane } from '../Crl/Plane';
 import { UINode } from '../Crl/UINode';
 import { UIType } from '../Mod/Entity';
@@ -73,13 +74,18 @@ export class ShopUI extends Component {
         this.hadInit = true
     }
     initAsset(type: number) {
-        resources.load('DB/Plane/s' + (type + 1) + '_1ani_ske', dragonBones.DragonBonesAsset, (err, res) => {
-            this.iconNode.getComponent(dragonBones.ArmatureDisplay).dragonAsset = res
-            resources.load('DB/Plane/s' + (type + 1) + '_1ani_tex', dragonBones.DragonBonesAtlasAsset, (err, res) => {
-                this.iconNode.getComponent(dragonBones.ArmatureDisplay).dragonAtlasAsset = res
-                this.iconNode.getComponent(dragonBones.ArmatureDisplay).armatureName = 'Armature'
-            })
-        })
+        // resources.load('DB/Plane/s' + (type + 1) + '_1ani_ske', dragonBones.DragonBonesAsset, (err, res) => {
+        //     this.iconNode.getComponent(dragonBones.ArmatureDisplay).dragonAsset = res
+        //     resources.load('DB/Plane/s' + (type + 1) + '_1ani_tex', dragonBones.DragonBonesAtlasAsset, (err, res) => {
+        //         this.iconNode.getComponent(dragonBones.ArmatureDisplay).dragonAtlasAsset = res
+        //         this.iconNode.getComponent(dragonBones.ArmatureDisplay).armatureName = 'Armature'
+        //     })
+        // })
+
+        let id = type * 3
+        this.iconNode.getComponent(dragonBones.ArmatureDisplay).dragonAsset = GameLogic.Share.planeDBAsset[id]
+        this.iconNode.getComponent(dragonBones.ArmatureDisplay).dragonAtlasAsset = GameLogic.Share.planeDBAtlasAsset[id]
+        this.iconNode.getComponent(dragonBones.ArmatureDisplay).armatureName = 'Armature'
     }
 
     clickIitem(id: number) {

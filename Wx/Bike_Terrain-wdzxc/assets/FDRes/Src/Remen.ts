@@ -46,6 +46,7 @@ export class Remen extends Component {
                 this.adPic.active = true
             }
         }
+        this.adPic.active = false
 
         if (FdMgr.remenBanner) {
             this.bannerShowHide();

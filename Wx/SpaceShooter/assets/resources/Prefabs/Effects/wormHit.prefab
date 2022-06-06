@@ -121,7 +121,7 @@
     "_armatureName": "Armature",
     "_animationName": "W_Hit1",
     "_animationIndexValue": 1,
-    "_defaultCacheModeValue": 0,
+    "_defaultCacheModeValue": 1,
     "_timeScale": 1,
     "_playTimes": -1,
     "_debugBones": false,

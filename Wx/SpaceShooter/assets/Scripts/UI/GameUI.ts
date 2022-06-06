@@ -55,13 +55,11 @@ export class GameUI extends Component {
         SoundMgr.Share.PlaySound('getCoin')
         PlayerDataMgr.getPlayerData().coin += 10
         PlayerDataMgr.setPlayerData()
-        resources.load('Prefabs/Effects/getCoinFX', Prefab, (err, res) => {
-            let fx = instantiate(res)
-            fx.setPosition(startPos)
-            fx.active = true
-            this.node.addChild(fx)
-            this.scheduleOnce(() => { fx.destroy() }, 2)
-        })
+        let fx = instantiate(GameLogic.Share.getEffectPrefabByName('getCoinFX'))
+        fx.setPosition(startPos)
+        fx.active = true
+        this.node.addChild(fx)
+        GameLogic.Share.scheduleOnce(() => { fx.destroy() }, 2)
     }
 
     update(deltaTime: number) {

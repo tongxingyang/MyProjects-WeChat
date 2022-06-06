@@ -9,6 +9,7 @@ export default class Utility {
     public static loadSpriteFrame(spName: string, sprite: Sprite, cb?: Function) {
         //加载SpriteAtlas(图集)，并获取其中一张图片
         resources.load(spName + '/spriteFrame', SpriteFrame, function (err, spriteFrame) {
+            if (!sprite || !sprite.node || !sprite.node.isValid || !sprite.node._uiProps) { cb && cb(); return }
             sprite.spriteFrame = spriteFrame
             cb && cb()
         })

@@ -15,8 +15,6 @@ export class Worm extends Component {
     pointNode: Node = null
     endGrid: Node = null
 
-    wormHitPrefab: Prefab = null
-
     @property
     id: number = 1
     @property
@@ -41,10 +39,6 @@ export class Worm extends Component {
         this._armatureDisplay = this._db.getComponent(dragonBones.ArmatureDisplay)
         this.initAsset(this.id)
         this._hp *= GameLogic.Share.waveCount
-
-        resources.load('Prefabs/Effects/wormHit', Prefab, (err, res) => {
-            this.wormHitPrefab = res
-        })
     }
 
     start() {
@@ -58,14 +52,17 @@ export class Worm extends Component {
     }
 
     initAsset(id: number) {
-        resources.load('DB/Worm/w' + id + '_ani_ske', dragonBones.DragonBonesAsset, (err, res) => {
-            this._armatureDisplay.dragonAsset = res
-            resources.load('DB/Worm/w' + id + '_ani_tex', dragonBones.DragonBonesAtlasAsset, (err, res) => {
-                this._armatureDisplay.dragonAtlasAsset = res
-                this._armatureDisplay.armatureName = 'Armature'
-            })
-        })
-        Utility.loadSpriteFrame('Texture/Bullets/Worm/w' + id + '_bullet', this._bullet.getComponent(Sprite))
+        // resources.load('DB/Worm/w' + id + '_ani_ske', dragonBones.DragonBonesAsset, (err, res) => {
+        //     this._armatureDisplay.dragonAsset = res
+        //     resources.load('DB/Worm/w' + id + '_ani_tex', dragonBones.DragonBonesAtlasAsset, (err, res) => {
+        //         this._armatureDisplay.dragonAtlasAsset = res
+        //         this._armatureDisplay.armatureName = 'Armature'
+        //     })
+        // })
+        this._armatureDisplay.dragonAsset = GameLogic.Share.wormDBAsset[id - 1]
+        this._armatureDisplay.dragonAtlasAsset = GameLogic.Share.wormDBAtlasAsset[id - 1]
+        this._armatureDisplay.armatureName = 'Armature'
+        this._bullet.getComponent(Sprite).spriteFrame = GameLogic.Share.getWormBulletSPByName('w' + id + '_bullet')
     }
 
     move() {
@@ -114,7 +111,7 @@ export class Worm extends Component {
         SoundMgr.Share.PlaySound('enemyShoot')
         let bullet = new Node('wormBullet')
         let sp = bullet.addComponent(Sprite)
-        Utility.loadSpriteFrame('Texture/Bullets/Worm/w' + this.id + '_bullet', sp)
+        sp.spriteFrame = GameLogic.Share.getWormBulletSPByName('w' + this.id + '_bullet')
         bullet.setPosition(this.node.position)
         GameLogic.Share.wormBulletNode.addChild(bullet)
         bullet.layer = bullet.parent.layer
@@ -151,7 +148,7 @@ export class Worm extends Component {
         if (WormHitPool.poolSize > 0) {
             fx = WormHitPool.getBullet()
         } else {
-            fx = instantiate(this.wormHitPrefab)
+            fx = instantiate(GameLogic.Share.wormHitFX)
         }
         if (!fx || !fx.isValid) return
         fx.setPosition(v3())
@@ -162,13 +159,11 @@ export class Worm extends Component {
     }
 
     createDiedFX(pos) {
-        resources.load('Prefabs/Effects/wormDied', Prefab, (err, res) => {
-            let fx = instantiate(res)
-            fx.setPosition(pos)
-            fx.active = true
-            GameLogic.Share.effectNode.addChild(fx)
-            this.scheduleOnce(() => { fx.destroy() }, 1)
-        })
+        let fx = instantiate(GameLogic.Share.getEffectPrefabByName('wormDied'))
+        fx.setPosition(pos)
+        fx.active = true
+        GameLogic.Share.effectNode.addChild(fx)
+        GameLogic.Share.scheduleOnce(() => { fx.destroy() }, 1)
     }
 
     update(deltaTime: number) {

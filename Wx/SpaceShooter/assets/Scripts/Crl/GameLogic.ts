@@ -1,4 +1,4 @@
-import { _decorator, Component, Node, tween, v3, view, resources, Prefab, instantiate, Vec3 } from 'cc';
+import { _decorator, Component, Node, tween, v3, view, resources, Prefab, instantiate, Vec3, dragonBones, SpriteFrame } from 'cc';
 import FdMgr from '../../FDRes/Src/FdMgr';
 import { PropType, UIType } from '../Mod/Entity';
 import PlayerDataMgr from '../Mod/PlayerDataMgr';
@@ -15,8 +15,24 @@ const { ccclass, property } = _decorator;
 export class GameLogic extends Component {
     public static Share: GameLogic
 
+    planeDBAsset: dragonBones.DragonBonesAsset[] = []
+    planeDBAtlasAsset: dragonBones.DragonBonesAtlasAsset[] = []
+    wormDBAsset: dragonBones.DragonBonesAsset[] = []
+    wormDBAtlasAsset: dragonBones.DragonBonesAtlasAsset[] = []
+
+    @property(Prefab)
+    effectPrefabsArr: Prefab[] = []
+    @property(SpriteFrame)
+    planeBulletSPArr: SpriteFrame[] = []
+    @property(SpriteFrame)
+    propPlaneSPArr: SpriteFrame[] = []
+    @property(SpriteFrame)
+    wormBulletSPArr: SpriteFrame[] = []
+
     @property(Prefab)
     bossHitFX: Prefab = null
+    @property(Prefab)
+    wormHitFX: Prefab = null
 
     groupNode: Node = null
     propNode: Node = null
@@ -32,6 +48,7 @@ export class GameLogic extends Component {
     waveCount: number = 1
     reviveCount: number = 0
     hadShowPow: boolean = false
+    hadCreateBossHit1: boolean = false
 
     isStart: boolean = false
     isWin: boolean = false
@@ -53,7 +70,117 @@ export class GameLogic extends Component {
     }
 
     start() {
+        this.loadWormDBData(() => {
+            this.loadPlaneDBData(() => {
+                this.node.getChildByName('Plane').active = true
+            })
+        })
+    }
 
+    getWormBulletSPByName(name: string) {
+        for (let i = 0; i < this.wormBulletSPArr.length; i++) {
+            if (this.wormBulletSPArr[i].name == name) return this.wormBulletSPArr[i]
+        }
+        return null
+    }
+
+    getPropPlaneSPByName(name: string) {
+        for (let i = 0; i < this.propPlaneSPArr.length; i++) {
+            if (this.propPlaneSPArr[i].name == name) return this.propPlaneSPArr[i]
+        }
+        return null
+    }
+
+    getPlaneBulletSPByName(name: string) {
+        for (let i = 0; i < this.planeBulletSPArr.length; i++) {
+            if (this.planeBulletSPArr[i].name == name) return this.planeBulletSPArr[i]
+        }
+        return null
+    }
+
+    getEffectPrefabByName(name: string) {
+        for (let i = 0; i < this.effectPrefabsArr.length; i++) {
+            if (this.effectPrefabsArr[i].data.name == name) return this.effectPrefabsArr[i]
+        }
+        return null
+    }
+
+    loadWormDBData(callBack: Function) {
+        let finish1: boolean = false
+        let finish2: boolean = false
+        let type = 1
+        let cb1 = () => {
+            resources.load('DB/Worm/w' + type + '_ani_ske', dragonBones.DragonBonesAsset, (err, res) => {
+                this.wormDBAsset.push(res)
+                type++
+                if (type > 10) { finish1 = true; return }
+                cb1()
+            })
+        }
+        cb1()
+
+        let type1 = 1
+        let cb2 = () => {
+            resources.load('DB/Worm/w' + type1 + '_ani_tex', dragonBones.DragonBonesAtlasAsset, (err, res) => {
+                this.wormDBAtlasAsset.push(res)
+                type1++
+                if (type1 > 10) { finish2 = true; return }
+                cb2()
+            })
+        }
+        cb2()
+
+        let cb = () => {
+            if (finish1 && finish2) {
+                this.unschedule(cb)
+                callBack && callBack()
+            }
+        }
+        this.schedule(cb)
+    }
+
+    loadPlaneDBData(callBack: Function) {
+        let finish1: boolean = false
+        let finish2: boolean = false
+        let type = 1
+        let index = 1
+        let cb1 = () => {
+            resources.load('DB/Plane/s' + type + '_' + index + 'ani_ske', dragonBones.DragonBonesAsset, (err, res) => {
+                this.planeDBAsset.push(res)
+                index++
+                if (index > 3) {
+                    index = 1
+                    type++
+                    if (type > 6) { finish1 = true; return }
+                }
+                cb1()
+            })
+        }
+        cb1()
+
+        let type1 = 1
+        let index1 = 1
+        let cb2 = () => {
+            resources.load('DB/Plane/s' + type1 + '_' + index1 + 'ani_tex', dragonBones.DragonBonesAtlasAsset, (err, res) => {
+                this.planeDBAtlasAsset.push(res)
+                index1++
+                if (index1 > 3) {
+                    index1 = 1
+                    type1++
+                    if (type1 > 6) { finish2 = true; return }
+                }
+                cb2()
+            })
+        }
+        cb2()
+
+        let cb = () => {
+            if (finish1 && finish2) {
+                this.unschedule(cb)
+                callBack && callBack()
+            }
+        }
+        this.schedule(cb)
     }
 
     gameStart() {
@@ -91,38 +218,30 @@ export class GameLogic extends Component {
     }
 
     createProp(type: PropType, pos: Vec3) {
-        resources.load('Prefabs/prop', Prefab, (err, res) => {
-            if (err) return
-            let prop = instantiate(res)
-            prop.setPosition(pos)
-            this.propNode.addChild(prop)
-            let crl = prop.addComponent(Prop)
-            crl.initData(type)
-        })
+        let prop = instantiate(this.getEffectPrefabByName('prop'))
+        prop.setPosition(pos)
+        this.propNode.addChild(prop)
+        let crl = prop.addComponent(Prop)
+        crl.initData(type)
     }
 
     createHit1FX(bossNode: Node) {
-        if (bossNode.getChildByName('bossHit1')) return
-        resources.load('Prefabs/Effects/bossHit1', Prefab, (err, res) => {
-            SoundMgr.Share.PlaySound('bossSmoke')
-            let fx = instantiate(res)
-            fx.setPosition(v3())
-            fx.setScale(v3(1.5, 1.5, 1))
-            fx.active = true
-            bossNode.addChild(fx)
-            //this.scheduleOnce(() => { fx.destroy(); }, 3)
-        })
+        if (this.hadCreateBossHit1) return
+        this.hadCreateBossHit1 = true
+        SoundMgr.Share.PlaySound('bossSmoke')
+        let fx = instantiate(this.getEffectPrefabByName('bossHit1'))
+        fx.setPosition(v3())
+        fx.setScale(v3(1.5, 1.5, 1))
+        fx.active = true
+        bossNode.addChild(fx)
     }
 
     createBossDiedFX(bossNode: Node) {
-        resources.load('Prefabs/Effects/bossDied', Prefab, (err, res) => {
-            let fx = instantiate(res)
-            fx.setPosition(v3())
-            fx.setScale(v3(1.5, 1.5, 1))
-            fx.active = true
-            bossNode.addChild(fx)
-            //this.scheduleOnce(() => { fx.destroy(); }, 3)
-        })
+        let fx = instantiate(this.getEffectPrefabByName('bossDied'))
+        fx.setPosition(v3())
+        fx.setScale(v3(1.5, 1.5, 1))
+        fx.active = true
+        bossNode.addChild(fx)
     }
 
     revive() {
