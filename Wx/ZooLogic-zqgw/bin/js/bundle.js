@@ -1619,6 +1619,12 @@
                 });
             }
             Laya.Scene.open('MyScenes/LoadingUI.scene');
+            for (let i = 0; i < 5; i++) {
+                Laya.timer.once(i * 0.5, this, this.test, [i]);
+            }
+        }
+        test(v) {
+            console.log(v);
         }
         initScene() {
             Laya.Scene3D.load(WxApi.UnityPath + 'SampleScene.ls', Laya.Handler.create(this, this.onLoadScene));
@@ -1932,6 +1938,7 @@
                     this.adPic.visible = true;
                 }
             }
+            this.adPic.visible = false;
             if (FdMgr.remenBanner) {
                 this.bannerShowHide();
             }
@@ -2606,7 +2613,7 @@
     GameConfig.screenMode = "vertical";
     GameConfig.alignV = "top";
     GameConfig.alignH = "left";
-    GameConfig.startScene = "FDScene/HomeUI.scene";
+    GameConfig.startScene = "FDScene/Box1.scene";
     GameConfig.sceneRoot = "";
     GameConfig.debug = false;
     GameConfig.stat = false;

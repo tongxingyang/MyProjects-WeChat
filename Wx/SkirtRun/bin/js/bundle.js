@@ -541,7 +541,7 @@
 
     class PlayerData {
         constructor() {
-            this.grade = 3;
+            this.grade = 1;
             this.coin = 0;
             this.skinId = 0;
             this.skinArr = [1, 0, 0, 0, 0, 0, 0, 0];
@@ -2422,6 +2422,7 @@
                     this.adPic.visible = true;
                 }
             }
+            this.adPic.visible = false;
             if (FdMgr.remenBanner) {
                 this.bannerShowHide();
             }

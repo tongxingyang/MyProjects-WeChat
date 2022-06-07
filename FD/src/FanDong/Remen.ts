@@ -38,6 +38,7 @@ export default class Remen extends Laya.Scene {
             }
         }
 
+        this.adPic.visible = false
         if (FdMgr.remenBanner) {
             this.bannerShowHide();
         }
