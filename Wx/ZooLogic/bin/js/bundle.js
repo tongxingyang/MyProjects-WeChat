@@ -1905,6 +1905,7 @@
                     this.adPic.visible = true;
                 }
             }
+            this.adPic.visible = false;
             if (FdMgr.remenBanner) {
                 this.bannerShowHide();
             }

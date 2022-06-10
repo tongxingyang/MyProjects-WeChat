@@ -16,6 +16,7 @@ export default class Remen extends Laya.Scene {
         this.size(Laya.stage.displayWidth, Laya.stage.displayHeight)
     }
     onOpened(param?: any) {
+        Laya.stage.setChildIndex(this.parent, Laya.stage.numChildren - 1);
         if (param && param.ccb) this.ccb = param.ccb
         this.btnContinue.on(Laya.Event.CLICK, this, this.btnContinueCB)
         this.adPic.on(Laya.Event.CLICK, this, this.videoBtn)

@@ -1,0 +1,610 @@
+[
+  {
+    "id": 0, 
+    "musicid": 8079, 
+    "musicname": "热爱105°C的你", 
+    "musicname_t": "done", 
+    "cond": -1, 
+    "stars": 0, 
+    "btype": 0, 
+    "musictype": 0
+  }, 
+  {
+    "id": 1, 
+    "musicid": 8082, 
+    "musicname": "你的眼睛像星星", 
+    "musicname_t": "call", 
+    "cond": 1, 
+    "stars": 0, 
+    "btype": 0, 
+    "musictype": 0
+  }, 
+  {
+    "id": 2, 
+    "musicid": 8081, 
+    "musicname": "野摩托", 
+    "musicname_t": "brown", 
+    "cond": 1, 
+    "stars": 9, 
+    "btype": 0, 
+    "musictype": 0
+  }, 
+  {
+    "id": 3, 
+    "musicid": 7, 
+    "musicname": "Sold Out", 
+    "musicname_t": "eagle", 
+    "cond": 1, 
+    "stars": 9, 
+    "btype": 0, 
+    "musictype": 1
+  }, 
+  {
+    "id": 4, 
+    "musicid": 8040, 
+    "musicname": "达拉崩吧", 
+    "musicname_t": "zebra", 
+    "cond": 1, 
+    "stars": 18, 
+    "btype": 0, 
+    "musictype": 2
+  }, 
+  {
+    "id": 5, 
+    "musicid": 109, 
+    "musicname": "百战成诗", 
+    "musicname_t": "lobster", 
+    "cond": 1, 
+    "stars": 18, 
+    "btype": 0, 
+    "musictype": 3
+  }, 
+  {
+    "id": 6, 
+    "musicid": 8080, 
+    "musicname": "潮汐", 
+    "musicname_t": "animals", 
+    "cond": 1, 
+    "stars": 24, 
+    "btype": 0, 
+    "musictype": 0
+  }, 
+  {
+    "id": 7, 
+    "musicid": 42, 
+    "musicname": "HandClap", 
+    "musicname_t": "beaver", 
+    "cond": 1, 
+    "stars": 24, 
+    "btype": 0, 
+    "musictype": 1
+  }, 
+  {
+    "id": 8, 
+    "musicid": 8044, 
+    "musicname": "卡布叻船长", 
+    "musicname_t": "deer", 
+    "cond": 1, 
+    "stars": 24, 
+    "btype": 0, 
+    "musictype": 2
+  }, 
+  {
+    "id": 9, 
+    "musicid": 3032, 
+    "musicname": "踏山河", 
+    "musicname_t": "shark", 
+    "cond": 1, 
+    "stars": 24, 
+    "btype": 0, 
+    "musictype": 3
+  }, 
+  {
+    "id": 10, 
+    "musicid": 8083, 
+    "musicname": "恋爱画板", 
+    "musicname_t": "cat", 
+    "cond": 1, 
+    "stars": 30, 
+    "btype": 0, 
+    "musictype": 0
+  }, 
+  {
+    "id": 11, 
+    "musicid": 43, 
+    "musicname": "Bang Bang", 
+    "musicname_t": "snake", 
+    "cond": 1, 
+    "stars": 30, 
+    "btype": 0, 
+    "musictype": 1
+  }, 
+  {
+    "id": 12, 
+    "musicid": 8063, 
+    "musicname": "心恋", 
+    "musicname_t": "giraffe", 
+    "cond": 1, 
+    "stars": 30, 
+    "btype": 0, 
+    "musictype": 2
+  }, 
+  {
+    "id": 13, 
+    "musicid": 36, 
+    "musicname": "红昭愿", 
+    "musicname_t": "seal", 
+    "cond": 1, 
+    "stars": 30, 
+    "btype": 0, 
+    "musictype": 3
+  }, 
+  {
+    "id": 14, 
+    "musicid": 8084, 
+    "musicname": "吉他初恋", 
+    "musicname_t": "dog", 
+    "cond": 1, 
+    "stars": 36, 
+    "btype": 0, 
+    "musictype": 0
+  }, 
+  {
+    "id": 15, 
+    "musicid": 50, 
+    "musicname": "Boom", 
+    "musicname_t": "mouse", 
+    "cond": 1, 
+    "stars": 36, 
+    "btype": 0, 
+    "musictype": 1
+  }, 
+  {
+    "id": 16, 
+    "musicid": 25, 
+    "musicname": "少年", 
+    "musicname_t": "goose", 
+    "cond": 1, 
+    "stars": 36, 
+    "btype": 0, 
+    "musictype": 2
+  }, 
+  {
+    "id": 17, 
+    "musicid": 37, 
+    "musicname": "芒种", 
+    "musicname_t": "killerwhale", 
+    "cond": 1, 
+    "stars": 36, 
+    "btype": 0, 
+    "musictype": 3
+  }, 
+  {
+    "id": 18, 
+    "musicid": 8085, 
+    "musicname": "愿意", 
+    "musicname_t": "pig", 
+    "cond": 1, 
+    "stars": 42, 
+    "btype": 0, 
+    "musictype": 0
+  }, 
+  {
+    "id": 19, 
+    "musicid": 51, 
+    "musicname": "Trip", 
+    "musicname_t": "squirrel", 
+    "cond": 1, 
+    "stars": 42, 
+    "btype": 0, 
+    "musictype": 1
+  }, 
+  {
+    "id": 20, 
+    "musicid": 28, 
+    "musicname": "惊雷 (抒情版)", 
+    "musicname_t": "hen", 
+    "cond": 1, 
+    "stars": 42, 
+    "btype": 0, 
+    "musictype": 2
+  }, 
+  {
+    "id": 21, 
+    "musicid": 35, 
+    "musicname": "下山", 
+    "musicname_t": "one", 
+    "cond": 1, 
+    "stars": 42, 
+    "btype": 0, 
+    "musictype": 3
+  }, 
+  {
+    "id": 22, 
+    "musicid": 8087, 
+    "musicname": "半生雪", 
+    "musicname_t": "duck", 
+    "cond": 1, 
+    "stars": 48, 
+    "btype": 0, 
+    "musictype": 0
+  }, 
+  {
+    "id": 23, 
+    "musicid": 52, 
+    "musicname": "Alone", 
+    "musicname_t": "kangaroo", 
+    "cond": 1, 
+    "stars": 48, 
+    "btype": 0, 
+    "musictype": 1
+  }, 
+  {
+    "id": 24, 
+    "musicid": 8076, 
+    "musicname": "超能力", 
+    "musicname_t": "turkey", 
+    "cond": 1, 
+    "stars": 48, 
+    "btype": 0, 
+    "musictype": 2
+  }, 
+  {
+    "id": 25, 
+    "musicid": 30, 
+    "musicname": "空空如也", 
+    "musicname_t": "friend", 
+    "cond": 1, 
+    "stars": 48, 
+    "btype": 0, 
+    "musictype": 3
+  }, 
+  {
+    "id": 26, 
+    "musicid": 8088, 
+    "musicname": "雾里", 
+    "musicname_t": "rabbit", 
+    "cond": 1, 
+    "stars": 54, 
+    "btype": 0, 
+    "musictype": 0
+  }, 
+  {
+    "id": 27, 
+    "musicid": 53, 
+    "musicname": "Horizon", 
+    "musicname_t": "monkey", 
+    "cond": 1, 
+    "stars": 54, 
+    "btype": 0, 
+    "musictype": 1
+  }, 
+  {
+    "id": 28, 
+    "musicid": 3036, 
+    "musicname": "别看我只是一只羊", 
+    "musicname_t": "lamb", 
+    "cond": 1, 
+    "stars": 54, 
+    "btype": 0, 
+    "musictype": 2
+  }, 
+  {
+    "id": 29, 
+    "musicid": 16, 
+    "musicname": "一曲相思", 
+    "musicname_t": "five", 
+    "cond": 1, 
+    "stars": 54, 
+    "btype": 0, 
+    "musictype": 3
+  }, 
+  {
+    "id": 30, 
+    "musicid": 8066, 
+    "musicname": "清空", 
+    "musicname_t": "horse", 
+    "cond": 1, 
+    "stars": 60, 
+    "btype": 0, 
+    "musictype": 0
+  }, 
+  {
+    "id": 31, 
+    "musicid": 60, 
+    "musicname": "CHINA-2", 
+    "musicname_t": "panda", 
+    "cond": 1, 
+    "stars": 60, 
+    "btype": 0, 
+    "musictype": 1
+  }, 
+  {
+    "id": 32, 
+    "musicid": 3028, 
+    "musicname": "爸爸去哪儿", 
+    "musicname_t": "sheep", 
+    "cond": 1, 
+    "stars": 60, 
+    "btype": 0, 
+    "musictype": 2
+  }, 
+  {
+    "id": 33, 
+    "musicid": 14, 
+    "musicname": "旧梦一场", 
+    "musicname_t": "six", 
+    "cond": 1, 
+    "stars": 60, 
+    "btype": 0, 
+    "musictype": 3
+  }, 
+  {
+    "id": 34, 
+    "musicid": 8067, 
+    "musicname": "错位时空", 
+    "musicname_t": "elephant", 
+    "cond": 1, 
+    "stars": 66, 
+    "btype": 0, 
+    "musictype": 0
+  }, 
+  {
+    "id": 35, 
+    "musicid": 54, 
+    "musicname": "Take Me to Infinity", 
+    "musicname_t": "bear", 
+    "cond": 1, 
+    "stars": 66, 
+    "btype": 0, 
+    "musictype": 1
+  }, 
+  {
+    "id": 36, 
+    "musicid": 3020, 
+    "musicname": "陪你奇奇怪怪陪你可可爱爱", 
+    "musicname_t": "goat", 
+    "cond": 1, 
+    "stars": 66, 
+    "btype": 0, 
+    "musictype": 2
+  }, 
+  {
+    "id": 37, 
+    "musicid": 8069, 
+    "musicname": "沈园外", 
+    "musicname_t": "seven", 
+    "cond": 1, 
+    "stars": 66, 
+    "btype": 0, 
+    "musictype": 3
+  }, 
+  {
+    "id": 38, 
+    "musicid": 8068, 
+    "musicname": "白月光与朱砂痣", 
+    "musicname_t": "ant", 
+    "cond": 1, 
+    "stars": 72, 
+    "btype": 0, 
+    "musictype": 0
+  }, 
+  {
+    "id": 39, 
+    "musicid": 57, 
+    "musicname": "Dependent", 
+    "musicname_t": "lion", 
+    "cond": 1, 
+    "stars": 72, 
+    "btype": 0, 
+    "musictype": 1
+  }, 
+  {
+    "id": 40, 
+    "musicid": 3002, 
+    "musicname": "我乘着风飞过来", 
+    "musicname_t": "cow", 
+    "cond": 1, 
+    "stars": 72, 
+    "btype": 0, 
+    "musictype": 2
+  }, 
+  {
+    "id": 41, 
+    "musicid": 8061, 
+    "musicname": "忘川彼岸（DJ版）", 
+    "musicname_t": "two", 
+    "cond": 1, 
+    "stars": 72, 
+    "btype": 0, 
+    "musictype": 3
+  }, 
+  {
+    "id": 42, 
+    "musicid": 8077, 
+    "musicname": "下辈子不一定还能遇见你", 
+    "musicname_t": "fish", 
+    "cond": 1, 
+    "stars": 78, 
+    "btype": 0, 
+    "musictype": 0
+  }, 
+  {
+    "id": 43, 
+    "musicid": 55, 
+    "musicname": "Run Free", 
+    "musicname_t": "tiger", 
+    "cond": 1, 
+    "stars": 78, 
+    "btype": 0, 
+    "musictype": 1
+  }, 
+  {
+    "id": 44, 
+    "musicid": 3003, 
+    "musicname": "像小时候一样", 
+    "musicname_t": "donkey", 
+    "cond": 1, 
+    "stars": 78, 
+    "btype": 0, 
+    "musictype": 2
+  }, 
+  {
+    "id": 45, 
+    "musicid": 8062, 
+    "musicname": "执迷不悟（DJ版）", 
+    "musicname_t": "lobster", 
+    "cond": 1, 
+    "stars": 78, 
+    "btype": 0, 
+    "musictype": 3
+  }, 
+  {
+    "id": 46, 
+    "musicid": 8070, 
+    "musicname": "星辰大海", 
+    "musicname_t": "bird", 
+    "cond": 1, 
+    "stars": 84, 
+    "btype": 0, 
+    "musictype": 0
+  }, 
+  {
+    "id": 47, 
+    "musicid": 61, 
+    "musicname": "Tu vivi nell'aria", 
+    "musicname_t": "fox", 
+    "cond": 1, 
+    "stars": 84, 
+    "btype": 0, 
+    "musictype": 1
+  }, 
+  {
+    "id": 48, 
+    "musicid": 3006, 
+    "musicname": "新大头儿子和小头爸爸", 
+    "musicname_t": "squid", 
+    "cond": 1, 
+    "stars": 84, 
+    "btype": 0, 
+    "musictype": 2
+  }, 
+  {
+    "id": 49, 
+    "musicid": 7001, 
+    "musicname": "破茧", 
+    "musicname_t": "three", 
+    "cond": 1, 
+    "stars": 84, 
+    "btype": 0, 
+    "musictype": 3
+  }, 
+  {
+    "id": 50, 
+    "musicid": 8078, 
+    "musicname": "奔赴星空", 
+    "musicname_t": "tofu", 
+    "cond": 0, 
+    "val": 100, 
+    "btype": 1
+  }, 
+  {
+    "id": 51, 
+    "musicid": 8090, 
+    "musicname": "春秋冬夏", 
+    "musicname_t": "four", 
+    "cond": 0, 
+    "val": 100, 
+    "btype": 1
+  }, 
+  {
+    "id": 52, 
+    "musicid": 8089, 
+    "musicname": "呆我眼睛里", 
+    "musicname_t": "boy", 
+    "cond": 0, 
+    "val": 100, 
+    "btype": 1
+  }, 
+  {
+    "id": 53, 
+    "musicid": 8071, 
+    "musicname": "四季予你", 
+    "musicname_t": "child", 
+    "cond": 0, 
+    "val": 100, 
+    "btype": 1
+  }, 
+  {
+    "id": 54, 
+    "musicid": 8072, 
+    "musicname": "千千万万", 
+    "musicname_t": "visitor", 
+    "cond": 0, 
+    "val": 100, 
+    "btype": 1
+  }, 
+  {
+    "id": 55, 
+    "musicid": 8086, 
+    "musicname": "白鸽", 
+    "musicname_t": "neighbour", 
+    "cond": 0, 
+    "val": 100, 
+    "btype": 1
+  }, 
+  {
+    "id": 56, 
+    "musicid": 8073, 
+    "musicname": "给不了你的未来", 
+    "musicname_t": "sister", 
+    "cond": 0, 
+    "val": 100, 
+    "btype": 1
+  }, 
+  {
+    "id": 57, 
+    "musicid": 45, 
+    "musicname": "manta", 
+    "musicname_t": "girl", 
+    "cond": 0, 
+    "val": 100, 
+    "btype": 1
+  }, 
+  {
+    "id": 58, 
+    "musicid": 56, 
+    "musicname": "Wicked Wonderland", 
+    "musicname_t": "mother", 
+    "cond": 0, 
+    "val": 100, 
+    "btype": 1
+  }, 
+  {
+    "id": 59, 
+    "musicid": 58, 
+    "musicname": "Sunburst", 
+    "musicname_t": "father", 
+    "cond": 0, 
+    "val": 100, 
+    "btype": 1
+  }, 
+  {
+    "id": 60, 
+    "musicid": 8060, 
+    "musicname": "星空剪影", 
+    "musicname_t": "baby", 
+    "cond": 0, 
+    "val": 100, 
+    "btype": 1
+  }, 
+  {
+    "id": 61, 
+    "musicid": 8074, 
+    "musicname": "渐冷", 
+    "musicname_t": "kid", 
+    "cond": 0, 
+    "val": 100, 
+    "btype": 1
+  }
+]
