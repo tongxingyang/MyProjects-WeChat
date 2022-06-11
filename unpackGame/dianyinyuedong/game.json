@@ -11,6 +11,10 @@
         {
             "name": "subpackage1",
             "root": "/subpackage1/"
+        },
+        {
+            "name": "bundle",
+            "root": "/js/"
         }
     ]
 }
