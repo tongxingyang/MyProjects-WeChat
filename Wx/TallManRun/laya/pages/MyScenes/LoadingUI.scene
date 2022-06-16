@@ -2,11 +2,11 @@
     "x":0,
     "type":"Scene",
     "selectedBox":2,
-    "selecteID":6,
+    "selecteID":5,
     "searchKey":"Scene",
     "props":{"sceneWidth":750,"sceneHeight":1334,"sceneColor":"#000000","runtime":"View/LoadingUI.ts"},
     "nodeParent":-1,
-    "maxID":9,
+    "maxID":10,
     "label":"Scene",
     "isOpen":true,
     "isDirectory":true,
@@ -35,12 +35,28 @@
             "props":{"y":100,"top":100,"skin":"loadingUI/logo1.png","centerX":0},
             "nodeParent":2,
             "label":"Image",
-            "isDirectory":false,
+            "isOpen":null,
+            "isDirectory":true,
             "isAniNode":true,
-            "hasChild":false,
+            "hasChild":true,
             "compId":5,
             "child":[
-                ]
+                {
+                    "type":"Script",
+                    "switchAble":true,
+                    "source":"src/Mod/UpDownLoop.ts",
+                    "searchKey":"Script,UpDownLoop",
+                    "removeAble":true,
+                    "props":{},
+                    "nodeParent":5,
+                    "label":"UpDownLoop",
+                    "isDirectory":false,
+                    "isAniNode":true,
+                    "hasChild":false,
+                    "compId":9,
+                    "child":[
+                        ]
+                }]
         },
         {
             "x":15,

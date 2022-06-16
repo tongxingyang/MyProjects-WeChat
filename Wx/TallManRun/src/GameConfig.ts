@@ -8,9 +8,9 @@ import UpdateCoin from "./Mod/UpdateCoin"
 import GameUI from "./View/GameUI"
 import UpdateGrade from "./Mod/UpdateGrade"
 import LoadingUI from "./View/LoadingUI"
+import UpDownLoop from "./Mod/UpDownLoop"
 import SkinUI from "./View/SkinUI"
 import StartUI from "./View/StartUI"
-import UpDownLoop from "./Mod/UpDownLoop"
 /*
 * 游戏初始化配置;
 */
@@ -21,7 +21,7 @@ export default class GameConfig{
     static screenMode:string="vertical";
     static alignV:string="top";
     static alignH:string="left";
-    static startScene:any="MyScenes/FinishUI.scene";
+    static startScene:any="MyScenes/LoadingUI.scene";
     static sceneRoot:string="";
     static debug:boolean=false;
     static stat:boolean=false;
@@ -39,9 +39,9 @@ export default class GameConfig{
         reg("View/GameUI.ts",GameUI);
         reg("Mod/UpdateGrade.ts",UpdateGrade);
         reg("View/LoadingUI.ts",LoadingUI);
+        reg("Mod/UpDownLoop.ts",UpDownLoop);
         reg("View/SkinUI.ts",SkinUI);
         reg("View/StartUI.ts",StartUI);
-        reg("Mod/UpDownLoop.ts",UpDownLoop);
     }
 }
 GameConfig.init();

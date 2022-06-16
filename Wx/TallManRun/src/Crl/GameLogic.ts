@@ -12,6 +12,9 @@ import Obstacle1 from "./Prop/Obstacle1"
 import Obstacle2 from "./Prop/Obstacle2"
 import MoveLR from "./Prop/MoveLR"
 import Obstacle3 from "./Prop/Obstacle3"
+import Enemy from "./Enemy"
+import Arrow from "./Prop/Arrow"
+import FinishStep from "./Prop/FinishStep"
 
 export default class GameLogic {
     public static Share: GameLogic
@@ -23,7 +26,7 @@ export default class GameLogic {
     public camStartPos: Laya.Vector3 = new Laya.Vector3(0, 0, 0)
     private camStartRotation: Laya.Quaternion = null
     public _cameraCrl: CameraCrl = null
-    public startCamField: number = 60
+    public startCamField: number = 70
 
     public isStartGame: boolean = false
     public isGameOver: boolean = false
@@ -140,6 +143,8 @@ export default class GameLogic {
             dirName = 'Jump1'
         } else if (name.search('Jump2') != -1) {
             dirName = 'Jump2'
+        } else if (name.search('Boss') != -1) {
+            dirName = 'Boss'
         }
         let sp: Laya.Sprite3D = Laya.Sprite3D.instantiate(this.getItemByName(dirName), this._levelNode, false, new Laya.Vector3())
         sp.transform.position = pos
@@ -168,10 +173,39 @@ export default class GameLogic {
             for (let i = 3; i < sp.numChildren; i++) {
                 let node = sp.getChildAt(i).getChildAt(2) as Laya.Sprite3D
                 node.addComponent(Obstacle1)
+                sp.getChildAt(i).getChildAt(0).addComponent(FinishStep)
             }
-        } else if (name.search('Boss') != -1) {
+            this.createDiamond()
+        } else if (name.search('Boss') != -1 && name.search('Enemy') < 0) {
             this._boss = sp
             this._bossCrl = this._boss.addComponent(Boss)
+        } else if (name.search('Enemy') != -1) {
+            sp.addComponent(Enemy)
+        } else if (name.search('Arrow_Up') != -1) {
+            let crl: Arrow = sp.addComponent(Arrow)
+            crl.init(1)
+        } else if (name.search('Arrow_Down') != -1) {
+            let crl: Arrow = sp.addComponent(Arrow)
+            crl.init(2)
+        } else if (name.search('Arrow_Outside') != -1) {
+            let crl: Arrow = sp.addComponent(Arrow)
+            crl.init(3)
+        } else if (name.search('Arrow_Entad') != -1) {
+            let crl: Arrow = sp.addComponent(Arrow)
+            crl.init(4)
+        }
+    }
+
+    createDiamond() {
+        for (let i = 0; i < 20; i++) {
+            for (let j = 0; j < 3; j++) {
+                let sp: Laya.Sprite3D = Laya.Sprite3D.instantiate(this.getItemByName('Diamond'), this._levelNode, false, new Laya.Vector3())
+                let pos = (this._roadFinish2.getChildAt(i + 3) as Laya.Sprite3D).transform.position.clone();
+                pos.y = 2 + j
+                pos.z += 1
+                sp.transform.position = pos
+                sp.addComponent(Diamond)
+            }
         }
     }
 
