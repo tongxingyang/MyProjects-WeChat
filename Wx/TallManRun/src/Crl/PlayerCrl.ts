@@ -114,20 +114,21 @@ export default class PlayerCrl extends Laya.Script {
         this.curAniName = name
     }
 
-    moveX() {
+    moveX(dtX: number) {
         if (GameLogic.Share.isGameOver || !this.canMove) return
+        let desPos = this.myOwner.transform.position.clone()
+        desPos.x += dtX
+        if (desPos.x > this.edgeMax) desPos.x = this.edgeMax
+        if (desPos.x < -this.edgeMax) desPos.x = -this.edgeMax
+        this.myOwner.transform.position = desPos
 
-        let speed = this.speed + this.tempSpeed
-        let pos = new Laya.Vector3(0, 0, speed)
-        this.myOwner.transform.translate(pos, false)
-
-        let x = this.touchX
-        x -= Laya.stage.displayWidth / 2
-        x = x / (Laya.stage.displayWidth / 2) * this.edgeMax
-        pos = this.myOwner.transform.position.clone()
-        pos.x = -x
-        Laya.Vector3.lerp(this.myOwner.transform.position.clone(), pos, 0.2, pos)
-        this.myOwner.transform.position = pos
+        // let x = this.touchX
+        // x -= Laya.stage.displayWidth / 2
+        // x = x / (Laya.stage.displayWidth / 2) * this.edgeMax
+        // pos = this.myOwner.transform.position.clone()
+        // pos.x = -x
+        // Laya.Vector3.lerp(this.myOwner.transform.position.clone(), pos, 0.2, pos)
+        // this.myOwner.transform.position = pos
     }
 
     hurtCB(type: number) {
@@ -362,7 +363,10 @@ export default class PlayerCrl extends Laya.Script {
             return
         }
 
-        this.moveX()
+
+        let speed = this.speed + this.tempSpeed
+        let pos = new Laya.Vector3(0, 0, speed)
+        this.myOwner.transform.translate(pos, false)
 
         if (this.myOwner.transform.position.z >= GameLogic.Share._roadFinish.transform.position.z) {
             this.walkFinish()

@@ -17,7 +17,8 @@ export default class GameUI extends Laya.Scene {
     guideAni: Laya.Animation
     tipsNode: Laya.Image
 
-    touchStartPosX: number = 0
+    touchStartX: number = 0
+    touchPreX: number = 0
 
     onOpened() {
         GameUI.Share = this
@@ -42,16 +43,19 @@ export default class GameUI extends Laya.Scene {
             this.guideAni.visible = false
             GameLogic.Share.gameStart()
         }
-        let x = evt.stageX
-        GameLogic.Share._playerCrl.touchX = x
+        this.touchStartX = evt.stageX
+        this.touchPreX = evt.stageX
     }
     touchMove(evt: Laya.Event) {
         if (GameLogic.Share.isGameOver) return
         if (GameLogic.Share.isFinish) {
             return
         }
-        let x = evt.stageX
-        GameLogic.Share._playerCrl.touchX = x
+        let sx = evt.stageX
+        let dtx = this.touchPreX - sx
+        GameLogic.Share._playerCrl.moveX(dtx / 130)
+
+        this.touchPreX = sx
     }
     touchEnd(evt: Laya.Event) {
         if (GameLogic.Share.isGameOver) return

@@ -745,19 +745,16 @@
             this._ani.speed = speed;
             this.curAniName = name;
         }
-        moveX() {
+        moveX(dtX) {
             if (GameLogic.Share.isGameOver || !this.canMove)
                 return;
-            let speed = this.speed + this.tempSpeed;
-            let pos = new Laya.Vector3(0, 0, speed);
-            this.myOwner.transform.translate(pos, false);
-            let x = this.touchX;
-            x -= Laya.stage.displayWidth / 2;
-            x = x / (Laya.stage.displayWidth / 2) * this.edgeMax;
-            pos = this.myOwner.transform.position.clone();
-            pos.x = -x;
-            Laya.Vector3.lerp(this.myOwner.transform.position.clone(), pos, 0.2, pos);
-            this.myOwner.transform.position = pos;
+            let desPos = this.myOwner.transform.position.clone();
+            desPos.x += dtX;
+            if (desPos.x > this.edgeMax)
+                desPos.x = this.edgeMax;
+            if (desPos.x < -this.edgeMax)
+                desPos.x = -this.edgeMax;
+            this.myOwner.transform.position = desPos;
         }
         hurtCB(type) {
         }
@@ -977,7 +974,9 @@
             if (GameLogic.Share.isGameOver || !GameLogic.Share.isStartGame || GameLogic.Share.isFinish) {
                 return;
             }
-            this.moveX();
+            let speed = this.speed + this.tempSpeed;
+            let pos = new Laya.Vector3(0, 0, speed);
+            this.myOwner.transform.translate(pos, false);
             if (this.myOwner.transform.position.z >= GameLogic.Share._roadFinish.transform.position.z) {
                 this.walkFinish();
             }
@@ -2606,7 +2605,8 @@
     class GameUI extends Laya.Scene {
         constructor() {
             super();
-            this.touchStartPosX = 0;
+            this.touchStartX = 0;
+            this.touchPreX = 0;
         }
         onOpened() {
             GameUI.Share = this;
@@ -2631,8 +2631,8 @@
                 this.guideAni.visible = false;
                 GameLogic.Share.gameStart();
             }
-            let x = evt.stageX;
-            GameLogic.Share._playerCrl.touchX = x;
+            this.touchStartX = evt.stageX;
+            this.touchPreX = evt.stageX;
         }
         touchMove(evt) {
             if (GameLogic.Share.isGameOver)
@@ -2640,8 +2640,10 @@
             if (GameLogic.Share.isFinish) {
                 return;
             }
-            let x = evt.stageX;
-            GameLogic.Share._playerCrl.touchX = x;
+            let sx = evt.stageX;
+            let dtx = this.touchPreX - sx;
+            GameLogic.Share._playerCrl.moveX(dtx / 130);
+            this.touchPreX = sx;
         }
         touchEnd(evt) {
             if (GameLogic.Share.isGameOver)
