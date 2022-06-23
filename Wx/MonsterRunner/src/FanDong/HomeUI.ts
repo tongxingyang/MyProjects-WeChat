@@ -13,7 +13,7 @@ export default class HomeUI extends Laya.Scene {
         this.size(Laya.stage.displayWidth, Laya.stage.displayHeight)
         this.remenBtn.on(Laya.Event.CLICK, this, this.remenCB)
         this.videoBtn.on(Laya.Event.CLICK, this, this.videoCB)
-        this.videoBtn.active = FdMgr.homeViedo
+        this.videoBtn.visible = FdMgr.homeViedo
     }
 
     onClosed() {
