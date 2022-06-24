@@ -1587,6 +1587,7 @@
                 if (fx && !fx.destroyed)
                     fx.destroy();
             });
+            fx.getChildAt(0).getChildAt(0).meshRenderer.receiveShadow = false;
         }
         static createSmoke(pos) {
             let fx = this.getFXByName('FX_Smoke_1', GameLogic.Share._levelNode);
@@ -2082,10 +2083,11 @@
             this._camera = this._scene.getChildByName('Main Camera');
             this._light = this._scene.getChildByName('Directional Light');
             this._light.shadowMode = Laya.ShadowMode.SoftHigh;
-            this._light.shadowDistance = 25;
+            this._light.shadowDistance = 20;
             this._light.shadowResolution = 1024;
             this._light.shadowCascadesMode = Laya.ShadowCascadesMode.NoCascades;
             this._light.shadowNormalBias = 0;
+            this._light.transform.rotate(new Laya.Vector3(0, -40, 0), false, false);
             this.camStartPos = this._camera.transform.position.clone();
             this.camStartRotation = this._camera.transform.rotation.clone();
             this._camera.fieldOfView = this.startCamField;
@@ -2121,8 +2123,16 @@
             this._scene.getChildByName('Scene_Ground2').active = false;
             this._scene.getChildByName('Scene_1').active = false;
             this._scene.getChildByName('Object_01').active = false;
+            for (let i = 0; i < this._scene.getChildByName('Object_01').numChildren; i++) {
+                let o = this._scene.getChildByName('Object_01').getChildAt(i);
+                if (o.meshRenderer) {
+                    o.meshRenderer.receiveShadow = false;
+                }
+            }
             this._scene.getChildByName('Back_01').active = true;
             this._scene.getChildByName('Chashka_01').active = true;
+            this._scene.getChildByName('Chashka_01').meshRenderer.receiveShadow = false;
+            this._scene.getChildByName('Chashka_01').getChildAt(0).meshRenderer.receiveShadow = false;
             Laya.timer.frameLoop(1, this, () => {
                 this._scene.getChildByName('Chashka_01').getChildAt(0).transform.rotate(new Laya.Vector3(0, -2, 0), true, false);
             });

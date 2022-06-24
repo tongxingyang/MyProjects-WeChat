@@ -67,13 +67,14 @@ export default class GameLogic {
         // Use soft shadow.
         this._light.shadowMode = Laya.ShadowMode.SoftHigh;
         // Set shadow max distance from camera.
-        this._light.shadowDistance = 25;
+        this._light.shadowDistance = 20;
         // Set shadow resolution.
         this._light.shadowResolution = 1024;
         // Set shadow cascade mode.
         this._light.shadowCascadesMode = Laya.ShadowCascadesMode.NoCascades;
         // Set shadow normal bias.
         this._light.shadowNormalBias = 0;
+        this._light.transform.rotate(new Laya.Vector3(0,-40,0),false,false)
 
         // //雾化代码
         // this._scene.enableFog = true;
@@ -122,9 +123,17 @@ export default class GameLogic {
         this._scene.getChildByName('Scene_Ground1').active = true
         this._scene.getChildByName('Scene_Ground2').active = false
         this._scene.getChildByName('Scene_1').active = false
-        this._scene.getChildByName('Object_01').active = false
-        this._scene.getChildByName('Back_01').active = true
-        this._scene.getChildByName('Chashka_01').active = true
+        this._scene.getChildByName('Object_01').active = false;
+        for (let i = 0; i < this._scene.getChildByName('Object_01').numChildren; i++) {
+            let o: Laya.MeshSprite3D = this._scene.getChildByName('Object_01').getChildAt(i) as Laya.MeshSprite3D
+            if (o.meshRenderer) {
+                o.meshRenderer.receiveShadow = false
+            }
+        }
+        this._scene.getChildByName('Back_01').active = true;
+        this._scene.getChildByName('Chashka_01').active = true;
+        (this._scene.getChildByName('Chashka_01') as Laya.MeshSprite3D).meshRenderer.receiveShadow = false;
+        (this._scene.getChildByName('Chashka_01').getChildAt(0) as Laya.MeshSprite3D).meshRenderer.receiveShadow = false;
         Laya.timer.frameLoop(1, this, () => {
             (this._scene.getChildByName('Chashka_01').getChildAt(0) as Laya.Sprite3D).transform.rotate(new Laya.Vector3(0, -2, 0), true, false)
         })

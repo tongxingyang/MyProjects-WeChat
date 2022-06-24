@@ -23,8 +23,9 @@ export default class Effects {
         let fx = this.getFXByName('FX_Wind_Turn', GameLogic.Share._levelNode)
         fx.transform.position = pos
         Laya.timer.once(4000, this, () => {
-            if (fx && !fx.destroyed) fx.destroy()
-        })
+            if (fx && !fx.destroyed) fx.destroy();
+        });
+        (fx.getChildAt(0).getChildAt(0) as Laya.MeshSprite3D).meshRenderer.receiveShadow = false;
     }
 
     //烟雾
