@@ -1,0 +1,1 @@
+{"width":128,"SubTexture":[{"width":56,"y":1,"height":56,"name":"coin_1","x":1},{"frameX":-22,"y":1,"frameY":0,"frameWidth":56,"width":12,"frameHeight":56,"height":56,"name":"coin_2","x":59},{"width":56,"y":59,"height":56,"name":"coin_3","x":1}],"height":128,"name":"coin","imagePath":"coin_tex.png"}

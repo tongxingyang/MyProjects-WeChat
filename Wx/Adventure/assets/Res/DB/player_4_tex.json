@@ -1,0 +1,1 @@
+{"width":256,"SubTexture":[{"width":6,"y":1,"height":22,"name":"foot_1","x":185},{"frameX":-8,"y":1,"frameY":-8,"frameWidth":98,"width":82,"frameHeight":126,"height":118,"name":"player2_4","x":101},{"width":98,"y":1,"height":126,"name":"player1_4","x":1}],"height":128,"name":"player_4","imagePath":"player_4_tex.png"}
