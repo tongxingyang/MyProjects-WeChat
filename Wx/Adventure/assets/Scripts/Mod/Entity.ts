@@ -3,11 +3,7 @@ export enum UIType {
     UI_SHOP = 'ShopUI',
     UI_GAME = 'GameUI',
     UI_FINISH = 'FinishUI',
-    UI_Revive = 'ReviveUI'
-}
-
-export enum PropType {
-    Prop_Up,
-    Prop_Plane,
-    Prop_Pow
+    UI_SELECT = 'SelectUI',
+    UI_SETTING = 'SettingUI',
+    UI_POWER = 'PowerUI'
 }

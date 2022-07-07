@@ -36,9 +36,14 @@ export class Monster extends Component {
     }
 
     onGroundCollider(selfCollider: Collider2D, otherCollider: Collider2D, contact: IPhysics2DContact | null) {
-        if (!this.isGot && otherCollider.node.name == 'player') {
+        if (!this.isGot && otherCollider.node.name == 'player' && !GameLogic.Share.playerCrl.isHide) {
             this.isGot = true
-            GameLogic.Share.gameOver(false)
+            if (GameLogic.Share.playerCrl.isBigger) {
+                GameLogic.Share.playerCrl.resize()
+                this.isGot = false
+            }
+            else
+                GameLogic.Share.gameOver(false)
         }
     }
 
@@ -51,16 +56,20 @@ export class Monster extends Component {
     update(deltaTime: number) {
         if (this.isLoopMove) {
             if (this.node.position.x < this.leftMax) {
-                this.isLeft = true
+                this.isLeft = false
             }
             if (this.node.position.x > this.rightMax) {
-                this.isLeft = false
+                this.isLeft = true
             }
         }
 
         if (this.isLeft) {
+            let s = this.db.getScale()
+            this.db.setScale(Math.abs(s.x), s.y, s.z)
             this.body.linearVelocity = v2(-this.speed, this.body.linearVelocity.y)
         } else {
+            let s = this.db.getScale()
+            this.db.setScale(-Math.abs(s.x), s.y, s.z)
             this.body.linearVelocity = v2(this.speed, this.body.linearVelocity.y)
         }
     }

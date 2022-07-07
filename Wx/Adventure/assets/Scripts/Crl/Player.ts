@@ -1,4 +1,4 @@
-import { _decorator, Component, Node, dragonBones, RigidBody2D, BoxCollider2D, Vec2, v2, Vec3, v3, PolygonCollider2D, Contact2DType, Collider2D, IPhysics2DContact, tween } from 'cc';
+import { _decorator, Component, Node, dragonBones, RigidBody2D, BoxCollider2D, Vec2, v2, Vec3, v3, PolygonCollider2D, Contact2DType, Collider2D, IPhysics2DContact, tween, UIOpacity, ParticleSystem2D } from 'cc';
 import { GameLogic } from './GameLogic';
 const { ccclass, property } = _decorator;
 
@@ -10,6 +10,7 @@ export class Player extends Component {
     polygonCollider: PolygonCollider2D = null
     ani: dragonBones.ArmatureDisplay = null
     db: Node = null
+    groundedPt: ParticleSystem2D = null
 
     curAni: string = 'idle'
 
@@ -17,6 +18,9 @@ export class Player extends Component {
     dirX: number = 0
 
     isJumping: boolean = false
+    isHide: boolean = false
+    isSmaller: boolean = false
+    isBigger: boolean = false
 
     onLoad() {
         this.body = this.getComponent(RigidBody2D)
@@ -24,11 +28,20 @@ export class Player extends Component {
         this.polygonCollider = this.getComponent(PolygonCollider2D)
         this.db = this.node.getChildByName("db")
         this.ani = this.db.getComponent(dragonBones.ArmatureDisplay)
+        this.groundedPt = this.node.getChildByName('grounded').getComponent(ParticleSystem2D)
     }
 
     start() {
         this.boxCollider.on(Contact2DType.BEGIN_CONTACT, this.onGroundCollider, this)
+        this.boxCollider.on(Contact2DType.END_CONTACT, this.onGroundExitCollider, this)
         this.polygonCollider.on(Contact2DType.BEGIN_CONTACT, this.onPolygonCollider, this)
+    }
+
+    initAsset(id: number) {
+        this.ani.dragonAsset = GameLogic.Share.playerDBA[id]
+        this.ani.dragonAtlasAsset = GameLogic.Share.playerDBAA[id]
+        this.ani.armatureName = 'Armature'
+        this.ani.playAnimation('idle')
     }
 
     onGroundCollider(selfCollider: Collider2D, otherCollider: Collider2D, contact: IPhysics2DContact | null) {
@@ -36,8 +49,15 @@ export class Player extends Component {
         if (selfCollider.tag == 1 && otherCollider != this.polygonCollider && otherCollider.tag != 100) {
             if (this.isJumping) {
                 this.isJumping = false
+                this.groundedPt.resetSystem()
                 this.playAni(this.dirX == 0 ? 'idle' : 'run')
             }
+        }
+    }
+    onGroundExitCollider(selfCollider: Collider2D, otherCollider: Collider2D, contact: IPhysics2DContact | null) {
+        if (GameLogic.Share.isGameOver) return
+        if (selfCollider.tag == 1 && otherCollider != this.polygonCollider && otherCollider.tag != 100) {
+            this.isJumping = true
         }
     }
     onPolygonCollider(selfCollider: Collider2D, otherCollider: Collider2D, contact: IPhysics2DContact | null) {
@@ -76,7 +96,51 @@ export class Player extends Component {
         if (this.isJumping || GameLogic.Share.isGameOver) return
         this.isJumping = true
         this.playAni('jump')
-        this.body.applyLinearImpulseToCenter(v2(0, 175), true)
+        if (this.isSmaller) {
+            this.body.applyLinearImpulseToCenter(v2(0, 180 * 0.25), true)
+        } else if (this.isBigger) {
+            this.body.applyLinearImpulseToCenter(v2(0, 180 * 4), true)
+        } else {
+            this.body.applyLinearImpulseToCenter(v2(0, 180), true)
+        }
+    }
+
+    hideCB() {
+        this.db.getComponent(UIOpacity).opacity = 100
+        this.isHide = true
+    }
+
+    smallCB() {
+        this.isSmaller = true
+        this.node.setScale(.5, .5, 1)
+    }
+
+    bigCB() {
+        this.isBigger = true
+        this.node.setScale(2, 2, 1)
+    }
+
+    resize() {
+        this.isHide = true
+        this.isSmaller = false
+        this.isBigger = false
+        this.node.setScale(1, 1, 1)
+        this.scheduleOnce(() => {
+            this.polygonCollider.apply()
+        })
+
+        let count = 0
+        let blink = () => {
+            tween(this.db).hide().delay(0.1).show().delay(0.1).call(() => {
+                count++
+                if (count > 5) {
+                    this.isHide = false
+                    return
+                }
+                blink()
+            }).start()
+        }
+        blink()
     }
 
     winCB() {

@@ -1,4 +1,4 @@
-import { _decorator, Component, Node, BoxCollider2D, Collider2D, Contact2DType, IPhysics2DContact, tween, v3 } from 'cc';
+import { _decorator, Component, Node, BoxCollider2D, Collider2D, Contact2DType, IPhysics2DContact, tween, v3, instantiate, Prefab, resources } from 'cc';
 const { ccclass, property } = _decorator;
 
 @ccclass('MoveGrid')
@@ -25,6 +25,11 @@ export class MoveGrid extends Component {
         }
         if (this.hadMove && !this.isGot && otherCollider.node.name == 'player' && selfCollider.tag == 1) {
             this.isGot = true
+            resources.load('Prefabs/GridAni', Prefab, (err, res) => {
+                let ani = instantiate(res)
+                this.node.parent.addChild(ani)
+                ani.position = this.node.position
+            })
             this.scheduleOnce(() => {
                 this.node.destroy()
             })

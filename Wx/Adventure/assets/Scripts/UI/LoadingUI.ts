@@ -47,6 +47,6 @@ export class LoadingUI extends Component {
 
     update(deltaTime: number) {
         // [4]
-        this.pBar.progress += 0.01
+        this.pBar.progress += 0.005
     }
 }

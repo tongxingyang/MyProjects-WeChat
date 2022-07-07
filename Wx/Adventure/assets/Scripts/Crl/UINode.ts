@@ -8,6 +8,8 @@ export class UINode extends Component {
 
     public static Share: UINode
 
+    closeCB: Function = null
+
     onLoad() {
         UINode.Share = this
     }
@@ -15,12 +17,16 @@ export class UINode extends Component {
         // [3]
     }
 
-    showUI(type: UIType) {
+    showUI(type: UIType, closeCB?: Function) {
+        this.closeCB = closeCB
         this.node.children.forEach(n => { n.active = n.name == type })
     }
 
     closeUI(type: UIType) {
-        this.node.getChildByName(type).active = false
+        if (this.closeCB)
+            this.closeCB()
+        else
+            this.node.getChildByName(type).active = false
     }
 
     closeAllUI() {

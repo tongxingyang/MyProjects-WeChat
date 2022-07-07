@@ -7,6 +7,9 @@ export class FallGrid extends Component {
 
     isGot: boolean = false
 
+    @property
+    fallTime: number = 0.5
+
     onLoad() {
         this.boxCollider = this.getComponent(BoxCollider2D)
         this.boxCollider.on(Contact2DType.BEGIN_CONTACT, this.onGroundCollider, this)
@@ -15,7 +18,7 @@ export class FallGrid extends Component {
     onGroundCollider(selfCollider: Collider2D, otherCollider: Collider2D, contact: IPhysics2DContact | null) {
         if (!this.isGot && otherCollider.node.name == 'player') {
             this.isGot = true
-            tween(this.node).by(.5, { position: v3(0, -1000, 0) }).start()
+            tween(this.node).by(this.fallTime, { position: v3(0, -1000, 0) }).start()
         }
     }
 

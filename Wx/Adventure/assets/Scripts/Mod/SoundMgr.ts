@@ -7,9 +7,6 @@ export class SoundMgr extends Component {
 
     public static Share: SoundMgr
 
-    @property(AudioClip)
-    clips: AudioClip[] = []
-
     currentMusic: string = ""
 
     currentAid: number = -1
@@ -25,7 +22,7 @@ export class SoundMgr extends Component {
 
     start() {
         // [3]
-        this.loadSounds()
+        //this.loadSounds()
     }
 
     loadSounds() {
@@ -50,6 +47,7 @@ export class SoundMgr extends Component {
     }
 
     PlaySound(key: string, loop: boolean = false, volume: number = 1) {
+        return
         if (this.node == null) {
             return null
         }
@@ -74,6 +72,7 @@ export class SoundMgr extends Component {
     }
 
     PlayMusic(key: string, loop: boolean = true) {
+        return
         if (this.node == null) {
             return
         }
@@ -90,6 +89,7 @@ export class SoundMgr extends Component {
     }
 
     StopMuisc(key: string) {
+        return
         if (this.node == null) {
             return
         }

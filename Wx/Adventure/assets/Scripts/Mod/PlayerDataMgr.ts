@@ -2,15 +2,21 @@ import { _decorator } from "cc";
 const { ccclass, property } = _decorator;
 
 export class PlayerData {
-    grade: number = 1
+    grade: number = 30
     coin: number = 0
+    dieCount: number = 0
+    power: number = 10
+    powerAd15: number = 0
+    powerAdMax: number = 0
     skinId: number = 0
     skinArr: number[] = [1, 0, 0, 0, 0, 0]
+    exitTime: number = 0
 }
 @ccclass
 export default class PlayerDataMgr {
     private static _playerData: PlayerData
-    public static maxGrade: number = 9
+    public static maxGrade: number = 30
+    public static maxPower: number = 10
 
     //获取用户数据
     public static getPlayerData(): PlayerData {
@@ -31,8 +37,24 @@ export default class PlayerDataMgr {
         localStorage.setItem('playerData', JSON.stringify(this._playerData))
     }
 
+    public static addDieCount() {
+        this._playerData.dieCount++
+        this.setPlayerData()
+    }
+
+    public static changeCoin(v: number = 1) {
+        this._playerData.coin += v
+        this.setPlayerData()
+    }
+    public static changePower(v: number = 1) {
+        if (this._playerData.power >= 9999) return
+        this._playerData.power += v
+        this.setPlayerData()
+    }
+
     public static changeGrade(v: number = 1) {
         this._playerData.grade += v
+        if (this._playerData.grade > this.maxGrade) this._playerData.grade = this.maxGrade
         this.setPlayerData()
     }
 
@@ -41,25 +63,29 @@ export default class PlayerDataMgr {
 
         switch (id) {
             case 0:
-                cost = 200
+                cost = 0
                 break
             case 1:
-                cost = 200
+                cost = 1000
                 break
             case 2:
-                cost = 400
+                cost = 1200
                 break
             case 3:
-                cost = 400
+                cost = 1400
                 break
             case 4:
-                cost = 600
+                cost = 1600
                 break
             case 5:
-                cost = 600
+                cost = 2000
                 break
         }
 
         return cost
+    }
+
+    public static getFinishBounes(g: number) {
+        return g * 50 > 500 ? 500 : g * 50
     }
 }
