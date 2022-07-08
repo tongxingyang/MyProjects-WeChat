@@ -20,16 +20,19 @@ export class TimeCountMgr extends Component {
         if (localStorage.getItem('powerTime')) {
             this.tCount = parseInt(localStorage.getItem('powerTime'))
         } else {
-            localStorage.setItem('power', '0')
+            localStorage.setItem('powerTime', this.countTime.toString())
+            this.tCount = this.countTime
         }
 
         this.calculateExitTime()
 
         if (WECHAT) {
-            window["wx"].onShow((para) => {
+            window["tt"].onShow(() => {
+                console.log('onShow')
                 this.calculateExitTime()
             })
-            window["wx"].onHide((para) => {
+            window["tt"].onHide(() => {
+                console.log('onHide')
                 localStorage.setItem('powerTime', this.tCount.toString())
                 localStorage.setItem('exitTime', new Date().getTime().toString())
             })
@@ -48,6 +51,8 @@ export class TimeCountMgr extends Component {
 
         exitTime /= 1000
         let t = Math.floor(exitTime / this.countTime)
+        let left = Math.floor(exitTime % this.countTime)
+        this.tCount -= left
         PlayerDataMgr.getPlayerData().power += t
         if (PlayerDataMgr.getPlayerData().power > PlayerDataMgr.powerMax) {
             PlayerDataMgr.getPlayerData().power = PlayerDataMgr.powerMax
@@ -56,22 +61,15 @@ export class TimeCountMgr extends Component {
     }
 
     calculateTime() {
-        if (this.tCount <= 0) {
-            if (PlayerDataMgr.getPlayerData().power < PlayerDataMgr.powerMax) {
-                this.tCount = this.countTime
-            } else {
-                this.tCount = 0
-            }
-            return
-        }
-        this.tCount--
-
-        if (this.tCount <= 0) {
-            if (PlayerDataMgr.getPlayerData().power < PlayerDataMgr.powerMax) {
+        if (PlayerDataMgr.getPlayerData().power < PlayerDataMgr.powerMax) {
+            this.tCount--
+            if (this.tCount <= 0) {
                 PlayerDataMgr.getPlayerData().power += 1
                 PlayerDataMgr.setPlayerData()
-                this.tCount = PlayerDataMgr.getPlayerData().power < PlayerDataMgr.powerMax ? this.countTime : 0
+                this.tCount = this.countTime
             }
+        } else {
+            this.tCount = this.countTime
         }
     }
 

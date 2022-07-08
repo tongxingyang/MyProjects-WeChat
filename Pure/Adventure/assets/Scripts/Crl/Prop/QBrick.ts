@@ -41,8 +41,10 @@ export class QBrick extends Component {
     }
     //下落地面
     type1() {
-        this.node.children[0].active = false
-        this.node.children[1].active = true
+        if (this.node.children.length > 1) {
+            this.node.children[0].active = false
+            this.node.children[1].active = true
+        }
         this.fallNode.getChildByName('flag').active = true
         tween(this.node).by(.1, { position: v3(0, 20, 0) }).by(.1, { position: v3(0, -20, 0) }).start()
         for (let i = 0; i < this.fallNode.children.length; i++) {
@@ -51,27 +53,35 @@ export class QBrick extends Component {
     }
     //有刺
     type2() {
-        this.node.children[0].active = false
-        this.node.children[1].active = true
+        if (this.node.children.length > 1) {
+            this.node.children[0].active = false
+            this.node.children[1].active = true
+        }
         GameLogic.Share.gameOver(false)
     }
     //出怪物
     type3() {
         tween(this.node).by(.1, { position: v3(0, 20, 0) }).by(.1, { position: v3(0, -20, 0) }).start()
-        this.node.children[0].active = false
-        this.node.children[1].active = true
+        if (this.node.children.length > 1) {
+            this.node.children[0].active = false
+            this.node.children[1].active = true
+        }
         this.monster.active = true
     }
     //出金币
     type4() {
         tween(this.node).by(.1, { position: v3(0, 20, 0) }).by(.1, { position: v3(0, -20, 0) }).start()
-        this.node.children[0].active = false
-        this.node.children[1].active = true
+        if (this.node.children.length > 1) {
+            this.node.children[0].active = false
+            this.node.children[1].active = true
+        }
     }
     //掉落刺
     type5() {
-        this.node.children[0].active = false
-        this.node.children[1].active = true
+        if (this.node.children.length > 1) {
+            this.node.children[0].active = false
+            this.node.children[1].active = true
+        }
         tween(this.node).by(.1, { position: v3(0, 20, 0) }).by(.1, { position: v3(0, -20, 0) }).start()
         tween(this.fallCi).by(1, { position: v3(0, -1000, 0) }).start()
     }
@@ -79,8 +89,10 @@ export class QBrick extends Component {
     type6() {
         SoundMgr.Share.PlaySound('take_item_positive')
         this.flag.active = true
-        this.node.children[0].active = false
-        this.node.children[1].active = true
+        if (this.node.children.length > 1) {
+            this.node.children[0].active = false
+            this.node.children[1].active = true
+        }
         tween(this.node).by(.1, { position: v3(0, 20, 0) }).by(.1, { position: v3(0, -20, 0) }).start()
         for (let i = 0; i < this.fallNode.children.length; i++) {
             tween(this.fallNode.children[i]).by(.2, { position: v3(0, -700, 0) }).start()
