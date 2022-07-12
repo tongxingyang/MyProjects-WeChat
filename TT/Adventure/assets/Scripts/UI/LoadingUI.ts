@@ -1,6 +1,8 @@
 
 import { _decorator, Component, Node, ProgressBar, director } from 'cc';
 import { PREVIEW, WECHAT } from 'cc/env';
+import { UINode } from '../Crl/UINode';
+import { UIType } from '../Mod/Entity';
 import PlayerDataMgr from '../Mod/PlayerDataMgr';
 import { SoundMgr } from '../Mod/SoundMgr';
 import TTAdMgr from '../TT/TTAdMgr';
@@ -39,7 +41,9 @@ export class LoadingUI extends Component {
             director.preloadScene('Game', (completeCount, totalCount, item) => {
                 this.pBar.progress = completeCount / totalCount
             }, () => {
-                director.loadScene('Game')
+                director.loadScene('Game', () => {
+                    UINode.Share.showUI(UIType.UI_START)
+                })
             })
         })
     }

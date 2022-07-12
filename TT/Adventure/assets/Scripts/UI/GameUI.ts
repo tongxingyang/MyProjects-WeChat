@@ -26,6 +26,8 @@ export class GameUI extends Component {
     tipsNode: Node = null
     @property(Label)
     tipsLabel: Label = null
+    @property(Label)
+    gradeNum: Label = null
 
     canJump: boolean = true
 
@@ -45,8 +47,10 @@ export class GameUI extends Component {
         this.rightBtn.on(Node.EventType.TOUCH_START, this.rightBtnDown, this)
         this.rightBtn.on(Node.EventType.TOUCH_END, this.rightBtnUp, this)
         this.rightBtn.on(Node.EventType.TOUCH_CANCEL, this.rightBtnUp, this)
-        
+
         this.jumpBtn.on(Node.EventType.TOUCH_START, this.jumpBtnCB, this)
+
+        this.gradeNum.string = GameLogic.Share.curGrade.toString()
     }
 
     onKeyDown(event: EventKeyboard) {

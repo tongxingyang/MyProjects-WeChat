@@ -49,7 +49,7 @@ export class PowerUI extends Component {
                 PlayerDataMgr.getPlayerData().powerAdMax++
                 if (PlayerDataMgr.getPlayerData().powerAdMax >= 3) {
                     PlayerDataMgr.getPlayerData().powerAdMax = 0
-                    PlayerDataMgr.getPlayerData().power = 25
+                    PlayerDataMgr.getPlayerData().power += 25
                     PlayerDataMgr.setPlayerData()
                 } else {
                     PlayerDataMgr.setPlayerData()

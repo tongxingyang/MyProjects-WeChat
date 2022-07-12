@@ -40,7 +40,6 @@ export class GameLogic extends Component {
     }
 
     start() {
-
     }
 
     shakeUICam() {
@@ -122,7 +121,9 @@ export class GameLogic extends Component {
                 GameLogic.Share.gameStart(g)
             })
         } else {
-            director.loadScene('Game')
+            director.loadScene('Game', () => {
+                UINode.Share.showUI(UIType.UI_START)
+            })
         }
     }
 
