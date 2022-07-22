@@ -10,7 +10,7 @@ export class RotateLoop1 extends Component {
 
     start() {
         tween(this.node)
-            .by(this.time, { angle: 360 })
+            .by(this.time, { angle: -360 })
             .repeatForever()
             .start()
     }

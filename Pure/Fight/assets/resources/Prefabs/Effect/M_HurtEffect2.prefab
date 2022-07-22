@@ -48,11 +48,11 @@
     },
     "_lscale": {
       "__type__": "cc.Vec3",
-      "x": 1,
-      "y": 1,
+      "x": 2,
+      "y": 2,
       "z": 1
     },
-    "_layer": 33554432,
+    "_layer": 1,
     "_euler": {
       "__type__": "cc.Vec3",
       "x": 0,
@@ -74,8 +74,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 81,
-      "height": 76
+      "width": 241,
+      "height": 243
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -86,7 +86,7 @@
   },
   {
     "__type__": "cc.CompPrefabInfo",
-    "fileId": "426I/ikfRPcY8v3mqPsRm8"
+    "fileId": "30qsQm+TlENbfUMd/7v5zF"
   },
   {
     "__type__": "cc.Sprite",
@@ -110,13 +110,10 @@
       "b": 255,
       "a": 255
     },
-    "_spriteFrame": {
-      "__uuid__": "08f75fed-8787-408a-9fee-2fb4350f38a0@f9941",
-      "__expectedType__": "cc.SpriteFrame"
-    },
+    "_spriteFrame": null,
     "_type": 0,
     "_fillType": 0,
-    "_sizeMode": 1,
+    "_sizeMode": 2,
     "_fillCenter": {
       "__type__": "cc.Vec2",
       "x": 0,
@@ -124,14 +121,14 @@
     },
     "_fillStart": 0,
     "_fillRange": 0,
-    "_isTrimmedMode": true,
+    "_isTrimmedMode": false,
     "_useGrayscale": false,
     "_atlas": null,
     "_id": ""
   },
   {
     "__type__": "cc.CompPrefabInfo",
-    "fileId": "54IuVw5V1CDINHrodQLUnH"
+    "fileId": "6em+M5kspEuoo92lYsbsrS"
   },
   {
     "__type__": "cc.Animation",
@@ -144,8 +141,12 @@
     "__prefab": {
       "__id__": 7
     },
-    "playOnLoad": false,
+    "playOnLoad": true,
     "_clips": [
+      {
+        "__uuid__": "6adf5b16-79c7-4b80-9ecb-a19524106ec4",
+        "__expectedType__": "cc.AnimationClip"
+      },
       {
         "__uuid__": "ae89c3cc-a89f-4402-91e2-6e4efb90cd0b",
         "__expectedType__": "cc.AnimationClip"
@@ -159,7 +160,7 @@
   },
   {
     "__type__": "cc.CompPrefabInfo",
-    "fileId": "6e7cudevlCI59u3LjejlFF"
+    "fileId": "31/bLpOh1HArI4GFU/3ibF"
   },
   {
     "__type__": "cc.PrefabInfo",
@@ -169,6 +170,6 @@
     "asset": {
       "__id__": 0
     },
-    "fileId": "38/5HoAVhA6b26i0tZ3rZh"
+    "fileId": "39Nbr7iv5KL7HaCnUC7cUc"
   }
 ]

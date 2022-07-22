@@ -1,0 +1,124 @@
+{
+  "ver": "2.1.4",
+  "importer": "fbx",
+  "imported": true,
+  "uuid": "76ff6c46-026a-4e7b-bab9-b7f939b8c8c5",
+  "files": [],
+  "subMetas": {
+    "8937f": {
+      "importer": "gltf-mesh",
+      "uuid": "76ff6c46-026a-4e7b-bab9-b7f939b8c8c5@8937f",
+      "displayName": "",
+      "id": "8937f",
+      "name": "Rock_01.mesh",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "425ef": {
+      "importer": "gltf-embeded-image",
+      "uuid": "76ff6c46-026a-4e7b-bab9-b7f939b8c8c5@425ef",
+      "displayName": "",
+      "id": "425ef",
+      "name": "贴图 #2.image",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.3",
+      "imported": true,
+      "files": [
+        ".png",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "59f96": {
+      "importer": "texture",
+      "uuid": "76ff6c46-026a-4e7b-bab9-b7f939b8c8c5@59f96",
+      "displayName": "",
+      "id": "59f96",
+      "name": "贴图 #2.texture",
+      "userData": {
+        "wrapModeS": "repeat",
+        "wrapModeT": "repeat",
+        "minfilter": "linear",
+        "magfilter": "linear",
+        "mipfilter": "none",
+        "anisotropy": 0,
+        "isUuid": false,
+        "imageUuidOrDatabaseUri": "db://assets/Texture/Color_atlas.png"
+      },
+      "ver": "1.0.21",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "5aece": {
+      "importer": "gltf-material",
+      "uuid": "76ff6c46-026a-4e7b-bab9-b7f939b8c8c5@5aece",
+      "displayName": "",
+      "id": "5aece",
+      "name": "Color_atlas.material",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.14",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "4a7ce": {
+      "importer": "gltf-scene",
+      "uuid": "76ff6c46-026a-4e7b-bab9-b7f939b8c8c5@4a7ce",
+      "displayName": "",
+      "id": "4a7ce",
+      "name": "Rock_01.prefab",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.12",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    }
+  },
+  "userData": {
+    "imageMetas": [
+      {
+        "name": "贴图 #2",
+        "remap": "db://assets/Texture/Color_atlas.png",
+        "uri": "76ff6c46-026a-4e7b-bab9-b7f939b8c8c5@425ef"
+      }
+    ],
+    "legacyFbxImporter": false,
+    "redirect": "76ff6c46-026a-4e7b-bab9-b7f939b8c8c5@4a7ce",
+    "assetFinder": {
+      "meshes": [
+        "76ff6c46-026a-4e7b-bab9-b7f939b8c8c5@8937f"
+      ],
+      "skeletons": [],
+      "textures": [
+        "76ff6c46-026a-4e7b-bab9-b7f939b8c8c5@59f96"
+      ],
+      "materials": [
+        "76ff6c46-026a-4e7b-bab9-b7f939b8c8c5@5aece"
+      ],
+      "scenes": [
+        "76ff6c46-026a-4e7b-bab9-b7f939b8c8c5@4a7ce"
+      ]
+    }
+  }
+}

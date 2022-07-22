@@ -17,9 +17,12 @@ export class UINode extends Component {
         // [3]
     }
 
-    showUI(type: UIType, closeCB?: Function) {
+    showUI(type: UIType, closeOther: boolean = true, closeCB?: Function) {
         this.closeCB = closeCB
-        this.node.children.forEach(n => { n.active = n.name == type })
+        if (closeOther)
+            this.node.children.forEach(n => { n.active = n.name == type })
+        else
+            this.node.getChildByName(type).active = true
     }
 
     closeUI(type: UIType) {

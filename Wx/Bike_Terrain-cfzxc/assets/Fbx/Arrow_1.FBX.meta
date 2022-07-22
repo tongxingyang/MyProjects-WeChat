@@ -1,0 +1,124 @@
+{
+  "ver": "2.1.4",
+  "importer": "fbx",
+  "imported": true,
+  "uuid": "98f9d25b-593c-4c75-8564-f9bb6ff3e3a7",
+  "files": [],
+  "subMetas": {
+    "8fc37": {
+      "importer": "gltf-mesh",
+      "uuid": "98f9d25b-593c-4c75-8564-f9bb6ff3e3a7@8fc37",
+      "displayName": "",
+      "id": "8fc37",
+      "name": "Arrow_1.mesh",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "425ef": {
+      "importer": "gltf-embeded-image",
+      "uuid": "98f9d25b-593c-4c75-8564-f9bb6ff3e3a7@425ef",
+      "displayName": "",
+      "id": "425ef",
+      "name": "贴图 #2.image",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.3",
+      "imported": true,
+      "files": [
+        ".png",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "59f96": {
+      "importer": "texture",
+      "uuid": "98f9d25b-593c-4c75-8564-f9bb6ff3e3a7@59f96",
+      "displayName": "",
+      "id": "59f96",
+      "name": "贴图 #2.texture",
+      "userData": {
+        "wrapModeS": "repeat",
+        "wrapModeT": "repeat",
+        "minfilter": "linear",
+        "magfilter": "linear",
+        "mipfilter": "none",
+        "anisotropy": 0,
+        "isUuid": false,
+        "imageUuidOrDatabaseUri": "db://assets/Texture/Color_atlas.png"
+      },
+      "ver": "1.0.21",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "5aece": {
+      "importer": "gltf-material",
+      "uuid": "98f9d25b-593c-4c75-8564-f9bb6ff3e3a7@5aece",
+      "displayName": "",
+      "id": "5aece",
+      "name": "Color_atlas.material",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.14",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "49a97": {
+      "importer": "gltf-scene",
+      "uuid": "98f9d25b-593c-4c75-8564-f9bb6ff3e3a7@49a97",
+      "displayName": "",
+      "id": "49a97",
+      "name": "Arrow_1.prefab",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.12",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    }
+  },
+  "userData": {
+    "imageMetas": [
+      {
+        "name": "贴图 #2",
+        "remap": "db://assets/Texture/Color_atlas.png",
+        "uri": "98f9d25b-593c-4c75-8564-f9bb6ff3e3a7@425ef"
+      }
+    ],
+    "legacyFbxImporter": false,
+    "redirect": "98f9d25b-593c-4c75-8564-f9bb6ff3e3a7@49a97",
+    "assetFinder": {
+      "meshes": [
+        "98f9d25b-593c-4c75-8564-f9bb6ff3e3a7@8fc37"
+      ],
+      "skeletons": [],
+      "textures": [
+        "98f9d25b-593c-4c75-8564-f9bb6ff3e3a7@59f96"
+      ],
+      "materials": [
+        "98f9d25b-593c-4c75-8564-f9bb6ff3e3a7@5aece"
+      ],
+      "scenes": [
+        "98f9d25b-593c-4c75-8564-f9bb6ff3e3a7@49a97"
+      ]
+    }
+  }
+}
