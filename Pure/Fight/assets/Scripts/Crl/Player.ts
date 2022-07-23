@@ -185,7 +185,7 @@ export class Player extends Component {
     }
 
     get myAtk(): number {
-        return this.atk
+        return Math.random() * 100 < this.critical ? this.atk * 1.5 : this.atk
     }
     get myPos(): Vec3 {
         return this.node.position.clone()
@@ -355,6 +355,10 @@ export class Player extends Component {
     died() {
         if (this.isDied) return
         this.isDied = true
+        this.playAnimation('Died')
+        this.scheduleOnce(() => {
+            GameLogic.Share.gameOver(false)
+        }, 2)
     }
 
     update(deltaTime: number) {

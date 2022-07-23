@@ -1,4 +1,4 @@
-import { _decorator, Component, Node, dragonBones, tween, v3, Vec3, view, math, UIOpacity, Tween, Intersection2D, UITransform, Vec2 } from 'cc';
+import { _decorator, Component, Node, dragonBones, tween, v3, Vec3, view, math, UIOpacity, Tween, Intersection2D, UITransform, Vec2, ProgressBar } from 'cc';
 import { MonsterAniType } from '../Mod/Entity';
 import Utility from '../Mod/Utility';
 import { GameCamera } from './GameCamera';
@@ -11,6 +11,7 @@ export class Monster extends Component {
 
     private ani: dragonBones.ArmatureDisplay = null
     private HitArea: Node = null
+    private HpBar: ProgressBar = null;
 
     private curAniName: MonsterAniType = MonsterAniType.Type_Idle
 
@@ -33,6 +34,7 @@ export class Monster extends Component {
     onLoad() {
         this.ani = this.node.getChildByName('db').getComponent(dragonBones.ArmatureDisplay)
         this.HitArea = this.node.getChildByName('hitArea')
+        this.HpBar = this.ani.node.getChildByName('HpBar').getComponent(ProgressBar)
         this.edgeMin = -view.getVisibleSize().width / 2 + 50
         this.edgeMax = 3000 - view.getVisibleSize().width / 2 - 50
     }
@@ -154,6 +156,7 @@ export class Monster extends Component {
         this.isHurting = true
         this.isAttacking = false
         this.unschedule(this.startHunt)
+        this.HpBar.progress = this.hp / this.hpMax
         if (this.hp < 0) {
             this.died()
             return
