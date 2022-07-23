@@ -1,5 +1,7 @@
-import { _decorator, Component, Node, EventKeyboard, input, Input, KeyCode, EventTouch, UITransform, v3 } from 'cc';
+import { _decorator, Component, Node, EventKeyboard, input, Input, KeyCode, EventTouch, UITransform, v3, ProgressBar, Button } from 'cc';
 import { PREVIEW } from 'cc/env';
+import PlayerDataMgr from '../Mod/PlayerDataMgr';
+import GameData from './GameData';
 import { Player } from './Player';
 const { ccclass, property } = _decorator;
 
@@ -13,6 +15,10 @@ export class JoyStick extends Component {
     FlashBtn: Node = null
     AwakenBtn: Node = null
 
+    skill1Light: Node = null
+    skill2Light: Node = null
+    awakenLight: Node = null
+
     onLoad() {
         this.StickNode = this.node.getChildByName('Stick')
         this.AtkBtn = this.node.getChildByName('BtnNode').getChildByName('atkBtn')
@@ -20,6 +26,9 @@ export class JoyStick extends Component {
         this.Skill2Btn = this.node.getChildByName('BtnNode').getChildByName('skill2Btn')
         this.FlashBtn = this.node.getChildByName('BtnNode').getChildByName('flashBtn')
         this.AwakenBtn = this.node.getChildByName('BtnNode').getChildByName('awakenBtn')
+        this.skill1Light = this.Skill1Btn.getChildByName('light')
+        this.skill2Light = this.Skill2Btn.getChildByName('light')
+        this.awakenLight = this.AwakenBtn.getChildByName('light')
     }
 
     start() {
@@ -109,10 +118,12 @@ export class JoyStick extends Component {
     }
 
     skill1CB() {
+        if (Player.Share.isSkill1Cooling) return
         Player.Share.skill1()
     }
 
     skill2CB() {
+        if (Player.Share.isSkill2Cooling) return
         Player.Share.skill2()
     }
 
@@ -121,9 +132,16 @@ export class JoyStick extends Component {
         Player.Share.awaken()
     }
 
-
     update(deltaTime: number) {
         this.AwakenBtn.children[0].active = Player.Share.awakenNum < 100
+
+        this.skill1Light.active = Player.Share.isSkill1CoolDone
+        this.skill2Light.active = Player.Share.isSkill2CoolDone
+        this.awakenLight.active = Player.Share.awakenNum >= 100
+        this.Skill1Btn.getComponent(Button).interactable = !Player.Share.isSkill1Cooling
+        this.Skill2Btn.getComponent(Button).interactable = !Player.Share.isSkill2Cooling
+        this.Skill1Btn.getComponentInChildren(ProgressBar).progress = Player.Share.skill1CoolTime / GameData.skillCoolTime[PlayerDataMgr.getPlayerData().weaponId][0]
+        this.Skill2Btn.getComponentInChildren(ProgressBar).progress = Player.Share.skill2CoolTime / GameData.skillCoolTime[PlayerDataMgr.getPlayerData().weaponId][1]
     }
 }
 

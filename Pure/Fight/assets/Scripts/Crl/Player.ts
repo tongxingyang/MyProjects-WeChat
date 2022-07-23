@@ -28,11 +28,17 @@ export class Player extends Component {
     public enchantType: number = 0
     private attackStep: number = 0
     private moveSpeed: number = 10
+    public skill1CoolTime: number = 0
+    public skill2CoolTime: number = 0
 
     private curAniName: string = ''
 
     private dirX: number = 0
 
+    public isSkill1CoolDone: boolean = false
+    public isSkill2CoolDone: boolean = false
+    public isSkill1Cooling: boolean = false
+    public isSkill2Cooling: boolean = false
     private canAttackCombo: boolean = false
     private isHurting: boolean = false
     private isAttacking: boolean = false
@@ -84,6 +90,35 @@ export class Player extends Component {
         this.speed = PlayerDataMgr.getPlayerData().speed
         this.critical = PlayerDataMgr.getPlayerData().critical
         this.atk = GameData.getWeaponAtk(this.weaponType)
+    }
+
+    changeWeapon() {
+        let weaponId = PlayerDataMgr.getPlayerData().weaponId
+        this.weaponType = GameData.weaponData[weaponId].type
+        this.enchantType = PlayerDataMgr.getPlayerData().weaponEnchantTypeArr[weaponId]
+        BundleMgr.setSpriteFrameInBundle(GameData.getWeaponDir(PlayerDataMgr.getPlayerData().weaponId, this.enchantType), this.weaponPic.getComponent(Sprite))
+        switch (this.enchantType) {
+            case 0:
+                this.AttackEffect.getComponent(Sprite).color = new Color().fromHEX('#ffffff')
+                this.SkillEffect.getComponent(Sprite).color = new Color().fromHEX('#ffffff')
+                break
+            case 1:
+                this.AttackEffect.getComponent(Sprite).color = new Color().fromHEX('#ffff00')
+                this.SkillEffect.getComponent(Sprite).color = new Color().fromHEX('#ffff00')
+                break
+            case 2:
+                this.AttackEffect.getComponent(Sprite).color = new Color().fromHEX('#00ffff')
+                this.SkillEffect.getComponent(Sprite).color = new Color().fromHEX('#00ffff')
+                break
+            case 3:
+                this.AttackEffect.getComponent(Sprite).color = new Color().fromHEX('#F500FF')
+                this.SkillEffect.getComponent(Sprite).color = new Color().fromHEX('#F500FF')
+                break
+            case 4:
+                this.AttackEffect.getComponent(Sprite).color = new Color().fromHEX('#00FF00')
+                this.SkillEffect.getComponent(Sprite).color = new Color().fromHEX('#00FF00')
+                break
+        }
     }
 
     setRootVectorTrackValue() {
@@ -147,35 +182,6 @@ export class Player extends Component {
     resetPos() {
         let pos = v3(-view.getVisibleSize().width / 2 + 400, this.myPos.y)
         this.node.position = pos
-    }
-
-    changeWeapon() {
-        let weaponId = PlayerDataMgr.getPlayerData().weaponId
-        this.weaponType = GameData.weaponData[weaponId].type
-        this.enchantType = PlayerDataMgr.getPlayerData().weaponEnchantTypeArr[weaponId]
-        BundleMgr.setSpriteFrameInBundle(GameData.getWeaponDir(PlayerDataMgr.getPlayerData().weaponId, this.enchantType), this.weaponPic.getComponent(Sprite))
-        switch (this.enchantType) {
-            case 0:
-                this.AttackEffect.getComponent(Sprite).color = new Color().fromHEX('#ffffff')
-                this.SkillEffect.getComponent(Sprite).color = new Color().fromHEX('#ffffff')
-                break
-            case 1:
-                this.AttackEffect.getComponent(Sprite).color = new Color().fromHEX('#ffff00')
-                this.SkillEffect.getComponent(Sprite).color = new Color().fromHEX('#ffff00')
-                break
-            case 2:
-                this.AttackEffect.getComponent(Sprite).color = new Color().fromHEX('#00ffff')
-                this.SkillEffect.getComponent(Sprite).color = new Color().fromHEX('#00ffff')
-                break
-            case 3:
-                this.AttackEffect.getComponent(Sprite).color = new Color().fromHEX('#F500FF')
-                this.SkillEffect.getComponent(Sprite).color = new Color().fromHEX('#F500FF')
-                break
-            case 4:
-                this.AttackEffect.getComponent(Sprite).color = new Color().fromHEX('#00FF00')
-                this.SkillEffect.getComponent(Sprite).color = new Color().fromHEX('#00FF00')
-                break
-        }
     }
 
     get myAtk(): number {
@@ -287,6 +293,9 @@ export class Player extends Component {
     skill1() {
         if (this.isFlashing || this.isAttacking || this.isHurting || this.isSkilling || this.isDied) return
         this.isInvincible = true
+        this.isSkill1Cooling = true
+        this.isSkill1CoolDone = false
+        this.skill1CoolTime = GameData.skillCoolTime[PlayerDataMgr.getPlayerData().weaponId][0]
         this.applyRootVectorTrack(this.skillName + 1)
         this.playAnimation(this.skillName + 1)
     }
@@ -294,6 +303,9 @@ export class Player extends Component {
     skill2() {
         if (this.isFlashing || this.isAttacking || this.isHurting || this.isSkilling || this.isDied) return
         this.isInvincible = true
+        this.isSkill2Cooling = true
+        this.isSkill2CoolDone = false
+        this.skill2CoolTime = GameData.skillCoolTime[PlayerDataMgr.getPlayerData().weaponId][1]
         this.applyRootVectorTrack(this.skillName + 2)
         this.playAnimation(this.skillName + 2)
     }
@@ -322,10 +334,12 @@ export class Player extends Component {
         this.awakenNum = 0
         this.AwakenEffect1.active = true
         this.AwakenEffect2.active = true
-        this.scheduleOnce(() => {
-            this.AwakenEffect1.active = false
-            this.AwakenEffect2.active = false
-        }, 10)
+        this.unschedule(this.resetAwakenEffect)
+        this.scheduleOnce(this.resetAwakenEffect, 10)
+    }
+    resetAwakenEffect() {
+        this.AwakenEffect1.active = false
+        this.AwakenEffect2.active = false
     }
 
     hurt(v: number, dir: number = 1) {
@@ -345,6 +359,23 @@ export class Player extends Component {
 
     update(deltaTime: number) {
         if (this.isDied) return
+
+        if (this.isSkill1Cooling) {
+            this.skill1CoolTime -= deltaTime
+            if (this.skill1CoolTime <= 0) {
+                this.skill1CoolTime = 0
+                this.isSkill1Cooling = false
+                this.isSkill1CoolDone = true
+            }
+        }
+        if (this.isSkill2Cooling) {
+            this.skill2CoolTime -= deltaTime
+            if (this.skill2CoolTime <= 0) {
+                this.skill2CoolTime = 0
+                this.isSkill2Cooling = false
+                this.isSkill2CoolDone = true
+            }
+        }
 
         this.move()
 
