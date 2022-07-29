@@ -1,5 +1,6 @@
 
 import { _decorator, Component, Node, resources, AudioClip, AudioSource, log, game } from 'cc';
+import { WECHAT } from 'cc/env';
 const { ccclass, property } = _decorator;
 
 @ccclass('SoundMgr')

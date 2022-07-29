@@ -1,6 +1,7 @@
 import { _decorator, Component, Node, Animation, Vec2, Vec3, v3, tween, view, Tween, TweenAction, resources, Prefab, instantiate, animation, RealKeyframeValue, AnimationClip, v4, Sprite, Color, color } from 'cc';
 import BundleMgr from '../Mod/BundleMgr';
 import PlayerDataMgr from '../Mod/PlayerDataMgr';
+import { SoundMgr } from '../Mod/SoundMgr';
 import GameData from './GameData';
 import { GameLogic } from './GameLogic';
 const { ccclass, property } = _decorator;
@@ -15,6 +16,7 @@ export class Player extends Component {
     private flashFX: Node = null
     private AttackEffect: Node = null
     private SkillEffect: Node = null
+    private FlashEffect: Node = null
     private AwakenEffect1: Node = null
     private AwakenEffect2: Node = null
 
@@ -30,6 +32,7 @@ export class Player extends Component {
     private moveSpeed: number = 10
     public skill1CoolTime: number = 0
     public skill2CoolTime: number = 0
+    public playSkillIndex: number = 1
 
     private curAniName: string = ''
 
@@ -45,6 +48,7 @@ export class Player extends Component {
     private isSkilling: boolean = false
     private isFlashing: boolean = false
     private isInvincible: boolean = false
+    public isAwakening: boolean = false
     private isDied: boolean = false
 
     private attackTweenTag: number = 1
@@ -56,6 +60,7 @@ export class Player extends Component {
         this.weaponPic = this.node.getChildByName('BodyRoot').getChildByName('centre').getChildByName('arm_r').getChildByName('p_forearm_r').getChildByName('knife1_1')
         this.AttackEffect = this.node.getChildByName('AttackEffect')
         this.SkillEffect = this.node.getChildByName('SkillEffect')
+        this.FlashEffect = this.node.getChildByName('FlashEffect')
     }
 
     start() {
@@ -85,11 +90,12 @@ export class Player extends Component {
 
     resetData() {
         this.weaponType = GameData.weaponData[PlayerDataMgr.getPlayerData().weaponId].type
+        let weaponId = PlayerDataMgr.getPlayerData().weaponId
         this.hp = PlayerDataMgr.getPlayerData().hp
         this.hpMax = this.hp
         this.speed = PlayerDataMgr.getPlayerData().speed
         this.critical = PlayerDataMgr.getPlayerData().critical
-        this.atk = GameData.getWeaponAtk(this.weaponType)
+        this.atk = GameData.getWeaponAtk(weaponId)
     }
 
     changeWeapon() {
@@ -101,22 +107,27 @@ export class Player extends Component {
             case 0:
                 this.AttackEffect.getComponent(Sprite).color = new Color().fromHEX('#ffffff')
                 this.SkillEffect.getComponent(Sprite).color = new Color().fromHEX('#ffffff')
+                this.FlashEffect.getComponent(Sprite).color = new Color().fromHEX('#ffffff')
                 break
             case 1:
                 this.AttackEffect.getComponent(Sprite).color = new Color().fromHEX('#ffff00')
                 this.SkillEffect.getComponent(Sprite).color = new Color().fromHEX('#ffff00')
+                this.FlashEffect.getComponent(Sprite).color = new Color().fromHEX('#ffff00')
                 break
             case 2:
                 this.AttackEffect.getComponent(Sprite).color = new Color().fromHEX('#00ffff')
                 this.SkillEffect.getComponent(Sprite).color = new Color().fromHEX('#00ffff')
+                this.FlashEffect.getComponent(Sprite).color = new Color().fromHEX('#00ffff')
                 break
             case 3:
                 this.AttackEffect.getComponent(Sprite).color = new Color().fromHEX('#F500FF')
                 this.SkillEffect.getComponent(Sprite).color = new Color().fromHEX('#F500FF')
+                this.FlashEffect.getComponent(Sprite).color = new Color().fromHEX('#F500FF')
                 break
             case 4:
                 this.AttackEffect.getComponent(Sprite).color = new Color().fromHEX('#00FF00')
                 this.SkillEffect.getComponent(Sprite).color = new Color().fromHEX('#00FF00')
+                this.FlashEffect.getComponent(Sprite).color = new Color().fromHEX('#00FF00')
                 break
         }
     }
@@ -168,7 +179,14 @@ export class Player extends Component {
                 let t: animation.Track = tracks[i]
                 t.channels()[0].curve._values.forEach((v) => {
                     let id = t.channels()[0].curve._values.indexOf(v)
-                    v.value = this.myPos.x + data[0][id] * this.node.getScale().x
+                    let desV = this.myPos.x + data[0][id] * this.node.getScale().x
+                    if (desV < -view.getVisibleSize().width / 2 + 50) {
+                        desV = -view.getVisibleSize().width / 2 + 50
+                    }
+                    if (desV > 3000 - view.getVisibleSize().width / 2 - 50) {
+                        desV = 3000 - view.getVisibleSize().width / 2 - 50
+                    }
+                    v.value = desV
                 });
 
                 t.channels()[1].curve._values.forEach((v) => {
@@ -200,7 +218,16 @@ export class Player extends Component {
         return 'Attack' + (this.weaponType + 1) + '_' + this.attackStep
     }
     get skillName(): string {
-        return 'Skill' + (this.weaponType + 1) + '_'
+        return 'Skill' + (this.weaponType + 1) + '_' + (GameData.getWeaponIndexById(PlayerDataMgr.getPlayerData().weaponId) + 1) + '_'
+    }
+    get flashName(): string {
+        return 'Flash' + (this.weaponType + 1)
+    }
+    get hurtName(): string {
+        return 'Hurt' + (this.weaponType + 1)
+    }
+    get diedName(): string {
+        return 'Died' + (this.weaponType + 1)
     }
 
     playAnimation(name: string, speed?: number) {
@@ -272,6 +299,7 @@ export class Player extends Component {
         if (this.isAttacking && !this.canAttackCombo) {
             return
         }
+        SoundMgr.Share.PlaySound('attack')
         this.unschedule(this.resetAttackStep)
         this.unschedule(this.resetAttacking)
         this.attackStep++
@@ -292,6 +320,7 @@ export class Player extends Component {
 
     skill1() {
         if (this.isFlashing || this.isAttacking || this.isHurting || this.isSkilling || this.isDied) return
+        this.playSkillIndex = 1
         this.isInvincible = true
         this.isSkill1Cooling = true
         this.isSkill1CoolDone = false
@@ -302,6 +331,7 @@ export class Player extends Component {
 
     skill2() {
         if (this.isFlashing || this.isAttacking || this.isHurting || this.isSkilling || this.isDied) return
+        this.playSkillIndex = 2
         this.isInvincible = true
         this.isSkill2Cooling = true
         this.isSkill2CoolDone = false
@@ -312,6 +342,8 @@ export class Player extends Component {
 
     flash() {
         if (this.isFlashing || this.isAttacking || this.isHurting || this.isSkilling || this.isDied) return
+        SoundMgr.Share.PlaySound('flash')
+        this.playAnimation(this.flashName)
         this.isInvincible = true
         if (this.flashFX)
             this.flashFX.getComponent(Animation).play()
@@ -331,20 +363,24 @@ export class Player extends Component {
     }
 
     awaken() {
+        SoundMgr.Share.PlaySound('awaken')
         this.awakenNum = 0
         this.AwakenEffect1.active = true
         this.AwakenEffect2.active = true
+        this.isAwakening = true
         this.unschedule(this.resetAwakenEffect)
         this.scheduleOnce(this.resetAwakenEffect, 10)
     }
     resetAwakenEffect() {
         this.AwakenEffect1.active = false
         this.AwakenEffect2.active = false
+        this.isAwakening = false
     }
 
     hurt(v: number, dir: number = 1) {
         if (this.isInvincible || this.isDied) return
-        this.playAnimation('Hurt')
+        SoundMgr.Share.PlaySound('playerHurt')
+        this.playAnimation(this.hurtName)
         tween(this.node).by(0.1, { position: v3(dir * 50, 0) }).tag(this.hurtTweenTag).start()
         this.hp -= v
         if (this.hp <= 0) {
@@ -355,7 +391,7 @@ export class Player extends Component {
     died() {
         if (this.isDied) return
         this.isDied = true
-        this.playAnimation('Died')
+        this.playAnimation(this.diedName)
         this.scheduleOnce(() => {
             GameLogic.Share.gameOver(false)
         }, 2)
@@ -363,6 +399,7 @@ export class Player extends Component {
 
     update(deltaTime: number) {
         if (this.isDied) return
+
 
         if (this.isSkill1Cooling) {
             this.skill1CoolTime -= deltaTime
@@ -379,6 +416,13 @@ export class Player extends Component {
                 this.isSkill2Cooling = false
                 this.isSkill2CoolDone = true
             }
+        }
+
+        if (this.isAwakening) {
+            this.hp += this.hpMax * 0.01
+            if (this.hp > this.hpMax) this.hp = this.hpMax
+            this.skill1CoolTime = 0
+            this.skill2CoolTime = 0
         }
 
         this.move()

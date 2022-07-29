@@ -17,7 +17,7 @@ export enum BoxType {
 }
 
 export default class FdMgr {
-    static version: string = '1.0.1'
+    static version: string = '1.0.2'
     static wuchuProgressValue = 0;
     static wuchuProgressStepAdd = 0.2;
     static wuchuProgressFrameSub = 0.01;
@@ -266,8 +266,8 @@ export default class FdMgr {
         console.log("当前场景：", launchInfo.scene);
         window['wxsdk'].init({
             version: '1.0.0', // 当前的小游戏版本号，只能以数字
-            appid: '102', // 此项目在云平台的appid
-            secret: 't1lismqr3ddxwg3v4k56f370wy2isuga', // 此项目在云平台的secret, 用于与后端通信签名
+            appid: '529', // 此项目在云平台的appid
+            secret: 'v7dfa6v9kmisf2lsnk641zkvjdxs2512', // 此项目在云平台的secret, 用于与后端通信签名
             share: {
                 title: '你能过得了这一关吗？', // 默认分享文案
                 image: 'https://game-oss.smallshark.cn/game/20211119/1216327431258.jpg?imageslim', // 默认分享图片
