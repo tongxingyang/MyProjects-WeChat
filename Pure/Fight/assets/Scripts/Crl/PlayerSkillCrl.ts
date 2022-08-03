@@ -22,15 +22,13 @@ export class PlayerSkillCrl extends Component {
     }
 
     getSkillDmg(weaponId: number, index: number): number {
-        let baseAtk = Player.Share.myAtk
         let arr: any[] = [
-            [2, 2], [1, 1], [1, 1], [1, 1], [1, 1], [1, 1], [1, 1], [1, 1], [1, 1], [1, 1],
-            [4, 1], [1, 1], [1, 1], [1, 1], [1, 1], [1, 1],
-            [2, 4], [1, 1], [1, 1], [1, 1], [1, 1], [1, 1], [1, 1], [1, 1], [1, 1],
-            [1, 1], [1, 1], [1, 1], [1, 1], [1, 1], [1, 1],
-            [1, 1], [1, 1], [1, 1], [1, 1], [1, 1], [1, 1], [1, 1], [1, 1], [1, 1],
+            [2, 2], [4, 2], [1, 1], [1, 1], [1, 1],
+            [4, 1], [4, 1], [2, 4], [1, 1], [1, 1],
+            [2, 4], [2, 2], [2, 2], [1, 1], [1, 1],
+            [1, 1], [1, 1], [1, 1], [1, 1], [1, 1]
         ]
-        return arr[weaponId][index] * baseAtk
+        return arr[weaponId][index]
     }
 
     /**
@@ -52,7 +50,14 @@ export class PlayerSkillCrl extends Component {
                 EffectNode.Share.createMonsterHurtEffect(Player.Share.enchantType, effectPos)
                 Player.Share.addAwakenNum(1)
             }
-            mCrl.hurt(this.getSkillDmg(weaponId, index - 1), type, false)
+            let atk = Player.Share.myAtk.atk
+            let isCritical = Player.Share.myAtk.isCritical
+            if (isCritical) {
+                let pos = monster.position.clone()
+                pos.y += 200
+                EffectNode.Share.createCriticalEffect(pos)
+            }
+            mCrl.hurt(this.getSkillDmg(weaponId, index - 1) * atk, type, false)
         }
     }
 

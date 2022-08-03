@@ -89,7 +89,7 @@
 					"orthographic":false,
 					"orthographicVerticalSize":10,
 					"fieldOfView":60,
-					"enableHDR":true,
+					"enableHDR":false,
 					"nearPlane":0.3,
 					"farPlane":1000,
 					"viewport":[

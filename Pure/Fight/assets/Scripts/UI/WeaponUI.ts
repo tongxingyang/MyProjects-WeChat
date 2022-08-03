@@ -29,7 +29,7 @@ export class WeaponUI extends Component {
 
     updateScroll() {
         if (!this.hadInit) {
-            for (let i = 0; i < 40; i++) {
+            for (let i = 0; i < PlayerDataMgr.getPlayerData().weaponArr.length; i++) {
                 if (GameData.weaponOpenArr[i] == 0) continue
                 let item = null
                 item = instantiate(this.itemPrefab)
@@ -59,7 +59,7 @@ export class WeaponUI extends Component {
             this.hadInit = true
         } else {
             let index = 0
-            for (let i = 0; i < 40; i++) {
+            for (let i = 0; i < PlayerDataMgr.getPlayerData().weaponArr.length; i++) {
                 if (GameData.weaponOpenArr[i] == 0) {
                     continue
                 }

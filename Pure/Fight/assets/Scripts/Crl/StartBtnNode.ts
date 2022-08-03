@@ -1,5 +1,7 @@
 import { _decorator, Component, Node, UITransform, v3 } from 'cc';
+import FdMgr from '../../FDRes/Src/FdMgr';
 import { UIType } from '../Mod/Entity';
+import PlayerDataMgr from '../Mod/PlayerDataMgr';
 import { SoundMgr } from '../Mod/SoundMgr';
 import { GameLogic } from './GameLogic';
 import { Player } from './Player';
@@ -32,6 +34,8 @@ export class StartBtnNode extends Component {
         this.weaponEnchantNode.getChildByName('btn').on(Node.EventType.TOUCH_END, this.weaponEnchantCB, this)
         this.playerUpNode.getChildByName('btn').on(Node.EventType.TOUCH_END, this.playerUpCB, this)
         this.toGameNode.getChildByName('btn').on(Node.EventType.TOUCH_END, this.toGameCB, this)
+
+        this.toGameNode.getChildByName('finger').active = PlayerDataMgr.getPlayerData().isNewer
     }
 
     shopCB() {
@@ -63,7 +67,9 @@ export class StartBtnNode extends Component {
 
     toGameCB() {
         SoundMgr.Share.PlaySound('transform')
-        GameLogic.Share.gameStart()
+        FdMgr.startGame(() => {
+            GameLogic.Share.gameStart()
+        })
     }
 
     update(deltaTime: number) {
@@ -77,6 +83,10 @@ export class StartBtnNode extends Component {
                 btn.active = Math.abs(nodePos.x - pPos.x) <= 120
             }
         })
+        
+        this.weaponEnchantNode.getChildByName('finger').active =
+            PlayerDataMgr.getPlayerData().enchantArr[0] > 0 || PlayerDataMgr.getPlayerData().enchantArr[1] > 0 ||
+            PlayerDataMgr.getPlayerData().enchantArr[2] > 0 || PlayerDataMgr.getPlayerData().enchantArr[3] > 0
     }
 }
 

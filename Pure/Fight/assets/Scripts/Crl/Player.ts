@@ -202,8 +202,8 @@ export class Player extends Component {
         this.node.position = pos
     }
 
-    get myAtk(): number {
-        return Math.random() * 100 < this.critical ? this.atk * 1.5 : this.atk
+    get myAtk(): any {
+        return Math.random() * 100 < this.critical ? { atk: this.atk * 1.5, isCritical: true } : { atk: this.atk * 1.5, isCritical: false }
     }
     get myPos(): Vec3 {
         return this.node.position.clone()
@@ -364,6 +364,7 @@ export class Player extends Component {
 
     awaken() {
         SoundMgr.Share.PlaySound('awaken')
+        GameLogic.Share.createTips('持续回血并且技能无CD')
         this.awakenNum = 0
         this.AwakenEffect1.active = true
         this.AwakenEffect2.active = true
