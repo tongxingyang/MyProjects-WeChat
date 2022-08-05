@@ -4,7 +4,7 @@ const { ccclass, property } = _decorator;
 export class PlayerData {
     isNewer: boolean = true
     soul: number = 0
-    material: number = 0
+    material: number = 9999999
     hp: number = 200
     attack: number = 100
     speed: number = 1
