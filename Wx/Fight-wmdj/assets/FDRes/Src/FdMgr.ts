@@ -17,7 +17,7 @@ export enum BoxType {
 }
 
 export default class FdMgr {
-    static version: string = '1.0.2'
+    static version: string = '1.0.3'
     static wuchuProgressValue = 0;
     static wuchuProgressStepAdd = 0.2;
     static wuchuProgressFrameSub = 0.01;
@@ -113,6 +113,15 @@ export default class FdMgr {
     static showEndReMen(cb?) {
         if (this.endRemen) {
             find('FDCanvas/FDNode/Remen').getComponent(Remen).showUI(cb, this.endRemen_switch)
+        }
+        else {
+            cb && cb();
+        }
+    }
+
+    static showNormalRemen(cb?) {
+        if (!PREVIEW) {
+            find('FDCanvas/FDNode/Remen').getComponent(Remen).showUI(cb)
         }
         else {
             cb && cb();
@@ -294,6 +303,7 @@ export default class FdMgr {
                 this.jsonConfig.allowMistouch = false;
                 console.log('config1:', this.jsonConfig)
             }
+
             //初始化广告
             FdAd.bannerIdArr = window['wxsdk'].conf.bannerIds ? window['wxsdk'].conf.bannerIds.split(',') : []
             FdAd.videoId = window['wxsdk'].conf.videoIds ? window['wxsdk'].conf.videoIds.split(',') : []
@@ -409,4 +419,5 @@ class config {
     bannerBox_level: number;
     firstBox_interval_level: number;
     bannerBox_interval_level: number;
+    Remen_banner_count: number;
 }

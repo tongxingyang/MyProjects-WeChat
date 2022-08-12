@@ -1,4 +1,4 @@
-import { _decorator, Component, Node, game, director, Director, instantiate, v3, view, Size, assetManager, Sprite, resources, Prefab, Vec3, UIOpacity, tween, Label } from 'cc';
+import { _decorator, Component, Node, game, director, Director, instantiate, v3, view, Size, assetManager, Sprite, resources, Prefab, Vec3, UIOpacity, tween, Label, Animation } from 'cc';
 import FdMgr from '../../FDRes/Src/FdMgr';
 import PlatformApi from '../Common/PlatformApi';
 import { TipsNode } from '../Common/TipsNode';
@@ -18,6 +18,8 @@ export class GameLogic extends Component {
 
     static Share: GameLogic
 
+    @property(Node)
+    bossTips: Node = null
     @property(Prefab)
     MonsterPrefabArr: Prefab[] = []
     @property(Prefab)
@@ -84,6 +86,7 @@ export class GameLogic extends Component {
         this.StartBtnNode.active = false
         Player.Share.resetPos()
         this.createMonster()
+        //this.createBoss()
         this.schedule(this.checkMonsterClear)
     }
 
@@ -115,7 +118,7 @@ export class GameLogic extends Component {
 
     createBoss() {
         for (let i = 0; i < 1; i++) {
-            let id = Utility.GetRandom(0, 10)
+            let id = Utility.GetRandom(0, 2)
             let m = instantiate(this.MonsterPrefabArr[id])
             this.monsterNode.addChild(m)
             m.active = true
@@ -232,7 +235,10 @@ export class GameLogic extends Component {
         this.GameBtnNode.active = false
         Player.Share.resetPos()
         this.createMonster()
-        if (this.curGrade % 5 == 0) this.createBoss()
+        if (this.curGrade % 5 == 0) {
+            this.bossTips.getComponent(Animation).play()
+            this.createBoss()
+        }
         this.schedule(this.checkMonsterClear)
         this.PropNode.children.forEach((p) => {
             let crl = p.getComponent(DropProp)

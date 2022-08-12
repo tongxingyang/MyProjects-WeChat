@@ -1,4 +1,5 @@
 import { _decorator, Component, Node, UITransform, v3 } from 'cc';
+import FdMgr from '../../FDRes/Src/FdMgr';
 import { UIType } from '../Mod/Entity';
 import { SoundMgr } from '../Mod/SoundMgr';
 import { GameLogic } from './GameLogic';
@@ -39,7 +40,9 @@ export class GameBtnNode extends Component {
 
     nextCB() {
         SoundMgr.Share.PlaySound('transform')
-        GameLogic.Share.nextGrade()
+        FdMgr.showNormalRemen(() => {
+            GameLogic.Share.nextGrade()
+        })
     }
 
     update(deltaTime: number) {

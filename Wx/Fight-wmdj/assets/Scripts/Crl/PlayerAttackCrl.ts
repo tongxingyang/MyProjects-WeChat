@@ -1,4 +1,4 @@
-import { _decorator, Component, Node, Intersection2D, UITransform } from 'cc';
+import { _decorator, Component, Node, Intersection2D, UITransform, v3 } from 'cc';
 import Utility from '../Mod/Utility';
 import { EffectNode } from './EffectNode';
 import { GameLogic } from './GameLogic';
@@ -29,6 +29,7 @@ export class PlayerAttackCrl extends Component {
                 let effectPos = monster.position.clone()
                 effectPos.y += 100
                 EffectNode.Share.createSwordEffect(effectPos)
+                //EffectNode.Share.createMonsterHurtEffect(Player.Share.enchantType, effectPos)
                 Player.Share.addAwakenNum(1)
             }
             let atk = Player.Share.myAtk.atk

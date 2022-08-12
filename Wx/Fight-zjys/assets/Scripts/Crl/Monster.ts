@@ -13,6 +13,7 @@ export class Monster extends Component {
 
     private ani: dragonBones.ArmatureDisplay = null
     private HitArea: Node = null
+    private SkillArea: Node = null
     private ArrowNode: Node = null
     private Arrow: Node = null
     private HpBar: ProgressBar = null;
@@ -31,15 +32,17 @@ export class Monster extends Component {
     private hitBackTag1: number = 1
     private hitBackTag2: number = 2
 
-    public isBoss: boolean = false
+    public isBoss: boolean = true
     private isHunting: boolean = false
     private isAttacking: boolean = false
+    private isSkilling: boolean = false
     private isHurting: boolean = false
     public isDied: boolean = false
 
     onLoad() {
         this.ani = this.node.getChildByName('db').getComponent(dragonBones.ArmatureDisplay)
         this.HitArea = this.node.getChildByName('hitArea')
+        this.SkillArea = this.node.getChildByName('skillArea') || this.ani.node.getChildByName('skillArea')
         this.ArrowNode = this.node.getChildByName('arrowNode')
         this.Arrow = this.node.getChildByName('arrow')
         this.HpBar = this.ani.node.getChildByName('HpBar').getComponent(ProgressBar)
@@ -50,11 +53,11 @@ export class Monster extends Component {
     start() {
         this.ani.on(dragonBones.EventObject.COMPLETE, this.animationCompleted, this)
         this.ani.on(dragonBones.EventObject.FRAME_EVENT, this.animationFrameEvent, this)
-        this.hp = 600 + GameLogic.Share.curGrade * 200
+        this.hp = 600 + GameLogic.Share.curGrade * 300
         this.hpMax = this.hp
         this.atk = 2 * GameLogic.Share.curGrade
         if (this.isBoss) {
-            this.ani.node.setScale(2, 2, 1)
+            this.ani.node.setScale(1.5, 1.5, 1)
             this.speed *= 1.5
             this.hp *= 4
             this.hpMax = this.hp
@@ -87,21 +90,30 @@ export class Monster extends Component {
             this.playAnimation(MonsterAniType.Type_Idle)
             this.isAttacking = false
         }
+        if (this.curAniName == MonsterAniType.Type_Skill) {
+            this.playAnimation(MonsterAniType.Type_Idle)
+            this.isSkilling = false
+            this.resetHurt0()
+        }
     }
     animationFrameEvent(evt: dragonBones.EventObject) {
         if (evt.name == 'checkAttack') {
             this.checkAttack()
+        } else if (evt.name == 'checkSkill') {
+            this.checkSkill()
         }
     }
 
     checkHurtPlayer() {
-        let hPos = this.node.parent.getComponent(UITransform).convertToNodeSpaceAR(Utility.getWorldPos(this.HitArea))
+        let area = this.isSkilling ? this.SkillArea : this.HitArea
+        let hPos = this.node.parent.getComponent(UITransform).convertToNodeSpaceAR(Utility.getWorldPos(area))
         let pPos = Player.Share.myPos
         pPos.y += 100
-        let range = this.HitArea.getComponent(UITransform).contentSize.width
-        if (this.isBoss) {
+        let range = area.getComponent(UITransform).contentSize.width
+        if (this.isBoss && !this.isSkilling) {
             range = range * 2 / Math.abs(this.ani.node.scale.x)
         }
+        if (this.isBoss && this.isSkilling) range /= 2
         if (Vec2.distance(hPos, pPos) <= range) {
             Player.Share.hurt(this.isBoss ? this.atk * 2 : this.atk, this.myPos.x < Player.Share.myPos.x ? 1 : -1)
         }
@@ -138,8 +150,17 @@ export class Monster extends Component {
             this.scheduleHunt(1)
         } else if (huntType == 3) {
             //攻击
-            this.attack()
-            this.scheduleHunt(2)
+            if (!this.isBoss) {
+                this.attack()
+                this.scheduleHunt(2)
+            } else {
+                if (Math.random() * 1 < 0.5) {
+                    this.skill()
+                } else {
+                    this.attack()
+                    this.scheduleHunt(2)
+                }
+            }
         }
     }
     scheduleHunt(time: number) {
@@ -150,7 +171,7 @@ export class Monster extends Component {
     }
 
     move() {
-        if (this.isDied || this.isHurting || this.isAttacking) return
+        if (this.isDied || this.isHurting || this.isAttacking || this.isSkilling) return
 
         let sp = this.speed
         let pos = this.myPos
@@ -163,7 +184,7 @@ export class Monster extends Component {
     }
 
     attack() {
-        if (this.isDied || this.isHurting) return
+        if (this.isDied || this.isHurting || this.isSkilling) return
         this.isAttacking = true
         let times: number = Utility.GetRandom(1, 3)
         this.playAnimation(MonsterAniType.Type_Attack, times)
@@ -173,6 +194,16 @@ export class Monster extends Component {
             this.createArrow()
             return
         }
+        this.checkHurtPlayer()
+    }
+    skill() {
+        if (this.isDied || this.isHurting || this.isAttacking || this.isSkilling) return
+        this.isSkilling = true
+        this.dirX = Player.Share.node.position.x < this.myPos.x ? -1 : 1
+        this.node.setScale(v3(this.dirX * -1, 1, 1))
+        this.playAnimation(MonsterAniType.Type_Skill, 1)
+    }
+    checkSkill() {
         this.checkHurtPlayer()
     }
 
@@ -188,31 +219,35 @@ export class Monster extends Component {
     hurt(v: number, hurtType: number, isNormalAttack: boolean = true) {
         if (this.isDied || !this.node.active) return
 
-        //GameLogic.Share.setTimeScale(0.01, 0.001)
-
         PlatformApi.doVibrate()
-        this.unschedule(this.startHunt)
-        this.unschedule(this.resetHurt)
-        this.unschedule(this.resetHurt0)
         if (isNormalAttack)
             SoundMgr.Share.PlaySound('attackHurt')
         else
             SoundMgr.Share.PlaySound('monsterHurt')
         GameCamera.Share.shake()
+
         this.hp -= v
-        this.playAnimation(MonsterAniType.Type_Hurt, 1)
-        this.isHurting = true
-        this.isAttacking = false
         this.HpBar.progress = this.hp / this.hpMax
+        if (this.hp < 0) {
+            this.died()
+            return
+        }
+
+        if (this.isBoss) {
+            return
+        }
+        this.isAttacking = false
+        this.isHurting = true
+        this.unschedule(this.startHunt)
+        this.unschedule(this.resetHurt)
+        this.unschedule(this.resetHurt0)
+
+        this.playAnimation(MonsterAniType.Type_Hurt, 1)
 
         // let pos = this.myPos
         // pos.y += this.ani.node.getComponent(UITransform).contentSize.height
         // GameLogic.Share.createMonsterDmg(v, pos)
 
-        if (this.hp < 0) {
-            this.died()
-            return
-        }
         let dir = this.node.position.x < Player.Share.node.position.x ? -1 : 1
         if (hurtType == 0) {
             this.scheduleOnce(this.resetHurt0, 0.3)
@@ -300,6 +335,13 @@ export class Monster extends Component {
             myPos.x = 3000 - view.getVisibleSize().width / 2 - 50
         }
         this.node.position = myPos
+
+        if (this.dirX == 1) {
+            this.HpBar.node.setScale(-1, 1, 1)
+        }
+        if (this.dirX == -1) {
+            this.HpBar.node.setScale(1, 1, 1)
+        }
     }
 }
 

@@ -414,6 +414,7 @@ export default class FdAd {
     private static intersititialCB: Function = null
     private static intersititialError: boolean = false
     private static createInterstitialAd() {
+        return
         if (!WECHAT || this.interstitialId.length <= 0) return
         if (this.intersititialAd) {
             this.intersititialAd.offError()
@@ -431,6 +432,8 @@ export default class FdAd {
         this.intersititialAd.load()
     }
     static showInterstitialAd(cb?: Function) {
+        cb && cb()
+        return
         if (PREVIEW || !this.intersititialAd || this.intersititialError) {
             if (this.intersititialError) this.createInterstitialAd()
             cb && cb()

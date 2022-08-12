@@ -22,20 +22,23 @@
         "__id__": 2
       },
       {
-        "__id__": 32
+        "__id__": 33
+      },
+      {
+        "__id__": 37
       }
     ],
     "_active": true,
     "_components": [
       {
-        "__id__": 36
+        "__id__": 41
       },
       {
-        "__id__": 38
+        "__id__": 43
       }
     ],
     "_prefab": {
-      "__id__": 40
+      "__id__": 45
     },
     "_lpos": {
       "__type__": "cc.Vec3",
@@ -89,11 +92,11 @@
         "__id__": 27
       },
       {
-        "__id__": 29
+        "__id__": 30
       }
     ],
     "_prefab": {
-      "__id__": 31
+      "__id__": 32
     },
     "_lpos": {
       "__type__": "cc.Vec3",
@@ -589,8 +592,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 239.44,
-      "height": 310.2
+      "width": 536,
+      "height": 491.57
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -643,12 +646,21 @@
     "_timeScale": 1,
     "_playTimes": -1,
     "_debugBones": false,
-    "_sockets": [],
+    "_sockets": [
+      {
+        "__id__": 29
+      }
+    ],
     "_id": ""
   },
   {
     "__type__": "cc.CompPrefabInfo",
     "fileId": "fblgGfKzpOXIReB8R0uJe8"
+  },
+  {
+    "__type__": "dragonBones.ArmatureDisplay.DragonBoneSocket",
+    "path": "",
+    "target": null
   },
   {
     "__type__": "cc.UIOpacity",
@@ -659,7 +671,7 @@
     },
     "_enabled": true,
     "__prefab": {
-      "__id__": 30
+      "__id__": 31
     },
     "_opacity": 255,
     "_id": ""
@@ -689,11 +701,11 @@
     "_active": true,
     "_components": [
       {
-        "__id__": 33
+        "__id__": 34
       }
     ],
     "_prefab": {
-      "__id__": 35
+      "__id__": 36
     },
     "_lpos": {
       "__type__": "cc.Vec3",
@@ -728,11 +740,11 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 32
+      "__id__": 33
     },
     "_enabled": true,
     "__prefab": {
-      "__id__": 34
+      "__id__": 35
     },
     "_contentSize": {
       "__type__": "cc.Size",
@@ -761,6 +773,88 @@
     "fileId": "0fZdJ0k45Ps5mj/BgLUTvS"
   },
   {
+    "__type__": "cc.Node",
+    "_name": "skillArea",
+    "_objFlags": 0,
+    "_parent": {
+      "__id__": 1
+    },
+    "_children": [],
+    "_active": true,
+    "_components": [
+      {
+        "__id__": 38
+      }
+    ],
+    "_prefab": {
+      "__id__": 40
+    },
+    "_lpos": {
+      "__type__": "cc.Vec3",
+      "x": -244.485,
+      "y": 95.627,
+      "z": 0
+    },
+    "_lrot": {
+      "__type__": "cc.Quat",
+      "x": 0,
+      "y": 0,
+      "z": 0,
+      "w": 1
+    },
+    "_lscale": {
+      "__type__": "cc.Vec3",
+      "x": 1,
+      "y": 1,
+      "z": 1
+    },
+    "_layer": 1,
+    "_euler": {
+      "__type__": "cc.Vec3",
+      "x": 0,
+      "y": 0,
+      "z": 0
+    },
+    "_id": ""
+  },
+  {
+    "__type__": "cc.UITransform",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 37
+    },
+    "_enabled": true,
+    "__prefab": {
+      "__id__": 39
+    },
+    "_contentSize": {
+      "__type__": "cc.Size",
+      "width": 250,
+      "height": 200
+    },
+    "_anchorPoint": {
+      "__type__": "cc.Vec2",
+      "x": 0.5,
+      "y": 0.5
+    },
+    "_id": ""
+  },
+  {
+    "__type__": "cc.CompPrefabInfo",
+    "fileId": "6cI0fQWRJFc7xNYiW9STbl"
+  },
+  {
+    "__type__": "cc.PrefabInfo",
+    "root": {
+      "__id__": 1
+    },
+    "asset": {
+      "__id__": 0
+    },
+    "fileId": "2atVZZQZBDTrMF165DgIX/"
+  },
+  {
     "__type__": "cc.UITransform",
     "_name": "",
     "_objFlags": 0,
@@ -769,7 +863,7 @@
     },
     "_enabled": true,
     "__prefab": {
-      "__id__": 37
+      "__id__": 42
     },
     "_contentSize": {
       "__type__": "cc.Size",
@@ -796,7 +890,7 @@
     },
     "_enabled": true,
     "__prefab": {
-      "__id__": 39
+      "__id__": 44
     },
     "_id": ""
   },

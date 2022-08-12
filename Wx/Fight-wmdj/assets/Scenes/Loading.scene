@@ -267,7 +267,7 @@
     "_priority": 1073741824,
     "_fov": 45,
     "_fovAxis": 0,
-    "_orthoHeight": 375,
+    "_orthoHeight": 425.3786635404455,
     "_near": 0,
     "_far": 2000,
     "_color": {
@@ -849,7 +849,7 @@
       "__id__": 6
     },
     "_children": [],
-    "_active": false,
+    "_active": true,
     "_components": [
       {
         "__id__": 26
@@ -1158,7 +1158,7 @@
     "_priority": 1073741824,
     "_fov": 45,
     "_fovAxis": 0,
-    "_orthoHeight": 375,
+    "_orthoHeight": 425.3786635404455,
     "_near": 1,
     "_far": 2000,
     "_color": {

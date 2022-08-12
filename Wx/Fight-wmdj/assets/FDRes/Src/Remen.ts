@@ -12,17 +12,19 @@ export class Remen extends Component {
 
     onShowCB: Function = null
     clickCount: number = 0
+    showBannerCount: number = 0
 
     onDisable() {
         if (WECHAT) {
             window['wx'].offShow(this.onShowCB)
         }
+        this.showBannerCount++
         this.unscheduleAllCallbacks()
         FdAd.hideBannerAd()
         FdAd.visibleFullGridAd(false)
         this.ccb && this.ccb()
     }
-
+    
     showUI(ccb?: Function, showAdPic: boolean = false) {
         this.ccb = ccb
         this.clickCount = 0
@@ -37,7 +39,7 @@ export class Remen extends Component {
         if (!FdAd.getIsFullGridAdError())
             FdAd.visibleFullGridAd()
 
-        if (FdMgr.remenBanner) {
+        if (FdMgr.remenBanner && (this.showBannerCount % (FdMgr.jsonConfig.Remen_banner_count + 1) == 0)) {
             this.bannerShowHide();
         }
 

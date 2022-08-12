@@ -36,8 +36,10 @@ export class EffectNode extends Component {
         }
     }
 
-    createMonsterHurtEffect(type: number, pos: Vec3) {
+    createMonsterHurtEffect(type: number, pos: Vec3, scale?: Vec3) {
         let se = instantiate(this.MonsterHurtEffect[type])
+        if (scale)
+            se.setScale(scale)
         this.node.addChild(se)
         se.position = pos
         se.getComponent(Animation).on(Animation.EventType.FINISHED, () => {

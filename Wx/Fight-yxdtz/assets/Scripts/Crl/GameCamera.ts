@@ -19,7 +19,7 @@ export class GameCamera extends Component {
 
     shake(countMax: number = 5) {
         Tween.stopAllByTag(this.shakeTag, this.node)
-        let rate = 10
+        let rate = 15
         let count = 1
         let basePos = this.node.position.clone()
         let cb = () => {

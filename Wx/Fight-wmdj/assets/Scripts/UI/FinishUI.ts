@@ -2,6 +2,8 @@ import { _decorator, Component, Node, Label } from 'cc';
 import FdMgr from '../../FDRes/Src/FdMgr';
 import PlatformApi from '../Common/PlatformApi';
 import { GameLogic } from '../Crl/GameLogic';
+import { UINode } from '../Crl/UINode';
+import { UIType } from '../Mod/Entity';
 import PlayerDataMgr from '../Mod/PlayerDataMgr';
 import { SoundMgr } from '../Mod/SoundMgr';
 const { ccclass, property } = _decorator;
@@ -61,6 +63,12 @@ export class FinishUI extends Component {
         SoundMgr.Share.PlaySound('click')
         FdMgr.closeFinish(() => {
             GameLogic.Share.restartGame()
+        })
+    }
+
+    rankBtnCB() {
+        UINode.Share.showUI(UIType.UI_RANK, true, () => {
+            UINode.Share.showUI(UIType.UI_FINISH)
         })
     }
 

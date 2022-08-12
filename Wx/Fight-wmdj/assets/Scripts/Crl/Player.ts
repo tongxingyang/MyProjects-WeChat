@@ -1,4 +1,5 @@
 import { _decorator, Component, Node, Animation, Vec2, Vec3, v3, tween, view, Tween, TweenAction, resources, Prefab, instantiate, animation, RealKeyframeValue, AnimationClip, v4, Sprite, Color, color } from 'cc';
+import PlatformApi from '../Common/PlatformApi';
 import BundleMgr from '../Mod/BundleMgr';
 import PlayerDataMgr from '../Mod/PlayerDataMgr';
 import { SoundMgr } from '../Mod/SoundMgr';
@@ -382,6 +383,7 @@ export class Player extends Component {
     hurt(v: number, dir: number = 1) {
         if (this.isInvincible || this.isDied) return
         SoundMgr.Share.PlaySound('playerHurt')
+        PlatformApi.doVibrate()
         this.playAnimation(this.hurtName)
         tween(this.node).by(0.1, { position: v3(dir * 50, 0) }).tag(this.hurtTweenTag).start()
         this.hp -= v

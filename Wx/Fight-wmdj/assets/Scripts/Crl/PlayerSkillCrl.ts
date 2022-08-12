@@ -1,4 +1,4 @@
-import { _decorator, Component, Node, Intersection2D, UITransform } from 'cc';
+import { _decorator, Component, Node, Intersection2D, UITransform, v3 } from 'cc';
 import PlayerDataMgr from '../Mod/PlayerDataMgr';
 import Utility from '../Mod/Utility';
 import { EffectNode } from './EffectNode';
@@ -23,10 +23,10 @@ export class PlayerSkillCrl extends Component {
 
     getSkillDmg(weaponId: number, index: number): number {
         let arr: any[] = [
-            [2, 2], [1, 2], [1, 1], [1, 1], [1, 1],
-            [4, 1], [4, 1], [2, 4], [1, 1], [1, 1],
-            [2, 4], [2, 2], [2, 2], [1, 1], [1, 1],
-            [1, 1], [1, 1], [1, 1], [1, 1], [1, 1]
+            [2, 2], [1, 2], [1, 1], [0.7, 0.7], [2, 1.5],
+            [4, 1], [4, 1], [2, 4], [1, 4], [1.5, 0.6],
+            [2, 4], [2, 2], [2, 2], [0.8, 2], [0.7, 0.6],
+            [1, 1], [1, 1], [1, 1], [1, 2], [0.7, 0.5]
         ]
         return arr[weaponId][index]
     }
@@ -47,7 +47,7 @@ export class PlayerSkillCrl extends Component {
             if (!mCrl.isDied) {
                 let effectPos = monster.position.clone()
                 effectPos.y += 100
-                EffectNode.Share.createMonsterHurtEffect(Player.Share.enchantType, effectPos)
+                EffectNode.Share.createMonsterHurtEffect(Player.Share.enchantType, effectPos, v3(2, 2, 1))
                 Player.Share.addAwakenNum(1)
             }
             let atk = Player.Share.myAtk.atk

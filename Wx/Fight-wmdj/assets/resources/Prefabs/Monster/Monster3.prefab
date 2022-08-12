@@ -22,20 +22,20 @@
         "__id__": 2
       },
       {
-        "__id__": 32
+        "__id__": 37
       }
     ],
     "_active": true,
     "_components": [
       {
-        "__id__": 36
+        "__id__": 41
       },
       {
-        "__id__": 38
+        "__id__": 43
       }
     ],
     "_prefab": {
-      "__id__": 40
+      "__id__": 45
     },
     "_lpos": {
       "__type__": "cc.Vec3",
@@ -78,22 +78,25 @@
       },
       {
         "__id__": 11
+      },
+      {
+        "__id__": 25
       }
     ],
     "_active": true,
     "_components": [
       {
-        "__id__": 25
-      },
-      {
-        "__id__": 27
-      },
-      {
         "__id__": 29
+      },
+      {
+        "__id__": 31
+      },
+      {
+        "__id__": 34
       }
     ],
     "_prefab": {
-      "__id__": 31
+      "__id__": 36
     },
     "_lpos": {
       "__type__": "cc.Vec3",
@@ -577,6 +580,88 @@
     "fileId": "c2e6cW7SpK17l1xwiGDAmH"
   },
   {
+    "__type__": "cc.Node",
+    "_name": "skillArea",
+    "_objFlags": 0,
+    "_parent": {
+      "__id__": 2
+    },
+    "_children": [],
+    "_active": true,
+    "_components": [
+      {
+        "__id__": 26
+      }
+    ],
+    "_prefab": {
+      "__id__": 28
+    },
+    "_lpos": {
+      "__type__": "cc.Vec3",
+      "x": 0,
+      "y": 0,
+      "z": 0
+    },
+    "_lrot": {
+      "__type__": "cc.Quat",
+      "x": 0,
+      "y": 0,
+      "z": -3.061616997868383e-17,
+      "w": 1
+    },
+    "_lscale": {
+      "__type__": "cc.Vec3",
+      "x": 1,
+      "y": 1,
+      "z": 1
+    },
+    "_layer": 1,
+    "_euler": {
+      "__type__": "cc.Vec3",
+      "x": 0,
+      "y": 0,
+      "z": -3.508354649267438e-15
+    },
+    "_id": ""
+  },
+  {
+    "__type__": "cc.UITransform",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 25
+    },
+    "_enabled": true,
+    "__prefab": {
+      "__id__": 27
+    },
+    "_contentSize": {
+      "__type__": "cc.Size",
+      "width": 320,
+      "height": 200
+    },
+    "_anchorPoint": {
+      "__type__": "cc.Vec2",
+      "x": 0.5,
+      "y": 0.5
+    },
+    "_id": ""
+  },
+  {
+    "__type__": "cc.CompPrefabInfo",
+    "fileId": "bb+MUv8HJHrIzI2Wcu73/o"
+  },
+  {
+    "__type__": "cc.PrefabInfo",
+    "root": {
+      "__id__": 1
+    },
+    "asset": {
+      "__id__": 0
+    },
+    "fileId": "a3O+na6MxB+L37NaF9TgU9"
+  },
+  {
     "__type__": "cc.UITransform",
     "_name": "",
     "_objFlags": 0,
@@ -585,7 +670,7 @@
     },
     "_enabled": true,
     "__prefab": {
-      "__id__": 26
+      "__id__": 30
     },
     "_contentSize": {
       "__type__": "cc.Size",
@@ -612,7 +697,7 @@
     },
     "_enabled": true,
     "__prefab": {
-      "__id__": 28
+      "__id__": 32
     },
     "_visFlags": 0,
     "_customMaterial": null,
@@ -638,17 +723,28 @@
     },
     "_armatureName": "Armature",
     "_animationName": "Idle",
-    "_animationIndexValue": 1,
+    "_animationIndexValue": 2,
     "_defaultCacheModeValue": 0,
     "_timeScale": 1,
     "_playTimes": -1,
     "_debugBones": false,
-    "_sockets": [],
+    "_sockets": [
+      {
+        "__id__": 33
+      }
+    ],
     "_id": ""
   },
   {
     "__type__": "cc.CompPrefabInfo",
     "fileId": "61/7HmYV9HYbnUoHo6yqzo"
+  },
+  {
+    "__type__": "dragonBones.ArmatureDisplay.DragonBoneSocket",
+    "path": "root/bone",
+    "target": {
+      "__id__": 25
+    }
   },
   {
     "__type__": "cc.UIOpacity",
@@ -659,7 +755,7 @@
     },
     "_enabled": true,
     "__prefab": {
-      "__id__": 30
+      "__id__": 35
     },
     "_opacity": 255,
     "_id": ""
@@ -689,11 +785,11 @@
     "_active": true,
     "_components": [
       {
-        "__id__": 33
+        "__id__": 38
       }
     ],
     "_prefab": {
-      "__id__": 35
+      "__id__": 40
     },
     "_lpos": {
       "__type__": "cc.Vec3",
@@ -728,11 +824,11 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 32
+      "__id__": 37
     },
     "_enabled": true,
     "__prefab": {
-      "__id__": 34
+      "__id__": 39
     },
     "_contentSize": {
       "__type__": "cc.Size",
@@ -769,7 +865,7 @@
     },
     "_enabled": true,
     "__prefab": {
-      "__id__": 37
+      "__id__": 42
     },
     "_contentSize": {
       "__type__": "cc.Size",
@@ -796,7 +892,7 @@
     },
     "_enabled": true,
     "__prefab": {
-      "__id__": 39
+      "__id__": 44
     },
     "_id": ""
   },
