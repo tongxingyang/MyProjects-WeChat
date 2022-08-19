@@ -3,6 +3,7 @@ import { PREVIEW, WECHAT } from "cc/env";
 import { Box1 } from "./Box1";
 import FdAd from "./FdAd";
 import { FDNode } from "./FDNode";
+import { GridBox } from "./GridBox";
 import { HomeUI } from "./HomeUI";
 import { Remen } from "./Remen";
 import { VideoBanner } from "./VideoBanner";
@@ -17,7 +18,7 @@ export enum BoxType {
 }
 
 export default class FdMgr {
-    static version: string = '1.0.8'
+    static version: string = '1.0.9'
     static wuchuProgressValue = 0;
     static wuchuProgressStepAdd = 0.2;
     static wuchuProgressFrameSub = 0.01;
@@ -122,7 +123,7 @@ export default class FdMgr {
     /**宝箱1 */
     static showBox1(cb?) {
         if (this.firstBox) {
-            find('FDCanvas/FDNode/Box1').getComponent(Box1).showUI(cb, this.firstBox_switch ? BoxType.Box_VideoBanner : BoxType.Box_Banner)
+            find('FDCanvas/FDNode/GridBox').getComponent(GridBox).showUI(cb)
         }
         else {
             cb && cb();
@@ -132,7 +133,7 @@ export default class FdMgr {
     /**宝箱2 */
     static showBox2(cb?) {
         if (this.bannerBox) {
-            find('FDCanvas/FDNode/Box1').getComponent(Box1).showUI(cb, this.bannerBox_switch ? BoxType.Box_VideoBanner : BoxType.Box_Banner)
+            find('FDCanvas/FDNode/Box1').getComponent(Box1).showUI(cb)
         }
         else {
             cb && cb();

@@ -1,0 +1,79 @@
+{
+  "ver": "2.2.0",
+  "importer": "fbx",
+  "imported": true,
+  "uuid": "2e655ab1-757b-495a-8098-968bae06a4bf",
+  "files": [],
+  "subMetas": {
+    "9cf53": {
+      "importer": "gltf-mesh",
+      "uuid": "2e655ab1-757b-495a-8098-968bae06a4bf@9cf53",
+      "displayName": "",
+      "id": "9cf53",
+      "name": "Aquapark_3.mesh",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "407bc": {
+      "importer": "gltf-material",
+      "uuid": "2e655ab1-757b-495a-8098-968bae06a4bf@407bc",
+      "displayName": "",
+      "id": "407bc",
+      "name": "default.material",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.14",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "6249b": {
+      "importer": "gltf-scene",
+      "uuid": "2e655ab1-757b-495a-8098-968bae06a4bf@6249b",
+      "displayName": "",
+      "id": "6249b",
+      "name": "Road_Test1.prefab",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.12",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    }
+  },
+  "userData": {
+    "imageMetas": [],
+    "legacyFbxImporter": false,
+    "fbx": {
+      "smartMaterialEnabled": true
+    },
+    "redirect": "2e655ab1-757b-495a-8098-968bae06a4bf@6249b",
+    "assetFinder": {
+      "meshes": [
+        "2e655ab1-757b-495a-8098-968bae06a4bf@9cf53"
+      ],
+      "skeletons": [],
+      "textures": [],
+      "materials": [
+        "2e655ab1-757b-495a-8098-968bae06a4bf@407bc"
+      ],
+      "scenes": [
+        "2e655ab1-757b-495a-8098-968bae06a4bf@6249b"
+      ]
+    }
+  }
+}

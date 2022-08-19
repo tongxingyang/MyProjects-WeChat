@@ -19,20 +19,17 @@ export class Box1 extends Component {
     progressValue: number = 0;
     clickCount: number = 0
 
-    type: BoxType = BoxType.Box_Banner
-
     onDisable() {
         if (WECHAT) {
             window['wx'].offShow(this.onShowCB)
         }
         this.unscheduleAllCallbacks()
         FdAd.hideBannerAd();
-        FdMgr.visibleVideoBanner(false, false)
+        FdAd.visibleBottomGridAd(false)
         this.ccb && this.ccb()
     }
 
-    showUI(ccb?: Function, type: BoxType = BoxType.Box_Banner) {
-        this.type = type
+    showUI(ccb?: Function) {
         this.node.active = true
         this.pBar.progress = 0
         this.progressValue = 0
@@ -46,6 +43,7 @@ export class Box1 extends Component {
             window['wx'].onShow(this.onShowCB)
         }
         FdAd.hideBannerAd();
+        FdAd.visibleBottomGridAd(false)
     }
 
     clickBtnCB() {
@@ -54,19 +52,13 @@ export class Box1 extends Component {
         if (this.progressValue >= FdMgr.wuchuProgressValue && !this.hadShowBanner) { //触发误触
             this.hadShowBanner = true
             this.clickCount++
-            if (this.type == BoxType.Box_Banner)
-                FdAd.showBannerAd();
-            else
-                FdMgr.visibleVideoBanner(true, false)
+            FdAd.visibleBottomGridAd(true)
             FdMgr.randTouchProgress(); //更新目标值
             this.scheduleOnce(() => {
                 if (this.clickCount >= FdMgr.jsonConfig.bannerBox_count) {
                     this.node.active = false
                 } else {
-                    if (this.type == BoxType.Box_Banner)
-                        FdAd.hideBannerAd();
-                    else
-                        FdMgr.visibleVideoBanner(false, false)
+                    FdAd.visibleBottomGridAd(false)
                     this.hadShowBanner = false
                     this.pBar.progress = 0
                     this.progressValue = 0

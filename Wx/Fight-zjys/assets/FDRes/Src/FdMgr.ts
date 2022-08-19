@@ -17,7 +17,7 @@ export enum BoxType {
 }
 
 export default class FdMgr {
-    static version: string = '1.0.3'
+    static version: string = '1.0.4'
     static wuchuProgressValue = 0;
     static wuchuProgressStepAdd = 0.2;
     static wuchuProgressFrameSub = 0.01;

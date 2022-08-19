@@ -6,6 +6,13 @@ const { ccclass, property } = _decorator;
 @ccclass('YsUI')
 export class YsUI extends Component {
 
+    @property(Node)
+    rootNode: Node = null
+    @property(Node)
+    yszc: Node = null
+    @property(Node)
+    yhxy: Node = null
+
     ccb: Function = null
 
     onDisable() {
@@ -16,9 +23,13 @@ export class YsUI extends Component {
     showUI(cb?: Function) {
         this.ccb = cb
         this.node.active = true
+        this.rootNode.active = true
+        this.yszc.active = false
+        this.yhxy.active = false
     }
 
     argee() {
+        localStorage.setItem('older', "1")
         this.node.active = false
     }
 
@@ -26,6 +37,24 @@ export class YsUI extends Component {
         if (WECHAT) {
             window['qq'].exitMiniProgram()
         }
+    }
+
+    showYSZC() {
+        this.rootNode.active = false
+        this.yszc.active = true
+    }
+    closeYSZC() {
+        this.yszc.active = false
+        this.rootNode.active = true
+    }
+
+    showYHXY() {
+        this.rootNode.active = false
+        this.yhxy.active = true
+    }
+    closeYHXY() {
+        this.yhxy.active = false
+        this.rootNode.active = true
     }
 
     // update (deltaTime: number) {

@@ -1,0 +1,38 @@
+{
+    "deviceOrientation": "landscape",
+    "showStatusBar": false,
+    "networkTimeout": {
+        "request": 10000,
+        "connectSocket": 10000,
+        "uploadFile": 10000,
+        "downloadFile": 10000
+    },
+    "subPackages": [
+        {
+            "name": "3dres",
+            "root": "/3dres/"
+        },
+        {
+            "name": "3dunit",
+            "root": "/3dunit/"
+        },
+        {
+            "name": "bigpic",
+            "root": "/bigpic/"
+        },
+        {
+            "name": "res",
+            "root": "/res/"
+        },
+        {
+            "name": "sound",
+            "root": "/sound/"
+        }
+    ],
+    "plugins": {
+        "layaPlugin": {
+            "version": "2.10.0",
+            "provider": "wx70d8aa25ec591f7a"
+        }
+    }
+}

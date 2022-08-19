@@ -118,7 +118,7 @@ export class GameLogic extends Component {
 
     createBoss() {
         for (let i = 0; i < 1; i++) {
-            let id = Utility.GetRandom(0, 2)
+            let id = Utility.GetRandom(0, 4)
             let m = instantiate(this.MonsterPrefabArr[id])
             this.monsterNode.addChild(m)
             m.active = true

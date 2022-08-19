@@ -1,0 +1,21 @@
+{
+    "provider": "wx70d8aa25ec591f7a",
+    "signature": [
+        {
+            "path": "index.js",
+            "md5": "460a96d3a88fe540c81a7fa7d48166f3"
+        },
+        {
+            "path": "laya.core.js",
+            "md5": "4b8351bf30e5c6d896caa2bfc7bc1328"
+        },
+        {
+            "path": "laya.d3.js",
+            "md5": "fda441059e5f7bb49a0fdd56a4570b1f"
+        },
+        {
+            "path": "laya.ui.js",
+            "md5": "7551ed60002eedcc1ac494413e899672"
+        }
+    ]
+}

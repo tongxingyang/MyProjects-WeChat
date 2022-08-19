@@ -105,7 +105,10 @@ export default class FdAd {
             this.stopCountBannerTime()
             return;
         }
-        this.bannerAds[this.bannerIndex] && this.bannerAds[this.bannerIndex].hide()
+        for (let i = 0; i < this.bannerAds.length; i++) {
+            this.bannerAds[i] && this.bannerAds[i].hide()
+        }
+        //this.bannerAds[this.bannerIndex] && this.bannerAds[this.bannerIndex].hide()
         this.stopCountBannerTime()
     }
 

@@ -1,0 +1,33 @@
+{
+    "deviceOrientation": "portrait",
+    "networkTimeout": {
+        "request": 5000,
+        "connectSocket": 5000,
+        "uploadFile": 5000,
+        "downloadFile": 500000
+    },
+    "subPackages": [
+        {
+            "name": "imagesSub",
+            "root": "/subpackages/imagesSub/"
+        },
+        {
+            "name": "main",
+            "root": "/subpackages/main/"
+        },
+        {
+            "name": "prefabsSub",
+            "root": "/subpackages/prefabsSub/"
+        },
+        {
+            "name": "resources",
+            "root": "/subpackages/resources/"
+        }
+    ],
+    "plugins": {
+        "cocos": {
+            "version": "3.5.1",
+            "provider": "wx0446ba2621dda60a"
+        }
+    }
+}

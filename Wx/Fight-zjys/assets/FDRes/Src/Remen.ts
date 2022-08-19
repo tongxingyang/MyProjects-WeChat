@@ -1,5 +1,5 @@
 
-import { _decorator, Component, Node } from 'cc';
+import { _decorator, Component, Node, v3 } from 'cc';
 import { WECHAT } from 'cc/env';
 import FdAd from './FdAd';
 import FdMgr, { RemenType } from './FdMgr';
@@ -10,6 +10,7 @@ export class Remen extends Component {
 
     ccb: Function = null
 
+    btn: Node = null
     onShowCB: Function = null
     clickCount: number = 0
     showBannerCount: number = 0
@@ -24,8 +25,9 @@ export class Remen extends Component {
         FdAd.visibleFullGridAd(false)
         this.ccb && this.ccb()
     }
-    
+
     showUI(ccb?: Function, showAdPic: boolean = false) {
+        this.btn = this.node.getChildByName('btn')
         this.ccb = ccb
         this.clickCount = 0
         this.onShowCB = () => {
@@ -40,7 +42,11 @@ export class Remen extends Component {
             FdAd.visibleFullGridAd()
 
         if (FdMgr.remenBanner && (this.showBannerCount % (FdMgr.jsonConfig.Remen_banner_count + 1) == 0)) {
+            this.btn.position = v3(0, -270)
             this.bannerShowHide();
+        } else {
+            this.btn.position = v3(450, -270)
+            FdAd.showBannerAd()
         }
 
         FdAd.bannerIndex = 0;

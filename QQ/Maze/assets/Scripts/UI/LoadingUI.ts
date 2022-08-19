@@ -33,7 +33,6 @@ export class LoadingUI extends Component {
         this.hadLoaded = true
 
         if (WECHAT && !localStorage.getItem('older')) {
-            localStorage.setItem('older', "1")
             FdMgr.showYsUI(() => {
                 FdMgr.init(() => {
                     this.init()

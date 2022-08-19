@@ -61,6 +61,9 @@ export class Monster extends Component {
             this.speed *= 1.5
             this.hp *= 4
             this.hpMax = this.hp
+            if (this.ani.node.getChildByName('bossTips')) this.ani.node.getChildByName('bossTips').active = true
+        } else {
+            if (this.ani.node.getChildByName('bossTips')) this.ani.node.getChildByName('bossTips').active = false
         }
         this.playAnimation(MonsterAniType.Type_Idle)
         this.scheduleHunt(2)
@@ -338,9 +341,11 @@ export class Monster extends Component {
 
         if (this.dirX == 1) {
             this.HpBar.node.setScale(-1, 1, 1)
+            if (this.ani.node.getChildByName('bossTips')) this.ani.node.getChildByName('bossTips').setScale(v3(-1, 1, 1))
         }
         if (this.dirX == -1) {
             this.HpBar.node.setScale(1, 1, 1)
+            if (this.ani.node.getChildByName('bossTips')) this.ani.node.getChildByName('bossTips').setScale(v3(1, 1, 1))
         }
     }
 }

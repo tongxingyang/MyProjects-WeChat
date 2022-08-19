@@ -1,0 +1,1 @@
+{"type":"Scene","props":{"width":1334,"height":750},"compId":2,"child":[{"type":"Image","props":{"width":2000,"var":"img_bg","skin":"login/tongyong_bg_004.jpg","height":750,"centerY":0,"centerX":0},"compId":3}],"loadList":["login/tongyong_bg_004.jpg"],"loadList3D":[]}

@@ -14,6 +14,7 @@ export class LoadingUI extends Component {
     @property(RichText)
     str: RichText = null
     hadLoaded: boolean = false
+    hadLoaded1: boolean = false
     sdkInited: boolean = false
 
     start() {
@@ -47,11 +48,14 @@ export class LoadingUI extends Component {
                 this.hadLoaded = true
             })
         })
+        BundleMgr.loadResBundle('Ani', () => {
+            this.hadLoaded1 = true
+        })
     }
 
     init() {
         this.schedule(() => {
-            if (this.hadLoaded && this.sdkInited) {
+            if (this.hadLoaded && this.hadLoaded1 && this.sdkInited) {
                 this.unscheduleAllCallbacks()
                 director.loadScene('Game')
             }

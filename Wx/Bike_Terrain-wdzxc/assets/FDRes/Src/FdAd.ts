@@ -297,7 +297,7 @@ export default class FdAd {
             adUnitId: this.bottomGridId[0],
             adIntervals: 30,
             style: {
-                left: 0,
+                left: 20,
                 top: this.getSystemInfoSync().screenHeight - 110,
                 width: this.getSystemInfoSync().screenWidth
             }
