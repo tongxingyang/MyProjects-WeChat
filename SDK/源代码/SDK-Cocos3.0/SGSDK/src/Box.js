@@ -14,6 +14,7 @@ var getSprite = (src, size) => {
 }
 
 var scheduler = null;
+var cv = null;
 var Box = {
   progress: 0,
   onShowCB: null,
@@ -26,12 +27,20 @@ var Box = {
     node.destroy();
   },
   showUI(cb) {
+    cv = cc.director.getScene().getChildByName('Canvas');
+    if (!cv) {
+      cb && cb();
+      return;
+    }
     let root = new cc.Node();
     root.setSiblingIndex(9999);
-    root.parent = window.myRoot;
+    root.parent = cv;
 
     var schedulerNode = new cc.Node();
     scheduler = schedulerNode.addComponent(cc.Sprite);
+    scheduler.schedule(()=>{
+      root.setSiblingIndex(9999);
+    });
     schedulerNode.parent = root;
     this.closeCB = cb;
     this.onShowCB = () => {
