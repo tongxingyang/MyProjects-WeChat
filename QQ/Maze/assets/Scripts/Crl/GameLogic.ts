@@ -1,4 +1,4 @@
-import { _decorator, Component, Node, Vec2, Vec3, v3, tween, UITransform, view, Tween } from 'cc';
+import { _decorator, Component, Node, Vec2, Vec3, v3, tween, UITransform, view, Tween, director } from 'cc';
 import FdMgr from '../../FDRes/Src/FdMgr';
 import { UIType } from '../Mod/Entity';
 import PlayerDataMgr from '../Mod/PlayerDataMgr';
@@ -163,6 +163,19 @@ export class GameLogic extends Component {
         FdMgr.showGameOver(() => {
             UINode.Share.showUI(UIType.UI_FINISH)
         })
+    }
+
+    restart(isToHome: boolean = true) {
+        if (!isToHome) {
+            director.loadScene('Game', () => {
+                UINode.Share.showUI(UIType.UI_GAME)
+                GameLogic.Share.gameStart()
+            })
+        } else {
+            director.loadScene('Game', () => {
+                UINode.Share.showUI(UIType.UI_START)
+            })
+        }
     }
 
     update(deltaTime: number) {

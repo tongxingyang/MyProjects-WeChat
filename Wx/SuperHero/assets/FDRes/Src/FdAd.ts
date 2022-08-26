@@ -297,7 +297,7 @@ export default class FdAd {
             adUnitId: this.bottomGridId[0],
             adIntervals: 30,
             style: {
-                left: 0,
+                left: 20,
                 top: this.getSystemInfoSync().screenHeight - 110,
                 width: this.getSystemInfoSync().screenWidth
             }
@@ -329,7 +329,7 @@ export default class FdAd {
                 adIntervals: 30,
                 style: {
                     left: i == 0 ? 0 : this.getSystemInfoSync().screenWidth - 65,
-                    top: this.getSystemInfoSync().screenHeight / 2 - 220
+                    top: 80
                 }
             });
             grid.onError((err) => { ; console.log('屏幕侧格子加载失败:', JSON.stringify(err)) })

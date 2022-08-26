@@ -1,0 +1,33 @@
+{
+  "__version__": "1.0.2",
+  "general": {
+    "designResolution": {
+      "width": 750,
+      "height": 1334,
+      "fitHeight": false,
+      "fitWidth": true
+    }
+  },
+  "layer": [
+    {
+      "name": "game",
+      "value": 1
+    },
+    {
+      "name": "bg",
+      "value": 2
+    }
+  ],
+  "physics": {
+    "collisionGroups": [
+      {
+        "index": 1,
+        "name": "monster"
+      }
+    ],
+    "collisionMatrix": {
+      "0": 3,
+      "1": 1
+    }
+  }
+}

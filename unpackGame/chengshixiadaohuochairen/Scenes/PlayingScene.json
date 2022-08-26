@@ -1,1 +1,0 @@
-{"type":"Scene","props":{"height":750,"autoDestroyAtClosed":true},"compId":2,"child":[{"type":"Script","props":{"runtime":"game/Controller/UIController/PlayingSceneController.ts"},"compId":7},{"type":"Script","props":{"runtime":"game/View/ViewManager.ts"},"compId":11}],"loadList":[],"loadList3D":[]}

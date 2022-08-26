@@ -137,6 +137,10 @@ export class GameUI extends Component {
         FdAd.showVideoAd(cb)
     }
 
+    backBtnCB() {
+        GameLogic.Share.restart(true)
+    }
+
     update(deltaTime: number) {
         // [4]
     }

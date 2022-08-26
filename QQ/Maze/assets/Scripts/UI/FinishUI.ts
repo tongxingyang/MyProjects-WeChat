@@ -20,30 +20,24 @@ export class FinishUI extends Component {
         FdMgr.inFinish(this.nextBtn)
 
         if (GameLogic.Share.isWin) {
+            PlayerDataMgr.changeGrade(1)
             PlayerDataMgr.getPlayerData().coin += 200
             PlayerDataMgr.setPlayerData()
         }
     }
 
-    adBtnCB() {
+    backBtnCB() {
         SoundMgr.Share.PlaySound('click')
-        let cb = () => {
-            PlayerDataMgr.getPlayerData().coin += 800
-            PlayerDataMgr.setPlayerData()
-            this.nextBtnCB()
-        }
-        FdAd.showVideoAd(cb)
+
+        FdMgr.closeFinish(() => {
+            GameLogic.Share.restart(true)
+        })
     }
 
     nextBtnCB() {
         SoundMgr.Share.PlaySound('click')
         this.node.active = false
-        FdMgr.closeFinish(() => {
-            if (GameLogic.Share.isWin) {
-                PlayerDataMgr.changeGrade(1)
-            }
-            director.loadScene('Game')
-        })
+        GameLogic.Share.restart(false)
     }
 
     // update (deltaTime: number) {

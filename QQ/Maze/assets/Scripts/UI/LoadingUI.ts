@@ -2,6 +2,8 @@
 import { _decorator, Component, Node, ProgressBar, director } from 'cc';
 import { PREVIEW, WECHAT } from 'cc/env';
 import FdMgr from '../../FDRes/Src/FdMgr';
+import { UINode } from '../Crl/UINode';
+import { UIType } from '../Mod/Entity';
 import PlayerDataMgr from '../Mod/PlayerDataMgr';
 const { ccclass, property } = _decorator;
 
@@ -49,7 +51,9 @@ export class LoadingUI extends Component {
         this.schedule(() => {
             if (this.hadLoaded) {
                 this.unscheduleAllCallbacks()
-                director.loadScene('Game')
+                director.loadScene('Game', () => {
+                    UINode.Share.showUI(UIType.UI_START)
+                })
             }
         })
     }
