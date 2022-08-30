@@ -1,0 +1,55 @@
+
+ui_buttn_bisha.png
+size: 1024,512
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+buttn/Soft
+  rotate: false
+  xy: 494, 116
+  size: 124, 124
+  orig: 128, 128
+  offset: 2, 2
+  index: -1
+buttn/Soft2
+  rotate: false
+  xy: 620, 161
+  size: 82, 79
+  orig: 83, 83
+  offset: 0, 2
+  index: -1
+buttn/blast_11
+  rotate: true
+  xy: 494, 242
+  size: 250, 249
+  orig: 256, 256
+  offset: 2, 7
+  index: -1
+buttn/dao01
+  rotate: false
+  xy: 494, 21
+  size: 128, 93
+  orig: 128, 128
+  offset: 0, 20
+  index: -1
+buttn/quan01_00000
+  rotate: false
+  xy: 745, 18
+  size: 234, 228
+  orig: 300, 300
+  offset: 33, 36
+  index: -1
+buttn/ring
+  rotate: false
+  xy: 0, 0
+  size: 492, 492
+  orig: 512, 512
+  offset: 10, 10
+  index: -1
+buttn/zc_ray_05
+  rotate: false
+  xy: 745, 248
+  size: 244, 244
+  orig: 256, 256
+  offset: 6, 6
+  index: -1

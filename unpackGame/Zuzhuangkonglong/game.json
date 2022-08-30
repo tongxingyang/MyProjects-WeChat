@@ -1,0 +1,33 @@
+{
+    "deviceOrientation": "landscape",
+    "networkTimeout": {
+        "request": 5000,
+        "connectSocket": 5000,
+        "uploadFile": 5000,
+        "downloadFile": 5000
+    },
+    "navigateToMiniProgramAppIdList": [],
+    "__warning__": "无效的 game.json [\"navigateToMiniProgramAppIdList\"]",
+    "subPackages": [
+      {
+          "name": "main",
+          "root": "/assets/main/"
+      },
+        {
+            "name": "kuandian",
+            "root": "/subpackages/kuandian/"
+        },
+        {
+            "name": "subRes",
+            "root": "/subpackages/subRes/"
+        },
+        {
+            "name": "subResGame",
+            "root": "/subpackages/subResGame/"
+        },
+        {
+            "name": "subResMain",
+            "root": "/subpackages/subResMain/"
+        }
+    ]
+}

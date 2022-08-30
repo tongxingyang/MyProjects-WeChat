@@ -1,0 +1,31 @@
+{
+    "deviceOrientation": "landscape",
+    "networkTimeout": {
+        "request": 5000,
+        "connectSocket": 5000,
+        "uploadFile": 5000,
+        "downloadFile": 5000
+    },
+    "ttNavigateToMiniGameAppIdList": [
+        "tt1b356d88841fc593",
+        "tt76f7004ae9ddaf04",
+        "tta6e6d05b39cc7f18",
+        "tt40953628dfbff729",
+        "ttc81bbea65721fc1f",
+        "tt4f243999d01e9aa4"
+    ],
+    "navigateToMiniProgramAppIdList": [],
+    "__warning__": "无效的 game.json [\"ttNavigateToMiniGameAppIdList\"]、game.json [\"navigateToMiniProgramAppIdList\"]",
+    "subPackages": [
+        {
+            "name": "subpack",
+            "root": "/subpackages/subpack/"
+        }
+    ],
+    "plugins": {
+        "cocos": {
+            "provider": "wx7095f7fa398a2f30",
+            "version": "2.3.4"
+        }
+    }
+}

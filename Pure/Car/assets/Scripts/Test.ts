@@ -104,16 +104,10 @@ export class Test extends Component {
         if (PhysicsSystem.instance.raycast(outRay, mask, 10, false)) {
             const raycastResults = PhysicsSystem.instance.raycastResults;
             for (let i = 0; i < raycastResults.length; i++) {
-                if (raycastResults[i].collider.node.name.search('Aquapark_3') == -1) continue
                 const hitPoint = raycastResults[i].hitPoint
                 const hitNormal = raycastResults[i].hitNormal;
                 const collider = raycastResults[i].collider;
-                const distance = raycastResults[i];
-
-                let dir = hitNormal.clone().normalize()
-                let angle = Vec3.angle(dir, this.node.up)
-                angle = misc.radiansToDegrees(angle)
-                this.node.setWorldRotationFromEuler(this.node.eulerAngles.x, this.node.eulerAngles.y, 0)
+                const distance = raycastResults[i].distance;
             }
         }
     }

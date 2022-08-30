@@ -1,0 +1,13 @@
+
+konglong3_jiguang.png
+size: 16,64
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+tx/jiguang2
+  rotate: false
+  xy: 0, 0
+  size: 16, 64
+  orig: 16, 64
+  offset: 0, 0
+  index: -1

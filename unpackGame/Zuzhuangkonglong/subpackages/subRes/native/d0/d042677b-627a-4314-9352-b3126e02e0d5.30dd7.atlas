@@ -1,0 +1,69 @@
+
+fx_yanwu.png
+size: 256,1024
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+img/yanwu/smoke_anim03_000
+  rotate: false
+  xy: 0, 0
+  size: 96, 71
+  orig: 170, 170
+  offset: 10, 4
+  index: -1
+img/yanwu/smoke_anim03_001
+  rotate: false
+  xy: 0, 73
+  size: 118, 88
+  orig: 170, 170
+  offset: 7, 2
+  index: -1
+img/yanwu/smoke_anim03_002
+  rotate: false
+  xy: 0, 262
+  size: 128, 115
+  orig: 170, 170
+  offset: 19, 1
+  index: -1
+img/yanwu/smoke_anim03_003
+  rotate: false
+  xy: 0, 379
+  size: 131, 120
+  orig: 170, 170
+  offset: 21, 7
+  index: -1
+img/yanwu/smoke_anim03_004
+  rotate: false
+  xy: 0, 736
+  size: 138, 118
+  orig: 170, 170
+  offset: 17, 18
+  index: -1
+img/yanwu/smoke_anim03_005
+  rotate: false
+  xy: 0, 856
+  size: 136, 121
+  orig: 170, 170
+  offset: 18, 25
+  index: -1
+img/yanwu/smoke_anim03_006
+  rotate: false
+  xy: 0, 617
+  size: 137, 117
+  orig: 170, 170
+  offset: 14, 32
+  index: -1
+img/yanwu/smoke_anim03_007
+  rotate: false
+  xy: 0, 501
+  size: 140, 114
+  orig: 170, 170
+  offset: 11, 36
+  index: -1
+img/yanwu/smoke_anim03_008
+  rotate: false
+  xy: 0, 163
+  size: 111, 97
+  orig: 170, 170
+  offset: 14, 47
+  index: -1

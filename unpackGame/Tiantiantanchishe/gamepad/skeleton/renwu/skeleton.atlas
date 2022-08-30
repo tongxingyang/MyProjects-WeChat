@@ -1,0 +1,27 @@
+
+skeleton.png
+size: 512,512
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+bainkuang
+  rotate: false
+  xy: 2, 366
+  size: 307, 120
+  orig: 307, 120
+  offset: 0, 0
+  index: -1
+guangban_030
+  rotate: false
+  xy: 2, 170
+  size: 194, 194
+  orig: 256, 256
+  offset: 33, 33
+  index: -1
+guangci
+  rotate: false
+  xy: 2, 2
+  size: 187, 166
+  orig: 204, 204
+  offset: 7, 15
+  index: -1

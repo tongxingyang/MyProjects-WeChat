@@ -1,0 +1,41 @@
+
+dandao.png
+size: 1024,1024
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+images/tx/SF4_dds_0321
+  rotate: false
+  xy: 2, 347
+  size: 61, 250
+  orig: 64, 256
+  offset: 2, 3
+  index: -1
+images/tx/dianhua_000
+  rotate: true
+  xy: 2, 2
+  size: 54, 62
+  orig: 116, 116
+  offset: 28, 21
+  index: -1
+images/tx/dianhua_001
+  rotate: false
+  xy: 2, 135
+  size: 86, 100
+  orig: 116, 116
+  offset: 12, 16
+  index: -1
+images/tx/dianhua_002
+  rotate: false
+  xy: 2, 237
+  size: 83, 108
+  orig: 116, 116
+  offset: 13, 2
+  index: -1
+images/tx/dianhua_003
+  rotate: true
+  xy: 2, 58
+  size: 75, 86
+  orig: 116, 116
+  offset: 10, 18
+  index: -1
