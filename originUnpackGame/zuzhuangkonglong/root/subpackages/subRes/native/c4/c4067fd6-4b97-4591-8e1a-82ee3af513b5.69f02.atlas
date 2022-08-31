@@ -1,0 +1,27 @@
+
+ui_ko.png
+size: 1024,512
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+ui/jiesuan/22222
+  rotate: true
+  xy: 497, 0
+  size: 384, 216
+  orig: 384, 216
+  offset: 0, 0
+  index: -1
+ui/jiesuan/Soft2
+  rotate: false
+  xy: 497, 386
+  size: 82, 79
+  orig: 83, 83
+  offset: 0, 2
+  index: -1
+ui/jiesuan/Splat_00000
+  rotate: false
+  xy: 0, 0
+  size: 495, 494
+  orig: 512, 512
+  offset: 9, 9
+  index: -1

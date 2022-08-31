@@ -1,0 +1,39 @@
+{
+    "deviceOrientation": "portrait",
+    "networkTimeout": {
+        "request": 5000,
+        "connectSocket": 5000,
+        "uploadFile": 5000,
+        "downloadFile": 500000
+    },
+    "subPackages": [
+        {
+            "name": "ExportLibs",
+            "root": "/subpackages/ExportLibs/"
+        },
+        {
+            "name": "first",
+            "root": "/subpackages/first/"
+        },
+        {
+            "name": "res",
+            "root": "/subpackages/res/"
+        },
+        {
+            "name": "resources",
+            "root": "/subpackages/resources/"
+        },
+        {
+            "name": "Scripts",
+            "root": "/subpackages/Scripts/"
+        },
+        {
+            "name": "ui",
+            "root": "/subpackages/ui/"
+        },
+        {
+            "name": "chunks",
+            "root": "/src/chunks/"
+        }
+    ]
+}

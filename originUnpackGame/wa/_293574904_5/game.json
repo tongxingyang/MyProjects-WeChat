@@ -1,0 +1,43 @@
+{
+    "deviceOrientation": "portrait",
+    "showStatusBar": false,
+    "networkTimeout": {
+        "request": 10000,
+        "connectSocket": 10000,
+        "uploadFile": 10000,
+        "downloadFile": 10000
+    },
+    "subPackages": [
+        {
+            "name": "res",
+            "root": "/res/"
+        },
+        {
+            "name": "unity",
+            "root": "/unity/"
+        },
+        {
+            "name": "sound",
+            "root": "/sound/"
+        },
+        {
+            "name": "libs",
+            "root": "/libs/"
+        },
+        {
+            "name": "wasm",
+            "root": "/wasm/"
+        },
+        {
+            "name": "physics3D",
+            "root": "/physics3D/"
+        }
+    ],
+    "gamePlugins": {
+        "layaPlugin": {
+            "version": "2.13.0",
+            "provider": "wx70d8aa25ec591f7a",
+            "path": "laya-libs"
+        }
+    }
+}

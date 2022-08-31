@@ -1,0 +1,349 @@
+
+konglong4.png
+size: 1023,248
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+Dino7P1
+  rotate: true
+  xy: 268, 62
+  size: 186, 87
+  orig: 187, 89
+  offset: 1, 1
+  index: -1
+Dino7P12
+  rotate: true
+  xy: 859, 161
+  size: 87, 64
+  orig: 87, 67
+  offset: 0, 0
+  index: -1
+Dino7P13
+  rotate: true
+  xy: 925, 79
+  size: 86, 63
+  orig: 86, 66
+  offset: 0, 0
+  index: -1
+Dino7P2
+  rotate: false
+  xy: 858, 39
+  size: 84, 38
+  orig: 84, 40
+  offset: 0, 1
+  index: -1
+Dino7P21
+  rotate: false
+  xy: 472, 78
+  size: 73, 63
+  orig: 78, 69
+  offset: 2, 4
+  index: -1
+Dino7P22
+  rotate: true
+  xy: 670, 113
+  size: 135, 60
+  orig: 138, 74
+  offset: 0, 1
+  index: -1
+Dino7P23
+  rotate: false
+  xy: 467, 32
+  size: 63, 44
+  orig: 67, 48
+  offset: 1, 2
+  index: -1
+Dino7P24
+  rotate: false
+  xy: 720, 49
+  size: 62, 62
+  orig: 64, 65
+  offset: 0, 1
+  index: -1
+Dino7P25
+  rotate: false
+  xy: 732, 122
+  size: 54, 126
+  orig: 58, 128
+  offset: 3, 1
+  index: -1
+Dino7P29
+  rotate: true
+  xy: 788, 155
+  size: 93, 69
+  orig: 95, 69
+  offset: 1, 0
+  index: -1
+Dino7P30
+  rotate: true
+  xy: 576, 153
+  size: 95, 92
+  orig: 95, 92
+  offset: 0, 0
+  index: -1
+Dino7P31
+  rotate: false
+  xy: 357, 133
+  size: 113, 115
+  orig: 114, 115
+  offset: 1, 0
+  index: -1
+Dino7P32
+  rotate: false
+  xy: 576, 85
+  size: 75, 66
+  orig: 76, 67
+  offset: 0, 0
+  index: -1
+Dino7P33
+  rotate: false
+  xy: 788, 78
+  size: 68, 75
+  orig: 70, 75
+  offset: 2, 0
+  index: -1
+Dino7P34
+  rotate: true
+  xy: 472, 143
+  size: 105, 102
+  orig: 106, 103
+  offset: 1, 1
+  index: -1
+Dino7P35
+  rotate: true
+  xy: 925, 167
+  size: 81, 68
+  orig: 81, 68
+  offset: 0, 0
+  index: -1
+Dino7P36
+  rotate: true
+  xy: 420, 41
+  size: 90, 45
+  orig: 92, 47
+  offset: 1, 1
+  index: -1
+Dino7P4
+  rotate: false
+  xy: 653, 46
+  size: 65, 65
+  orig: 66, 65
+  offset: 1, 0
+  index: -1
+Dino7P5
+  rotate: false
+  xy: 859, 81
+  size: 63, 78
+  orig: 65, 80
+  offset: 0, 1
+  index: -1
+Dino7P6
+  rotate: false
+  xy: 357, 57
+  size: 61, 74
+  orig: 62, 75
+  offset: 0, 0
+  index: -1
+Dino7P8
+  rotate: false
+  xy: 0, 47
+  size: 266, 201
+  orig: 266, 205
+  offset: 0, 4
+  index: -1
+tx/daoguang/1
+  rotate: false
+  xy: 841, 18
+  size: 74, 19
+  orig: 77, 19
+  offset: 1, 0
+  index: -1
+tx/daoguang/2
+  rotate: false
+  xy: 500, 5
+  size: 58, 19
+  orig: 77, 19
+  offset: 1, 0
+  index: -1
+tx/daoguang/3
+  rotate: false
+  xy: 917, 13
+  size: 56, 8
+  orig: 77, 19
+  offset: 1, 11
+  index: -1
+tx/daoguang/4
+  rotate: false
+  xy: 995, 172
+  size: 26, 8
+  orig: 77, 19
+  offset: 1, 3
+  index: -1
+tx/dian/0
+  rotate: false
+  xy: 990, 101
+  size: 31, 30
+  orig: 31, 32
+  offset: 0, 0
+  index: -1
+tx/dian/1
+  rotate: false
+  xy: 662, 14
+  size: 29, 30
+  orig: 31, 32
+  offset: 1, 1
+  index: -1
+tx/dian/2
+  rotate: false
+  xy: 990, 133
+  size: 31, 32
+  orig: 31, 32
+  offset: 0, 0
+  index: -1
+tx/dian/3
+  rotate: false
+  xy: 995, 216
+  size: 27, 32
+  orig: 31, 32
+  offset: 2, 0
+  index: -1
+tx/dian/4
+  rotate: false
+  xy: 608, 53
+  size: 31, 30
+  orig: 31, 32
+  offset: 0, 0
+  index: -1
+tx/dian/5
+  rotate: true
+  xy: 235, 0
+  size: 29, 30
+  orig: 31, 32
+  offset: 1, 1
+  index: -1
+tx/dian2/dian12
+  rotate: false
+  xy: 329, 4
+  size: 51, 51
+  orig: 70, 59
+  offset: 4, 4
+  index: -1
+tx/dian2/dian13
+  rotate: false
+  xy: 547, 26
+  size: 60, 58
+  orig: 60, 58
+  offset: 0, 0
+  index: -1
+tx/dian2/dian14
+  rotate: true
+  xy: 268, 15
+  size: 46, 59
+  orig: 46, 59
+  offset: 0, 0
+  index: -1
+tx/dian2/dian15
+  rotate: false
+  xy: 608, 12
+  size: 52, 32
+  orig: 52, 32
+  offset: 0, 0
+  index: -1
+tx/dian2/dian4
+  rotate: true
+  xy: 944, 23
+  size: 54, 56
+  orig: 56, 72
+  offset: 1, 15
+  index: -1
+tx/dian2/dian5
+  rotate: false
+  xy: 720, 0
+  size: 51, 47
+  orig: 54, 54
+  offset: 1, 6
+  index: -1
+tx/dian2/dian6
+  rotate: false
+  xy: 784, 22
+  size: 55, 54
+  orig: 57, 57
+  offset: 1, 2
+  index: -1
+tx/dian3/em_laser_a
+  rotate: true
+  xy: 0, 31
+  size: 14, 117
+  orig: 14, 117
+  offset: 0, 0
+  index: -1
+tx/dian3/em_laser_b
+  rotate: true
+  xy: 382, 17
+  size: 13, 116
+  orig: 14, 116
+  offset: 1, 0
+  index: -1
+tx/dian3/em_laser_c
+  rotate: true
+  xy: 0, 17
+  size: 12, 116
+  orig: 13, 116
+  offset: 1, 0
+  index: -1
+tx/dian3/em_laser_d
+  rotate: true
+  xy: 119, 31
+  size: 14, 117
+  orig: 14, 117
+  offset: 0, 0
+  index: -1
+tx/dian3/em_laser_e
+  rotate: true
+  xy: 118, 19
+  size: 10, 115
+  orig: 12, 115
+  offset: 1, 0
+  index: -1
+tx/dian3/em_laser_f
+  rotate: true
+  xy: 118, 9
+  size: 8, 114
+  orig: 8, 114
+  offset: 0, 0
+  index: -1
+tx/dianhua_000
+  rotate: false
+  xy: 653, 133
+  size: 15, 18
+  orig: 35, 35
+  offset: 9, 7
+  index: -1
+tx/dianhua_001
+  rotate: false
+  xy: 547, 111
+  size: 25, 30
+  orig: 35, 35
+  offset: 4, 5
+  index: -1
+tx/dianhua_002
+  rotate: false
+  xy: 995, 182
+  size: 25, 32
+  orig: 35, 35
+  offset: 4, 1
+  index: -1
+tx/dianhua_003
+  rotate: false
+  xy: 693, 19
+  size: 23, 25
+  orig: 35, 35
+  offset: 3, 6
+  index: -1
+tx/hudun
+  rotate: false
+  xy: 382, 36
+  size: 35, 19
+  orig: 35, 22
+  offset: 0, 3
+  index: -1

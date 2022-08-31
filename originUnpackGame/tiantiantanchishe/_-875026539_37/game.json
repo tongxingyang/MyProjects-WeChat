@@ -1,0 +1,33 @@
+{
+    "deviceOrientation": "landscape",
+    "showStatusBar": false,
+    "networkTimeout": {
+        "request": 10000,
+        "connectSocket": 10000,
+        "uploadFile": 10000,
+        "downloadFile": 10000
+    },
+    "openDataContext": "openDataContext/",
+    "modifyFriendInteractiveStorageTemplates": [
+        {
+            "key": "1",
+            "action": "赠送",
+            "object": "钻石",
+            "ratio": 50
+        }
+    ],
+    "__warning__": "无效的 game.json [\"modifyFriendInteractiveStorageTemplates\"]",
+    "subPackages": [
+        {
+            "name": "subPack",
+            "root": "/subPack/"
+        }
+    ],
+    "gamePlugins": {
+        "layaPlugin": {
+            "version": "2.12.2",
+            "provider": "wx70d8aa25ec591f7a",
+            "path": "laya-libs"
+        }
+    }
+}

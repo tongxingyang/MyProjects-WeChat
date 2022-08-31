@@ -1,0 +1,27 @@
+
+zuzhuang_tx.png
+size: 156,456
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+hecheng/glow_4086
+  rotate: false
+  xy: 0, 233
+  size: 148, 223
+  orig: 256, 256
+  offset: 87, 8
+  index: -1
+hecheng/glow_40867
+  rotate: true
+  xy: 0, 0
+  size: 80, 156
+  orig: 256, 256
+  offset: 155, 75
+  index: -1
+hecheng/prop_frame_halo
+  rotate: false
+  xy: 0, 82
+  size: 149, 149
+  orig: 150, 150
+  offset: 1, 0
+  index: -1

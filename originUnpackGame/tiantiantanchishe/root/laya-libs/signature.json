@@ -1,0 +1,25 @@
+{
+    "provider": "wx70d8aa25ec591f7a",
+    "signature": [
+        {
+            "path": "index.js",
+            "md5": "387168101f132c705d260bcf93f07cda"
+        },
+        {
+            "path": "laya.core.js",
+            "md5": "dedb84797a4504680588ed8e69a9797e"
+        },
+        {
+            "path": "laya.ani.js",
+            "md5": "a72326a6041fed4640d67947958be158"
+        },
+        {
+            "path": "laya.d3.js",
+            "md5": "9c63efe6e4e5b246195f9e02f2555423"
+        },
+        {
+            "path": "laya.ui.js",
+            "md5": "b4568be5f842870f9ea3f5a3c7920f37"
+        }
+    ]
+}

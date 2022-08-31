@@ -1,0 +1,335 @@
+
+konglong2.png
+size: 953,1011
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+parts10
+  rotate: true
+  xy: 837, 641
+  size: 161, 103
+  orig: 161, 103
+  offset: 0, 0
+  index: -1
+parts14
+  rotate: false
+  xy: 0, 293
+  size: 577, 346
+  orig: 577, 346
+  offset: 0, 0
+  index: -1
+parts19
+  rotate: false
+  xy: 0, 100
+  size: 287, 191
+  orig: 287, 191
+  offset: 0, 0
+  index: -1
+parts2
+  rotate: false
+  xy: 725, 12
+  size: 210, 136
+  orig: 210, 137
+  offset: 0, 0
+  index: -1
+parts22
+  rotate: false
+  xy: 579, 150
+  size: 274, 209
+  orig: 274, 210
+  offset: 0, 1
+  index: -1
+parts25
+  rotate: false
+  xy: 579, 361
+  size: 272, 278
+  orig: 314, 279
+  offset: 38, 1
+  index: -1
+parts3
+  rotate: true
+  xy: 630, 722
+  size: 289, 205
+  orig: 289, 205
+  offset: 0, 0
+  index: -1
+parts33
+  rotate: false
+  xy: 0, 641
+  size: 628, 370
+  orig: 628, 370
+  offset: 0, 0
+  index: -1
+parts36
+  rotate: false
+  xy: 853, 541
+  size: 87, 98
+  orig: 87, 98
+  offset: 0, 0
+  index: -1
+parts40
+  rotate: false
+  xy: 289, 104
+  size: 203, 187
+  orig: 203, 187
+  offset: 0, 0
+  index: -1
+parts41
+  rotate: false
+  xy: 494, 16
+  size: 229, 132
+  orig: 231, 132
+  offset: 1, 0
+  index: -1
+tx/chongci/guang1
+  rotate: false
+  xy: 837, 923
+  size: 92, 88
+  orig: 93, 88
+  offset: 1, 0
+  index: -1
+tx/chongci/guang2
+  rotate: false
+  xy: 200, 3
+  size: 83, 95
+  orig: 85, 98
+  offset: 0, 2
+  index: -1
+tx/chongci/guang3
+  rotate: true
+  xy: 289, 5
+  size: 97, 105
+  orig: 97, 113
+  offset: 0, 6
+  index: -1
+tx/chongji/canying
+  rotate: false
+  xy: 855, 238
+  size: 49, 98
+  orig: 50, 100
+  offset: 0, 1
+  index: -1
+tx/daoguang
+  rotate: true
+  xy: 837, 805
+  size: 111, 97
+  orig: 116, 116
+  offset: 3, 2
+  index: -1
+tx/daoguang2
+  rotate: false
+  xy: 103, 4
+  size: 95, 94
+  orig: 116, 116
+  offset: 10, 11
+  index: -1
+tx/daoguang3
+  rotate: true
+  xy: 0, 0
+  size: 98, 101
+  orig: 116, 116
+  offset: 10, 9
+  index: -1
+tx/daozguang
+  rotate: false
+  xy: 630, 676
+  size: 107, 44
+  orig: 116, 58
+  offset: 5, 10
+  index: -1
+tx/hudun
+  rotate: false
+  xy: 908, 454
+  size: 42, 34
+  orig: 43, 35
+  offset: 0, 1
+  index: -1
+tx/hudun2
+  rotate: false
+  xy: 739, 656
+  size: 64, 64
+  orig: 64, 64
+  offset: 0, 0
+  index: -1
+tx/siyao/siyao_000
+  rotate: false
+  xy: 805, 698
+  size: 27, 22
+  orig: 58, 58
+  offset: 22, 7
+  index: -1
+tx/siyao/siyao_001
+  rotate: false
+  xy: 906, 292
+  size: 44, 44
+  orig: 58, 58
+  offset: 9, 3
+  index: -1
+tx/siyao/siyao_002
+  rotate: true
+  xy: 903, 184
+  size: 52, 50
+  orig: 58, 58
+  offset: 3, 2
+  index: -1
+tx/siyao/siyao_003
+  rotate: true
+  xy: 906, 241
+  size: 49, 39
+  orig: 58, 58
+  offset: 6, 10
+  index: -1
+tx/siyao/siyao_004
+  rotate: true
+  xy: 908, 490
+  size: 49, 39
+  orig: 58, 58
+  offset: 7, 12
+  index: -1
+tx/siyao/siyao_005
+  rotate: false
+  xy: 630, 647
+  size: 48, 27
+  orig: 58, 58
+  offset: 8, 24
+  index: -1
+tx/siyao/siyao_006
+  rotate: false
+  xy: 680, 654
+  size: 37, 20
+  orig: 58, 58
+  offset: 9, 31
+  index: -1
+tx/siyao/siyao_007
+  rotate: false
+  xy: 680, 645
+  size: 30, 7
+  orig: 58, 58
+  offset: 16, 34
+  index: -1
+tx/zhuangji/chongci1
+  rotate: false
+  xy: 719, 642
+  size: 12, 13
+  orig: 12, 13
+  offset: 0, 0
+  index: -1
+tx/zhuangji/chongci2
+  rotate: false
+  xy: 515, 155
+  size: 18, 16
+  orig: 18, 16
+  offset: 0, 0
+  index: -1
+tx/zhuangji/chongci3
+  rotate: false
+  xy: 494, 173
+  size: 22, 16
+  orig: 22, 16
+  offset: 0, 0
+  index: -1
+tx/zhuangji/chongci4
+  rotate: false
+  xy: 535, 172
+  size: 15, 17
+  orig: 15, 17
+  offset: 0, 0
+  index: -1
+tx/zhuangji/chongci5
+  rotate: false
+  xy: 719, 657
+  size: 17, 17
+  orig: 17, 17
+  offset: 0, 0
+  index: -1
+tx/zhuangji/chongci6
+  rotate: false
+  xy: 494, 154
+  size: 19, 17
+  orig: 19, 17
+  offset: 0, 0
+  index: -1
+tx/zhuangji/shangguang_000
+  rotate: false
+  xy: 855, 153
+  size: 46, 83
+  orig: 58, 116
+  offset: 3, 16
+  index: -1
+tx/zhuangji/shangguang_001
+  rotate: false
+  xy: 855, 338
+  size: 54, 98
+  orig: 58, 116
+  offset: 1, 9
+  index: -1
+tx/zhuangji/shangguang_002
+  rotate: false
+  xy: 494, 191
+  size: 55, 100
+  orig: 58, 116
+  offset: 2, 8
+  index: -1
+tx/zhuangji/shangguang_003
+  rotate: false
+  xy: 853, 438
+  size: 53, 101
+  orig: 58, 116
+  offset: 2, 7
+  index: -1
+tx/zhuangji/xiantiao_000
+  rotate: false
+  xy: 535, 153
+  size: 7, 17
+  orig: 15, 58
+  offset: 4, 0
+  index: -1
+tx/zhuangji/xiantiao_001
+  rotate: false
+  xy: 805, 643
+  size: 7, 53
+  orig: 15, 58
+  offset: 4, 2
+  index: -1
+tx/zhuangji/xiantiao_002
+  rotate: false
+  xy: 814, 644
+  size: 6, 52
+  orig: 15, 58
+  offset: 4, 2
+  index: -1
+tx/zhuangji/xiantiao_003
+  rotate: false
+  xy: 822, 644
+  size: 5, 52
+  orig: 15, 58
+  offset: 5, 3
+  index: -1
+tx/zhuangji/xiantiao_004
+  rotate: false
+  xy: 829, 648
+  size: 5, 48
+  orig: 15, 58
+  offset: 5, 7
+  index: -1
+tx/zhuangji/xiantiao_005
+  rotate: false
+  xy: 551, 244
+  size: 3, 47
+  orig: 15, 58
+  offset: 6, 7
+  index: -1
+tx/zhuangji/xiantiao_006
+  rotate: false
+  xy: 551, 195
+  size: 3, 47
+  orig: 15, 58
+  offset: 6, 7
+  index: -1
+tx/zhuangji/xiantiao_007
+  rotate: false
+  xy: 552, 162
+  size: 2, 31
+  orig: 15, 58
+  offset: 6, 24
+  index: -1

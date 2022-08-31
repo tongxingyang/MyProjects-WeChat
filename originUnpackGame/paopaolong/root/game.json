@@ -1,0 +1,26 @@
+{
+    "deviceOrientation": "portrait",
+    "openDataContext": "openDataContext/",
+    "networkTimeout": {
+        "request": 5000,
+        "connectSocket": 5000,
+        "uploadFile": 5000,
+        "downloadFile": 500000
+    },
+    "subPackages": [
+        {
+            "name": "resources",
+            "root": "/subpackages/resources/"
+        },
+        {
+            "name": "ui",
+            "root": "/subpackages/ui/"
+        }
+    ],
+    "plugins": {
+        "cocos": {
+            "version": "3.3.2",
+            "provider": "wx0446ba2621dda60a"
+        }
+    }
+}

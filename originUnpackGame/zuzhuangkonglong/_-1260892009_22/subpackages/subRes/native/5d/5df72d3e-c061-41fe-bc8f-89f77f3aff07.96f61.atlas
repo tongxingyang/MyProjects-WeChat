@@ -1,0 +1,34 @@
+
+jxkl_ui.png
+size: 1024,1024
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+fang00
+  rotate: false
+  xy: 324, 324
+  size: 300, 300
+  orig: 300, 300
+  offset: 0, 0
+  index: -1
+keji
+  rotate: false
+  xy: 2, 280
+  size: 232, 232
+  orig: 232, 232
+  offset: 0, 0
+  index: -1
+kuang2
+  rotate: true
+  xy: 236, 307
+  size: 205, 82
+  orig: 205, 82
+  offset: 0, 0
+  index: -1
+sy_24
+  rotate: false
+  xy: 2, 514
+  size: 320, 110
+  orig: 320, 110
+  offset: 0, 0
+  index: -1
