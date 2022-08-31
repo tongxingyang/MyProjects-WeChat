@@ -11,6 +11,14 @@
         {
             "name": "res",
             "root": "/res/"
+        },
+        {
+            "name": "hlsdk",
+            "root": "/hlsdk/"
+        },
+        {
+            "name": "js",
+            "root": "/js/"
         }
     ],
     "plugins": {

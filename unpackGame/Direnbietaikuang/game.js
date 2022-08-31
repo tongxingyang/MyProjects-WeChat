@@ -49,6 +49,15 @@ function e() {
                 return e.setProgress(.6).then(function() {
                     return Promise.resolve(r);
                 });
+            }).then(function(n){
+                return new Promise((rs,rj)=>{
+                  wx.loadSubpackage({
+                    name:"chunks",
+                    success:()=>{
+                      rs(n);
+                    }
+                  });
+                });
             }).then(function(n) {
                 return require("./libs/common/engine/index.js"), require("./libs/wrapper/engine/index"), 
                 require("./libs/common/cache-manager.js"), n.view._maxPixelRatio = 4, n.macro.CLEANUP_IMAGE_CACHE = !1, 

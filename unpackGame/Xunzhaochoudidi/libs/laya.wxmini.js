@@ -60,7 +60,7 @@ window.wxMiniGame = function(e, t) {
                 try {
                     t = i.fs.statSync(e);
                 } catch (e) {
-                    e = VM2_INTERNAL_STATE_DO_NOT_USE_OR_PROGRAM_WILL_FAIL.handleException(e);
+                    e = null;//.handleException(e);
                     return !1;
                 }
                 return t.isFile();
@@ -320,7 +320,7 @@ window.wxMiniGame = function(e, t) {
                 try {
                     n = i.fs.statSync(e);
                 } catch (e) {
-                    e = VM2_INTERNAL_STATE_DO_NOT_USE_OR_PROGRAM_WILL_FAIL.handleException(e);
+                    e = null;//.handleException(e);
                     n = null;
                 }
                 n ? i.readSync(i.fileListName, "utf8", t) : (i.fs.mkdirSync(e, !0), t && t.runWith([ 1 ]));
@@ -352,7 +352,7 @@ window.wxMiniGame = function(e, t) {
                         data: s
                     } ]);
                 } catch (e) {
-                    e = VM2_INTERNAL_STATE_DO_NOT_USE_OR_PROGRAM_WILL_FAIL.handleException(e);
+                    e = null;//.handleException(e);
                     null != n && n.runWith([ 1 ]);
                 }
             }
@@ -788,7 +788,7 @@ window.wxMiniGame = function(e, t) {
                 try {
                     l.window.wx.setStorageSync(e, t);
                 } catch (i) {
-                    i = VM2_INTERNAL_STATE_DO_NOT_USE_OR_PROGRAM_WILL_FAIL.handleException(i);
+                    i = null;//.handleException(i);
                     l.window.wx.setStorage({
                         key: e,
                         data: t
@@ -1076,7 +1076,7 @@ window.wxMiniGame = function(e, t) {
         try {
             t = new l.window.Parser.DOMParser().parseFromString(e, "text/xml");
         } catch (e) {
-            e = VM2_INTERNAL_STATE_DO_NOT_USE_OR_PROGRAM_WILL_FAIL.handleException(e);
+            e = null;//.handleException(e);
             throw "需要引入xml解析库文件";
         }
         return t;

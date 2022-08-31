@@ -158,8 +158,8 @@
                                     var u = e(t, o, r);
                                     u && (i = i || []).push(u);
                                 } catch (e) {
-                                    e = VM2_INTERNAL_STATE_DO_NOT_USE_OR_PROGRAM_WILL_FAIL.handleException(e);
-                                    throw n.e = null, n.er = e, e;
+                                    // e = VM2_INTERNAL_STATE_DO_NOT_USE_OR_PROGRAM_WILL_FAIL.handleException(e);
+                                    // throw n.e = null, n.er = e, e;
                                 }
                             }), i ? Promise.all(i).then(o) : o();
                         }
@@ -173,8 +173,8 @@
                                 }), n.E = e;
                                 n.C = n.n, n.L = n.I = void 0;
                             } catch (e) {
-                                e = VM2_INTERNAL_STATE_DO_NOT_USE_OR_PROGRAM_WILL_FAIL.handleException(e);
-                                throw n.er = e, e;
+                                // e = VM2_INTERNAL_STATE_DO_NOT_USE_OR_PROGRAM_WILL_FAIL.handleException(e);
+                                // throw n.er = e, e;
                             } finally {
                                 n.e = null;
                             }
@@ -213,8 +213,8 @@
             try {
                 n = e(t);
             } catch (e) {
-                e = VM2_INTERNAL_STATE_DO_NOT_USE_OR_PROGRAM_WILL_FAIL.handleException(e);
-                return Promise.reject(e);
+                // e = VM2_INTERNAL_STATE_DO_NOT_USE_OR_PROGRAM_WILL_FAIL.handleException(e);
+                // return Promise.reject(e);
             }
             return function(e) {
                 return Boolean(e && "function" == typeof e.then);
@@ -259,9 +259,9 @@
             try {
                 return l.call(this, e, t);
             } catch (t) {
-                t = VM2_INTERNAL_STATE_DO_NOT_USE_OR_PROGRAM_WILL_FAIL.handleException(t);
-                if (e in this.registerRegistry) return e;
-                throw t;
+                // t = VM2_INTERNAL_STATE_DO_NOT_USE_OR_PROGRAM_WILL_FAIL.handleException(t);
+                // if (e in this.registerRegistry) return e;
+                // throw t;
             }
         };
         var s = r.instantiate;

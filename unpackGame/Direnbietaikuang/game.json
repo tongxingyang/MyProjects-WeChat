@@ -30,6 +30,10 @@
         {
             "name": "ui",
             "root": "/subpackages/ui/"
+        },
+        {
+            "name": "chunks",
+            "root": "/src/chunks/"
         }
     ]
 }
