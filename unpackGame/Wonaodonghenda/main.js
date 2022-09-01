@@ -7,6 +7,9 @@ window.boot = function() {
         var launchScene = settings.launchScene;
         // load scene
                 cc.director.loadScene(launchScene, null, function() {
+                  setTimeout(()=>{
+                    require("./SGSDK/src/Main");
+                  },2000);
             console.log("Success to load scene: " + launchScene);
         });
     };

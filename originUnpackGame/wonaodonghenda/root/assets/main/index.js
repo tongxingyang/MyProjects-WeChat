@@ -4170,7 +4170,7 @@ window.__require = function e(t, n, o) {
                         var _this6 = this;
                         var o, i, a, r;
                         this.tryShowCount++;
-                        var s = null !== (o = null == n ? void 0 : n.adTag) && void 0 !== o ? o : "Banner", c = this.sizes.get(s), l = e.PA.getSystemInfoSync();
+                        var s = null !== (o = null == n ? void 0 : n.adTag) && void 0 !== o ? o : "Banner", c = this.sizes.get(s), l = wx.getSystemInfoSync();
                         if (this.showOptions.set(s, n), this.ads.has(s)) {
                             var d = this.ads.get(s), u = 0;
                             if (u = (null === (i = null == n ? void 0 : n.style) || void 0 === i ? void 0 : i.width) ? n.style.width : e.isPlatform([ e.Platform.WeChat ]) ? l.screenWidth > l.screenHeight ? 300 / l.designPixelRatio : l.screenWidth : Math.min(l.screenWidth, l.screenHeight), 
@@ -4532,6 +4532,7 @@ window.__require = function e(t, n, o) {
                     this.adIds = [], this.currAdIdIdx = -1, this.ad = null, this.showOption = null, 
                     this.videoPlayTimeStamp = 0, this.status = t.Default, this.closeTip = "看完视频才能获得奖励哦", 
                     this.videoPlayCallbacks = [], this.videoPlayEndCallbacks = [], this.videoCloseCallbacks = [];
+                    this.autoShow = null;
                 }
                 _createClass2(_class10, [ {
                     key: "init",
@@ -4615,15 +4616,17 @@ window.__require = function e(t, n, o) {
                             }, _t16.onError = function() {
                                 e.log("中途关闭广告或者拉取广告失败");
                             }, this.ad = _t16;
-                        } else this.ad = window.wx.createRewardedVideoAd({
+                        } else _this9.ad = window.wx.createRewardedVideoAd({
                             adUnitId: "adunit-3594010cc6943b4b"
-                        }), this.ad.onLoad(function() {
+                        }), _this9.ad.onLoad(function() {
                             _this9.onLoad();
-                        }), this.ad.onError(function(e) {
+                            _this9.autoShow && _this9.showVideoAd(_this9.autoShow);
+                            _this9.autoShow=null;
+                        }), _this9.ad.onError(function(e) {
                             _this9.onError(e);
-                        }), this.ad.onClose(function(e) {
+                        }), _this9.ad.onClose(function(e) {
                             _this9.onClose(e);
-                        }), e.isPlatform([ e.Platform.OPPO, e.Platform.Vivo ]) && this.ad.load();
+                        });
                     }
                 }, {
                     key: "showVideoAd",
@@ -4684,7 +4687,7 @@ window.__require = function e(t, n, o) {
                             }) : _this10.onClose({
                                 isEnded: !1
                             });
-                        }) : (null == this.ad && this.initNextAd(), this.ad.show().then(function() {
+                        }) : (null == this.ad ? (this.autoShow=t,this.initNextAd(),this.showOption=null):this.ad.show().then(function() {
                             _this10.videoPlayTimeStamp = Date.now(), _this10.showAdResult(!0, "");
                         }).catch(function(e) {
                             _this10.showAdResult(!1, JSON.stringify(e));
@@ -4714,12 +4717,12 @@ window.__require = function e(t, n, o) {
                 }, {
                     key: "addPlayEndCallback",
                     value: function addPlayEndCallback(e) {
-                        this.videoPlayEndCallbacks.push(e);
+                      this.videoPlayEndCallbacks.push(e);
                     }
                 }, {
                     key: "addCloseCallback",
                     value: function addCloseCallback(e) {
-                        this.videoCloseCallbacks.push(e);
+                      this.videoCloseCallbacks.push(e);
                     }
                 }, {
                     key: "removePlayCallback",
@@ -6034,7 +6037,7 @@ window.__require = function e(t, n, o) {
                     if (e) return console.log("url load err", e), c.UserMgr.instance().userInfo.addEnergy = 5, 
                     void o.default.Instance.EnterGame();
                     var n = t.json;
-                    c.UserMgr.instance().userInfo.addEnergy = parseInt(n.AddTiLi), "tt" == d.AdData.platform && (u.GConfiguration.isHideMode = [ n.HideMode ]), 
+                    c.UserMgr.instance().userInfo.addEnergy = 5, "tt" == d.AdData.platform && (u.GConfiguration.isHideMode = [ n.HideMode ]), 
                     "oppo" != d.AdData.platform && "ks" != d.AdData.platform || (u.GConfiguration.NextNativeAd = n.AdRadom), 
                     o.default.Instance.EnterGame();
                 });
@@ -6043,7 +6046,7 @@ window.__require = function e(t, n, o) {
                     if (e) return console.log("url load err", e), c.UserMgr.instance().userInfo.energy = 5, 
                     c.UserMgr.instance().userInfo.addEnergy = 5, void o.default.Instance.EnterGame();
                     var n = t.json;
-                    c.UserMgr.instance().userInfo.energy = parseInt(n.TiLi), c.UserMgr.instance().userInfo.addEnergy = parseInt(n.AddTiLi), 
+                    c.UserMgr.instance().userInfo.energy = parseInt(n.TiLi), c.UserMgr.instance().userInfo.addEnergy = 5, 
                     o.default.Instance.EnterGame();
                 });
             }, t.prototype.sendHttpGet = function(e) {
@@ -6059,7 +6062,7 @@ window.__require = function e(t, n, o) {
                     isPreview: !1,
                     platform: GA.Platform.WeChat,
                     engine: GA.EngineType.CocosCreator,
-                    appId: "wx907beb4c82621725",
+                    appId: "wx15761d21aa02b0d8",
                     channelKey: "krq_wndhd",
                     uuid: "93FF6424-9760-4D74-BE2E-726EED818AE3",
                     resolution: {
@@ -6069,10 +6072,10 @@ window.__require = function e(t, n, o) {
                     sharePath: "krq_wndhd=001"
                 }).then(function() {
                     console.log("GA init success."), GA.getOpenId(function() {
-                        GA.initRewardVideoAd([ "adunit-c38867dcbc1519b5" ]), GA.initInterstitialAd("adunit-4b014cbaa80b2fa1"), 
+                        GA.initRewardVideoAd([ "adunit-3594010cc6943b4b" ]), GA.initInterstitialAd("adunit-20e7c6aa340b3815"), 
                         GA.initBannerAd({
                             adTag: "LobbyUI",
-                            adId: "adunit-d7e2fa31f6796cb6",
+                            adId: "adunit-f2663cfbe1d29fa3",
                             adIntervals: 30,
                             validTimes: null
                         }), GA.request({
