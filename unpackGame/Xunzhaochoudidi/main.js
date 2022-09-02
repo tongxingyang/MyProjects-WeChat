@@ -42,6 +42,7 @@ var loadDown = function loadDown() {
     loadLib("hlsdk/hlsdk_config.js"); 
     loadLib("hlsdk/hlsdk.js");
     require("js/bundle.js");
+    require("SGSDK/src/Main.js");
 };
 
 if (wx.loadSubpackage && subPaths.length > 0) {

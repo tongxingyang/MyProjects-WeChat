@@ -1508,6 +1508,7 @@ var t = require("../@babel/runtime/helpers/get"), e = require("../@babel/runtime
                 this.invite = this.root.getChildByName("invite"), this.draw = this.root.getChildByName("draw"), 
                 this.sign = this.root.getChildByName("sign"), this.Leaderboard = this.root.getChildByName("Leaderboard"), 
                 G.isWeChat() ? this.Leaderboard.visible = !0 : this.Leaderboard.visible = !1, this.Leaderboard.left = 200, 
+                this.Leaderboard.visible = 0,
                 this.Leaderboard.y = 182, this.flashsale = this.root.getChildByName("flashsale"), 
                 this.flashsale.visible = !1, this.moreGame = this.root.getChildByName("moreGame"), 
                 this.watchVideo = this.content.getChildByName("watchVideo"), this.task_coins = this.root.getChildByName("task_coins"), 
@@ -1550,6 +1551,7 @@ var t = require("../@babel/runtime/helpers/get"), e = require("../@babel/runtime
                 i.repeatY = 3, i.x = 22, A.getInstance().drawarray = L.instance.getRandomArrayElements([ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11 ], 6)) : (i.getChildAt(0).scale(.8, .8), 
                 i.repeatX = 5, i.repeatY = 4, i.spaceX = 15, i.spaceY = 15, i.x = 30, A.getInstance().drawarray = L.instance.getRandomArrayElements([ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19 ], 10)), 
                 this.drawer.on(Laya.Event.CLICK, this, this.ondrawer), this.draw.visible = !0, this.Blindbox.visible = !0, 
+                this.drawer.visible = 0,
                 this.moreGame.visible = !1, this.updateCoin(), d.getInstance().switch && (GA.Info.isPreview || Laya.SoundManager.playMusic(h.SubPkgUrl + "audio/bgm_world.mp3", 0)), 
                 TimeLine.tween(this.watchVideo).to(1e3, {
                     scaleX: 1.2,
@@ -4198,6 +4200,7 @@ var t = require("../@babel/runtime/helpers/get"), e = require("../@babel/runtime
         }, {
             key: "onshow",
             value: function(t) {
+                var isShowBanner = true;
                 var e = this, i = arguments.length > 1 && void 0 !== arguments[1] ? arguments[1] : null;
                 this.clickvideo = !1, GameInfo.getCheatCount("复活") > 0 && 1 == GD.playgameconfig.gameinfo && G.uploadCheatShow("复活");
                 var a = OppoADM.getNativeAdImgUrl();
@@ -4207,10 +4210,10 @@ var t = require("../@babel/runtime/helpers/get"), e = require("../@babel/runtime
                 this.title.y = 80, this.relive_war.y = 600, this.relive_long.y = 600, this.warbackhome.y = 650) : (this.longe.y = 240, 
                 this.title.y = 158, this.relive_war.y = 415, this.relive_long.y = 415, this.warbackhome.y = 465), 
                 this.warcontent.visible = !0, this.content.visible = !1, this.backfun = t, this.relivefun = i, 
-                this.longe.changeText("长度：" + I.instance.scoreArray[0].score), this.title.text = I.instance.causeOfDeath, 
+                this.longe.changeText("长度：" + I.instance.scoreArray[0].score), this.title.text = I.instance.causeOfDeath, window.showEnd(),isShowBanner = false,
                 this.root.visible = !0, GA.haveRewardVideo() && GA.isNextRewardVideo("团战复活按钮") || !G.isWeChat() ? this.havevideo = !0 : this.havevideo = !1; else {
                     if (this.warcontent.visible = !1, this.content.visible = !0, this.relivecount >= GD.playgameconfig.relive) return I.instance.playgame = !1, 
-                    G.startgame = !0, I.instance.clearGame(), Laya.Scene.open("scene/resultView.scene"), 
+                    G.startgame = !0, I.instance.clearGame(), Laya.Scene.open("scene/resultView.scene"),
                     void this.onhide();
                     this.closerelive.visible = !1, Laya.timer.once(1e3 * GD.playgameconfig.relivetimeClose, this, function() {
                         e.closerelive.visible = !0;
@@ -4221,11 +4224,14 @@ var t = require("../@babel/runtime/helpers/get"), e = require("../@babel/runtime
                     G.isOPPO() ? (a ? (this.closerelive.y = 88, this.relive.y = 580, this.tell.y = 602) : (this.relive.y = 380, 
                     this.tell.y = 403), this.countDown.visible = !1) : this.countDown.visible = !0;
                 }
-                G.isOPPO() ? this.ys.visible ? G.hideoppobanner() : G.showoppobanner() : 0 == GD.playgameconfig.relivebanner ? (A.instance.relivenum++, 
-                A.instance.relivenum % 2 == 0 ? (G.showBanner(), m.showLRADList(), G.reliveshowCustomAdByTag("top-left")) : (G.closeBannerWithTimes(3), 
-                m.showScrollGameList())) : 1 == GD.playgameconfig.relivebanner ? (G.showBanner(), 
-                m.showLRADList(), G.reliveshowCustomAdByTag("top-left")) : (G.closeBannerWithTimes(3), 
-                m.showScrollGameList());
+                if(isShowBanner){
+                    G.isOPPO() ? this.ys.visible ? G.hideoppobanner() : G.showoppobanner() : 0 == GD.playgameconfig.relivebanner ? (A.instance.relivenum++, 
+                        A.instance.relivenum % 2 == 0 ? (G.showBanner(), m.showLRADList(), G.reliveshowCustomAdByTag("top-left")) : (G.closeBannerWithTimes(3), 
+                        m.showScrollGameList())) : 1 == GD.playgameconfig.relivebanner ? (G.showBanner(), 
+                        m.showLRADList(), G.reliveshowCustomAdByTag("top-left")) : (G.closeBannerWithTimes(3), 
+                        m.showScrollGameList());
+                }
+                
             }
         }, {
             key: "showlengthtell",
@@ -5550,6 +5556,7 @@ var t = require("../@babel/runtime/helpers/get"), e = require("../@babel/runtime
         return o(r, [ {
             key: "onAwake",
             value: function() {
+                window.showEnd();
                 this.width = Laya.stage.width, this.height = Laya.stage.height, this.root = this.resultView, 
                 this.root.width = Laya.stage.width, this.root.height = Laya.stage.height, this.content = this.root.getChildByName("content"), 
                 this.content.pos(this.root.width / 2, this.root.height / 2), this.warcontent = this.root.getChildByName("warcontent"), 

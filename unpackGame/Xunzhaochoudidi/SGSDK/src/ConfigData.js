@@ -1,7 +1,7 @@
 window.ConfigData = {
-  version: '1.0.0',// 游戏版本号
-  appid: '',// 此项目在云平台的appid
-  secret: '',// 此项目在云平台的secret, 用于与后端通信签名
+  version: '1.0.1',// 游戏版本号
+  appid: '637',// 此项目在云平台的appid
+  secret: 'yy7m169oh4x9f9bikpr3leuijjckg8zt',// 此项目在云平台的secret, 用于与后端通信签名
   portrait: true,//游戏横竖屏
   data: {
     allowMistouch: false,         //总开关
@@ -13,7 +13,7 @@ window.ConfigData = {
     mistouchtime: 30,             //套路间隔时间
     remenBanner_count:1,          //热门推荐页点击按钮次数
     bannerBox_count:1,            //宝箱页触发误点次数
-    bannerbox: false,             //宝箱页面
+    bannerBox: false,             //宝箱页面
     showRemen: false,             //热门推荐页
     remenBanner: false,           //热门推荐页banner闪烁
     is_showGameBanner:false,      //游戏内banner开关

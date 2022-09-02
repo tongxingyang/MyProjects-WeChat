@@ -2552,7 +2552,7 @@ var _createSuper2 = require("../@babel/runtime/helpers/createSuper");
                         content: t,
                         showCancel: n,
                         success: function(e) {
-                            this._isModalOnShow = !1, "function" == typeof i && ("boolean" == typeof e ? i(e) : e.confirm ? i(!0) : (e.cancel, 
+                            this._isModalOnShow = !1, "function" == typeof i && ("boolean" == typeof e ? i(e) : e.confirm ? i(!1) : (e.cancel, 
                             i(!1)));
                         }.bind(this)
                     };
@@ -2618,7 +2618,7 @@ var _createSuper2 = require("../@babel/runtime/helpers/createSuper");
                 if (null === this._sysInfo) if (this._plat && this._plat.getSystemInfoSync) try {
                     this._sysInfo = G_Utils.deepClone(this._plat.getSystemInfoSync());
                 } catch (e) {
-                    e = VM2_INTERNAL_STATE_DO_NOT_USE_OR_PROGRAM_WILL_FAIL.handleException(e);
+                    //e = VM2_INTERNAL_STATE_DO_NOT_USE_OR_PROGRAM_WILL_FAIL.handleException(e);
                     G_Event.dispatchEvent(G_EventName.EN_SYSTEM_ERROR);
                 } else this._sysInfo = {
                     screenHeight: Math.round(Laya.stage.height),
@@ -2656,7 +2656,7 @@ var _createSuper2 = require("../@babel/runtime/helpers/createSuper");
                     if (this._plat && this._plat.setStorageSync) try {
                         this._plat.setStorageSync(e, t);
                     } catch (e) {
-                        e = VM2_INTERNAL_STATE_DO_NOT_USE_OR_PROGRAM_WILL_FAIL.handleException(e);
+                        //e = VM2_INTERNAL_STATE_DO_NOT_USE_OR_PROGRAM_WILL_FAIL.handleException(e);
                         console.error("PlatHelper.setStorage Fail, No Support This Kind Of Data: ", t);
                     } else Laya.LocalStorage.setItem(e, t);
                 } else console.error("PlatHelper.setStorage Fail, Check Input...");
@@ -2669,7 +2669,7 @@ var _createSuper2 = require("../@babel/runtime/helpers/createSuper");
                     try {
                         return this._plat.getStorageSync(e);
                     } catch (e) {
-                        e = VM2_INTERNAL_STATE_DO_NOT_USE_OR_PROGRAM_WILL_FAIL.handleException(e);
+                        //e = VM2_INTERNAL_STATE_DO_NOT_USE_OR_PROGRAM_WILL_FAIL.handleException(e);
                         return void 0 !== t ? t : null;
                     }
                 } else console.error("PlatHelper.getStorage Fail, Check Input...");
@@ -2987,7 +2987,7 @@ var _createSuper2 = require("../@babel/runtime/helpers/createSuper");
                     try {
                         this._sysInfo = JSON.parse(_e54);
                     } catch (e) {
-                        e = VM2_INTERNAL_STATE_DO_NOT_USE_OR_PROGRAM_WILL_FAIL.handleException(e);
+                       // e = VM2_INTERNAL_STATE_DO_NOT_USE_OR_PROGRAM_WILL_FAIL.handleException(e);
                         G_Event.dispatchEvent(G_EventName.EN_SYSTEM_ERROR);
                     }
                 }
@@ -4930,8 +4930,8 @@ var _createSuper2 = require("../@babel/runtime/helpers/createSuper");
                                     a.send(JSON.stringify(i));
                                 } else a.send(null);
                             } catch (e) {
-                                e = VM2_INTERNAL_STATE_DO_NOT_USE_OR_PROGRAM_WILL_FAIL.handleException(e);
-                                console.error(e), "function" == typeof o && o(!1, "未知错误");
+                                // e = VM2_INTERNAL_STATE_DO_NOT_USE_OR_PROGRAM_WILL_FAIL.handleException(e);
+                                // console.error(e), "function" == typeof o && o(!1, "未知错误");
                             }
                         },
                         _doFormRequest: function _doFormRequest(e, t, n, i, o) {
@@ -4948,8 +4948,8 @@ var _createSuper2 = require("../@babel/runtime/helpers/createSuper");
                                     _t64.length > 0 && (_e65 = _t64.join("&").replace(/%20/g, "+")), a.send(_e65);
                                 } else a.send(null);
                             } catch (e) {
-                                e = VM2_INTERNAL_STATE_DO_NOT_USE_OR_PROGRAM_WILL_FAIL.handleException(e);
-                                console.error(e), "function" == typeof o && o(!1, "未知错误");
+                                // e = VM2_INTERNAL_STATE_DO_NOT_USE_OR_PROGRAM_WILL_FAIL.handleException(e);
+                                // console.error(e), "function" == typeof o && o(!1, "未知错误");
                             }
                         },
                         _createRequest: function _createRequest(e, t, n) {
@@ -4969,8 +4969,8 @@ var _createSuper2 = require("../@babel/runtime/helpers/createSuper");
                                     try {
                                         _o14.send(JSON.stringify(_e68));
                                     } catch (e) {
-                                        e = VM2_INTERNAL_STATE_DO_NOT_USE_OR_PROGRAM_WILL_FAIL.handleException(e);
-                                        console.error(e), "function" == typeof i && i(!1, "请求数据错误");
+                                        // e = VM2_INTERNAL_STATE_DO_NOT_USE_OR_PROGRAM_WILL_FAIL.handleException(e);
+                                        // console.error(e), "function" == typeof i && i(!1, "请求数据错误");
                                     }
                                 } else "function" == typeof i && i(!1, "未知错误");
                             }
@@ -4980,8 +4980,8 @@ var _createSuper2 = require("../@babel/runtime/helpers/createSuper");
                             if (void 0 !== n) try {
                                 n.send(null);
                             } catch (e) {
-                                e = VM2_INTERNAL_STATE_DO_NOT_USE_OR_PROGRAM_WILL_FAIL.handleException(e);
-                                console.error(e), "function" == typeof t && t(!1, "请求数据错误");
+                                // e = VM2_INTERNAL_STATE_DO_NOT_USE_OR_PROGRAM_WILL_FAIL.handleException(e);
+                                // console.error(e), "function" == typeof t && t(!1, "请求数据错误");
                             } else "function" == typeof t && t(!1, "未知错误");
                         },
                         _createProtoDataRequest: function _createProtoDataRequest(e, t, n) {
@@ -5005,8 +5005,8 @@ var _createSuper2 = require("../@babel/runtime/helpers/createSuper");
                                                     try {
                                                         JSON.parse(i.responseText), _e70 = !0, n(i.responseText, "json");
                                                     } catch (t) {
-                                                        t = VM2_INTERNAL_STATE_DO_NOT_USE_OR_PROGRAM_WILL_FAIL.handleException(t);
-                                                        console.error(t), _e70 || n(i.responseText, "text");
+                                                        // t = VM2_INTERNAL_STATE_DO_NOT_USE_OR_PROGRAM_WILL_FAIL.handleException(t);
+                                                        // console.error(t), _e70 || n(i.responseText, "text");
                                                     }
                                                 }
                                             } else n();
@@ -6424,11 +6424,11 @@ var _createSuper2 = require("../@babel/runtime/helpers/createSuper");
                         try {
                             _t83.accessSync(_e86), this._inited = !0;
                         } catch (n) {
-                            n = VM2_INTERNAL_STATE_DO_NOT_USE_OR_PROGRAM_WILL_FAIL.handleException(n);
+                            //n = VM2_INTERNAL_STATE_DO_NOT_USE_OR_PROGRAM_WILL_FAIL.handleException(n);
                             try {
                                 _t83.mkdirSync(_e86, !0), this._inited = !0;
                             } catch (e) {
-                                e = VM2_INTERNAL_STATE_DO_NOT_USE_OR_PROGRAM_WILL_FAIL.handleException(e);
+                                //e = VM2_INTERNAL_STATE_DO_NOT_USE_OR_PROGRAM_WILL_FAIL.handleException(e);
                                 G_Event.dispatchEvent(G_EventName.EN_SYSTEM_ERROR);
                             }
                         }
@@ -6852,6 +6852,7 @@ var _createSuper2 = require("../@babel/runtime/helpers/createSuper");
             key: "onEnable",
             value: function onEnable() {
                 this._initUI();
+                this.rootNode.size(Laya.stage.displayWidth,Laya.stage.displayHeight);
             }
         }, {
             key: "showDaoBox",
@@ -7762,6 +7763,7 @@ var _createSuper2 = require("../@babel/runtime/helpers/createSuper");
                                     var _e92 = new Laya.Prefab();
                                     _e92.json = i.prefabObj, i.node = _e92.create(), i.node && ("string" == typeof i.cls ? i.clsObj = G_UIHelper.getComponentByName(i.node, i.cls) : i.clsObj = i.node.getComponent(i.cls), 
                                     i.node.zOrder = i.zOrder, t.addChild(i.node));
+                                    i.node.size(Laya.stage.displayWidth,Laya.stage.displayHeight);
                                 }
                                 if (i.closeCb = n, arguments.length > 2) {
                                     var _e93 = Array.prototype.slice.call(arguments);
@@ -8000,11 +8002,11 @@ var _createSuper2 = require("../@babel/runtime/helpers/createSuper");
                     } else try {
                         _n57.accessSync(e);
                     } catch (i) {
-                        i = VM2_INTERNAL_STATE_DO_NOT_USE_OR_PROGRAM_WILL_FAIL.handleException(i);
+                        //i = VM2_INTERNAL_STATE_DO_NOT_USE_OR_PROGRAM_WILL_FAIL.handleException(i);
                         try {
                             return t && _n57.mkdirSync(e, !0), !1;
                         } catch (e) {
-                            e = VM2_INTERNAL_STATE_DO_NOT_USE_OR_PROGRAM_WILL_FAIL.handleException(e);
+                            //e = VM2_INTERNAL_STATE_DO_NOT_USE_OR_PROGRAM_WILL_FAIL.handleException(e);
                             G_Event.dispatchEvent(G_EventName.EN_SYSTEM_ERROR);
                         }
                     }
@@ -8160,7 +8162,7 @@ var _createSuper2 = require("../@babel/runtime/helpers/createSuper");
                             } else try {
                                 _t95.accessSync(e);
                             } catch (e) {
-                                e = VM2_INTERNAL_STATE_DO_NOT_USE_OR_PROGRAM_WILL_FAIL.handleException(e);
+                                //e = VM2_INTERNAL_STATE_DO_NOT_USE_OR_PROGRAM_WILL_FAIL.handleException(e);
                                 return !1;
                             }
                             return !0;

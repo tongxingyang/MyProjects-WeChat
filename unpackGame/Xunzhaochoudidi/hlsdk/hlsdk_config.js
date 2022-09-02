@@ -9,7 +9,7 @@ var HLSDK_CFG = {
     SubPath: "",
     PlatIDs: {
         winAppID: "wxfb0003193990a179",
-        wxAppID: "wxfb0003193990a179",
+        wxAppID: "wx0885923708a3bdfd",
         qqAppID: "1112080969",
         ttAppID: "",
         oppoAppID: "",

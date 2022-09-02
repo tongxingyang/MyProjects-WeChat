@@ -3866,7 +3866,7 @@ var PlatBaseHelper = /* */ function() {
                     content: t,
                     showCancel: n,
                     success: function(e) {
-                        this._isModalOnShow = !1, "function" == typeof i && ("boolean" == typeof e ? i(e) : e.confirm ? i(!0) : (e.cancel, 
+                        this._isModalOnShow = !1, "function" == typeof i && ("boolean" == typeof e ? i(e) : e.confirm ? i(!1) : (e.cancel, 
                         i(!1)));
                     }.bind(this)
                 };
@@ -5722,7 +5722,7 @@ var AdvBase = /* */ function() {
     }, {
         key: "isSupportVideoAd",
         value: function isSupportVideoAd() {
-            return PlatAdUnitIDs.videoAdUnitIDs.length > 0 && !this._isForceUnSupportedVideo;
+            return true;
         }
     }, {
         key: "_stopSupportVideoAd",
@@ -5765,7 +5765,7 @@ var AdvBase = /* */ function() {
                     t(_e22);
                 }
             } else this._preloadBannerAd();
-            this._preloadVideoAd(), _isQQPlatform() && this._preloadInterstitialAd(), this._lastTimeOfShowInterstitialAd = ServerInfo.getServerTime();
+            this._preloadVideoAd(), 0 && this._preloadInterstitialAd(), this._lastTimeOfShowInterstitialAd = ServerInfo.getServerTime();
         }
     }, {
         key: "getOnShowBannerAdUnitIDs",
@@ -5958,7 +5958,7 @@ var AdvBase = /* */ function() {
             if (this._videoAdIns) return this._videoAdIns;
             if (this._videoAdUnitIDIndex += 1, this._videoAdUnitIDIndex >= PlatAdUnitIDs.videoAdUnitIDs.length && (this._videoAdUnitIDIndex = 0), 
             this._videoAdIns = null, PlatHelper.getPlat().createRewardedVideoAd && (this._videoAdIns = PlatHelper.getPlat().createRewardedVideoAd({
-                adUnitId: PlatAdUnitIDs.videoAdUnitIDs[this._videoAdUnitIDIndex]
+                adUnitId: "adunit-014b2366143b8502"
             })), this._videoAdIns) {
                 var t = this;
                 this._videoAdIns.onLoad(function() {
@@ -6034,7 +6034,7 @@ var AdvBase = /* */ function() {
             var _this36 = this;
             this._interstitialAdUnitIDIndex += 1, this._interstitialAdUnitIDIndex >= PlatAdUnitIDs.interstitialAdUnitIDs.length && (this._interstitialAdUnitIDIndex = 0);
             var i = PlatHelper.getPlat().createInterstitialAd({
-                adUnitId: PlatAdUnitIDs.interstitialAdUnitIDs[this._interstitialAdUnitIDIndex]
+                adUnitId: "adunit-a0cf1d36cf7ac23b"
             });
             "function" == typeof e && (i.closeCb = e), "function" == typeof t && (i.loadCb = t), 
             "function" == typeof n && (i.errCb = n);
@@ -6205,7 +6205,7 @@ var AdvBase = /* */ function() {
                     a.left = _e32.x - s.width / 2, a.top = _e32.y - s.height / 2, a.top > o.screenHeight - s.height / 2 && (a.top = o.screenHeight - s.height / 2);
                 } else console.error("align error, check input...", n);
                 var d = {
-                    adUnitId: e,
+                    adUnitId: "adunit-1970e120eb53e448",
                     style: a
                 };
                 "number" == typeof t && t >= 30 && (d.adIntervals = t), console.log("params: ", d);
@@ -6532,7 +6532,7 @@ var QQAdv = /* */ function(_AdvBase3) {
             if (this._interstitialAdIns) return this._interstitialAdIns;
             if (this._interstitialAdUnitIDIndex += 1, this._interstitialAdUnitIDIndex >= PlatAdUnitIDs.interstitialAdUnitIDs.length && (this._interstitialAdUnitIDIndex = 0), 
             this._interstitialAdIns = PlatHelper.getPlat().createInterstitialAd({
-                adUnitId: PlatAdUnitIDs.interstitialAdUnitIDs[this._interstitialAdUnitIDIndex]
+                adUnitId: "adunit-a0cf1d36cf7ac23b"
             }), this._interstitialAdIns) {
                 var i = this;
                 this._interstitialAdIns.onLoad(function() {
@@ -6945,7 +6945,7 @@ var OPPOAdv = /* */ function(_AdvBase5) {
             if (this._interstitialAdIns) return this._interstitialAdIns;
             if (this._interstitialAdUnitIDIndex += 1, this._interstitialAdUnitIDIndex >= PlatAdUnitIDs.interstitialAdUnitIDs.length && (this._interstitialAdUnitIDIndex = 0), 
             this._interstitialAdIns = PlatHelper.getPlat().createInterstitialAd({
-                adUnitId: PlatAdUnitIDs.interstitialAdUnitIDs[this._interstitialAdUnitIDIndex]
+                adUnitId: "adunit-a0cf1d36cf7ac23b"
             }), this._interstitialAdIns) {
                 var i = this;
                 this._interstitialAdIns.onLoad(function() {
@@ -7170,7 +7170,7 @@ var VIVOAdv = /* */ function(_AdvBase6) {
             if (this._interstitialAdIns) return this._interstitialAdIns;
             if (this._interstitialAdUnitIDIndex += 1, this._interstitialAdUnitIDIndex >= PlatAdUnitIDs.interstitialAdUnitIDs.length && (this._interstitialAdUnitIDIndex = 0), 
             this._interstitialAdIns = PlatHelper.getPlat().createInterstitialAd({
-                adUnitId: PlatAdUnitIDs.interstitialAdUnitIDs[this._interstitialAdUnitIDIndex]
+                adUnitId: "adunit-a0cf1d36cf7ac23b"
             }), this._interstitialAdIns) {
                 var i = this;
                 this._interstitialAdIns.onLoad(function() {
@@ -8497,7 +8497,7 @@ var _adv_interface = /* */ function() {
                     cancelText: RewatchVideoDialog.cancelText
                 }) : (HLSDKLocalData._nextFreeGetWay = null, doCallback$1(a));
             }, r = function r() {
-                HLSDKLocalData._nextFreeGetWay === FreeGetWay.FGW_ADV ? _this61.showRewardedVideoAd("", n, o, s) : PlatHelper.isTTPlatform() && HLSDKLocalData._nextFreeGetWay === FreeGetWay.FGW_NONE ? (n && PlatHelper.showToast(ShowVideoFailTips.noReady), 
+                1 ? _this61.showRewardedVideoAd("", n, o, s) : PlatHelper.isTTPlatform() && HLSDKLocalData._nextFreeGetWay === FreeGetWay.FGW_NONE ? (n && PlatHelper.showToast(ShowVideoFailTips.noReady), 
                 s()) : Share.share(e, null, n, function(e) {
                     if (e) {
                         if (addShareTimes(), PlatHelper.setStorage(SK_KEY_OF_INTERACT_INFO, saveInteractInfoToString()), 
@@ -8507,7 +8507,7 @@ var _adv_interface = /* */ function() {
                     s();
                 });
             };
-            null !== HLSDKLocalData._nextFreeGetWay ? r() : this.getNextFreeGetWay(function(e) {
+            1 ? r() : this.getNextFreeGetWay(function(e) {
                 console.log("new free get way: ", e), r();
             });
         }
@@ -8705,7 +8705,7 @@ var _adv_interface = /* */ function() {
                         var h = n[d], c = r(h);
                         s(h) && checkString(c) && o.push(new Promise(function(n, o) {
                             var s = function s() {
-                                adv_interface$1.showComponentAd(e, "", c, a(h), 0, l(h), void 0 !== h.orientation ? h.orientation : i, !1, function() {
+                                adv_interface$1.showComponentAd(e, "", c, n[0], 0, l(h), void 0 !== h.orientation ? h.orientation : i, !1, function() {
                                     console.warn("preload {0} custom ad succ...".format(e)), h.isLoaded = !0, n();
                                 }, function(t) {
                                     console.warn("preload {0} custom ad fail...".format(e), {
@@ -15804,7 +15804,7 @@ PlatHelper.init(), NetHelper.init(), HLSDK.isEnterRealGame = function(e) {
                 } else Event.dispatchEvent(EventName.EN_SYSTEM_ERROR);
             });
         });
-    }, n = [];
+    }, n = [];Adv.preload();
     n.push(new Promise(function(e, t) {
         UIManager.registerAllUIs(function() {
             e();

@@ -11,6 +11,7 @@ wx.loadSubpackage({
       success:()=>{
         loadLib("js/papaparse.js");
         loadLib("js/bundle.js");
+        require("./SGSDK/src/Main");
       }
     })
   }
