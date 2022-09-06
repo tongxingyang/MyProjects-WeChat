@@ -1,0 +1,37 @@
+{
+    "deviceOrientation": "portrait",
+    "networkTimeout": {
+        "request": 5000,
+        "connectSocket": 5000,
+        "uploadFile": 5000,
+        "downloadFile": 500000
+    },
+    "subPackages": [
+        {
+            "name": "atom",
+            "root": "/subpackages/atom/"
+        },
+        {
+            "name": "audio",
+            "root": "/subpackages/audio/"
+        },
+        {
+            "name": "prefab",
+            "root": "/subpackages/prefab/"
+        },
+        {
+            "name": "texture",
+            "root": "/subpackages/texture/"
+        },
+        {
+            "name": "main",
+            "root": "/assets/main/"
+        }
+    ],
+    "plugins": {
+        "cocos": {
+            "version": "3.4.2",
+            "provider": "wx0446ba2621dda60a"
+        }
+    }
+}

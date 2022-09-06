@@ -1,0 +1,19 @@
+{
+  "condition": {
+    "game": {
+      "list": [
+        {
+          "pathName": "",
+          "name": "广告用户进入",
+          "query": "weixinadinfo=test&gdt_vid=test",
+          "scene": null
+        }
+      ]
+    }
+  },
+  "description": "项目私有配置文件。此文件中的内容将覆盖 project.config.json 中的相同字段。项目的改动优先同步到此文件中。详见文档：https://developers.weixin.qq.com/miniprogram/dev/devtools/projectconfig.html",
+  "projectname": "Kaigeshousidian",
+  "setting": {
+    "urlCheck": false
+  }
+}
