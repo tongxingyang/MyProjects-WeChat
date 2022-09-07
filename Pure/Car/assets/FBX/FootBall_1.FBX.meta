@@ -1,0 +1,109 @@
+{
+  "ver": "2.2.0",
+  "importer": "fbx",
+  "imported": true,
+  "uuid": "e1c77f0e-df6a-46ff-9240-8382baaf613e",
+  "files": [],
+  "subMetas": {
+    "accbb": {
+      "importer": "gltf-mesh",
+      "uuid": "e1c77f0e-df6a-46ff-9240-8382baaf613e@accbb",
+      "displayName": "",
+      "id": "accbb",
+      "name": "FootBall_1.mesh",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "22c28": {
+      "importer": "texture",
+      "uuid": "e1c77f0e-df6a-46ff-9240-8382baaf613e@22c28",
+      "displayName": "",
+      "id": "22c28",
+      "name": "贴图 #76.texture",
+      "userData": {
+        "wrapModeS": "repeat",
+        "wrapModeT": "repeat",
+        "minfilter": "linear",
+        "magfilter": "linear",
+        "mipfilter": "none",
+        "anisotropy": 0,
+        "isUuid": false,
+        "imageUuidOrDatabaseUri": "db://assets/Textures/FootBall_1.jpg"
+      },
+      "ver": "1.0.21",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "5d2be": {
+      "importer": "gltf-material",
+      "uuid": "e1c77f0e-df6a-46ff-9240-8382baaf613e@5d2be",
+      "displayName": "",
+      "id": "5d2be",
+      "name": "FootBall_1.material",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.14",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "08aee": {
+      "importer": "gltf-scene",
+      "uuid": "e1c77f0e-df6a-46ff-9240-8382baaf613e@08aee",
+      "displayName": "",
+      "id": "08aee",
+      "name": "FootBall_1.prefab",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.12",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    }
+  },
+  "userData": {
+    "imageMetas": [
+      {
+        "name": "贴图 #76",
+        "uri": "db://assets/Textures/FootBall_1.jpg"
+      }
+    ],
+    "legacyFbxImporter": false,
+    "fbx": {
+      "smartMaterialEnabled": true
+    },
+    "redirect": "e1c77f0e-df6a-46ff-9240-8382baaf613e@08aee",
+    "assetFinder": {
+      "meshes": [
+        "e1c77f0e-df6a-46ff-9240-8382baaf613e@accbb"
+      ],
+      "skeletons": [],
+      "textures": [
+        "e1c77f0e-df6a-46ff-9240-8382baaf613e@22c28"
+      ],
+      "materials": [
+        "e1c77f0e-df6a-46ff-9240-8382baaf613e@5d2be"
+      ],
+      "scenes": [
+        "e1c77f0e-df6a-46ff-9240-8382baaf613e@08aee"
+      ]
+    }
+  }
+}

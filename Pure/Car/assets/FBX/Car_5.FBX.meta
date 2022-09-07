@@ -1,0 +1,555 @@
+{
+  "ver": "2.2.0",
+  "importer": "fbx",
+  "imported": true,
+  "uuid": "5e2eefa8-04da-4827-be5b-11110f74af7e",
+  "files": [
+    "__original-animation-0.cconb"
+  ],
+  "subMetas": {
+    "38825": {
+      "importer": "gltf-material",
+      "uuid": "5e2eefa8-04da-4827-be5b-11110f74af7e@38825",
+      "displayName": "",
+      "id": "38825",
+      "name": "Car_5.material",
+      "userData": {
+        "gltfIndex": 1
+      },
+      "ver": "1.0.14",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "68138": {
+      "importer": "gltf-material",
+      "uuid": "5e2eefa8-04da-4827-be5b-11110f74af7e@68138",
+      "displayName": "",
+      "id": "68138",
+      "name": "Wheel_5.material",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.14",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "fcbd4": {
+      "importer": "gltf-mesh",
+      "uuid": "5e2eefa8-04da-4827-be5b-11110f74af7e@fcbd4",
+      "displayName": "",
+      "id": "fcbd4",
+      "name": "Wheel_5_FR.mesh",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "67c70": {
+      "importer": "gltf-mesh",
+      "uuid": "5e2eefa8-04da-4827-be5b-11110f74af7e@67c70",
+      "displayName": "",
+      "id": "67c70",
+      "name": "Car_5_1.mesh",
+      "userData": {
+        "gltfIndex": 1
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "f07ac": {
+      "importer": "gltf-mesh",
+      "uuid": "5e2eefa8-04da-4827-be5b-11110f74af7e@f07ac",
+      "displayName": "",
+      "id": "f07ac",
+      "name": "Car_5_2.mesh",
+      "userData": {
+        "gltfIndex": 2
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "bcf02": {
+      "importer": "gltf-mesh",
+      "uuid": "5e2eefa8-04da-4827-be5b-11110f74af7e@bcf02",
+      "displayName": "",
+      "id": "bcf02",
+      "name": "Lamp_5.mesh",
+      "userData": {
+        "gltfIndex": 3
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "81db1": {
+      "importer": "gltf-mesh",
+      "uuid": "5e2eefa8-04da-4827-be5b-11110f74af7e@81db1",
+      "displayName": "",
+      "id": "81db1",
+      "name": "Wheel_5_BR.mesh",
+      "userData": {
+        "gltfIndex": 4
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "4ab00": {
+      "importer": "gltf-mesh",
+      "uuid": "5e2eefa8-04da-4827-be5b-11110f74af7e@4ab00",
+      "displayName": "",
+      "id": "4ab00",
+      "name": "Wheel_5_BL.mesh",
+      "userData": {
+        "gltfIndex": 5
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "f7b23": {
+      "importer": "gltf-mesh",
+      "uuid": "5e2eefa8-04da-4827-be5b-11110f74af7e@f7b23",
+      "displayName": "",
+      "id": "f7b23",
+      "name": "Wheel_5_FL.mesh",
+      "userData": {
+        "gltfIndex": 6
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "73b7f": {
+      "importer": "gltf-animation",
+      "uuid": "5e2eefa8-04da-4827-be5b-11110f74af7e@73b7f",
+      "displayName": "",
+      "id": "73b7f",
+      "name": "Take 001.animation",
+      "userData": {
+        "gltfIndex": 0,
+        "wrapMode": 2,
+        "sample": 30,
+        "span": {
+          "from": 0,
+          "to": 0.2666666805744171
+        },
+        "events": []
+      },
+      "ver": "1.0.16",
+      "imported": true,
+      "files": [
+        ".cconb"
+      ],
+      "subMetas": {}
+    },
+    "f04b5": {
+      "importer": "texture",
+      "uuid": "5e2eefa8-04da-4827-be5b-11110f74af7e@f04b5",
+      "displayName": "",
+      "id": "f04b5",
+      "name": "贴图 #36.texture",
+      "userData": {
+        "wrapModeS": "repeat",
+        "wrapModeT": "repeat",
+        "minfilter": "linear",
+        "magfilter": "linear",
+        "mipfilter": "none",
+        "anisotropy": 0,
+        "isUuid": false,
+        "imageUuidOrDatabaseUri": "db://assets/Textures/Wheel_5.jpg"
+      },
+      "ver": "1.0.21",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "3670b": {
+      "importer": "texture",
+      "uuid": "5e2eefa8-04da-4827-be5b-11110f74af7e@3670b",
+      "displayName": "",
+      "id": "3670b",
+      "name": "贴图 #35.texture",
+      "userData": {
+        "wrapModeS": "repeat",
+        "wrapModeT": "repeat",
+        "minfilter": "linear",
+        "magfilter": "linear",
+        "mipfilter": "none",
+        "anisotropy": 0,
+        "isUuid": false,
+        "imageUuidOrDatabaseUri": "db://assets/Textures/Car_5.jpg"
+      },
+      "ver": "1.0.21",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "0a757": {
+      "importer": "texture",
+      "uuid": "5e2eefa8-04da-4827-be5b-11110f74af7e@0a757",
+      "displayName": "",
+      "id": "0a757",
+      "name": "贴图 #39.texture",
+      "userData": {
+        "wrapModeS": "repeat",
+        "wrapModeT": "repeat",
+        "minfilter": "linear",
+        "magfilter": "linear",
+        "mipfilter": "none",
+        "anisotropy": 0,
+        "isUuid": false,
+        "imageUuidOrDatabaseUri": "db://assets/Textures/Car_D.jpg"
+      },
+      "ver": "1.0.21",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "2f86d": {
+      "importer": "texture",
+      "uuid": "5e2eefa8-04da-4827-be5b-11110f74af7e@2f86d",
+      "displayName": "",
+      "id": "2f86d",
+      "name": "贴图 #40.texture",
+      "userData": {
+        "wrapModeS": "repeat",
+        "wrapModeT": "repeat",
+        "minfilter": "linear",
+        "magfilter": "linear",
+        "mipfilter": "none",
+        "anisotropy": 0,
+        "isUuid": false,
+        "imageUuidOrDatabaseUri": "db://assets/Textures/Lamp_6.png"
+      },
+      "ver": "1.0.21",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "a88f7": {
+      "importer": "texture",
+      "uuid": "5e2eefa8-04da-4827-be5b-11110f74af7e@a88f7",
+      "displayName": "",
+      "id": "a88f7",
+      "name": "贴图 #41.texture",
+      "userData": {
+        "wrapModeS": "repeat",
+        "wrapModeT": "repeat",
+        "minfilter": "linear",
+        "magfilter": "linear",
+        "mipfilter": "none",
+        "anisotropy": 0,
+        "isUuid": false,
+        "imageUuidOrDatabaseUri": "db://assets/Textures/Lamp_6.png"
+      },
+      "ver": "1.0.21",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "18ee3": {
+      "importer": "gltf-material",
+      "uuid": "5e2eefa8-04da-4827-be5b-11110f74af7e@18ee3",
+      "displayName": "",
+      "id": "18ee3",
+      "name": "Car_D.material",
+      "userData": {
+        "gltfIndex": 2
+      },
+      "ver": "1.0.14",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "025ac": {
+      "importer": "gltf-material",
+      "uuid": "5e2eefa8-04da-4827-be5b-11110f74af7e@025ac",
+      "displayName": "",
+      "id": "025ac",
+      "name": "Lamp_6.material",
+      "userData": {
+        "gltfIndex": 3
+      },
+      "ver": "1.0.14",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "9719f": {
+      "importer": "gltf-scene",
+      "uuid": "5e2eefa8-04da-4827-be5b-11110f74af7e@9719f",
+      "displayName": "",
+      "id": "9719f",
+      "name": "Car_5.prefab",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.12",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    }
+  },
+  "userData": {
+    "imageMetas": [
+      {
+        "name": "贴图 #36",
+        "uri": "db://assets/Textures/Wheel_5.jpg"
+      },
+      {
+        "name": "贴图 #35",
+        "uri": "db://assets/Textures/Car_5.jpg"
+      },
+      {
+        "name": "贴图 #39",
+        "uri": "db://assets/Textures/Car_D.jpg"
+      },
+      {
+        "name": "贴图 #40",
+        "uri": "db://assets/Textures/Lamp_6.png"
+      },
+      {
+        "name": "贴图 #41",
+        "uri": "db://assets/Textures/Lamp_6.png"
+      }
+    ],
+    "legacyFbxImporter": false,
+    "fbx": {
+      "smartMaterialEnabled": true
+    },
+    "animationImportSettings": [
+      {
+        "name": "Take 001",
+        "duration": 0.2666666805744171,
+        "fps": 30,
+        "splits": [
+          {
+            "name": "Take 001",
+            "from": 0,
+            "to": 0.2666666805744171,
+            "wrapMode": 2
+          }
+        ]
+      }
+    ],
+    "redirect": "5e2eefa8-04da-4827-be5b-11110f74af7e@9719f",
+    "assetFinder": {
+      "meshes": [
+        "5e2eefa8-04da-4827-be5b-11110f74af7e@fcbd4",
+        "5e2eefa8-04da-4827-be5b-11110f74af7e@67c70",
+        "5e2eefa8-04da-4827-be5b-11110f74af7e@f07ac",
+        "5e2eefa8-04da-4827-be5b-11110f74af7e@bcf02",
+        "5e2eefa8-04da-4827-be5b-11110f74af7e@81db1",
+        "5e2eefa8-04da-4827-be5b-11110f74af7e@4ab00",
+        "5e2eefa8-04da-4827-be5b-11110f74af7e@f7b23"
+      ],
+      "skeletons": [],
+      "textures": [
+        "5e2eefa8-04da-4827-be5b-11110f74af7e@f04b5",
+        "5e2eefa8-04da-4827-be5b-11110f74af7e@3670b",
+        "5e2eefa8-04da-4827-be5b-11110f74af7e@0a757",
+        "5e2eefa8-04da-4827-be5b-11110f74af7e@2f86d",
+        "5e2eefa8-04da-4827-be5b-11110f74af7e@a88f7"
+      ],
+      "materials": [
+        "5e2eefa8-04da-4827-be5b-11110f74af7e@68138",
+        "5e2eefa8-04da-4827-be5b-11110f74af7e@38825",
+        "5e2eefa8-04da-4827-be5b-11110f74af7e@18ee3",
+        "5e2eefa8-04da-4827-be5b-11110f74af7e@025ac"
+      ],
+      "scenes": [
+        "5e2eefa8-04da-4827-be5b-11110f74af7e@9719f"
+      ]
+    },
+    "materials": {
+      "5e2eefa8-04da-4827-be5b-11110f74af7e@38825": {
+        "__type__": "cc.Material",
+        "_name": "",
+        "_objFlags": 0,
+        "_native": "",
+        "_effectAsset": {
+          "__uuid__": "1baf0fc9-befa-459c-8bdd-af1a450a0319",
+          "__expectedType__": "cc.EffectAsset"
+        },
+        "_techIdx": 0,
+        "_defines": [
+          {
+            "USE_ALBEDO_MAP": true
+          },
+          {},
+          {}
+        ],
+        "_states": [
+          {
+            "rasterizerState": {},
+            "depthStencilState": {},
+            "blendState": {
+              "targets": [
+                {}
+              ]
+            }
+          },
+          {
+            "rasterizerState": {},
+            "depthStencilState": {},
+            "blendState": {
+              "targets": [
+                {}
+              ]
+            }
+          },
+          {
+            "rasterizerState": {},
+            "depthStencilState": {},
+            "blendState": {
+              "targets": [
+                {}
+              ]
+            }
+          }
+        ],
+        "_props": [
+          {
+            "roughness": 0.5,
+            "metallic": 0.5,
+            "specularIntensity": 0,
+            "mainTexture": {
+              "__uuid__": "5e2eefa8-04da-4827-be5b-11110f74af7e@3670b",
+              "__expectedType__": "cc.Texture2D"
+            }
+          },
+          {},
+          {}
+        ]
+      },
+      "5e2eefa8-04da-4827-be5b-11110f74af7e@68138": {
+        "__type__": "cc.Material",
+        "_name": "",
+        "_objFlags": 0,
+        "_native": "",
+        "_effectAsset": {
+          "__uuid__": "f648964e-8d32-41fc-9ac9-7a1e714dd17b",
+          "__expectedType__": "cc.EffectAsset"
+        },
+        "_techIdx": 0,
+        "_defines": [
+          {
+            "USE_ALBEDO_MAP": true
+          },
+          {},
+          {}
+        ],
+        "_states": [
+          {
+            "rasterizerState": {},
+            "depthStencilState": {},
+            "blendState": {
+              "targets": [
+                {}
+              ]
+            }
+          },
+          {
+            "rasterizerState": {},
+            "depthStencilState": {},
+            "blendState": {
+              "targets": [
+                {}
+              ]
+            }
+          },
+          {
+            "rasterizerState": {},
+            "depthStencilState": {},
+            "blendState": {
+              "targets": [
+                {}
+              ]
+            }
+          }
+        ],
+        "_props": [
+          {
+            "mainTexture": {
+              "__uuid__": "5e2eefa8-04da-4827-be5b-11110f74af7e@f04b5",
+              "__expectedType__": "cc.Texture2D"
+            },
+            "mainColor": {
+              "__type__": "cc.Color",
+              "r": 149,
+              "g": 149,
+              "b": 149,
+              "a": 255
+            },
+            "shininessExponent": 2,
+            "specularColor": {
+              "__type__": "cc.Color",
+              "r": 111,
+              "g": 111,
+              "b": 111,
+              "a": 255
+            },
+            "specularFactor": 0
+          },
+          {},
+          {}
+        ]
+      }
+    }
+  }
+}

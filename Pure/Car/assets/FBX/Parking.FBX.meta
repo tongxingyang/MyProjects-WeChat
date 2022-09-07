@@ -1,0 +1,422 @@
+{
+  "ver": "2.2.0",
+  "importer": "fbx",
+  "imported": true,
+  "uuid": "b35296f6-3302-47be-b63f-e935559f4e3c",
+  "files": [],
+  "subMetas": {
+    "21907": {
+      "importer": "gltf-scene",
+      "uuid": "b35296f6-3302-47be-b63f-e935559f4e3c@21907",
+      "displayName": "",
+      "id": "21907",
+      "name": "Parking.prefab",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.12",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "45540": {
+      "importer": "gltf-material",
+      "uuid": "b35296f6-3302-47be-b63f-e935559f4e3c@45540",
+      "displayName": "",
+      "id": "45540",
+      "name": "Wheel_1.material",
+      "userData": {
+        "gltfIndex": 2
+      },
+      "ver": "1.0.14",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "e7915": {
+      "importer": "gltf-mesh",
+      "uuid": "b35296f6-3302-47be-b63f-e935559f4e3c@e7915",
+      "displayName": "",
+      "id": "e7915",
+      "name": "Parking_Material0.mesh",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "18c1c": {
+      "importer": "texture",
+      "uuid": "b35296f6-3302-47be-b63f-e935559f4e3c@18c1c",
+      "displayName": "",
+      "id": "18c1c",
+      "name": "贴图 #51.texture",
+      "userData": {
+        "wrapModeS": "repeat",
+        "wrapModeT": "repeat",
+        "minfilter": "linear",
+        "magfilter": "linear",
+        "mipfilter": "none",
+        "anisotropy": 0,
+        "isUuid": false,
+        "imageUuidOrDatabaseUri": "db://assets/Textures/Colour_1.jpg"
+      },
+      "ver": "1.0.21",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "da105": {
+      "importer": "texture",
+      "uuid": "b35296f6-3302-47be-b63f-e935559f4e3c@da105",
+      "displayName": "",
+      "id": "da105",
+      "name": "贴图 #53.texture",
+      "userData": {
+        "wrapModeS": "repeat",
+        "wrapModeT": "repeat",
+        "minfilter": "linear",
+        "magfilter": "linear",
+        "mipfilter": "none",
+        "anisotropy": 0,
+        "isUuid": false,
+        "imageUuidOrDatabaseUri": "db://assets/Textures/Man_1.jpg"
+      },
+      "ver": "1.0.21",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "01aca": {
+      "importer": "texture",
+      "uuid": "b35296f6-3302-47be-b63f-e935559f4e3c@01aca",
+      "displayName": "",
+      "id": "01aca",
+      "name": "贴图 #54.texture",
+      "userData": {
+        "wrapModeS": "repeat",
+        "wrapModeT": "repeat",
+        "minfilter": "linear",
+        "magfilter": "linear",
+        "mipfilter": "none",
+        "anisotropy": 0,
+        "isUuid": false,
+        "imageUuidOrDatabaseUri": "db://assets/Textures/Wheel_1.jpg"
+      },
+      "ver": "1.0.21",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "0e7ea": {
+      "importer": "gltf-material",
+      "uuid": "b35296f6-3302-47be-b63f-e935559f4e3c@0e7ea",
+      "displayName": "",
+      "id": "0e7ea",
+      "name": "Colour_1.material",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.14",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "86adf": {
+      "importer": "gltf-material",
+      "uuid": "b35296f6-3302-47be-b63f-e935559f4e3c@86adf",
+      "displayName": "",
+      "id": "86adf",
+      "name": "Man_1.material",
+      "userData": {
+        "gltfIndex": 1
+      },
+      "ver": "1.0.14",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    }
+  },
+  "userData": {
+    "imageMetas": [
+      {
+        "name": "贴图 #51",
+        "uri": "db://assets/Textures/Colour_1.jpg"
+      },
+      {
+        "name": "贴图 #53",
+        "uri": "db://assets/Textures/Man_1.jpg"
+      },
+      {
+        "name": "贴图 #54",
+        "uri": "db://assets/Textures/Wheel_1.jpg"
+      }
+    ],
+    "legacyFbxImporter": false,
+    "fbx": {
+      "smartMaterialEnabled": true
+    },
+    "redirect": "b35296f6-3302-47be-b63f-e935559f4e3c@21907",
+    "assetFinder": {
+      "meshes": [
+        "b35296f6-3302-47be-b63f-e935559f4e3c@e7915"
+      ],
+      "skeletons": [],
+      "textures": [
+        "b35296f6-3302-47be-b63f-e935559f4e3c@18c1c",
+        "b35296f6-3302-47be-b63f-e935559f4e3c@da105",
+        "b35296f6-3302-47be-b63f-e935559f4e3c@01aca"
+      ],
+      "materials": [
+        "b35296f6-3302-47be-b63f-e935559f4e3c@0e7ea",
+        "b35296f6-3302-47be-b63f-e935559f4e3c@86adf",
+        "b35296f6-3302-47be-b63f-e935559f4e3c@45540"
+      ],
+      "scenes": [
+        "b35296f6-3302-47be-b63f-e935559f4e3c@21907"
+      ]
+    },
+    "materials": {
+      "b35296f6-3302-47be-b63f-e935559f4e3c@0e7ea": {
+        "__type__": "cc.Material",
+        "_name": "",
+        "_objFlags": 0,
+        "_native": "",
+        "_effectAsset": {
+          "__uuid__": "f648964e-8d32-41fc-9ac9-7a1e714dd17b",
+          "__expectedType__": "cc.EffectAsset"
+        },
+        "_techIdx": 0,
+        "_defines": [
+          {
+            "USE_ALBEDO_MAP": true
+          },
+          {},
+          {}
+        ],
+        "_states": [
+          {
+            "rasterizerState": {},
+            "depthStencilState": {},
+            "blendState": {
+              "targets": [
+                {}
+              ]
+            }
+          },
+          {
+            "rasterizerState": {},
+            "depthStencilState": {},
+            "blendState": {
+              "targets": [
+                {}
+              ]
+            }
+          },
+          {
+            "rasterizerState": {},
+            "depthStencilState": {},
+            "blendState": {
+              "targets": [
+                {}
+              ]
+            }
+          }
+        ],
+        "_props": [
+          {
+            "mainTexture": {
+              "__uuid__": "b35296f6-3302-47be-b63f-e935559f4e3c@18c1c",
+              "__expectedType__": "cc.Texture2D"
+            },
+            "albedoScale": 0,
+            "emissive": {
+              "__type__": "cc.Color",
+              "r": 255,
+              "g": 255,
+              "b": 255,
+              "a": 255
+            },
+            "shininessExponent": 2,
+            "specularColor": {
+              "__type__": "cc.Color",
+              "r": 255,
+              "g": 255,
+              "b": 255,
+              "a": 255
+            },
+            "specularFactor": 0
+          },
+          {},
+          {}
+        ]
+      },
+      "b35296f6-3302-47be-b63f-e935559f4e3c@86adf": {
+        "__type__": "cc.Material",
+        "_name": "",
+        "_objFlags": 0,
+        "_native": "",
+        "_effectAsset": {
+          "__uuid__": "f648964e-8d32-41fc-9ac9-7a1e714dd17b",
+          "__expectedType__": "cc.EffectAsset"
+        },
+        "_techIdx": 0,
+        "_defines": [
+          {
+            "USE_ALBEDO_MAP": true
+          },
+          {},
+          {}
+        ],
+        "_states": [
+          {
+            "rasterizerState": {},
+            "depthStencilState": {},
+            "blendState": {
+              "targets": [
+                {}
+              ]
+            }
+          },
+          {
+            "rasterizerState": {},
+            "depthStencilState": {},
+            "blendState": {
+              "targets": [
+                {}
+              ]
+            }
+          },
+          {
+            "rasterizerState": {},
+            "depthStencilState": {},
+            "blendState": {
+              "targets": [
+                {}
+              ]
+            }
+          }
+        ],
+        "_props": [
+          {
+            "mainTexture": {
+              "__uuid__": "b35296f6-3302-47be-b63f-e935559f4e3c@da105",
+              "__expectedType__": "cc.Texture2D"
+            },
+            "emissive": {
+              "__type__": "cc.Color",
+              "r": 255,
+              "g": 255,
+              "b": 255,
+              "a": 255
+            },
+            "shininessExponent": 2,
+            "specularColor": {
+              "__type__": "cc.Color",
+              "r": 116,
+              "g": 116,
+              "b": 116,
+              "a": 255
+            },
+            "specularFactor": 0.5
+          },
+          {},
+          {}
+        ]
+      },
+      "b35296f6-3302-47be-b63f-e935559f4e3c@45540": {
+        "__type__": "cc.Material",
+        "_name": "",
+        "_objFlags": 0,
+        "_native": "",
+        "_effectAsset": {
+          "__uuid__": "f648964e-8d32-41fc-9ac9-7a1e714dd17b",
+          "__expectedType__": "cc.EffectAsset"
+        },
+        "_techIdx": 0,
+        "_defines": [
+          {
+            "USE_ALBEDO_MAP": true
+          },
+          {},
+          {}
+        ],
+        "_states": [
+          {
+            "rasterizerState": {},
+            "depthStencilState": {},
+            "blendState": {
+              "targets": [
+                {}
+              ]
+            }
+          },
+          {
+            "rasterizerState": {},
+            "depthStencilState": {},
+            "blendState": {
+              "targets": [
+                {}
+              ]
+            }
+          },
+          {
+            "rasterizerState": {},
+            "depthStencilState": {},
+            "blendState": {
+              "targets": [
+                {}
+              ]
+            }
+          }
+        ],
+        "_props": [
+          {
+            "mainTexture": {
+              "__uuid__": "b35296f6-3302-47be-b63f-e935559f4e3c@01aca",
+              "__expectedType__": "cc.Texture2D"
+            },
+            "albedoScale": 0,
+            "emissive": {
+              "__type__": "cc.Color",
+              "r": 255,
+              "g": 255,
+              "b": 255,
+              "a": 255
+            },
+            "shininessExponent": 0,
+            "specularColor": {
+              "__type__": "cc.Color",
+              "r": 0,
+              "g": 0,
+              "b": 0,
+              "a": 255
+            },
+            "specularFactor": 0
+          },
+          {},
+          {}
+        ]
+      }
+    }
+  }
+}

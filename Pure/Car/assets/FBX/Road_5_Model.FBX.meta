@@ -1,0 +1,641 @@
+{
+  "ver": "2.2.0",
+  "importer": "fbx",
+  "imported": true,
+  "uuid": "dd00ee86-a7b2-406a-85b5-1ace33cca072",
+  "files": [],
+  "subMetas": {
+    "45114": {
+      "importer": "gltf-scene",
+      "uuid": "dd00ee86-a7b2-406a-85b5-1ace33cca072@45114",
+      "displayName": "",
+      "id": "45114",
+      "name": "Road_5_Model.prefab",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.12",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "bbe34": {
+      "importer": "gltf-mesh",
+      "uuid": "dd00ee86-a7b2-406a-85b5-1ace33cca072@bbe34",
+      "displayName": "",
+      "id": "bbe34",
+      "name": "Road_5_Material0.mesh",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "923e9": {
+      "importer": "gltf-mesh",
+      "uuid": "dd00ee86-a7b2-406a-85b5-1ace33cca072@923e9",
+      "displayName": "",
+      "id": "923e9",
+      "name": "Finish_5_Material0.mesh",
+      "userData": {
+        "gltfIndex": 1
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "241e6": {
+      "importer": "gltf-mesh",
+      "uuid": "dd00ee86-a7b2-406a-85b5-1ace33cca072@241e6",
+      "displayName": "",
+      "id": "241e6",
+      "name": "Finish_Road5.mesh",
+      "userData": {
+        "gltfIndex": 2
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "14bd4": {
+      "importer": "gltf-mesh",
+      "uuid": "dd00ee86-a7b2-406a-85b5-1ace33cca072@14bd4",
+      "displayName": "",
+      "id": "14bd4",
+      "name": "Box_1.mesh",
+      "userData": {
+        "gltfIndex": 3
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "c579d": {
+      "importer": "texture",
+      "uuid": "dd00ee86-a7b2-406a-85b5-1ace33cca072@c579d",
+      "displayName": "",
+      "id": "c579d",
+      "name": "贴图 #103.texture",
+      "userData": {
+        "wrapModeS": "repeat",
+        "wrapModeT": "repeat",
+        "minfilter": "linear",
+        "magfilter": "linear",
+        "mipfilter": "none",
+        "anisotropy": 0,
+        "isUuid": false,
+        "imageUuidOrDatabaseUri": "db://assets/Textures/Road_4.jpg"
+      },
+      "ver": "1.0.21",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "bd34e": {
+      "importer": "texture",
+      "uuid": "dd00ee86-a7b2-406a-85b5-1ace33cca072@bd34e",
+      "displayName": "",
+      "id": "bd34e",
+      "name": "贴图 #43.texture",
+      "userData": {
+        "wrapModeS": "repeat",
+        "wrapModeT": "repeat",
+        "minfilter": "linear",
+        "magfilter": "linear",
+        "mipfilter": "none",
+        "anisotropy": 0,
+        "isUuid": false,
+        "imageUuidOrDatabaseUri": "db://assets/Textures/Colour_1.jpg"
+      },
+      "ver": "1.0.21",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "edaf8": {
+      "importer": "texture",
+      "uuid": "dd00ee86-a7b2-406a-85b5-1ace33cca072@edaf8",
+      "displayName": "",
+      "id": "edaf8",
+      "name": "贴图 #101.texture",
+      "userData": {
+        "wrapModeS": "repeat",
+        "wrapModeT": "repeat",
+        "minfilter": "linear",
+        "magfilter": "linear",
+        "mipfilter": "none",
+        "anisotropy": 0,
+        "isUuid": false,
+        "imageUuidOrDatabaseUri": "db://assets/Textures/Road_4_1.jpg"
+      },
+      "ver": "1.0.21",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "b7b6d": {
+      "importer": "texture",
+      "uuid": "dd00ee86-a7b2-406a-85b5-1ace33cca072@b7b6d",
+      "displayName": "",
+      "id": "b7b6d",
+      "name": "贴图 #105.texture",
+      "userData": {
+        "wrapModeS": "repeat",
+        "wrapModeT": "repeat",
+        "minfilter": "linear",
+        "magfilter": "linear",
+        "mipfilter": "none",
+        "anisotropy": 0,
+        "isUuid": false,
+        "imageUuidOrDatabaseUri": "db://assets/Textures/Board_4.jpg"
+      },
+      "ver": "1.0.21",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "9f460": {
+      "importer": "texture",
+      "uuid": "dd00ee86-a7b2-406a-85b5-1ace33cca072@9f460",
+      "displayName": "",
+      "id": "9f460",
+      "name": "贴图 #122.texture",
+      "userData": {
+        "wrapModeS": "repeat",
+        "wrapModeT": "repeat",
+        "minfilter": "linear",
+        "magfilter": "linear",
+        "mipfilter": "none",
+        "anisotropy": 0,
+        "isUuid": false,
+        "imageUuidOrDatabaseUri": "db://assets/Textures/Road_4_3.png"
+      },
+      "ver": "1.0.21",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "0cc03": {
+      "importer": "texture",
+      "uuid": "dd00ee86-a7b2-406a-85b5-1ace33cca072@0cc03",
+      "displayName": "",
+      "id": "0cc03",
+      "name": "贴图 #123.texture",
+      "userData": {
+        "wrapModeS": "repeat",
+        "wrapModeT": "repeat",
+        "minfilter": "linear",
+        "magfilter": "linear",
+        "mipfilter": "none",
+        "anisotropy": 0,
+        "isUuid": false,
+        "imageUuidOrDatabaseUri": "db://assets/Textures/Road_4_3.png"
+      },
+      "ver": "1.0.21",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "808fd": {
+      "importer": "texture",
+      "uuid": "dd00ee86-a7b2-406a-85b5-1ace33cca072@808fd",
+      "displayName": "",
+      "id": "808fd",
+      "name": "贴图 #113.texture",
+      "userData": {
+        "wrapModeS": "repeat",
+        "wrapModeT": "repeat",
+        "minfilter": "linear",
+        "magfilter": "linear",
+        "mipfilter": "none",
+        "anisotropy": 0,
+        "isUuid": false,
+        "imageUuidOrDatabaseUri": "db://assets/Textures/Road_Tube_4.jpg"
+      },
+      "ver": "1.0.21",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "5dbde": {
+      "importer": "texture",
+      "uuid": "dd00ee86-a7b2-406a-85b5-1ace33cca072@5dbde",
+      "displayName": "",
+      "id": "5dbde",
+      "name": "贴图 #100.texture",
+      "userData": {
+        "wrapModeS": "repeat",
+        "wrapModeT": "repeat",
+        "minfilter": "linear",
+        "magfilter": "linear",
+        "mipfilter": "none",
+        "anisotropy": 0,
+        "isUuid": false,
+        "imageUuidOrDatabaseUri": "db://assets/Textures/Road_4_2.jpg"
+      },
+      "ver": "1.0.21",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "6a143": {
+      "importer": "texture",
+      "uuid": "dd00ee86-a7b2-406a-85b5-1ace33cca072@6a143",
+      "displayName": "",
+      "id": "6a143",
+      "name": "贴图 #65.texture",
+      "userData": {
+        "wrapModeS": "repeat",
+        "wrapModeT": "repeat",
+        "minfilter": "linear",
+        "magfilter": "linear",
+        "mipfilter": "none",
+        "anisotropy": 0,
+        "isUuid": false,
+        "imageUuidOrDatabaseUri": "db://assets/Textures/Finish_2.jpg"
+      },
+      "ver": "1.0.21",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "a90b3": {
+      "importer": "texture",
+      "uuid": "dd00ee86-a7b2-406a-85b5-1ace33cca072@a90b3",
+      "displayName": "",
+      "id": "a90b3",
+      "name": "贴图 #64.texture",
+      "userData": {
+        "wrapModeS": "repeat",
+        "wrapModeT": "repeat",
+        "minfilter": "linear",
+        "magfilter": "linear",
+        "mipfilter": "none",
+        "anisotropy": 0,
+        "isUuid": false,
+        "imageUuidOrDatabaseUri": "db://assets/Textures/Finish_1.jpg"
+      },
+      "ver": "1.0.21",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "6437a": {
+      "importer": "texture",
+      "uuid": "dd00ee86-a7b2-406a-85b5-1ace33cca072@6437a",
+      "displayName": "",
+      "id": "6437a",
+      "name": "贴图 #67.texture",
+      "userData": {
+        "wrapModeS": "repeat",
+        "wrapModeT": "repeat",
+        "minfilter": "linear",
+        "magfilter": "linear",
+        "mipfilter": "none",
+        "anisotropy": 0,
+        "isUuid": false,
+        "imageUuidOrDatabaseUri": "db://assets/Textures/Finish_3.jpg"
+      },
+      "ver": "1.0.21",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "f430d": {
+      "importer": "texture",
+      "uuid": "dd00ee86-a7b2-406a-85b5-1ace33cca072@f430d",
+      "displayName": "",
+      "id": "f430d",
+      "name": "贴图 #126.texture",
+      "userData": {
+        "wrapModeS": "repeat",
+        "wrapModeT": "repeat",
+        "minfilter": "linear",
+        "magfilter": "linear",
+        "mipfilter": "none",
+        "anisotropy": 0,
+        "isUuid": false,
+        "imageUuidOrDatabaseUri": "db://assets/Textures/Road_4.jpg"
+      },
+      "ver": "1.0.21",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "372c4": {
+      "importer": "gltf-material",
+      "uuid": "dd00ee86-a7b2-406a-85b5-1ace33cca072@372c4",
+      "displayName": "",
+      "id": "372c4",
+      "name": "Road_4.material",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.14",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "0e7ea": {
+      "importer": "gltf-material",
+      "uuid": "dd00ee86-a7b2-406a-85b5-1ace33cca072@0e7ea",
+      "displayName": "",
+      "id": "0e7ea",
+      "name": "Colour_1.material",
+      "userData": {
+        "gltfIndex": 1
+      },
+      "ver": "1.0.14",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "56d42": {
+      "importer": "gltf-material",
+      "uuid": "dd00ee86-a7b2-406a-85b5-1ace33cca072@56d42",
+      "displayName": "",
+      "id": "56d42",
+      "name": "Road_4_1.material",
+      "userData": {
+        "gltfIndex": 2
+      },
+      "ver": "1.0.14",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "9f8f2": {
+      "importer": "gltf-material",
+      "uuid": "dd00ee86-a7b2-406a-85b5-1ace33cca072@9f8f2",
+      "displayName": "",
+      "id": "9f8f2",
+      "name": "Board_4.material",
+      "userData": {
+        "gltfIndex": 3
+      },
+      "ver": "1.0.14",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "d0d76": {
+      "importer": "gltf-material",
+      "uuid": "dd00ee86-a7b2-406a-85b5-1ace33cca072@d0d76",
+      "displayName": "",
+      "id": "d0d76",
+      "name": "Road_4_3.material",
+      "userData": {
+        "gltfIndex": 4
+      },
+      "ver": "1.0.14",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "e224f": {
+      "importer": "gltf-material",
+      "uuid": "dd00ee86-a7b2-406a-85b5-1ace33cca072@e224f",
+      "displayName": "",
+      "id": "e224f",
+      "name": "Road_Tube_4.material",
+      "userData": {
+        "gltfIndex": 5
+      },
+      "ver": "1.0.14",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "e7308": {
+      "importer": "gltf-material",
+      "uuid": "dd00ee86-a7b2-406a-85b5-1ace33cca072@e7308",
+      "displayName": "",
+      "id": "e7308",
+      "name": "Road_4_2.material",
+      "userData": {
+        "gltfIndex": 6
+      },
+      "ver": "1.0.14",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "1b448": {
+      "importer": "gltf-material",
+      "uuid": "dd00ee86-a7b2-406a-85b5-1ace33cca072@1b448",
+      "displayName": "",
+      "id": "1b448",
+      "name": "Finish_2.material",
+      "userData": {
+        "gltfIndex": 7
+      },
+      "ver": "1.0.14",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "3e003": {
+      "importer": "gltf-material",
+      "uuid": "dd00ee86-a7b2-406a-85b5-1ace33cca072@3e003",
+      "displayName": "",
+      "id": "3e003",
+      "name": "Finish_1.material",
+      "userData": {
+        "gltfIndex": 8
+      },
+      "ver": "1.0.14",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "86c75": {
+      "importer": "gltf-material",
+      "uuid": "dd00ee86-a7b2-406a-85b5-1ace33cca072@86c75",
+      "displayName": "",
+      "id": "86c75",
+      "name": "Finish_3.material",
+      "userData": {
+        "gltfIndex": 9
+      },
+      "ver": "1.0.14",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "92a4b": {
+      "importer": "gltf-material",
+      "uuid": "dd00ee86-a7b2-406a-85b5-1ace33cca072@92a4b",
+      "displayName": "",
+      "id": "92a4b",
+      "name": "Material #1628.material",
+      "userData": {
+        "gltfIndex": 10
+      },
+      "ver": "1.0.14",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    }
+  },
+  "userData": {
+    "imageMetas": [
+      {
+        "name": "贴图 #103",
+        "uri": "db://assets/Textures/Road_4.jpg"
+      },
+      {
+        "name": "贴图 #43",
+        "uri": "db://assets/Textures/Colour_1.jpg"
+      },
+      {
+        "name": "贴图 #101",
+        "uri": "db://assets/Textures/Road_4_1.jpg"
+      },
+      {
+        "name": "贴图 #105",
+        "uri": "db://assets/Textures/Board_4.jpg"
+      },
+      {
+        "name": "贴图 #122",
+        "uri": "db://assets/Textures/Road_4_3.png"
+      },
+      {
+        "name": "贴图 #123",
+        "uri": "db://assets/Textures/Road_4_3.png"
+      },
+      {
+        "name": "贴图 #113",
+        "uri": "db://assets/Textures/Road_Tube_4.jpg"
+      },
+      {
+        "name": "贴图 #100",
+        "uri": "db://assets/Textures/Road_4_2.jpg"
+      },
+      {
+        "name": "贴图 #65",
+        "uri": "db://assets/Textures/Finish_2.jpg"
+      },
+      {
+        "name": "贴图 #64",
+        "uri": "db://assets/Textures/Finish_1.jpg"
+      },
+      {
+        "name": "贴图 #67",
+        "uri": "db://assets/Textures/Finish_3.jpg"
+      },
+      {
+        "name": "贴图 #126",
+        "uri": "db://assets/Textures/Road_4.jpg"
+      }
+    ],
+    "legacyFbxImporter": false,
+    "fbx": {
+      "smartMaterialEnabled": true
+    },
+    "redirect": "dd00ee86-a7b2-406a-85b5-1ace33cca072@45114",
+    "assetFinder": {
+      "meshes": [
+        "dd00ee86-a7b2-406a-85b5-1ace33cca072@bbe34",
+        "dd00ee86-a7b2-406a-85b5-1ace33cca072@923e9",
+        "dd00ee86-a7b2-406a-85b5-1ace33cca072@241e6",
+        "dd00ee86-a7b2-406a-85b5-1ace33cca072@14bd4"
+      ],
+      "skeletons": [],
+      "textures": [
+        "dd00ee86-a7b2-406a-85b5-1ace33cca072@c579d",
+        "dd00ee86-a7b2-406a-85b5-1ace33cca072@bd34e",
+        "dd00ee86-a7b2-406a-85b5-1ace33cca072@edaf8",
+        "dd00ee86-a7b2-406a-85b5-1ace33cca072@b7b6d",
+        "dd00ee86-a7b2-406a-85b5-1ace33cca072@9f460",
+        "dd00ee86-a7b2-406a-85b5-1ace33cca072@0cc03",
+        "dd00ee86-a7b2-406a-85b5-1ace33cca072@808fd",
+        "dd00ee86-a7b2-406a-85b5-1ace33cca072@5dbde",
+        "dd00ee86-a7b2-406a-85b5-1ace33cca072@6a143",
+        "dd00ee86-a7b2-406a-85b5-1ace33cca072@a90b3",
+        "dd00ee86-a7b2-406a-85b5-1ace33cca072@6437a",
+        "dd00ee86-a7b2-406a-85b5-1ace33cca072@f430d"
+      ],
+      "materials": [
+        "dd00ee86-a7b2-406a-85b5-1ace33cca072@372c4",
+        "dd00ee86-a7b2-406a-85b5-1ace33cca072@0e7ea",
+        "dd00ee86-a7b2-406a-85b5-1ace33cca072@56d42",
+        "dd00ee86-a7b2-406a-85b5-1ace33cca072@9f8f2",
+        "dd00ee86-a7b2-406a-85b5-1ace33cca072@d0d76",
+        "dd00ee86-a7b2-406a-85b5-1ace33cca072@e224f",
+        "dd00ee86-a7b2-406a-85b5-1ace33cca072@e7308",
+        "dd00ee86-a7b2-406a-85b5-1ace33cca072@1b448",
+        "dd00ee86-a7b2-406a-85b5-1ace33cca072@3e003",
+        "dd00ee86-a7b2-406a-85b5-1ace33cca072@86c75",
+        "dd00ee86-a7b2-406a-85b5-1ace33cca072@92a4b"
+      ],
+      "scenes": [
+        "dd00ee86-a7b2-406a-85b5-1ace33cca072@45114"
+      ]
+    }
+  }
+}

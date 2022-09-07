@@ -1,0 +1,109 @@
+{
+  "ver": "2.2.0",
+  "importer": "fbx",
+  "imported": true,
+  "uuid": "37c66cc6-8447-4a2f-9cdf-5b55f6fcaf11",
+  "files": [],
+  "subMetas": {
+    "12960": {
+      "importer": "gltf-mesh",
+      "uuid": "37c66cc6-8447-4a2f-9cdf-5b55f6fcaf11@12960",
+      "displayName": "",
+      "id": "12960",
+      "name": "Object_Tyres.mesh",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "bf8a3": {
+      "importer": "texture",
+      "uuid": "37c66cc6-8447-4a2f-9cdf-5b55f6fcaf11@bf8a3",
+      "displayName": "",
+      "id": "bf8a3",
+      "name": "贴图 #89.texture",
+      "userData": {
+        "wrapModeS": "repeat",
+        "wrapModeT": "repeat",
+        "minfilter": "linear",
+        "magfilter": "linear",
+        "mipfilter": "none",
+        "anisotropy": 0,
+        "isUuid": false,
+        "imageUuidOrDatabaseUri": "db://assets/Textures/Object_Tyres.jpg"
+      },
+      "ver": "1.0.21",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "26e20": {
+      "importer": "gltf-material",
+      "uuid": "37c66cc6-8447-4a2f-9cdf-5b55f6fcaf11@26e20",
+      "displayName": "",
+      "id": "26e20",
+      "name": "Object_Tyres.material",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.14",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "87add": {
+      "importer": "gltf-scene",
+      "uuid": "37c66cc6-8447-4a2f-9cdf-5b55f6fcaf11@87add",
+      "displayName": "",
+      "id": "87add",
+      "name": "Object_Tyres.prefab",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.12",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    }
+  },
+  "userData": {
+    "imageMetas": [
+      {
+        "name": "贴图 #89",
+        "uri": "db://assets/Textures/Object_Tyres.jpg"
+      }
+    ],
+    "legacyFbxImporter": false,
+    "fbx": {
+      "smartMaterialEnabled": true
+    },
+    "redirect": "37c66cc6-8447-4a2f-9cdf-5b55f6fcaf11@87add",
+    "assetFinder": {
+      "meshes": [
+        "37c66cc6-8447-4a2f-9cdf-5b55f6fcaf11@12960"
+      ],
+      "skeletons": [],
+      "textures": [
+        "37c66cc6-8447-4a2f-9cdf-5b55f6fcaf11@bf8a3"
+      ],
+      "materials": [
+        "37c66cc6-8447-4a2f-9cdf-5b55f6fcaf11@26e20"
+      ],
+      "scenes": [
+        "37c66cc6-8447-4a2f-9cdf-5b55f6fcaf11@87add"
+      ]
+    }
+  }
+}

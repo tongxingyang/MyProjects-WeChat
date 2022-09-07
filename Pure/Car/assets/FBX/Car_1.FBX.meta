@@ -1,0 +1,556 @@
+{
+  "ver": "2.2.0",
+  "importer": "fbx",
+  "imported": true,
+  "uuid": "f3310fd2-007a-4967-b0d6-3fc0c11a8ca5",
+  "files": [
+    "__original-animation-0.cconb"
+  ],
+  "subMetas": {
+    "15760": {
+      "importer": "gltf-mesh",
+      "uuid": "f3310fd2-007a-4967-b0d6-3fc0c11a8ca5@15760",
+      "displayName": "",
+      "id": "15760",
+      "name": "Wheel_1_FR.mesh",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "45540": {
+      "importer": "gltf-material",
+      "uuid": "f3310fd2-007a-4967-b0d6-3fc0c11a8ca5@45540",
+      "displayName": "",
+      "id": "45540",
+      "name": "Wheel_1.material",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.14",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "02bf5": {
+      "importer": "gltf-mesh",
+      "uuid": "f3310fd2-007a-4967-b0d6-3fc0c11a8ca5@02bf5",
+      "displayName": "",
+      "id": "02bf5",
+      "name": "Car_1_1.mesh",
+      "userData": {
+        "gltfIndex": 1
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "226a4": {
+      "importer": "gltf-mesh",
+      "uuid": "f3310fd2-007a-4967-b0d6-3fc0c11a8ca5@226a4",
+      "displayName": "",
+      "id": "226a4",
+      "name": "Car_1_2.mesh",
+      "userData": {
+        "gltfIndex": 2
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "0e796": {
+      "importer": "gltf-mesh",
+      "uuid": "f3310fd2-007a-4967-b0d6-3fc0c11a8ca5@0e796",
+      "displayName": "",
+      "id": "0e796",
+      "name": "Lamp_1.mesh",
+      "userData": {
+        "gltfIndex": 3
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "03867": {
+      "importer": "gltf-mesh",
+      "uuid": "f3310fd2-007a-4967-b0d6-3fc0c11a8ca5@03867",
+      "displayName": "",
+      "id": "03867",
+      "name": "Wheel_1_BR.mesh",
+      "userData": {
+        "gltfIndex": 4
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "0a72b": {
+      "importer": "gltf-mesh",
+      "uuid": "f3310fd2-007a-4967-b0d6-3fc0c11a8ca5@0a72b",
+      "displayName": "",
+      "id": "0a72b",
+      "name": "Wheel_1_BL.mesh",
+      "userData": {
+        "gltfIndex": 5
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "6a519": {
+      "importer": "gltf-mesh",
+      "uuid": "f3310fd2-007a-4967-b0d6-3fc0c11a8ca5@6a519",
+      "displayName": "",
+      "id": "6a519",
+      "name": "Wheel_1_FL.mesh",
+      "userData": {
+        "gltfIndex": 6
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "73b7f": {
+      "importer": "gltf-animation",
+      "uuid": "f3310fd2-007a-4967-b0d6-3fc0c11a8ca5@73b7f",
+      "displayName": "",
+      "id": "73b7f",
+      "name": "Take 001.animation",
+      "userData": {
+        "gltfIndex": 0,
+        "wrapMode": 2,
+        "sample": 30,
+        "span": {
+          "from": 0,
+          "to": 0.2666666805744171
+        },
+        "events": []
+      },
+      "ver": "1.0.16",
+      "imported": true,
+      "files": [
+        ".cconb"
+      ],
+      "subMetas": {}
+    },
+    "d7de2": {
+      "importer": "texture",
+      "uuid": "f3310fd2-007a-4967-b0d6-3fc0c11a8ca5@d7de2",
+      "displayName": "",
+      "id": "d7de2",
+      "name": "贴图 #28.texture",
+      "userData": {
+        "wrapModeS": "repeat",
+        "wrapModeT": "repeat",
+        "minfilter": "linear",
+        "magfilter": "linear",
+        "mipfilter": "none",
+        "anisotropy": 0,
+        "isUuid": false,
+        "imageUuidOrDatabaseUri": "db://assets/Textures/Wheel_1.jpg"
+      },
+      "ver": "1.0.21",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "4c7e0": {
+      "importer": "texture",
+      "uuid": "f3310fd2-007a-4967-b0d6-3fc0c11a8ca5@4c7e0",
+      "displayName": "",
+      "id": "4c7e0",
+      "name": "贴图 #27.texture",
+      "userData": {
+        "wrapModeS": "repeat",
+        "wrapModeT": "repeat",
+        "minfilter": "linear",
+        "magfilter": "linear",
+        "mipfilter": "none",
+        "anisotropy": 0,
+        "isUuid": false,
+        "imageUuidOrDatabaseUri": "db://assets/Textures/Car_1.jpg"
+      },
+      "ver": "1.0.21",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "0a757": {
+      "importer": "texture",
+      "uuid": "f3310fd2-007a-4967-b0d6-3fc0c11a8ca5@0a757",
+      "displayName": "",
+      "id": "0a757",
+      "name": "贴图 #39.texture",
+      "userData": {
+        "wrapModeS": "repeat",
+        "wrapModeT": "repeat",
+        "minfilter": "linear",
+        "magfilter": "linear",
+        "mipfilter": "none",
+        "anisotropy": 0,
+        "isUuid": false,
+        "imageUuidOrDatabaseUri": "db://assets/Textures/Car_D.jpg"
+      },
+      "ver": "1.0.21",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "2f86d": {
+      "importer": "texture",
+      "uuid": "f3310fd2-007a-4967-b0d6-3fc0c11a8ca5@2f86d",
+      "displayName": "",
+      "id": "2f86d",
+      "name": "贴图 #40.texture",
+      "userData": {
+        "wrapModeS": "repeat",
+        "wrapModeT": "repeat",
+        "minfilter": "linear",
+        "magfilter": "linear",
+        "mipfilter": "none",
+        "anisotropy": 0,
+        "isUuid": false,
+        "imageUuidOrDatabaseUri": "db://assets/Textures/Lamp_6.png"
+      },
+      "ver": "1.0.21",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "a88f7": {
+      "importer": "texture",
+      "uuid": "f3310fd2-007a-4967-b0d6-3fc0c11a8ca5@a88f7",
+      "displayName": "",
+      "id": "a88f7",
+      "name": "贴图 #41.texture",
+      "userData": {
+        "wrapModeS": "repeat",
+        "wrapModeT": "repeat",
+        "minfilter": "linear",
+        "magfilter": "linear",
+        "mipfilter": "none",
+        "anisotropy": 0,
+        "isUuid": false,
+        "imageUuidOrDatabaseUri": "db://assets/Textures/Lamp_6.png"
+      },
+      "ver": "1.0.21",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "38d21": {
+      "importer": "gltf-material",
+      "uuid": "f3310fd2-007a-4967-b0d6-3fc0c11a8ca5@38d21",
+      "displayName": "",
+      "id": "38d21",
+      "name": "Car_1.material",
+      "userData": {
+        "gltfIndex": 1
+      },
+      "ver": "1.0.14",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "18ee3": {
+      "importer": "gltf-material",
+      "uuid": "f3310fd2-007a-4967-b0d6-3fc0c11a8ca5@18ee3",
+      "displayName": "",
+      "id": "18ee3",
+      "name": "Car_D.material",
+      "userData": {
+        "gltfIndex": 2
+      },
+      "ver": "1.0.14",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "025ac": {
+      "importer": "gltf-material",
+      "uuid": "f3310fd2-007a-4967-b0d6-3fc0c11a8ca5@025ac",
+      "displayName": "",
+      "id": "025ac",
+      "name": "Lamp_6.material",
+      "userData": {
+        "gltfIndex": 3
+      },
+      "ver": "1.0.14",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "0f60e": {
+      "importer": "gltf-scene",
+      "uuid": "f3310fd2-007a-4967-b0d6-3fc0c11a8ca5@0f60e",
+      "displayName": "",
+      "id": "0f60e",
+      "name": "Car_1.prefab",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.12",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    }
+  },
+  "userData": {
+    "imageMetas": [
+      {
+        "name": "贴图 #28",
+        "uri": "db://assets/Textures/Wheel_1.jpg"
+      },
+      {
+        "name": "贴图 #27",
+        "uri": "db://assets/Textures/Car_1.jpg"
+      },
+      {
+        "name": "贴图 #39",
+        "uri": "db://assets/Textures/Car_D.jpg"
+      },
+      {
+        "name": "贴图 #40",
+        "uri": "db://assets/Textures/Lamp_6.png"
+      },
+      {
+        "name": "贴图 #41",
+        "uri": "db://assets/Textures/Lamp_6.png"
+      }
+    ],
+    "legacyFbxImporter": false,
+    "fbx": {
+      "smartMaterialEnabled": true
+    },
+    "animationImportSettings": [
+      {
+        "name": "Take 001",
+        "duration": 0.2666666805744171,
+        "fps": 30,
+        "splits": [
+          {
+            "name": "Take 001",
+            "from": 0,
+            "to": 0.2666666805744171,
+            "wrapMode": 2
+          }
+        ]
+      }
+    ],
+    "redirect": "f3310fd2-007a-4967-b0d6-3fc0c11a8ca5@0f60e",
+    "assetFinder": {
+      "meshes": [
+        "f3310fd2-007a-4967-b0d6-3fc0c11a8ca5@15760",
+        "f3310fd2-007a-4967-b0d6-3fc0c11a8ca5@02bf5",
+        "f3310fd2-007a-4967-b0d6-3fc0c11a8ca5@226a4",
+        "f3310fd2-007a-4967-b0d6-3fc0c11a8ca5@0e796",
+        "f3310fd2-007a-4967-b0d6-3fc0c11a8ca5@03867",
+        "f3310fd2-007a-4967-b0d6-3fc0c11a8ca5@0a72b",
+        "f3310fd2-007a-4967-b0d6-3fc0c11a8ca5@6a519"
+      ],
+      "skeletons": [],
+      "textures": [
+        "f3310fd2-007a-4967-b0d6-3fc0c11a8ca5@d7de2",
+        "f3310fd2-007a-4967-b0d6-3fc0c11a8ca5@4c7e0",
+        "f3310fd2-007a-4967-b0d6-3fc0c11a8ca5@0a757",
+        "f3310fd2-007a-4967-b0d6-3fc0c11a8ca5@2f86d",
+        "f3310fd2-007a-4967-b0d6-3fc0c11a8ca5@a88f7"
+      ],
+      "materials": [
+        "f3310fd2-007a-4967-b0d6-3fc0c11a8ca5@45540",
+        "f3310fd2-007a-4967-b0d6-3fc0c11a8ca5@38d21",
+        "f3310fd2-007a-4967-b0d6-3fc0c11a8ca5@18ee3",
+        "f3310fd2-007a-4967-b0d6-3fc0c11a8ca5@025ac"
+      ],
+      "scenes": [
+        "f3310fd2-007a-4967-b0d6-3fc0c11a8ca5@0f60e"
+      ]
+    },
+    "materials": {
+      "f3310fd2-007a-4967-b0d6-3fc0c11a8ca5@38d21": {
+        "__type__": "cc.Material",
+        "_name": "",
+        "_objFlags": 0,
+        "_native": "",
+        "_effectAsset": {
+          "__uuid__": "1baf0fc9-befa-459c-8bdd-af1a450a0319",
+          "__expectedType__": "cc.EffectAsset"
+        },
+        "_techIdx": "0",
+        "_defines": [
+          {
+            "USE_ALBEDO_MAP": true
+          },
+          {},
+          {}
+        ],
+        "_states": [
+          {
+            "rasterizerState": {},
+            "depthStencilState": {},
+            "blendState": {
+              "targets": [
+                {}
+              ]
+            }
+          },
+          {
+            "rasterizerState": {},
+            "depthStencilState": {},
+            "blendState": {
+              "targets": [
+                {}
+              ]
+            }
+          },
+          {
+            "rasterizerState": {},
+            "depthStencilState": {},
+            "blendState": {
+              "targets": [
+                {}
+              ]
+            }
+          }
+        ],
+        "_props": [
+          {
+            "roughness": 0.253,
+            "metallic": 0.658,
+            "specularIntensity": 0,
+            "mainTexture": {
+              "__uuid__": "f3310fd2-007a-4967-b0d6-3fc0c11a8ca5@4c7e0",
+              "__expectedType__": "cc.Texture2D"
+            }
+          },
+          {},
+          {}
+        ]
+      },
+      "f3310fd2-007a-4967-b0d6-3fc0c11a8ca5@45540": {
+        "__type__": "cc.Material",
+        "_name": "",
+        "_objFlags": 0,
+        "_native": "",
+        "_effectAsset": {
+          "__uuid__": "f648964e-8d32-41fc-9ac9-7a1e714dd17b",
+          "__expectedType__": "cc.EffectAsset"
+        },
+        "_techIdx": 0,
+        "_defines": [
+          {
+            "USE_ALBEDO_MAP": true
+          },
+          {},
+          {}
+        ],
+        "_states": [
+          {
+            "rasterizerState": {},
+            "depthStencilState": {},
+            "blendState": {
+              "targets": [
+                {}
+              ]
+            }
+          },
+          {
+            "rasterizerState": {},
+            "depthStencilState": {},
+            "blendState": {
+              "targets": [
+                {}
+              ]
+            }
+          },
+          {
+            "rasterizerState": {},
+            "depthStencilState": {},
+            "blendState": {
+              "targets": [
+                {}
+              ]
+            }
+          }
+        ],
+        "_props": [
+          {
+            "mainTexture": {
+              "__uuid__": "f3310fd2-007a-4967-b0d6-3fc0c11a8ca5@d7de2",
+              "__expectedType__": "cc.Texture2D"
+            },
+            "albedoScale": 0,
+            "emissive": {
+              "__type__": "cc.Color",
+              "r": 255,
+              "g": 255,
+              "b": 255,
+              "a": 255
+            },
+            "shininessExponent": 0,
+            "specularColor": {
+              "__type__": "cc.Color",
+              "r": 124,
+              "g": 124,
+              "b": 124,
+              "a": 255
+            },
+            "specularFactor": 0
+          },
+          {},
+          {}
+        ]
+      }
+    }
+  }
+}

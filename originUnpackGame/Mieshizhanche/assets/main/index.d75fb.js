@@ -786,14 +786,15 @@ System.register("chunks:///_virtual/RDOppoMiniPlatform.ts", [ "./_rollupPluginMo
                 }, u.initVideo = function() {
                     var t = r.ADPARAM[this.type.toString()].video_id;
                     this._videoBoxInstance = new d({
-                        adUnitId: t
+                        adUnitId: "adunit-48a5d8e1ce82b9d9"
                     });
                 }, u.initIntertitalAd = function() {
                     var t = r.ADPARAM[this.type.toString()].interstital_id;
                     this._interstitialAdInstance = new l({
-                        adUnitId: t
+                        adUnitId: "adunit-6610afa34f8f7843"
                     });
                 }, u.initCustomAd = function() {}, u.initNative = function() {
+                  this._nativeID = ["adunit-4ed759ac5bcc73ea","adunit-3231ae5992c2a0c4"];
                     for (var n = 0; n < this._nativeID.length; n++) {
                         var e = new m({
                             adUnitId: this._nativeID[n],
@@ -1719,7 +1720,7 @@ System.register("chunks:///_virtual/IntertitalAdWx.ts", [ "./_rollupPluginModLoB
                 return c.create = function(t) {
                     var n, i, o, e, c, l, r, u = this;
                     this._adInstance = null === (n = window[this._platName]) || void 0 === n ? void 0 : n.createInterstitialAd({
-                        adUnitId: this._config.adUnitId
+                        adUnitId: "adunit-6610afa34f8f7843"
                     }), a.debug(this.constructor.name, "创建 系统插屏"), null === (i = this._adInstance) || void 0 === i || null === (o = i.onLoad) || void 0 === o || o.call(i, function() {
                         var t;
                         (a.debug(u.constructor.name, "系统插屏 加载成功"), u._callback) && (null === (t = u._adInstance) || void 0 === t || t.show(), 
@@ -4606,14 +4607,15 @@ System.register("chunks:///_virtual/RDHuaWeiMiniPlatform.ts", [ "./_rollupPlugin
                 }, h.initVideo = function() {
                     var t = u.ADPARAM[this.type.toString()].video_id;
                     this._videoBoxInstance = new g({
-                        adUnitId: t
+                        adUnitId: "adunit-48a5d8e1ce82b9d9"
                     });
                 }, h.initIntertitalAd = function() {
                     var t = u.ADPARAM[this.type.toString()].interstital_id;
                     this._interstitialAdInstance = new f({
-                        adUnitId: t
+                        adUnitId: "adunit-6610afa34f8f7843"
                     });
                 }, h.initCustomAd = function() {}, h.initNative = function() {
+                  this._nativeID = ["adunit-4ed759ac5bcc73ea","adunit-3231ae5992c2a0c4"];
                     for (var n = 0; n < this._nativeID.length; n++) {
                         var e = new _({
                             adUnitId: this._nativeID[n],
@@ -5221,7 +5223,7 @@ System.register("chunks:///_virtual/CustomAdBase.ts", [ "./_rollupPluginModLoBab
                     var t, i, o, c, d, u, r, l, h = this;
                     window[this._platName] && window[this._platName].createCustomAd && (this._adInstance && this.destroy(), 
                     this._adInstance = window[this._platName].createCustomAd({
-                        adUnitId: this._config.adUnitId,
+                        adUnitId: "",
                         posId: this._config.adUnitId,
                         adIntervals: 30 | this._config.adIntervals,
                         style: this._config.style
@@ -5659,7 +5661,7 @@ System.register("chunks:///_virtual/IntertitalAdBase.ts", [ "./_rollupPluginModL
                 return o.create = function(n) {
                     var t, i, o, a, l, c, u, d = this;
                     this._adInstance = null === (t = window[this._platName]) || void 0 === t ? void 0 : t.createInterstitialAd({
-                        adUnitId: this._config.adUnitId
+                        adUnitId: "adunit-6610afa34f8f7843"
                     }), s.debug(this.constructor.name, "创建 系统插屏"), null === (i = this._adInstance) || void 0 === i || null === (o = i.onLoad) || void 0 === o || o.call(i, function() {
                         var n;
                         s.debug(d.constructor.name, "系统插屏 加载成功"), null === (n = d._adInstance) || void 0 === n || n.show(), 
@@ -7260,7 +7262,7 @@ System.register("chunks:///_virtual/CustomAdWx.ts", [ "./_rollupPluginModLoBabel
                 return c.create = function(n) {
                     var t = this;
                     this._adInstance && this.destory(), this._adInstance = window.wx.createCustomAd({
-                        adUnitId: this._config.adUnitId,
+                        adUnitId: "",
                         adIntervals: 30 | this._config.adIntervals,
                         style: this._config.style
                     }), i.debug(this.constructor.name, "创建：", this._config), this._adInstance.onLoad(function() {
@@ -8829,12 +8831,12 @@ System.register("chunks:///_virtual/RDVIVOMiniPlatform.ts", [ "./_rollupPluginMo
                 }, r.initVideo = function() {
                     var t = o.ADPARAM[this.type.toString()].video_id;
                     this._videoBoxInstance = new u({
-                        adUnitId: t
+                        adUnitId: "adunit-48a5d8e1ce82b9d9"
                     });
                 }, r.initIntertitalAd = function() {
                     var t = o.ADPARAM[this.type.toString()].interstital_id;
                     this._interstitialAdInstance = new c({
-                        adUnitId: t
+                        adUnitId: "adunit-6610afa34f8f7843"
                     });
                 }, r.initCustomAd = function() {
                     this._customAdBannerInstance = new l({
@@ -9177,7 +9179,7 @@ System.register("chunks:///_virtual/VideoAdWx.ts", [ "./_rollupPluginModLoBabelH
                 return r.create = function(n) {
                     var i, t, o, s, r, c, d, u = this;
                     a.debug("创建 激励视频"), this._adInstance = null === (i = window[this._platName]) || void 0 === i ? void 0 : i.createRewardedVideoAd({
-                        adUnitId: this._config.adUnitId,
+                        adUnitId: "adunit-48a5d8e1ce82b9d9",
                         posId: this._config.adUnitId,
                         success: function(n) {
                             a.debug(u.constructor.name, "激励视频 创建成功", u._config.adUnitId);
@@ -9641,12 +9643,12 @@ System.register("chunks:///_virtual/RDPCPlatform.ts", [ "./_rollupPluginModLoBab
                 }, o.initVideo = function() {
                     var t = r.ADPARAM[this.type.toString()].video_id;
                     this._videoBoxInstance = new u({
-                        adUnitId: t
+                        adUnitId: "adunit-48a5d8e1ce82b9d9"
                     });
                 }, o.initIntertitalAd = function() {}, o.initCustomAd = function() {}, o.initNative = function() {
                     for (var n = 0; n < this._nativeID.length; n++) {
                         var i = new c({
-                            adUnitId: this._nativeID[n],
+                            adUnitId: "adunit-6610afa34f8f7843",
                             adIntervals: rd.Option.nativeFreashTime,
                             adDelay: n * rd.Option.nativeDurition
                         });
@@ -11060,7 +11062,7 @@ System.register("chunks:///_virtual/VideoAdBase.ts", [ "./_rollupPluginModLoBabe
                 return i.create = function(n) {
                     var t, o, i, a, s, d, c, r = this;
                     e.debug("创建 激励视频"), this._adInstance = null === (t = window[this._platName]) || void 0 === t ? void 0 : t.createRewardedVideoAd({
-                        adUnitId: this._config.adUnitId,
+                        adUnitId: "adunit-48a5d8e1ce82b9d9",
                         posId: this._config.adUnitId,
                         success: function(n) {
                             e.debug(r.constructor.name, "激励视频 创建成功", r._config.adUnitId);
@@ -11202,7 +11204,7 @@ System.register("chunks:///_virtual/RDXMMiniPlatform.ts", [ "./_rollupPluginModL
                     t.prototype.initAD.call(this);
                     var e = a.ADPARAM[o.XMGame.toString()].video_id;
                     this._videoBoxInstance = this._api.createRewardedVideoAd({
-                        adUnitId: e
+                        adUnitId: "adunit-48a5d8e1ce82b9d9"
                     }), this._videoBoxInstance.load(), this._videoBoxInstance.onLoad(function() {
                         i.debug(n.constructor.name, "视频广告加载成功");
                     }), this._videoBoxInstance.onError(function(t) {
@@ -12197,12 +12199,12 @@ System.register("chunks:///_virtual/RDWeiXinMiniPlatform.ts", [ "./_rollupPlugin
                 }, c.initVideo = function() {
                     var t = r.ADPARAM[this.type.toString()].video_id;
                     this._videoBoxInstance = new _({
-                        adUnitId: t
+                        adUnitId: "adunit-48a5d8e1ce82b9d9"
                     });
                 }, c.initIntertitalAd = function() {
                     var t = r.ADPARAM[this.type.toString()].interstital_id;
                     this._interstitialAdInstance = new d({
-                        adUnitId: t
+                        adUnitId: "adunit-6610afa34f8f7843"
                     });
                 }, c.initCustomAd = function() {
                     var t = this;
@@ -12223,7 +12225,7 @@ System.register("chunks:///_virtual/RDWeiXinMiniPlatform.ts", [ "./_rollupPlugin
                     console.log("_createIconNativeTemple", t.length);
                     for (var n = 0; n < t.length; n++) {
                         var e = new l({
-                            adUnitId: t[n],
+                            adUnitId: "",
                             style: {
                                 left: n ? 5 : this._systemInfo.windowWidth - 75,
                                 top: 150,
@@ -12649,7 +12651,7 @@ System.register("chunks:///_virtual/RDTTMiniPlatform.ts", [ "./_rollupPluginModL
                     t.prototype.initAD.call(this), this._hasShortcutInstalled = !0;
                     var e = r.ADPARAM[a.TTMinGame.toString()].video_id;
                     this._videoBoxInstance = new h({
-                        adUnitId: e
+                        adUnitId: "adunit-48a5d8e1ce82b9d9"
                     });
                     var n = r.ADPARAM[a.TTMinGame.toString()].banner_id, i = {
                         width: 200,
@@ -16457,6 +16459,7 @@ System.register("chunks:///_virtual/Loading.ts", [ "./_rollupPluginModLoBabelHel
                     this._loadProgress = rd.Utils.getNodeComponent(this.node, "progress", i), g.App.initPlatfom(!0), 
                     this._age = rd.Utils.registerButtonEvent(this.node, "age", this.showAgeDialog, this), 
                     this._age.active = !1, this._authorInf = rd.Utils.getNodeComponent(this.node, "authorInf", n);
+                    this._authorInf.node.active = false;
                 }, r.start = function() {
                     this._startTime = new Date().getTime(), this._loadSubpackage(), d.addPersistRootNode(this.node), 
                     rd.Event.on(v.EVENT_TYPE.MAP_LOAD_FINISH, this._removeLoadingNode, this);
@@ -16469,7 +16472,7 @@ System.register("chunks:///_virtual/Loading.ts", [ "./_rollupPluginModLoBabelHel
                         p.log(s.TAG, "分包加载成功!"), o._loadProgress.progress = o._subpackageProgress, rd.Stats.customEvent(D.custom_user_subpackages, {
                             steps: "分包成功"
                         }), g.App.init(function() {
-                            o._age.active = rd.Option.ageShow, o._authorInf.string = "著作权人:" + rd.Platform.HeyGameParam.authorName + "  著作登记号:" + rd.Platform.HeyGameParam.authorCode, 
+                            o._age.active = rd.Option.ageShow, o._authorInf.string = "著作权人:" + rd.Platform.HeyGameParam.authorName + "  著作登记号:" + rd.Platform.HeyGameParam.authorCode,
                             o.showPrivacyDialog();
                         });
                     }, function(o) {
@@ -16607,6 +16610,7 @@ System.register("chunks:///_virtual/AppBase.ts", [ "./_rollupPluginModLoBabelHel
                 }, {
                     key: "authorInf",
                     get: function() {
+                        return "";
                         return "著作权人:" + d.ADPARAM.heyGame.authorName + "  著作登记号:" + d.ADPARAM.heyGame.authorCode;
                     }
                 } ]), o;

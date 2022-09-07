@@ -22,6 +22,10 @@
         {
             "name": "texture",
             "root": "/subpackages/texture/"
+        },
+        {
+            "name": "main",
+            "root": "/assets/main/"
         }
     ],
     "plugins": {

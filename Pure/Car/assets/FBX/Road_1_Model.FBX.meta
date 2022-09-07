@@ -1,0 +1,694 @@
+{
+  "ver": "2.2.0",
+  "importer": "fbx",
+  "imported": true,
+  "uuid": "c3d2bf27-b24d-4e2b-810c-f3962cb646b4",
+  "files": [],
+  "subMetas": {
+    "a008f": {
+      "importer": "gltf-mesh",
+      "uuid": "c3d2bf27-b24d-4e2b-810c-f3962cb646b4@a008f",
+      "displayName": "",
+      "id": "a008f",
+      "name": "Finish_1_Material0.mesh",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "bcb60": {
+      "importer": "gltf-mesh",
+      "uuid": "c3d2bf27-b24d-4e2b-810c-f3962cb646b4@bcb60",
+      "displayName": "",
+      "id": "bcb60",
+      "name": "Finish_Road_1.mesh",
+      "userData": {
+        "gltfIndex": 1
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "c1467": {
+      "importer": "gltf-mesh",
+      "uuid": "c3d2bf27-b24d-4e2b-810c-f3962cb646b4@c1467",
+      "displayName": "",
+      "id": "c1467",
+      "name": "R1_Object_Airscrew.mesh",
+      "userData": {
+        "gltfIndex": 2
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "bcab8": {
+      "importer": "gltf-mesh",
+      "uuid": "c3d2bf27-b24d-4e2b-810c-f3962cb646b4@bcab8",
+      "displayName": "",
+      "id": "bcab8",
+      "name": "R1_Object_Hammer_1.mesh",
+      "userData": {
+        "gltfIndex": 3
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "b149c": {
+      "importer": "gltf-mesh",
+      "uuid": "c3d2bf27-b24d-4e2b-810c-f3962cb646b4@b149c",
+      "displayName": "",
+      "id": "b149c",
+      "name": "R1_Hammer_1.mesh",
+      "userData": {
+        "gltfIndex": 4
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "2bffd": {
+      "importer": "gltf-mesh",
+      "uuid": "c3d2bf27-b24d-4e2b-810c-f3962cb646b4@2bffd",
+      "displayName": "",
+      "id": "2bffd",
+      "name": "Road_1_Material0.mesh",
+      "userData": {
+        "gltfIndex": 5
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "6a143": {
+      "importer": "texture",
+      "uuid": "c3d2bf27-b24d-4e2b-810c-f3962cb646b4@6a143",
+      "displayName": "",
+      "id": "6a143",
+      "name": "贴图 #65.texture",
+      "userData": {
+        "wrapModeS": "repeat",
+        "wrapModeT": "repeat",
+        "minfilter": "linear",
+        "magfilter": "linear",
+        "mipfilter": "none",
+        "anisotropy": 0,
+        "isUuid": false,
+        "imageUuidOrDatabaseUri": "db://assets/Textures/Finish_2.jpg"
+      },
+      "ver": "1.0.21",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "a90b3": {
+      "importer": "texture",
+      "uuid": "c3d2bf27-b24d-4e2b-810c-f3962cb646b4@a90b3",
+      "displayName": "",
+      "id": "a90b3",
+      "name": "贴图 #64.texture",
+      "userData": {
+        "wrapModeS": "repeat",
+        "wrapModeT": "repeat",
+        "minfilter": "linear",
+        "magfilter": "linear",
+        "mipfilter": "none",
+        "anisotropy": 0,
+        "isUuid": false,
+        "imageUuidOrDatabaseUri": "db://assets/Textures/Finish_1.jpg"
+      },
+      "ver": "1.0.21",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "6437a": {
+      "importer": "texture",
+      "uuid": "c3d2bf27-b24d-4e2b-810c-f3962cb646b4@6437a",
+      "displayName": "",
+      "id": "6437a",
+      "name": "贴图 #67.texture",
+      "userData": {
+        "wrapModeS": "repeat",
+        "wrapModeT": "repeat",
+        "minfilter": "linear",
+        "magfilter": "linear",
+        "mipfilter": "none",
+        "anisotropy": 0,
+        "isUuid": false,
+        "imageUuidOrDatabaseUri": "db://assets/Textures/Finish_3.jpg"
+      },
+      "ver": "1.0.21",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "d5fa2": {
+      "importer": "texture",
+      "uuid": "c3d2bf27-b24d-4e2b-810c-f3962cb646b4@d5fa2",
+      "displayName": "",
+      "id": "d5fa2",
+      "name": "贴图 #117.texture",
+      "userData": {
+        "wrapModeS": "repeat",
+        "wrapModeT": "repeat",
+        "minfilter": "linear",
+        "magfilter": "linear",
+        "mipfilter": "none",
+        "anisotropy": 0,
+        "isUuid": false,
+        "imageUuidOrDatabaseUri": "db://assets/Textures/Road_1.jpg"
+      },
+      "ver": "1.0.21",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "ec4c3": {
+      "importer": "texture",
+      "uuid": "c3d2bf27-b24d-4e2b-810c-f3962cb646b4@ec4c3",
+      "displayName": "",
+      "id": "ec4c3",
+      "name": "贴图 #83.texture",
+      "userData": {
+        "wrapModeS": "repeat",
+        "wrapModeT": "repeat",
+        "minfilter": "linear",
+        "magfilter": "linear",
+        "mipfilter": "none",
+        "anisotropy": 0,
+        "isUuid": false,
+        "imageUuidOrDatabaseUri": "db://assets/Textures/Object_Airscrew_1.jpg"
+      },
+      "ver": "1.0.21",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "ef314": {
+      "importer": "texture",
+      "uuid": "c3d2bf27-b24d-4e2b-810c-f3962cb646b4@ef314",
+      "displayName": "",
+      "id": "ef314",
+      "name": "贴图 #81.texture",
+      "userData": {
+        "wrapModeS": "repeat",
+        "wrapModeT": "repeat",
+        "minfilter": "linear",
+        "magfilter": "linear",
+        "mipfilter": "none",
+        "anisotropy": 0,
+        "isUuid": false,
+        "imageUuidOrDatabaseUri": "db://assets/Textures/Object_hammer_1.jpg"
+      },
+      "ver": "1.0.21",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "7e327": {
+      "importer": "texture",
+      "uuid": "c3d2bf27-b24d-4e2b-810c-f3962cb646b4@7e327",
+      "displayName": "",
+      "id": "7e327",
+      "name": "贴图 #108.texture",
+      "userData": {
+        "wrapModeS": "repeat",
+        "wrapModeT": "repeat",
+        "minfilter": "linear",
+        "magfilter": "linear",
+        "mipfilter": "none",
+        "anisotropy": 0,
+        "isUuid": false,
+        "imageUuidOrDatabaseUri": "db://assets/Textures/Board_1.jpg"
+      },
+      "ver": "1.0.21",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "6a975": {
+      "importer": "texture",
+      "uuid": "c3d2bf27-b24d-4e2b-810c-f3962cb646b4@6a975",
+      "displayName": "",
+      "id": "6a975",
+      "name": "贴图 #42.texture",
+      "userData": {
+        "wrapModeS": "repeat",
+        "wrapModeT": "repeat",
+        "minfilter": "linear",
+        "magfilter": "linear",
+        "mipfilter": "none",
+        "anisotropy": 0,
+        "isUuid": false,
+        "imageUuidOrDatabaseUri": "db://assets/Textures/Finish_3.jpg"
+      },
+      "ver": "1.0.21",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "bd34e": {
+      "importer": "texture",
+      "uuid": "c3d2bf27-b24d-4e2b-810c-f3962cb646b4@bd34e",
+      "displayName": "",
+      "id": "bd34e",
+      "name": "贴图 #43.texture",
+      "userData": {
+        "wrapModeS": "repeat",
+        "wrapModeT": "repeat",
+        "minfilter": "linear",
+        "magfilter": "linear",
+        "mipfilter": "none",
+        "anisotropy": 0,
+        "isUuid": false,
+        "imageUuidOrDatabaseUri": "db://assets/Textures/Colour_1.jpg"
+      },
+      "ver": "1.0.21",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "bec7c": {
+      "importer": "texture",
+      "uuid": "c3d2bf27-b24d-4e2b-810c-f3962cb646b4@bec7c",
+      "displayName": "",
+      "id": "bec7c",
+      "name": "贴图 #84.texture",
+      "userData": {
+        "wrapModeS": "repeat",
+        "wrapModeT": "repeat",
+        "minfilter": "linear",
+        "magfilter": "linear",
+        "mipfilter": "none",
+        "anisotropy": 0,
+        "isUuid": false,
+        "imageUuidOrDatabaseUri": "db://assets/Textures/Object_Tonnel_1.png"
+      },
+      "ver": "1.0.21",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "0942b": {
+      "importer": "texture",
+      "uuid": "c3d2bf27-b24d-4e2b-810c-f3962cb646b4@0942b",
+      "displayName": "",
+      "id": "0942b",
+      "name": "贴图 #85.texture",
+      "userData": {
+        "wrapModeS": "repeat",
+        "wrapModeT": "repeat",
+        "minfilter": "linear",
+        "magfilter": "linear",
+        "mipfilter": "none",
+        "anisotropy": 0,
+        "isUuid": false,
+        "imageUuidOrDatabaseUri": "db://assets/Textures/Object_Tonnel_1.png"
+      },
+      "ver": "1.0.21",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "86f07": {
+      "importer": "gltf-material",
+      "uuid": "c3d2bf27-b24d-4e2b-810c-f3962cb646b4@86f07",
+      "displayName": "",
+      "id": "86f07",
+      "name": "Finish_2-0.material",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.14",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "20a14": {
+      "importer": "gltf-material",
+      "uuid": "c3d2bf27-b24d-4e2b-810c-f3962cb646b4@20a14",
+      "displayName": "",
+      "id": "20a14",
+      "name": "Finish_1-1.material",
+      "userData": {
+        "gltfIndex": 1
+      },
+      "ver": "1.0.14",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "bdd84": {
+      "importer": "gltf-material",
+      "uuid": "c3d2bf27-b24d-4e2b-810c-f3962cb646b4@bdd84",
+      "displayName": "",
+      "id": "bdd84",
+      "name": "Finish_3-2.material",
+      "userData": {
+        "gltfIndex": 2
+      },
+      "ver": "1.0.14",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "114c2": {
+      "importer": "gltf-material",
+      "uuid": "c3d2bf27-b24d-4e2b-810c-f3962cb646b4@114c2",
+      "displayName": "",
+      "id": "114c2",
+      "name": "Road_1-3.material",
+      "userData": {
+        "gltfIndex": 3
+      },
+      "ver": "1.0.14",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "f2695": {
+      "importer": "gltf-material",
+      "uuid": "c3d2bf27-b24d-4e2b-810c-f3962cb646b4@f2695",
+      "displayName": "",
+      "id": "f2695",
+      "name": "Object_Airscrew_1-4.material",
+      "userData": {
+        "gltfIndex": 4
+      },
+      "ver": "1.0.14",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "6f677": {
+      "importer": "gltf-material",
+      "uuid": "c3d2bf27-b24d-4e2b-810c-f3962cb646b4@6f677",
+      "displayName": "",
+      "id": "6f677",
+      "name": "Object_hammer_1-5.material",
+      "userData": {
+        "gltfIndex": 5
+      },
+      "ver": "1.0.14",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "acc56": {
+      "importer": "gltf-material",
+      "uuid": "c3d2bf27-b24d-4e2b-810c-f3962cb646b4@acc56",
+      "displayName": "",
+      "id": "acc56",
+      "name": "Board_1-6.material",
+      "userData": {
+        "gltfIndex": 6
+      },
+      "ver": "1.0.14",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "d7696": {
+      "importer": "gltf-material",
+      "uuid": "c3d2bf27-b24d-4e2b-810c-f3962cb646b4@d7696",
+      "displayName": "",
+      "id": "d7696",
+      "name": "Finish_3-7.material",
+      "userData": {
+        "gltfIndex": 7
+      },
+      "ver": "1.0.14",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "3b1b4": {
+      "importer": "gltf-material",
+      "uuid": "c3d2bf27-b24d-4e2b-810c-f3962cb646b4@3b1b4",
+      "displayName": "",
+      "id": "3b1b4",
+      "name": "Colour_1-8.material",
+      "userData": {
+        "gltfIndex": 8
+      },
+      "ver": "1.0.14",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "8d9aa": {
+      "importer": "gltf-material",
+      "uuid": "c3d2bf27-b24d-4e2b-810c-f3962cb646b4@8d9aa",
+      "displayName": "",
+      "id": "8d9aa",
+      "name": "Object_Tonnel_1-9.material",
+      "userData": {
+        "gltfIndex": 9
+      },
+      "ver": "1.0.14",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "cd516": {
+      "importer": "gltf-scene",
+      "uuid": "c3d2bf27-b24d-4e2b-810c-f3962cb646b4@cd516",
+      "displayName": "",
+      "id": "cd516",
+      "name": "Road_1_Model.prefab",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.12",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    }
+  },
+  "userData": {
+    "imageMetas": [
+      {
+        "name": "贴图 #65",
+        "uri": "db://assets/Textures/Finish_2.jpg"
+      },
+      {
+        "name": "贴图 #64",
+        "uri": "db://assets/Textures/Finish_1.jpg"
+      },
+      {
+        "name": "贴图 #67",
+        "uri": "db://assets/Textures/Finish_3.jpg"
+      },
+      {
+        "name": "贴图 #117",
+        "uri": "db://assets/Textures/Road_1.jpg"
+      },
+      {
+        "name": "贴图 #83",
+        "uri": "db://assets/Textures/Object_Airscrew_1.jpg"
+      },
+      {
+        "name": "贴图 #81",
+        "uri": "db://assets/Textures/Object_hammer_1.jpg"
+      },
+      {
+        "name": "贴图 #108",
+        "uri": "db://assets/Textures/Board_1.jpg"
+      },
+      {
+        "name": "贴图 #42",
+        "uri": "db://assets/Textures/Finish_3.jpg"
+      },
+      {
+        "name": "贴图 #43",
+        "uri": "db://assets/Textures/Colour_1.jpg"
+      },
+      {
+        "name": "贴图 #84",
+        "uri": "db://assets/Textures/Object_Tonnel_1.png"
+      },
+      {
+        "name": "贴图 #85",
+        "uri": "db://assets/Textures/Object_Tonnel_1.png"
+      }
+    ],
+    "legacyFbxImporter": false,
+    "fbx": {
+      "smartMaterialEnabled": true
+    },
+    "redirect": "c3d2bf27-b24d-4e2b-810c-f3962cb646b4@cd516",
+    "assetFinder": {
+      "meshes": [
+        "c3d2bf27-b24d-4e2b-810c-f3962cb646b4@a008f",
+        "c3d2bf27-b24d-4e2b-810c-f3962cb646b4@bcb60",
+        "c3d2bf27-b24d-4e2b-810c-f3962cb646b4@c1467",
+        "c3d2bf27-b24d-4e2b-810c-f3962cb646b4@bcab8",
+        "c3d2bf27-b24d-4e2b-810c-f3962cb646b4@b149c",
+        "c3d2bf27-b24d-4e2b-810c-f3962cb646b4@2bffd"
+      ],
+      "skeletons": [],
+      "textures": [
+        "c3d2bf27-b24d-4e2b-810c-f3962cb646b4@6a143",
+        "c3d2bf27-b24d-4e2b-810c-f3962cb646b4@a90b3",
+        "c3d2bf27-b24d-4e2b-810c-f3962cb646b4@6437a",
+        "c3d2bf27-b24d-4e2b-810c-f3962cb646b4@d5fa2",
+        "c3d2bf27-b24d-4e2b-810c-f3962cb646b4@ec4c3",
+        "c3d2bf27-b24d-4e2b-810c-f3962cb646b4@ef314",
+        "c3d2bf27-b24d-4e2b-810c-f3962cb646b4@7e327",
+        "c3d2bf27-b24d-4e2b-810c-f3962cb646b4@6a975",
+        "c3d2bf27-b24d-4e2b-810c-f3962cb646b4@bd34e",
+        "c3d2bf27-b24d-4e2b-810c-f3962cb646b4@bec7c",
+        "c3d2bf27-b24d-4e2b-810c-f3962cb646b4@0942b"
+      ],
+      "materials": [
+        "c3d2bf27-b24d-4e2b-810c-f3962cb646b4@86f07",
+        "c3d2bf27-b24d-4e2b-810c-f3962cb646b4@20a14",
+        "c3d2bf27-b24d-4e2b-810c-f3962cb646b4@bdd84",
+        "c3d2bf27-b24d-4e2b-810c-f3962cb646b4@114c2",
+        "c3d2bf27-b24d-4e2b-810c-f3962cb646b4@f2695",
+        "c3d2bf27-b24d-4e2b-810c-f3962cb646b4@6f677",
+        "c3d2bf27-b24d-4e2b-810c-f3962cb646b4@acc56",
+        "c3d2bf27-b24d-4e2b-810c-f3962cb646b4@d7696",
+        "c3d2bf27-b24d-4e2b-810c-f3962cb646b4@3b1b4",
+        "c3d2bf27-b24d-4e2b-810c-f3962cb646b4@8d9aa"
+      ],
+      "scenes": [
+        "c3d2bf27-b24d-4e2b-810c-f3962cb646b4@cd516"
+      ]
+    },
+    "materials": {
+      "c3d2bf27-b24d-4e2b-810c-f3962cb646b4@114c2": {
+        "__type__": "cc.Material",
+        "_name": "",
+        "_objFlags": 0,
+        "_native": "",
+        "_effectAsset": {
+          "__uuid__": "1baf0fc9-befa-459c-8bdd-af1a450a0319",
+          "__expectedType__": "cc.EffectAsset"
+        },
+        "_techIdx": 0,
+        "_defines": [
+          {
+            "USE_ALBEDO_MAP": true
+          },
+          {},
+          {}
+        ],
+        "_states": [
+          {
+            "rasterizerState": {},
+            "depthStencilState": {},
+            "blendState": {
+              "targets": [
+                {}
+              ]
+            }
+          },
+          {
+            "rasterizerState": {},
+            "depthStencilState": {},
+            "blendState": {
+              "targets": [
+                {}
+              ]
+            }
+          },
+          {
+            "rasterizerState": {},
+            "depthStencilState": {},
+            "blendState": {
+              "targets": [
+                {}
+              ]
+            }
+          }
+        ],
+        "_props": [
+          {
+            "roughness": 0,
+            "metallic": 0,
+            "specularIntensity": 0,
+            "mainTexture": {
+              "__uuid__": "c3d2bf27-b24d-4e2b-810c-f3962cb646b4@d5fa2",
+              "__expectedType__": "cc.Texture2D"
+            }
+          },
+          {},
+          {}
+        ]
+      }
+    }
+  }
+}

@@ -1,0 +1,200 @@
+{
+  "ver": "2.2.0",
+  "importer": "fbx",
+  "imported": true,
+  "uuid": "ce730eb4-ea78-4a3d-9e3f-52d8cc5dcf96",
+  "files": [],
+  "subMetas": {
+    "edbbf": {
+      "importer": "gltf-mesh",
+      "uuid": "ce730eb4-ea78-4a3d-9e3f-52d8cc5dcf96@edbbf",
+      "displayName": "",
+      "id": "edbbf",
+      "name": "Object_Hurdle1.mesh",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "f1cdb": {
+      "importer": "gltf-mesh",
+      "uuid": "ce730eb4-ea78-4a3d-9e3f-52d8cc5dcf96@f1cdb",
+      "displayName": "",
+      "id": "f1cdb",
+      "name": "Object_Hurdle2.mesh",
+      "userData": {
+        "gltfIndex": 1
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "04b54": {
+      "importer": "texture",
+      "uuid": "ce730eb4-ea78-4a3d-9e3f-52d8cc5dcf96@04b54",
+      "displayName": "",
+      "id": "04b54",
+      "name": "贴图 #91-0.texture",
+      "userData": {
+        "wrapModeS": "repeat",
+        "wrapModeT": "repeat",
+        "minfilter": "linear",
+        "magfilter": "linear",
+        "mipfilter": "none",
+        "anisotropy": 0,
+        "isUuid": false,
+        "imageUuidOrDatabaseUri": "db://assets/Textures/Object_Hurdle.png"
+      },
+      "ver": "1.0.21",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "8a799": {
+      "importer": "texture",
+      "uuid": "ce730eb4-ea78-4a3d-9e3f-52d8cc5dcf96@8a799",
+      "displayName": "",
+      "id": "8a799",
+      "name": "贴图 #91-1.texture",
+      "userData": {
+        "wrapModeS": "repeat",
+        "wrapModeT": "repeat",
+        "minfilter": "linear",
+        "magfilter": "linear",
+        "mipfilter": "none",
+        "anisotropy": 0,
+        "isUuid": false,
+        "imageUuidOrDatabaseUri": "db://assets/Textures/Object_Hurdle.png"
+      },
+      "ver": "1.0.21",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "955c8": {
+      "importer": "texture",
+      "uuid": "ce730eb4-ea78-4a3d-9e3f-52d8cc5dcf96@955c8",
+      "displayName": "",
+      "id": "955c8",
+      "name": "贴图 #92-2.texture",
+      "userData": {
+        "wrapModeS": "repeat",
+        "wrapModeT": "repeat",
+        "minfilter": "linear",
+        "magfilter": "linear",
+        "mipfilter": "none",
+        "anisotropy": 0,
+        "isUuid": false,
+        "imageUuidOrDatabaseUri": "db://assets/Textures/Object_Hurdle.png"
+      },
+      "ver": "1.0.21",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "2d962": {
+      "importer": "gltf-material",
+      "uuid": "ce730eb4-ea78-4a3d-9e3f-52d8cc5dcf96@2d962",
+      "displayName": "",
+      "id": "2d962",
+      "name": "Object_Hurdle1.material",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.14",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "86eda": {
+      "importer": "gltf-material",
+      "uuid": "ce730eb4-ea78-4a3d-9e3f-52d8cc5dcf96@86eda",
+      "displayName": "",
+      "id": "86eda",
+      "name": "Object_Hurdle.material",
+      "userData": {
+        "gltfIndex": 1
+      },
+      "ver": "1.0.14",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "c28ed": {
+      "importer": "gltf-scene",
+      "uuid": "ce730eb4-ea78-4a3d-9e3f-52d8cc5dcf96@c28ed",
+      "displayName": "",
+      "id": "c28ed",
+      "name": "Object_Hurdle.prefab",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.12",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    }
+  },
+  "userData": {
+    "imageMetas": [
+      {
+        "name": "贴图 #91",
+        "uri": "db://assets/Textures/Object_Hurdle.png"
+      },
+      {
+        "name": "贴图 #91",
+        "uri": "db://assets/Textures/Object_Hurdle.png"
+      },
+      {
+        "name": "贴图 #92",
+        "uri": "db://assets/Textures/Object_Hurdle.png"
+      }
+    ],
+    "legacyFbxImporter": false,
+    "fbx": {
+      "smartMaterialEnabled": true
+    },
+    "redirect": "ce730eb4-ea78-4a3d-9e3f-52d8cc5dcf96@c28ed",
+    "assetFinder": {
+      "meshes": [
+        "ce730eb4-ea78-4a3d-9e3f-52d8cc5dcf96@edbbf",
+        "ce730eb4-ea78-4a3d-9e3f-52d8cc5dcf96@f1cdb"
+      ],
+      "skeletons": [],
+      "textures": [
+        "ce730eb4-ea78-4a3d-9e3f-52d8cc5dcf96@04b54",
+        "ce730eb4-ea78-4a3d-9e3f-52d8cc5dcf96@8a799",
+        "ce730eb4-ea78-4a3d-9e3f-52d8cc5dcf96@955c8"
+      ],
+      "materials": [
+        "ce730eb4-ea78-4a3d-9e3f-52d8cc5dcf96@2d962",
+        "ce730eb4-ea78-4a3d-9e3f-52d8cc5dcf96@86eda"
+      ],
+      "scenes": [
+        "ce730eb4-ea78-4a3d-9e3f-52d8cc5dcf96@c28ed"
+      ]
+    }
+  }
+}

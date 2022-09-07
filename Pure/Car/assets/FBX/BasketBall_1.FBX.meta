@@ -1,0 +1,109 @@
+{
+  "ver": "2.2.0",
+  "importer": "fbx",
+  "imported": true,
+  "uuid": "4f108745-2934-4f08-8666-17a02acb6829",
+  "files": [],
+  "subMetas": {
+    "84aaf": {
+      "importer": "gltf-mesh",
+      "uuid": "4f108745-2934-4f08-8666-17a02acb6829@84aaf",
+      "displayName": "",
+      "id": "84aaf",
+      "name": "BasketBall_1.mesh",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "a1592": {
+      "importer": "texture",
+      "uuid": "4f108745-2934-4f08-8666-17a02acb6829@a1592",
+      "displayName": "",
+      "id": "a1592",
+      "name": "贴图 #78.texture",
+      "userData": {
+        "wrapModeS": "repeat",
+        "wrapModeT": "repeat",
+        "minfilter": "linear",
+        "magfilter": "linear",
+        "mipfilter": "none",
+        "anisotropy": 0,
+        "isUuid": false,
+        "imageUuidOrDatabaseUri": "db://assets/Textures/BasketBall_1.jpg"
+      },
+      "ver": "1.0.21",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "e42a6": {
+      "importer": "gltf-material",
+      "uuid": "4f108745-2934-4f08-8666-17a02acb6829@e42a6",
+      "displayName": "",
+      "id": "e42a6",
+      "name": "BasketBall_1.material",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.14",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "024d7": {
+      "importer": "gltf-scene",
+      "uuid": "4f108745-2934-4f08-8666-17a02acb6829@024d7",
+      "displayName": "",
+      "id": "024d7",
+      "name": "BasketBall_1.prefab",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.12",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    }
+  },
+  "userData": {
+    "imageMetas": [
+      {
+        "name": "贴图 #78",
+        "uri": "db://assets/Textures/BasketBall_1.jpg"
+      }
+    ],
+    "legacyFbxImporter": false,
+    "fbx": {
+      "smartMaterialEnabled": true
+    },
+    "redirect": "4f108745-2934-4f08-8666-17a02acb6829@024d7",
+    "assetFinder": {
+      "meshes": [
+        "4f108745-2934-4f08-8666-17a02acb6829@84aaf"
+      ],
+      "skeletons": [],
+      "textures": [
+        "4f108745-2934-4f08-8666-17a02acb6829@a1592"
+      ],
+      "materials": [
+        "4f108745-2934-4f08-8666-17a02acb6829@e42a6"
+      ],
+      "scenes": [
+        "4f108745-2934-4f08-8666-17a02acb6829@024d7"
+      ]
+    }
+  }
+}

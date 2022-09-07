@@ -1,0 +1,109 @@
+{
+  "ver": "2.2.0",
+  "importer": "fbx",
+  "imported": true,
+  "uuid": "18237309-06f6-4d53-a3d7-f8e7d12d6ca2",
+  "files": [],
+  "subMetas": {
+    "b8910": {
+      "importer": "gltf-mesh",
+      "uuid": "18237309-06f6-4d53-a3d7-f8e7d12d6ca2@b8910",
+      "displayName": "",
+      "id": "b8910",
+      "name": "Skittle_1.mesh",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "f5ba8": {
+      "importer": "texture",
+      "uuid": "18237309-06f6-4d53-a3d7-f8e7d12d6ca2@f5ba8",
+      "displayName": "",
+      "id": "f5ba8",
+      "name": "贴图 #88.texture",
+      "userData": {
+        "wrapModeS": "repeat",
+        "wrapModeT": "repeat",
+        "minfilter": "linear",
+        "magfilter": "linear",
+        "mipfilter": "none",
+        "anisotropy": 0,
+        "isUuid": false,
+        "imageUuidOrDatabaseUri": "db://assets/Textures/Object_Torture_1.jpg"
+      },
+      "ver": "1.0.21",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "e3971": {
+      "importer": "gltf-material",
+      "uuid": "18237309-06f6-4d53-a3d7-f8e7d12d6ca2@e3971",
+      "displayName": "",
+      "id": "e3971",
+      "name": "Object_Torture_1.material",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.14",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "e7288": {
+      "importer": "gltf-scene",
+      "uuid": "18237309-06f6-4d53-a3d7-f8e7d12d6ca2@e7288",
+      "displayName": "",
+      "id": "e7288",
+      "name": "Skittle_1.prefab",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.12",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    }
+  },
+  "userData": {
+    "imageMetas": [
+      {
+        "name": "贴图 #88",
+        "uri": "db://assets/Textures/Object_Torture_1.jpg"
+      }
+    ],
+    "legacyFbxImporter": false,
+    "fbx": {
+      "smartMaterialEnabled": true
+    },
+    "redirect": "18237309-06f6-4d53-a3d7-f8e7d12d6ca2@e7288",
+    "assetFinder": {
+      "meshes": [
+        "18237309-06f6-4d53-a3d7-f8e7d12d6ca2@b8910"
+      ],
+      "skeletons": [],
+      "textures": [
+        "18237309-06f6-4d53-a3d7-f8e7d12d6ca2@f5ba8"
+      ],
+      "materials": [
+        "18237309-06f6-4d53-a3d7-f8e7d12d6ca2@e3971"
+      ],
+      "scenes": [
+        "18237309-06f6-4d53-a3d7-f8e7d12d6ca2@e7288"
+      ]
+    }
+  }
+}

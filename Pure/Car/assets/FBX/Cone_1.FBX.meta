@@ -1,0 +1,109 @@
+{
+  "ver": "2.2.0",
+  "importer": "fbx",
+  "imported": true,
+  "uuid": "c865aa58-fdba-4e64-8938-ee99f41acf0f",
+  "files": [],
+  "subMetas": {
+    "63198": {
+      "importer": "gltf-material",
+      "uuid": "c865aa58-fdba-4e64-8938-ee99f41acf0f@63198",
+      "displayName": "",
+      "id": "63198",
+      "name": "Cone_1.material",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.14",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "5db88": {
+      "importer": "gltf-mesh",
+      "uuid": "c865aa58-fdba-4e64-8938-ee99f41acf0f@5db88",
+      "displayName": "",
+      "id": "5db88",
+      "name": "Cone_1.mesh",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "00cb6": {
+      "importer": "texture",
+      "uuid": "c865aa58-fdba-4e64-8938-ee99f41acf0f@00cb6",
+      "displayName": "",
+      "id": "00cb6",
+      "name": "贴图 #58.texture",
+      "userData": {
+        "wrapModeS": "repeat",
+        "wrapModeT": "repeat",
+        "minfilter": "linear",
+        "magfilter": "linear",
+        "mipfilter": "none",
+        "anisotropy": 0,
+        "isUuid": false,
+        "imageUuidOrDatabaseUri": "db://assets/Textures/Cone_1.jpg"
+      },
+      "ver": "1.0.21",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "d5e73": {
+      "importer": "gltf-scene",
+      "uuid": "c865aa58-fdba-4e64-8938-ee99f41acf0f@d5e73",
+      "displayName": "",
+      "id": "d5e73",
+      "name": "Cone_1.prefab",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.12",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    }
+  },
+  "userData": {
+    "imageMetas": [
+      {
+        "name": "贴图 #58",
+        "uri": "db://assets/Textures/Cone_1.jpg"
+      }
+    ],
+    "legacyFbxImporter": false,
+    "fbx": {
+      "smartMaterialEnabled": true
+    },
+    "redirect": "c865aa58-fdba-4e64-8938-ee99f41acf0f@d5e73",
+    "assetFinder": {
+      "meshes": [
+        "c865aa58-fdba-4e64-8938-ee99f41acf0f@5db88"
+      ],
+      "skeletons": [],
+      "textures": [
+        "c865aa58-fdba-4e64-8938-ee99f41acf0f@00cb6"
+      ],
+      "materials": [
+        "c865aa58-fdba-4e64-8938-ee99f41acf0f@63198"
+      ],
+      "scenes": [
+        "c865aa58-fdba-4e64-8938-ee99f41acf0f@d5e73"
+      ]
+    }
+  }
+}

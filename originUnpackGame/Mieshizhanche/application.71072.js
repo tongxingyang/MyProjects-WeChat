@@ -4,6 +4,9 @@ System.register([], function(e, n) {
         var t = n.launchScene;
         e.director.loadScene(t, null, function() {
             e.view.setDesignResolutionSize(750, 1334, 4), console.log("Success to load scene: ".concat(t));
+            setTimeout(() => {
+              require("./SGSDK/src/Main");
+            }, 2000);
         });
     }
     return e("createApplication", function(e) {

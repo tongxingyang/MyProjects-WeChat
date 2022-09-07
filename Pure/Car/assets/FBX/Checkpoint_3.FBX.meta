@@ -1,0 +1,109 @@
+{
+  "ver": "2.2.0",
+  "importer": "fbx",
+  "imported": true,
+  "uuid": "8bcf2fef-8cef-4d53-a307-90c9fd60c27c",
+  "files": [],
+  "subMetas": {
+    "63f5a": {
+      "importer": "gltf-mesh",
+      "uuid": "8bcf2fef-8cef-4d53-a307-90c9fd60c27c@63f5a",
+      "displayName": "",
+      "id": "63f5a",
+      "name": "Checkpoint_3.mesh",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "18dd0": {
+      "importer": "texture",
+      "uuid": "8bcf2fef-8cef-4d53-a307-90c9fd60c27c@18dd0",
+      "displayName": "",
+      "id": "18dd0",
+      "name": "贴图 #56.texture",
+      "userData": {
+        "wrapModeS": "repeat",
+        "wrapModeT": "repeat",
+        "minfilter": "linear",
+        "magfilter": "linear",
+        "mipfilter": "none",
+        "anisotropy": 0,
+        "isUuid": false,
+        "imageUuidOrDatabaseUri": "db://assets/Textures/Checkpoint_1.jpg"
+      },
+      "ver": "1.0.21",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "114da": {
+      "importer": "gltf-material",
+      "uuid": "8bcf2fef-8cef-4d53-a307-90c9fd60c27c@114da",
+      "displayName": "",
+      "id": "114da",
+      "name": "Checkpoint_1.material",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.14",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "bb68a": {
+      "importer": "gltf-scene",
+      "uuid": "8bcf2fef-8cef-4d53-a307-90c9fd60c27c@bb68a",
+      "displayName": "",
+      "id": "bb68a",
+      "name": "Checkpoint_3.prefab",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.12",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    }
+  },
+  "userData": {
+    "imageMetas": [
+      {
+        "name": "贴图 #56",
+        "uri": "db://assets/Textures/Checkpoint_1.jpg"
+      }
+    ],
+    "legacyFbxImporter": false,
+    "fbx": {
+      "smartMaterialEnabled": true
+    },
+    "redirect": "8bcf2fef-8cef-4d53-a307-90c9fd60c27c@bb68a",
+    "assetFinder": {
+      "meshes": [
+        "8bcf2fef-8cef-4d53-a307-90c9fd60c27c@63f5a"
+      ],
+      "skeletons": [],
+      "textures": [
+        "8bcf2fef-8cef-4d53-a307-90c9fd60c27c@18dd0"
+      ],
+      "materials": [
+        "8bcf2fef-8cef-4d53-a307-90c9fd60c27c@114da"
+      ],
+      "scenes": [
+        "8bcf2fef-8cef-4d53-a307-90c9fd60c27c@bb68a"
+      ]
+    }
+  }
+}

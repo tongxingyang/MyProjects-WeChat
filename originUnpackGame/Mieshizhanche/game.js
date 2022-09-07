@@ -48,6 +48,15 @@ function e() {
                 return e.setProgress(.6).then(function() {
                     return Promise.resolve(n);
                 });
+            }).then(function(r){
+              return new Promise((rs,rj)=>{
+                wx.loadSubpackage({
+                  name:'main',
+                  success:()=>{
+                    rs(r);
+                  }
+                });
+              });
             }).then(function(r) {
                 return require("./libs/common/engine/index.js"), require("./libs/wrapper/engine/index"), 
                 require("./libs/common/cache-manager.js"), r.view._maxPixelRatio = 4, r.macro.CLEANUP_IMAGE_CACHE = !1, 

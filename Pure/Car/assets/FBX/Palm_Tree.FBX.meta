@@ -1,0 +1,109 @@
+{
+  "ver": "2.2.0",
+  "importer": "fbx",
+  "imported": true,
+  "uuid": "1d120e46-d6a6-4a8c-a019-08a04251a89a",
+  "files": [],
+  "subMetas": {
+    "0d939": {
+      "importer": "gltf-mesh",
+      "uuid": "1d120e46-d6a6-4a8c-a019-08a04251a89a@0d939",
+      "displayName": "",
+      "id": "0d939",
+      "name": "Palm_Tree.mesh",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "5c936": {
+      "importer": "texture",
+      "uuid": "1d120e46-d6a6-4a8c-a019-08a04251a89a@5c936",
+      "displayName": "",
+      "id": "5c936",
+      "name": "贴图 #90.texture",
+      "userData": {
+        "wrapModeS": "repeat",
+        "wrapModeT": "repeat",
+        "minfilter": "linear",
+        "magfilter": "linear",
+        "mipfilter": "none",
+        "anisotropy": 0,
+        "isUuid": false,
+        "imageUuidOrDatabaseUri": "db://assets/Textures/Palm_Tree.jpg"
+      },
+      "ver": "1.0.21",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "9f554": {
+      "importer": "gltf-material",
+      "uuid": "1d120e46-d6a6-4a8c-a019-08a04251a89a@9f554",
+      "displayName": "",
+      "id": "9f554",
+      "name": "Palm_Tree.material",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.14",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "58b37": {
+      "importer": "gltf-scene",
+      "uuid": "1d120e46-d6a6-4a8c-a019-08a04251a89a@58b37",
+      "displayName": "",
+      "id": "58b37",
+      "name": "Palm_Tree.prefab",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.12",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    }
+  },
+  "userData": {
+    "imageMetas": [
+      {
+        "name": "贴图 #90",
+        "uri": "db://assets/Textures/Palm_Tree.jpg"
+      }
+    ],
+    "legacyFbxImporter": false,
+    "fbx": {
+      "smartMaterialEnabled": true
+    },
+    "redirect": "1d120e46-d6a6-4a8c-a019-08a04251a89a@58b37",
+    "assetFinder": {
+      "meshes": [
+        "1d120e46-d6a6-4a8c-a019-08a04251a89a@0d939"
+      ],
+      "skeletons": [],
+      "textures": [
+        "1d120e46-d6a6-4a8c-a019-08a04251a89a@5c936"
+      ],
+      "materials": [
+        "1d120e46-d6a6-4a8c-a019-08a04251a89a@9f554"
+      ],
+      "scenes": [
+        "1d120e46-d6a6-4a8c-a019-08a04251a89a@58b37"
+      ]
+    }
+  }
+}

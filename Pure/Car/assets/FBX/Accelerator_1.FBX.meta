@@ -1,0 +1,127 @@
+{
+  "ver": "2.2.0",
+  "importer": "fbx",
+  "imported": true,
+  "uuid": "92ebb19a-9ac9-42f5-8cc2-825ad0616699",
+  "files": [],
+  "subMetas": {
+    "75fb6": {
+      "importer": "gltf-mesh",
+      "uuid": "92ebb19a-9ac9-42f5-8cc2-825ad0616699@75fb6",
+      "displayName": "",
+      "id": "75fb6",
+      "name": "Accelerator_1.mesh",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "7381a": {
+      "importer": "gltf-mesh",
+      "uuid": "92ebb19a-9ac9-42f5-8cc2-825ad0616699@7381a",
+      "displayName": "",
+      "id": "7381a",
+      "name": "Accelerator_2.mesh",
+      "userData": {
+        "gltfIndex": 1
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "5b5eb": {
+      "importer": "texture",
+      "uuid": "92ebb19a-9ac9-42f5-8cc2-825ad0616699@5b5eb",
+      "displayName": "",
+      "id": "5b5eb",
+      "name": "贴图 #60.texture",
+      "userData": {
+        "wrapModeS": "repeat",
+        "wrapModeT": "repeat",
+        "minfilter": "linear",
+        "magfilter": "linear",
+        "mipfilter": "none",
+        "anisotropy": 0,
+        "isUuid": false,
+        "imageUuidOrDatabaseUri": "db://assets/Textures/Accelerator_1.jpg"
+      },
+      "ver": "1.0.21",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "34c1c": {
+      "importer": "gltf-material",
+      "uuid": "92ebb19a-9ac9-42f5-8cc2-825ad0616699@34c1c",
+      "displayName": "",
+      "id": "34c1c",
+      "name": "Accelerator_1.material",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.14",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "3bed3": {
+      "importer": "gltf-scene",
+      "uuid": "92ebb19a-9ac9-42f5-8cc2-825ad0616699@3bed3",
+      "displayName": "",
+      "id": "3bed3",
+      "name": "Accelerator_1.prefab",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.12",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    }
+  },
+  "userData": {
+    "imageMetas": [
+      {
+        "name": "贴图 #60",
+        "uri": "db://assets/Textures/Accelerator_1.jpg"
+      }
+    ],
+    "legacyFbxImporter": false,
+    "fbx": {
+      "smartMaterialEnabled": true
+    },
+    "redirect": "92ebb19a-9ac9-42f5-8cc2-825ad0616699@3bed3",
+    "assetFinder": {
+      "meshes": [
+        "92ebb19a-9ac9-42f5-8cc2-825ad0616699@75fb6",
+        "92ebb19a-9ac9-42f5-8cc2-825ad0616699@7381a"
+      ],
+      "skeletons": [],
+      "textures": [
+        "92ebb19a-9ac9-42f5-8cc2-825ad0616699@5b5eb"
+      ],
+      "materials": [
+        "92ebb19a-9ac9-42f5-8cc2-825ad0616699@34c1c"
+      ],
+      "scenes": [
+        "92ebb19a-9ac9-42f5-8cc2-825ad0616699@3bed3"
+      ]
+    }
+  }
+}
