@@ -8953,6 +8953,8 @@ System.register("chunks:///scripts/UILoading.js", [ "../_virtual/_rollupPluginBa
                                 break;
                             }
                         }
+                        console.log('123:',this.node);
+                        this.node.getChildByName('Top').getChildByName('logo').active = false;
                     }
                 }, {
                     key: "update",

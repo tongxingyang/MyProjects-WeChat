@@ -1,4 +1,4 @@
-import { _decorator, Component, Node, UITransform, v3 } from 'cc';
+import { _decorator, Component, Node, UITransform, v3, ProgressBar } from 'cc';
 import FdMgr from '../../FDRes/Src/FdMgr';
 import { UIType } from '../Mod/Entity';
 import PlayerDataMgr from '../Mod/PlayerDataMgr';
@@ -18,6 +18,8 @@ export class StartBtnNode extends Component {
     weaponEnchantNode: Node = null
     playerUpNode: Node = null
     toGameNode: Node = null
+
+    timeArr: number[] = [0, 0, 0, 0, 0]
 
     onLoad() {
         this.shopNode = this.node.getChildByName('Shop')
@@ -40,30 +42,40 @@ export class StartBtnNode extends Component {
     }
 
     shopCB() {
+        if (UINode.Share.node.getChildByName(UIType.UI_SHOP).active) return false
         SoundMgr.Share.PlaySound('click')
         UINode.Share.showUI(UIType.UI_SHOP, true, () => {
             UINode.Share.showUI(UIType.UI_START)
         })
+        return true
     }
 
     weaponCB() {
+        if (UINode.Share.node.getChildByName(UIType.UI_WEAPON).active) return false
         SoundMgr.Share.PlaySound('click')
         UINode.Share.showUI(UIType.UI_WEAPON)
+        return true
     }
 
     weaponUpCB() {
+        if (UINode.Share.node.getChildByName(UIType.UI_WEAPONUP).active) return false
         SoundMgr.Share.PlaySound('click')
         UINode.Share.showUI(UIType.UI_WEAPONUP)
+        return true
     }
 
     weaponEnchantCB() {
+        if (UINode.Share.node.getChildByName(UIType.UI_WEAPONENCHANT).active) return false
         SoundMgr.Share.PlaySound('click')
         UINode.Share.showUI(UIType.UI_WEAPONENCHANT)
+        return true
     }
 
     playerUpCB() {
+        if (UINode.Share.node.getChildByName(UIType.UI_PLAYERUP).active) return false
         SoundMgr.Share.PlaySound('click')
         UINode.Share.showUI(UIType.UI_PLAYERUP)
+        return true
     }
 
     toGameCB() {
@@ -75,6 +87,57 @@ export class StartBtnNode extends Component {
 
     update(deltaTime: number) {
         this.node.children.forEach((node: Node) => {
+            if (node.name == 'ToGame') return
+            let id = this.node.children.indexOf(node)
+            if (UINode.Share.node.getChildByName(UIType.UI_SHOP).active ||
+                UINode.Share.node.getChildByName(UIType.UI_WEAPON).active ||
+                UINode.Share.node.getChildByName(UIType.UI_WEAPONUP).active ||
+                UINode.Share.node.getChildByName(UIType.UI_WEAPONENCHANT).active ||
+                UINode.Share.node.getChildByName(UIType.UI_PLAYERUP).active) {
+                this.timeArr[0] = 0
+                this.timeArr[1] = 0
+                this.timeArr[2] = 0
+                this.timeArr[3] = 0
+                this.timeArr[4] = 0
+                return
+            }
+            let nodePos = node.getComponent(UITransform).convertToWorldSpaceAR(v3())
+            let pPos = Player.Share.node.getComponent(UITransform).convertToWorldSpaceAR(v3())
+            if (Math.abs(nodePos.x - pPos.x) <= 120) {
+                this.timeArr[id] += deltaTime
+                Player.Share.node.getComponentInChildren(ProgressBar).progress = this.timeArr[id] / 2
+
+                if (this.timeArr[id] >= 2) {
+                    switch (id) {
+                        case 0:
+                            this.shopCB()
+                            break
+                        case 1:
+                            this.weaponCB()
+                            break
+                        case 2:
+                            this.weaponUpCB()
+                            break
+                        case 3:
+                            this.weaponEnchantCB()
+                            break
+                        case 4:
+                            this.playerUpCB()
+                            break
+                    }
+                    this.timeArr[id] = 0
+                }
+            } else {
+                this.timeArr[id] = 0
+            }
+        })
+
+
+        Player.Share.node.getComponentInChildren(ProgressBar).node.active =
+            this.timeArr[0] > 0 || this.timeArr[1] > 0 || this.timeArr[2] > 0 || this.timeArr[3] > 0 || this.timeArr[4] > 0
+
+        this.node.children.forEach((node: Node) => {
+            if (node.name == 'Shop') return
             if (node.getChildByName('tips') && node.getChildByName('btn')) {
                 let tips = node.getChildByName('tips')
                 let btn = node.getChildByName('btn')

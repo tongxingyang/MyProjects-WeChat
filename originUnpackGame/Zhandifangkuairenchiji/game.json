@@ -27,6 +27,10 @@
         {
             "name": "atlas",
             "root": "/res/atlas/"
+        },
+        {
+            "name": "js",
+            "root": "/js/"
         }
     ]
 }

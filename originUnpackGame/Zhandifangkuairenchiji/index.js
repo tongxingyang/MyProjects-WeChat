@@ -16,7 +16,11 @@ loadLib("libs/min/laya.d3.min.js");
 
 loadLib("libs/min/hzzxsdk.min.js");
 
-loadLib("libs/min/laya.physics3D.min.js");
 
-//-----libs-end-------
-loadLib("js/bundle.js");
+wx.loadSubpackage({
+  name: 'js',
+  success: ()=>{
+    loadLib("js/laya.physics3D.min.js");
+    loadLib("js/bundle.js");
+  },
+});

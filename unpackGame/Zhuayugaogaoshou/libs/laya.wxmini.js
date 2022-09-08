@@ -132,7 +132,7 @@ window.wxMiniGame = function(e, i) {
                 try {
                     i = MiniFileMgr.fs.statSync(e);
                 } catch (e) {
-                    e = VM2_INTERNAL_STATE_DO_NOT_USE_OR_PROGRAM_WILL_FAIL.handleException(e);
+                    e = null;//.handleException(e);
                     return !1;
                 }
                 return i.isFile();
@@ -306,7 +306,7 @@ window.wxMiniGame = function(e, i) {
                     if (l) try {
                         MiniFileMgr.fs.rmdirSync(l, !0);
                     } catch (e) {
-                        e = VM2_INTERNAL_STATE_DO_NOT_USE_OR_PROGRAM_WILL_FAIL.handleException(e);
+                        e = null;//.handleException(e);
                         console.log("目录:" + l + "delete fail"), console.log(e);
                     }
                 }
@@ -376,7 +376,7 @@ window.wxMiniGame = function(e, i) {
                 try {
                     t = MiniFileMgr.fs.statSync(e);
                 } catch (e) {
-                    e = VM2_INTERNAL_STATE_DO_NOT_USE_OR_PROGRAM_WILL_FAIL.handleException(e);
+                    e = null;//.handleException(e);
                     t = null;
                 }
                 t ? MiniFileMgr.readSync(MiniFileMgr.fileListName, "utf8", i) : (MiniFileMgr.fs.mkdirSync(e, !0), 
@@ -407,7 +407,7 @@ window.wxMiniGame = function(e, i) {
                         data: i
                     } ]);
                 } catch (e) {
-                    e = VM2_INTERNAL_STATE_DO_NOT_USE_OR_PROGRAM_WILL_FAIL.handleException(e);
+                    e = null;//.handleException(e);
                     null != n && n.runWith([ 1 ]);
                 }
             }
@@ -801,7 +801,7 @@ window.wxMiniGame = function(e, i) {
                 try {
                     s.window.wx.setStorageSync(e, i);
                 } catch (t) {
-                    t = VM2_INTERNAL_STATE_DO_NOT_USE_OR_PROGRAM_WILL_FAIL.handleException(t);
+                    t = null;//.handleException(t);
                     s.window.wx.setStorage({
                         key: e,
                         data: i
@@ -914,7 +914,7 @@ window.wxMiniGame = function(e, i) {
                                 try {
                                     r.rmdirSync(l, !0);
                                 } catch (e) {
-                                    e = VM2_INTERNAL_STATE_DO_NOT_USE_OR_PROGRAM_WILL_FAIL.handleException(e);
+                                    e = null;//.handleException(e);
                                     console.log("目录删除成功"), console.log(e);
                                 }
                                 r.mkdir({
@@ -1185,7 +1185,7 @@ window.wxMiniGame = function(e, i) {
         try {
             i = new s.window.Parser.DOMParser().parseFromString(e, "text/xml");
         } catch (e) {
-            e = VM2_INTERNAL_STATE_DO_NOT_USE_OR_PROGRAM_WILL_FAIL.handleException(e);
+            e = null;//.handleException(e);
             throw "需要引入xml解析库文件";
         }
         return i;

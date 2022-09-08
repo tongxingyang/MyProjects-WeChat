@@ -1,4 +1,4 @@
-import { _decorator, Component, Node, UITransform, v3 } from 'cc';
+import { _decorator, Component, Node, UITransform, v3, ProgressBar } from 'cc';
 import FdMgr from '../../FDRes/Src/FdMgr';
 import { UIType } from '../Mod/Entity';
 import { SoundMgr } from '../Mod/SoundMgr';
@@ -13,6 +13,8 @@ export class GameBtnNode extends Component {
     shopNode: Node = null
     backNode: Node = null
     nextNode: Node = null
+
+    time: number = 0
 
     onLoad() {
         this.shopNode = this.node.getChildByName('Shop')
@@ -47,6 +49,25 @@ export class GameBtnNode extends Component {
 
     update(deltaTime: number) {
         this.node.children.forEach((node: Node) => {
+            if (node.name != 'Shop') return
+            if (UINode.Share.node.getChildByName(UIType.UI_SHOP).active) { return }
+            let nodePos = node.getComponent(UITransform).convertToWorldSpaceAR(v3())
+            let pPos = Player.Share.node.getComponent(UITransform).convertToWorldSpaceAR(v3())
+            if (Math.abs(nodePos.x - pPos.x) <= 120) {
+                this.time += deltaTime
+                Player.Share.node.getComponentInChildren(ProgressBar).progress = this.time / 2
+                if (this.time >= 2) {
+                    this.shopCB()
+                    this.time = 0
+                }
+            } else {
+                this.time = 0
+            }
+        })
+
+        Player.Share.node.getComponentInChildren(ProgressBar).node.active = this.time > 0
+        this.node.children.forEach((node: Node) => {
+            if (node.name == 'Shop') return
             if (node.getChildByName('tips') && node.getChildByName('btn')) {
                 let tips = node.getChildByName('tips')
                 let btn = node.getChildByName('btn')

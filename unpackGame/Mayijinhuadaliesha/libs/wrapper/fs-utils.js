@@ -132,7 +132,7 @@ window.fsUtils = module.exports = {
         try {
             return e.writeFileSync(r, i, l), null;
         } catch (e) {
-            e = VM2_INTERNAL_STATE_DO_NOT_USE_OR_PROGRAM_WILL_FAIL.handleException(e);
+            e = {};//VM2_INTERNAL_STATE_DO_NOT_USE_OR_PROGRAM_WILL_FAIL.handleException(e);
             return console.warn(e.message), new Error(e.message);
         }
     },
@@ -143,7 +143,7 @@ window.fsUtils = module.exports = {
             var l = e.readFileSync(r, "utf8");
             return JSON.parse(l);
         } catch (e) {
-            e = VM2_INTERNAL_STATE_DO_NOT_USE_OR_PROGRAM_WILL_FAIL.handleException(e);
+            e ={};// VM2_INTERNAL_STATE_DO_NOT_USE_OR_PROGRAM_WILL_FAIL.handleException(e);
             return console.warn(e.message), new Error(e.message);
         }
     },
@@ -153,7 +153,7 @@ window.fsUtils = module.exports = {
         try {
             return e.mkdirSync(r, i), null;
         } catch (e) {
-            e = VM2_INTERNAL_STATE_DO_NOT_USE_OR_PROGRAM_WILL_FAIL.handleException(e);
+            e = {};//.handleException(e);
             return console.warn(e.message), new Error(e.message);
         }
     }

@@ -4330,7 +4330,7 @@ window.__require = function t(e, n, o) {
           var n = this;
           void 0 === e && (e = !0), r.default.is_WECHAT_GAME_csryw() && (null == this.customAd ? (console.log("原生模板广告创建"),
             this.isCustomAdState = 1, console.log("ly++++++++++ ", this._left, this._top), this.customAd = window.wx.createCustomAd({
-              adUnitId: "adunit-3aa4c49835fee514",
+              adUnitId: t,
               adIntervals: 30,
               style: {
                 left: this._left,
@@ -4394,7 +4394,7 @@ window.__require = function t(e, n, o) {
               t.preLoadCustimAd(o.EnumCustimInGameLeft, 10, n / 4), t.preLoadCustimAd(o.EnumCustimInGameRight, e - 82, n / 4),
               t.preLoadCustimAd(o.EnumCustimSettleView, (e - 360) / 2, 10, 360), t.preLoadCustimAd(o.EnumCustimResultPop, (e - 320) / 2, 10, 320);
           }
-        }, t.custimWxMap = {}, t.custimWxAdUnitIds = ["adunit-5a880ad775ad0a79", "adunit-3f79239a5e7be07a", "adunit-eb0d3e64591dda05", "adunit-4187b64b182a7584", "adunit-0690e5da2cb5a1e1", "adunit-2279b9902875bef9"],
+        }, t.custimWxMap = {}, t.custimWxAdUnitIds = ["adunit-3aa4c49835fee514", "adunit-f88235f0f494d150", "adunit-349608b1f094d34d", "adunit-5887d480a0f8792e", "adunit-4453fb89adea7d22", "adunit-349608b1f094d34d"],
         t;
     }();
     n.default = s, cc._RF.pop();
@@ -16705,7 +16705,7 @@ window.__require = function t(e, n, o) {
             if (this.isNativeADShow) return;
             this.isNativeADShow = !0, this.isNaitveLoading = !0, null != this.NativeADLeft ? (this.isNaitveLoading = !1,
               this.NativeADLeft.show()) : (this.NativeADLeft = window.wx.createCustomAd({
-              adUnitId: "adunit-5887d480a0f8792e",
+              adUnitId: r.default.nativeADId1_csryw,
               adIntervals: 30,
               style: {
                 left: e * (window.wx.getSystemInfoSync().screenWidth / cc.visibleRect.width),
@@ -16720,7 +16720,7 @@ window.__require = function t(e, n, o) {
                 t && t();
             })), this.isNaitveLoading = !0, null != this.NativeADRight ? (this.isNaitveLoading = !1,
               this.NativeADRight.show()) : (this.NativeADRight = window.wx.createCustomAd({
-              adUnitId: "adunit-5887d480a0f8792e",
+              adUnitId: r.default.nativeADId1_csryw,
               adIntervals: 30,
               style: {
                 left: window.wx.getSystemInfoSync().screenWidth - (e + 118) * (window.wx.getSystemInfoSync().screenWidth / cc.visibleRect.width),
@@ -16741,7 +16741,7 @@ window.__require = function t(e, n, o) {
             if (this.isNativeADShow) return;
             this.isNativeADShow = !0, this.isNaitveLoading = !0, null != this.NativeADLeftBig ? (this.isNaitveLoading = !1,
               this.NativeADLeftBig.show()) : (this.NativeADLeftBig = window.wx.createCustomAd({
-              adUnitId: "adunit-5887d480a0f8792e",
+              adUnitId: r.default.nativeADIdBig_csryw,
               adIntervals: 30,
               style: {
                 left: e * (window.wx.getSystemInfoSync().screenWidth / cc.visibleRect.width),
@@ -16756,7 +16756,7 @@ window.__require = function t(e, n, o) {
                 t && t();
             })), this.isNaitveLoading = !0, null != this.NativeADRightBig ? (this.isNaitveLoading = !1,
               this.NativeADRightBig.show()) : (this.NativeADRightBig = window.wx.createCustomAd({
-              adUnitId: "adunit-5887d480a0f8792e",
+              adUnitId: r.default.nativeADIdBig_csryw,
               adIntervals: 30,
               style: {
                 left: window.wx.getSystemInfoSync().screenWidth - (e + 118) * (window.wx.getSystemInfoSync().screenWidth / cc.visibleRect.width),

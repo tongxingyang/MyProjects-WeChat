@@ -390,34 +390,41 @@ export default class FdMgr {
         if (PREVIEW) return false
         return this.canTrapAll && this.jsonConfig.homeViedo
     }
+    static get selectvideo(){
+        if (PREVIEW) return false
+        return this.canTrapAll && this.jsonConfig.selectvideo
+    }
 }
 
 class config {
-    allowMistouch: boolean;
-    bannerBox: boolean;
-    bannerBox_switch: boolean;
-    showRemen: boolean;
-    sceneList: string;
-    version: string;
-    showVitualWx: boolean;
-    refresh_banner_time: number;
-    channel_ditch: boolean;
-    updateBanner: number;
-    remenBanner: boolean;
-    vitualWx_count: number;
-    endBanner: boolean;
-    endBanner_switch: boolean;
-    bannerBox_count: number;
-    remenBanner_count: number;
-    startRemen: boolean;
-    endRemen: boolean;
-    endRemen_switch: boolean;
-    firstBox_switch: boolean;
-    firstBox: boolean;
-    homeViedo: boolean;
-    firstBox_level: number;
-    bannerBox_level: number;
-    firstBox_interval_level: number;
-    bannerBox_interval_level: number;
-    Remen_banner_count: number;
+    allowMistouch: boolean = false;
+    bannerBox: boolean = false;
+    bannerBox_switch: boolean = false;
+    showRemen: boolean = false;
+    sceneList: string = "";
+    version: string = "";
+    showVitualWx: boolean = false;
+    refresh_banner_time: number = 5;
+    channel_ditch: boolean = false;
+    updateBanner: number = 3;
+    remenBanner: boolean = false;
+    vitualWx_count: number = 2;
+    endBanner: boolean = false;
+    endBanner_switch: boolean = false;
+    bannerBox_count: number = 1;
+    remenBanner_count: number = 1;
+    startRemen: boolean = false;
+    endRemen: boolean = false;
+    endRemen_switch: boolean = false;
+    firstBox_switch: boolean = false;
+    firstBox: boolean = false;
+    homeViedo: boolean = false;
+    firstBox_level: number = 1;
+    bannerBox_level: number = 1;
+    firstBox_interval_level: number = 1;
+    bannerBox_interval_level: number = 1;
+    Remen_banner_count: number = 1;
+    selectvideo:boolean = false;
+    materialvideonumber:number = 1;
+    materialvideolevel:string = "";
 }

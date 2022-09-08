@@ -1,9 +1,15 @@
 require("./libs/wrapper/builtin/index"), window.DOMParser = require("./libs/common/xmldom/dom-parser").DOMParser, 
 require("./libs/common/engine3d/globalAdapter/index"), require("./libs/wrapper/unify"), 
-require("./libs/wrapper/systemInfo"), require("src/polyfills.bundle.js"), require("src/system.bundle.js"), 
-require("src/settings"), require("main");
+require("./libs/wrapper/systemInfo");
 
-var e = window.boot;
+wx.loadSubpackage({
+  name:"src",
+  success:()=>{
+    require("src/polyfills.bundle.js"); 
+    require("src/system.bundle.js"); 
+    require("src/settings"); 
+    require("main");
+    var e = window.boot;
 
 if (e.prepare.engine = function() {
     var e = requirePlugin("cocos");
@@ -49,3 +55,7 @@ window.__globalAdapter.init(function() {
         remoteDownloader.init(), e();
     });
 });
+  }
+});
+
+

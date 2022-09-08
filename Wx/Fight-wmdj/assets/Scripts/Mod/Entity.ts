@@ -10,7 +10,8 @@ export enum UIType {
     UI_SETTING = 'SettingUI',
     UI_GOTOSHOP = 'GoToShopUI',
     UI_ONLINE = 'OnlineUI',
-    UI_RANK = 'RankUI'
+    UI_RANK = 'RankUI',
+    UI_FREESKIN = 'FreeSkinUI'
 }
 
 export enum MonsterAniType {

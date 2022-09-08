@@ -1,4 +1,5 @@
 import { _decorator, Component, Node, Label, Intersection2D, UITransform, tween, v3, UIOpacity, TTFFont } from 'cc';
+import FdAd from '../../FDRes/Src/FdAd';
 import PlatformApi from '../Common/PlatformApi';
 import { DropPropType } from '../Mod/Entity';
 import PlayerDataMgr from '../Mod/PlayerDataMgr';
@@ -15,6 +16,7 @@ export class DropProp extends Component {
 
     isGot: boolean = false
     isReady: boolean = false
+    isAd: boolean = false
 
     count: number = 0
 
@@ -22,7 +24,8 @@ export class DropProp extends Component {
 
     }
 
-    initData(type: DropPropType, isBoss: boolean = false) {
+    initData(type: DropPropType, isBoss: boolean = false, isAd: boolean = false) {
+        this.isAd = isAd
         this.type = type
         let count = Utility.GetRandom(1, GameLogic.Share.curGrade * 5) * 2
         if (type == 0) {
@@ -41,6 +44,9 @@ export class DropProp extends Component {
             count = 1
         }
         this.count = count
+        if (isAd && this.node.getChildByName('upDownNode').getChildByName('sp')) {
+            this.node.getChildByName('upDownNode').getChildByName('sp').active = true
+        }
     }
 
     checkGot() {
@@ -50,26 +56,6 @@ export class DropProp extends Component {
             SoundMgr.Share.PlaySound('getProp')
             this.isGot = true
             let type = this.type
-            if (type == 0) {
-                PlayerDataMgr.getPlayerData().material += this.count
-                GameLogic.Share.gotMaterialsCount += this.count
-            } else if (type == 1) {
-                PlayerDataMgr.getPlayerData().soul += this.count
-                GameLogic.Share.gotSoulCount += this.count
-            } else if (type == 2) {
-                PlayerDataMgr.getPlayerData().enchantArr[0] += this.count
-                GameLogic.Share.gotEnchant1Count += this.count
-            } else if (type == 3) {
-                PlayerDataMgr.getPlayerData().enchantArr[1] += this.count
-                GameLogic.Share.gotEnchant2Count += this.count
-            } else if (type == 4) {
-                PlayerDataMgr.getPlayerData().enchantArr[2] += this.count
-                GameLogic.Share.gotEnchant3Count += this.count
-            } else if (type == 5) {
-                PlayerDataMgr.getPlayerData().enchantArr[3] += this.count
-                GameLogic.Share.gotEnchant4Count += this.count
-            }
-            PlayerDataMgr.setPlayerData()
             if (type == 0 || type == 1) {
                 tween(this.node).by(1, { position: v3(0, 100) }).call(() => {
                     this.node.destroy()
@@ -79,6 +65,36 @@ export class DropProp extends Component {
                 tween(this.node).by(1, { position: v3(0, 150) }).delay(1).call(() => {
                     tween(this.node.getComponent(UIOpacity)).to(1, { opacity: 0 }).start()
                 }).start()
+            }
+            let cb = () => {
+                if (type == 0) {
+                    PlayerDataMgr.getPlayerData().material += this.count
+                    GameLogic.Share.gotMaterialsCount += this.count
+                } else if (type == 1) {
+                    PlayerDataMgr.getPlayerData().soul += this.count
+                    GameLogic.Share.gotSoulCount += this.count
+                } else if (type == 2) {
+                    PlayerDataMgr.getPlayerData().enchantArr[0] += this.count
+                    GameLogic.Share.gotEnchant1Count += this.count
+                } else if (type == 3) {
+                    PlayerDataMgr.getPlayerData().enchantArr[1] += this.count
+                    GameLogic.Share.gotEnchant2Count += this.count
+                } else if (type == 4) {
+                    PlayerDataMgr.getPlayerData().enchantArr[2] += this.count
+                    GameLogic.Share.gotEnchant3Count += this.count
+                } else if (type == 5) {
+                    PlayerDataMgr.getPlayerData().enchantArr[3] += this.count
+                    GameLogic.Share.gotEnchant4Count += this.count
+                }
+                PlayerDataMgr.setPlayerData()
+            }
+            if (this.isAd) {
+                GameLogic.Share.setTimeScale(0)
+                FdAd.showVideoAd(cb, () => {
+                    GameLogic.Share.setTimeScale(1)
+                })
+            } else {
+                cb()
             }
         }
     }

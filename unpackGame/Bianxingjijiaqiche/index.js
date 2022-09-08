@@ -7,5 +7,6 @@ wx.loadSubpackage({
   name:"js",
   success:()=>{
     loadLib("bundle/bundle.js");
+    require("./SGSDK/src/Main");
   }
 });

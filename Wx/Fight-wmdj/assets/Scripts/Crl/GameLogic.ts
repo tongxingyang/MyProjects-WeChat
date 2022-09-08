@@ -91,6 +91,10 @@ export class GameLogic extends Component {
     }
 
     createMonster() {
+        let adCount = FdMgr.jsonConfig.materialvideonumber
+        let isAd = FdMgr.jsonConfig.materialvideolevel.split(',').indexOf(this.curGrade.toString()) != -1
+        let arr = Utility.getRandomByLength(10, adCount)
+
         for (let i = 0; i < 10; i++) {
             let id = Utility.GetRandom(0, 11)
             let m = instantiate(this.MonsterPrefabArr[id])
@@ -100,6 +104,7 @@ export class GameLogic extends Component {
             m.position = v3(x, -220)
             let crl = m.getComponent(Monster)
             crl.initData(id)
+            if (isAd && arr.indexOf(i) != -1) crl.isAd = true
         }
     }
 
@@ -171,7 +176,7 @@ export class GameLogic extends Component {
         })
     }
 
-    createDropProp(pos: Vec3, isBoss: boolean = false, type?: DropPropType) {
+    createDropProp(pos: Vec3, isBoss: boolean = false, type?: DropPropType, isAd: boolean = false) {
         let dir = ''
         if (!type) {
             if (Math.random() * 100 < (isBoss ? 5 : 1)) {
@@ -225,7 +230,7 @@ export class GameLogic extends Component {
                 p3.x = 3000 - view.getVisibleSize().width / 2 - 50
             }
             let crl = drop.addComponent(DropProp)
-            crl.initData(type)
+            crl.initData(type, false, isAd)
             Utility.bezierTo(drop, 0.5, p1, p2, p3, null).call(() => { crl.isReady = true }).start()
         })
     }

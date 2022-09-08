@@ -6,9 +6,9 @@ uma.init({
     appKey: "6142ed07517ed71020504219",
     useOpenid: false,
     // default true
-    autoGetOpenid: true,
+    autoGetOpenid: false,
     debug: false,
-    uploadUserInfo: true
+    uploadUserInfo: false
 });
 
 if (typeof swan !== "undefined" && typeof swanGlobal !== "undefined") {

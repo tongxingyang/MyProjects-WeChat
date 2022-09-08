@@ -38,6 +38,7 @@ export class Monster extends Component {
     private isSkilling: boolean = false
     private isHurting: boolean = false
     public isDied: boolean = false
+    public isAd: boolean = false
 
     onLoad() {
         this.ani = this.node.getChildByName('db').getComponent(dragonBones.ArmatureDisplay)
@@ -313,11 +314,11 @@ export class Monster extends Component {
         if (this.isBoss) {
             for (let i = 0; i < 10; i++) {
                 this.scheduleOnce(() => {
-                    GameLogic.Share.createDropProp(pos)
+                    GameLogic.Share.createDropProp(pos, false, null, this.isAd)
                 }, 0.2 * i)
             }
         } else {
-            GameLogic.Share.createDropProp(pos)
+            GameLogic.Share.createDropProp(pos, false, null, this.isAd)
         }
         tween(this.node.getChildByName('db').getComponent(UIOpacity)).to(1, { opacity: 0 }).call(() => {
             this.node.destroy()
