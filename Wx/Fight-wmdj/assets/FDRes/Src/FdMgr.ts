@@ -17,7 +17,7 @@ export enum BoxType {
 }
 
 export default class FdMgr {
-    static version: string = '1.0.4'
+    static version: string = '1.0.5'
     static wuchuProgressValue = 0;
     static wuchuProgressStepAdd = 0.2;
     static wuchuProgressFrameSub = 0.01;
@@ -72,6 +72,7 @@ export default class FdMgr {
         if (WECHAT) {
             this.getConfig(cb);
         } else {
+            this.jsonConfig = new config()
             cb && cb()
         }
     }
@@ -154,6 +155,10 @@ export default class FdMgr {
             find('FDCanvas/FDNode/VideoBanner').getComponent(VideoBanner).showUI(showFinger)
         else
             find('FDCanvas/FDNode/VideoBanner').active = false
+    }
+
+    static visibleGameBanner(visible: boolean) {
+        find('FDCanvas/FDNode/GameBanner').active = visible
     }
 
     /**仿微信页 */
@@ -293,7 +298,8 @@ export default class FdMgr {
             console.log('wxsdk初始化成功:', window['wxsdk'])
             let conf: config = new config()
             for (let key in conf) {
-                conf[key] = window['wxsdk'].conf[key]
+                if (window['wxsdk'].conf[key] != undefined)
+                    conf[key] = window['wxsdk'].conf[key]
             }
 
             this.jsonConfig = conf
@@ -390,7 +396,7 @@ export default class FdMgr {
         if (PREVIEW) return false
         return this.canTrapAll && this.jsonConfig.homeViedo
     }
-    static get selectvideo(){
+    static get selectvideo() {
         if (PREVIEW) return false
         return this.canTrapAll && this.jsonConfig.selectvideo
     }
@@ -424,7 +430,7 @@ class config {
     firstBox_interval_level: number = 1;
     bannerBox_interval_level: number = 1;
     Remen_banner_count: number = 1;
-    selectvideo:boolean = false;
-    materialvideonumber:number = 1;
-    materialvideolevel:string = "";
+    selectvideo: boolean = false;
+    materialvideonumber: number = 1;
+    materialvideolevel: string = "1,2";
 }

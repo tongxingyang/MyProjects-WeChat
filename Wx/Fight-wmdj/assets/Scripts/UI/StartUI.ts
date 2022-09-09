@@ -1,4 +1,5 @@
 import { _decorator, Component, Node, UITransform, v3 } from 'cc';
+import FdMgr from '../../FDRes/Src/FdMgr';
 import GameData from '../Crl/GameData';
 import { Player } from '../Crl/Player';
 import { UINode } from '../Crl/UINode';
@@ -20,9 +21,17 @@ export class StartUI extends Component {
         if (!OnlineTimeMgr.Share.hadGotOnlineGift && !GameData.hadShowOnlineGift) {
             this.scheduleOnce(() => {
                 OnlineTimeMgr.Share.startTimeCounter()
-                UINode.Share.showUI(UIType.UI_ONLINE, false)
+                UINode.Share.showUI(UIType.UI_ONLINE, false, () => {
+                    FdMgr.visibleGameBanner(true)
+                })
             })
+        } else {
+            FdMgr.visibleGameBanner(true)
         }
+    }
+
+    onDisable() {
+        FdMgr.visibleGameBanner(false)
     }
 
     start() {

@@ -81,7 +81,9 @@ export class StartBtnNode extends Component {
     toGameCB() {
         SoundMgr.Share.PlaySound('transform')
         FdMgr.startGame(() => {
-            GameLogic.Share.gameStart()
+            UINode.Share.showUI(UIType.UI_FREESKIN, true, () => {
+                GameLogic.Share.gameStart()
+            })
         })
     }
 

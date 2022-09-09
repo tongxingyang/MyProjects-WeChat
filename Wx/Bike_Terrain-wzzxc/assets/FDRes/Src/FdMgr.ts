@@ -17,7 +17,7 @@ export enum BoxType {
 }
 
 export default class FdMgr {
-    static version: string = '1.0.1'
+    static version: string = '1.0.2'
     static wuchuProgressValue = 0;
     static wuchuProgressStepAdd = 0.2;
     static wuchuProgressFrameSub = 0.01;
@@ -231,7 +231,7 @@ export default class FdMgr {
                 backBtn.getComponent(Widget).bottom = 20
         } else {
             if (backBtn)
-                backBtn.getComponent(Widget).bottom = 300
+                backBtn.getComponent(Widget).bottom = 270
             FdAd.showBannerAd()
         }
     }

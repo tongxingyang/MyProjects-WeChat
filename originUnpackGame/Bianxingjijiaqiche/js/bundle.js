@@ -6868,6 +6868,7 @@ const b = function(c, d) {
                         cn[b("0xf75", "ICQ]")]());
             }
             ["onEnable"]() {
+                window.showEnd();
                 this[b("0x1cef", "Rs8u")]["WinBox"][b("0x1c55", "f[nb")] = this[b("0x1afd", "QB7M")],
                     this["uiRoot"][b("0x27ad", "l67z")][b("0x2369", "O&9q")] = !this[b("0x1d5e", "&Ub1")],
                     this["uiRoot"][b("0xc8d", "GMog")]["on"](Laya[b("0x14c2", "x&!g")]["CLICK"], this, this[b("0x1641", "*TpV")]),

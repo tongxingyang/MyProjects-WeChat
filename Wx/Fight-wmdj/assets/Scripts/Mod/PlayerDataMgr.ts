@@ -1,4 +1,5 @@
 import { _decorator } from "cc";
+import Utility from "./Utility";
 const { ccclass, property } = _decorator;
 
 export class PlayerData {
@@ -40,6 +41,7 @@ export class PlayerData {
 @ccclass
 export default class PlayerDataMgr {
     private static _playerData: PlayerData
+    public static freeSkinId: number = -1
 
     //获取用户数据
     public static getPlayerData(): PlayerData {
@@ -62,5 +64,14 @@ export default class PlayerDataMgr {
 
     public static getWeaponEnchantType() {
         return this._playerData.weaponEnchantTypeArr[this._playerData.weaponId]
+    }
+
+    public static getFreeSkinId(): number {
+        let arr = []
+        for (let i = 0; i < this._playerData.weaponArr.length; i++) {
+            if (this._playerData.weaponArr[i] == 0) arr.push(i)
+        }
+        if (arr.length <= 0) return -1
+        return Utility.getRandomItemInArr(arr)
     }
 }

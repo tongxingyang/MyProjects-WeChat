@@ -3,6 +3,8 @@ import FdAd from '../../FDRes/Src/FdAd';
 import FdMgr from '../../FDRes/Src/FdMgr';
 import GameData from '../Crl/GameData';
 import { GameLogic } from '../Crl/GameLogic';
+import { UINode } from '../Crl/UINode';
+import { UIType } from '../Mod/Entity';
 import { OnlineTimeMgr } from '../Mod/OnlineTimeMgr';
 import PlayerDataMgr from '../Mod/PlayerDataMgr';
 import { SoundMgr } from '../Mod/SoundMgr';
@@ -68,7 +70,7 @@ export class OnlineUI extends Component {
                     }
                 }, i * 0.5)
             }
-            this.node.active = false
+            UINode.Share.closeUI(UIType.UI_ONLINE)
         }
         if (this.needVideo) {
             FdAd.showVideoAd(cb)
@@ -80,7 +82,7 @@ export class OnlineUI extends Component {
 
     closeBtnCB() {
         SoundMgr.Share.PlaySound('click')
-        this.node.active = false
+        UINode.Share.closeUI(UIType.UI_ONLINE)
     }
 
     update(deltaTime: number) {

@@ -1,4 +1,4 @@
-import { _decorator, Component, Node, UITransform, v3, ProgressBar } from 'cc';
+import { _decorator, Component, Node, UITransform, v3, ProgressBar, UI } from 'cc';
 import FdMgr from '../../FDRes/Src/FdMgr';
 import { UIType } from '../Mod/Entity';
 import { SoundMgr } from '../Mod/SoundMgr';
@@ -43,7 +43,10 @@ export class GameBtnNode extends Component {
     nextCB() {
         SoundMgr.Share.PlaySound('transform')
         FdMgr.showNormalRemen(() => {
-            GameLogic.Share.nextGrade()
+            UINode.Share.showUI(UIType.UI_FREESKIN, true, () => {
+                UINode.Share.showUI(UIType.UI_GAME)
+                GameLogic.Share.nextGrade()
+            })
         })
     }
 

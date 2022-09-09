@@ -29,6 +29,7 @@ var Remen = {
     }
     let root = new cc.Node();
     root.zIndex = 9999;
+    root.group = 'ui';
     root.parent = cv;
 
     var schedulerNode = new cc.Node();

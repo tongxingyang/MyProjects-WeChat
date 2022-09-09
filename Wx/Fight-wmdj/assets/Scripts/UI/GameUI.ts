@@ -1,4 +1,5 @@
 import { _decorator, Component, Node, Label } from 'cc';
+import FdMgr from '../../FDRes/Src/FdMgr';
 import { GameLogic } from '../Crl/GameLogic';
 const { ccclass, property } = _decorator;
 
@@ -10,6 +11,16 @@ export class GameUI extends Component {
 
     start() {
 
+    }
+
+    onEnable(){
+        
+        FdMgr.visibleGameBanner(true)
+    }
+
+    onDisable(){
+        
+        FdMgr.visibleGameBanner(false)
     }
 
     update(deltaTime: number) {

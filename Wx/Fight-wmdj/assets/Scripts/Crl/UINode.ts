@@ -26,10 +26,8 @@ export class UINode extends Component {
     }
 
     closeUI(type: UIType) {
-        if (this.closeCB)
-            this.closeCB()
-        else
-            this.node.getChildByName(type).active = false
+        this.closeCB && this.closeCB()
+        this.node.getChildByName(type).active = false
     }
 
     closeAllUI() {

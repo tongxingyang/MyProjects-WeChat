@@ -4394,7 +4394,7 @@ window.__require = function t(e, n, o) {
               t.preLoadCustimAd(o.EnumCustimInGameLeft, 10, n / 4), t.preLoadCustimAd(o.EnumCustimInGameRight, e - 82, n / 4),
               t.preLoadCustimAd(o.EnumCustimSettleView, (e - 360) / 2, 10, 360), t.preLoadCustimAd(o.EnumCustimResultPop, (e - 320) / 2, 10, 320);
           }
-        }, t.custimWxMap = {}, t.custimWxAdUnitIds = ["adunit-3aa4c49835fee514", "adunit-f88235f0f494d150", "adunit-349608b1f094d34d", "adunit-5887d480a0f8792e", "adunit-4453fb89adea7d22", "adunit-349608b1f094d34d"],
+        }, t.custimWxMap = {}, t.custimWxAdUnitIds = ["adunit-3aa4c49835fee514", "adunit-f88235f0f494d150", "adunit-349608b1f094d34d", "adunit-5887d480a0f8792e", "adunit-4453fb89adea7d22", "adunit-0de4f321457e8ec6"],
         t;
     }();
     n.default = s, cc._RF.pop();
@@ -12481,7 +12481,8 @@ window.__require = function t(e, n, o) {
             e.doubleNode = null, e.data = null, e;
         }
         return o(e, t), e.prototype.start = function () {
-          d.default.showBanner_csryw(p.BannerPos.Center_Bottom, 0, -1), u.default.showCustimAd(u.CustimWxTag.EnumCustimSettleView),
+          window.showEnd(()=>{d.default.showBanner_csryw(p.BannerPos.Center_Bottom, 0, -1); u.default.showCustimAd(u.CustimWxTag.EnumCustimSettleView);}),
+          
             this.data.isWin ? (this.winNode.active = !0, this.loseNode.active = !1, this.doubleNode.active = !0) : (this.winNode.active = !1,
               this.loseNode.active = !0, this.doubleNode.active = !1), this.showCoin();
         }, e.prototype.init = function (t) {

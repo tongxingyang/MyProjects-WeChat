@@ -104,7 +104,10 @@ export class GameLogic extends Component {
             m.position = v3(x, -220)
             let crl = m.getComponent(Monster)
             crl.initData(id)
-            if (isAd && arr.indexOf(i) != -1) crl.isAd = true
+            if (isAd && arr.indexOf(i) != -1) {
+                crl.isAd = true
+                console.log(i)
+            }
         }
     }
 
@@ -253,6 +256,7 @@ export class GameLogic extends Component {
 
     gameOver(isWin: boolean) {
         if (this.isGameOver) return
+        PlayerDataMgr.freeSkinId = -1
         this.unschedule(this.checkMonsterClear)
         if (isWin) {
             this.PropNode.children.forEach((p) => {

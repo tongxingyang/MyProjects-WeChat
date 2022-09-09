@@ -23,7 +23,9 @@ export class OnlineGift extends Component {
 
     btnCB() {
         SoundMgr.Share.PlaySound('click')
-        UINode.Share.showUI(UIType.UI_ONLINE, false)
+        UINode.Share.showUI(UIType.UI_ONLINE, true, () => {
+            UINode.Share.showUI(UIType.UI_START)
+        })
     }
 
     updateTime() {

@@ -90,5 +90,19 @@ initSDK(() => {
   if (window.ConfigData.data.is_showGameBanner) {
     adMgr.showBannerAd();
   }
-  loopSchedule();
+  //loopSchedule();
 });
+
+var showEnd = function(cb){
+  adMgr.hideBannerAd();
+  showRemenUI(() => {
+    showBoxUI(() => {
+      adMgr.hideBannerAd();
+      if (window.ConfigData.data.is_showGameBanner) {
+        adMgr.showBannerAd();
+      }
+      cb&&cb();
+    });
+  });
+}
+window.showEnd = showEnd;

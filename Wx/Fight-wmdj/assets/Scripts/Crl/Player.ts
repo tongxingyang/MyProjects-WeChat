@@ -89,9 +89,9 @@ export class Player extends Component {
             this.setRootVectorTrackValue()
     }
 
-    resetData() {
-        this.weaponType = GameData.weaponData[PlayerDataMgr.getPlayerData().weaponId].type
-        let weaponId = PlayerDataMgr.getPlayerData().weaponId
+    resetData(id?: number) {
+        let weaponId = id || PlayerDataMgr.getPlayerData().weaponId
+        this.weaponType = GameData.weaponData[weaponId].type
         this.hp = PlayerDataMgr.getPlayerData().hp
         this.hpMax = this.hp
         this.speed = PlayerDataMgr.getPlayerData().speed
@@ -99,11 +99,11 @@ export class Player extends Component {
         this.atk = GameData.getWeaponAtk(weaponId)
     }
 
-    changeWeapon() {
-        let weaponId = PlayerDataMgr.getPlayerData().weaponId
+    changeWeapon(id?: number) {
+        let weaponId = id || PlayerDataMgr.getPlayerData().weaponId
         this.weaponType = GameData.weaponData[weaponId].type
-        this.enchantType = PlayerDataMgr.getPlayerData().weaponEnchantTypeArr[weaponId]
-        BundleMgr.setSpriteFrameInBundle(GameData.getWeaponDir(PlayerDataMgr.getPlayerData().weaponId, this.enchantType), this.weaponPic.getComponent(Sprite))
+        this.enchantType = PlayerDataMgr.freeSkinId != -1 ? 1 : PlayerDataMgr.getPlayerData().weaponEnchantTypeArr[weaponId]
+        BundleMgr.setSpriteFrameInBundle(GameData.getWeaponDir(weaponId, this.enchantType), this.weaponPic.getComponent(Sprite))
         switch (this.enchantType) {
             case 0:
                 this.AttackEffect.getComponent(Sprite).color = new Color().fromHEX('#ffffff')
