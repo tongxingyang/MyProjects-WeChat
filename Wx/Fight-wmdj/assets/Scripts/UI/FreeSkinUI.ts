@@ -32,6 +32,7 @@ export class FreeSkinUI extends Component {
 
 
     onEnable() {
+        FdMgr.visibleGameBanner(false)
         if (FdMgr.selectvideo) {
             this.closeBtn.active = false
             this.tips.active = true

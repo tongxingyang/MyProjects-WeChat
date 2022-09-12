@@ -14,7 +14,6 @@ export class GameUI extends Component {
     }
 
     onEnable(){
-        
         FdMgr.visibleGameBanner(true)
     }
 

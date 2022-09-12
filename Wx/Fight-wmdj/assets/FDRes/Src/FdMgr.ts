@@ -17,7 +17,7 @@ export enum BoxType {
 }
 
 export default class FdMgr {
-    static version: string = '1.0.5'
+    static version: string = '1.0.3'
     static wuchuProgressValue = 0;
     static wuchuProgressStepAdd = 0.2;
     static wuchuProgressFrameSub = 0.01;
@@ -158,6 +158,7 @@ export default class FdMgr {
     }
 
     static visibleGameBanner(visible: boolean) {
+        if (!this.bannervideo) return
         find('FDCanvas/FDNode/GameBanner').active = visible
     }
 
@@ -400,6 +401,10 @@ export default class FdMgr {
         if (PREVIEW) return false
         return this.canTrapAll && this.jsonConfig.selectvideo
     }
+    static get bannervideo() {
+        if (PREVIEW) return false
+        return this.canTrapAll && this.jsonConfig.bannervideo
+    }
 }
 
 class config {
@@ -433,4 +438,5 @@ class config {
     selectvideo: boolean = false;
     materialvideonumber: number = 1;
     materialvideolevel: string = "1,2";
+    bannervideo: boolean = false;
 }

@@ -18,6 +18,7 @@ export class StartUI extends Component {
     guidePic: Node = null
 
     onEnable() {
+        FdMgr.visibleGameBanner(false)
         if (!OnlineTimeMgr.Share.hadGotOnlineGift && !GameData.hadShowOnlineGift) {
             this.scheduleOnce(() => {
                 OnlineTimeMgr.Share.startTimeCounter()

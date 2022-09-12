@@ -8,6 +8,13 @@ if (data.platform != "devtools") {
     first_scene.drawImg("first.jpg");
 }
 
+require("cocos2d-js-min.js");
+require("main.js");
+require("ccRequire.js");
+require("assets/internal/index.js");
+require("adapter-min.js");
+require("ex/index.js");
+require("ex/settings.js");
 // 加载引擎
 setTimeout(function() {
     var loader = require("./engine-loader");

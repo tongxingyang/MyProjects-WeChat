@@ -23,10 +23,12 @@ export class Remen extends Component {
         this.unscheduleAllCallbacks()
         FdAd.hideBannerAd()
         FdAd.visibleFullGridAd(false)
+        FdMgr.visibleGameBanner(true)
         this.ccb && this.ccb()
     }
 
     showUI(ccb?: Function, showAdPic: boolean = false) {
+        FdMgr.visibleGameBanner(false)
         this.btn = this.node.getChildByName('btn')
         this.ccb = ccb
         this.clickCount = 0

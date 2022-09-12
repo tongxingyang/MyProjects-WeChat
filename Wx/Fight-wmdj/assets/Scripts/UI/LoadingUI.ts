@@ -63,9 +63,14 @@ export class LoadingUI extends Component {
     }
 
     update(deltaTime: number) {
-        this.pBar.progress += 0.002
-        if (this.pBar.progress > 1) this.pBar.progress = 1
-        this.str.string = '<outline color=black width=2>' + (this.pBar.progress * 100).toFixed(2) + '%</outline>'
+        this.pBar.progress += 0.001
+        if(this.hadLoaded && this.hadLoaded1 && this.sdkInited){
+            if (this.pBar.progress > 1) this.pBar.progress = 1
+            this.str.string = '<outline color=black width=2>' + (this.pBar.progress * 100).toFixed(2) + '%</outline>'
+        }else{
+            if (this.pBar.progress > 0.9) this.pBar.progress = 0.9
+            this.str.string = '<outline color=black width=2>' + (this.pBar.progress * 100).toFixed(2) + '%</outline>'
+        }
     }
 }
 

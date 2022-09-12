@@ -65,14 +65,16 @@ export class GameLogic extends Component {
     }
 
     setTimeScale(v: number = 1, revocerTime: number = 0.1) {
-        this.unschedule(this.resetTimeScale)
-        director['_timeScale'] = v
-        if (revocerTime > 0) {
-            this.scheduleOnce(this.resetTimeScale, revocerTime)
-        }
+        director.pause()
+        // this.unschedule(this.resetTimeScale)
+        // director['_timeScale'] = v
+        // if (revocerTime > 0) {
+        //     this.scheduleOnce(this.resetTimeScale, revocerTime)
+        // }
     }
     resetTimeScale() {
-        director['_timeScale'] = 1
+        //director['_timeScale'] = 1
+        director.resume()
     }
 
     gameStart() {

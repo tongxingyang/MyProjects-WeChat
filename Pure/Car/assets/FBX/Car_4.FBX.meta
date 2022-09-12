@@ -465,8 +465,14 @@
         ],
         "_props": [
           {
-            "roughness": 0.75,
-            "metallic": 0.8,
+            "albedoScale": {
+              "__type__": "cc.Vec3",
+              "x": 1.5,
+              "y": 1.5,
+              "z": 1.5
+            },
+            "roughness": 0.5,
+            "metallic": 0.5,
             "specularIntensity": 0,
             "mainTexture": {
               "__uuid__": "bf7ef448-8260-4576-a98c-da30cbf3e522@18c91",

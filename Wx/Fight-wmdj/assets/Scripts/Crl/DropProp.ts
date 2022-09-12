@@ -91,7 +91,7 @@ export class DropProp extends Component {
             if (this.isAd) {
                 GameLogic.Share.setTimeScale(0)
                 FdAd.showVideoAd(cb, () => {
-                    GameLogic.Share.setTimeScale(1)
+                    GameLogic.Share.resetTimeScale()
                 })
             } else {
                 cb()

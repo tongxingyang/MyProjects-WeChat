@@ -28,10 +28,12 @@ export class Box1 extends Component {
         this.unscheduleAllCallbacks()
         FdAd.hideBannerAd();
         FdMgr.visibleVideoBanner(false, false)
+        FdMgr.visibleGameBanner(true)
         this.ccb && this.ccb()
     }
 
     showUI(ccb?: Function, type: BoxType = BoxType.Box_Banner) {
+        FdMgr.visibleGameBanner(false)
         this.type = type
         this.node.active = true
         this.pBar.progress = 0

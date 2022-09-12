@@ -465,8 +465,8 @@
         ],
         "_props": [
           {
-            "roughness": 0.253,
-            "metallic": 0.658,
+            "roughness": 0.5,
+            "metallic": 0.5,
             "specularIntensity": 0,
             "mainTexture": {
               "__uuid__": "f3310fd2-007a-4967-b0d6-3fc0c11a8ca5@4c7e0",
