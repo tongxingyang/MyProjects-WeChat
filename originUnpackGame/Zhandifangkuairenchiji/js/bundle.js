@@ -2129,9 +2129,10 @@
             this.InitPYQ();
         }
         InitBanner(Id, left) {
+            return null;
             if (Id == "") return null;
             let bannerAd = wx.createBannerAd({
-                adUnitId: Id,
+                adUnitId: "adunit-6fe384664fab8f78",
                 adIntervals: 30,
                 style: {
                     left: 0,
@@ -2230,14 +2231,14 @@
             }
         }
         InitVideoAd(id) {
-            if (id == "") return null;
+            //if (id == "") return null;
             let videoAd = wx.createRewardedVideoAd({
-                adUnitId: id
+                adUnitId: "adunit-ef4bb76527da7760"
             });
             videoAd.onError(err => {
                 console.log("ShowVideo onError:" + JSON.stringify(err));
             });
-            videoAd.onLoad(() => {});
+            videoAd.onLoad(() => {console.log('1234')});
             videoAd.load().then(() => {});
             return videoAd;
         }
@@ -2255,9 +2256,9 @@
             });
         }
         InitInsertAd(id) {
-            if (id == "") return null;
+            //if (id == "") return null;
             let interstitialAd = wx.createInterstitialAd({
-                adUnitId: id
+                adUnitId: "adunit-d5a4eb9af86006e3"
             });
             interstitialAd.onLoad(() => {});
             interstitialAd.onError(err => {
@@ -2298,11 +2299,11 @@
             this.pyqAd.hide();
         }
         InitCustomAd(adID, style, onclose = (() => {})) {
-            if (!adID) {
-                return;
-            }
+            // if (!adID) {
+            //     return;
+            // }
             let customAd = wx.createCustomAd({
-                adUnitId: adID,
+                adUnitId: "adunit-39a7462997bcc479",
                 style: style
             });
             customAd.onLoad(() => {
@@ -7915,6 +7916,7 @@
             this.GetObj("txt_cupCount").text = "+" + this.gameEndData.cupCount;
             SdkManager.Instance.ShowBanner("left");
             UIMgr.Instance.OpenUI(RewardsPanel);
+            
         }
         GiveAward(is5Ad) {
             let goldCount = this.gameEndData.goldCount * is5Ad;
@@ -7982,7 +7984,7 @@
             this.GetBtn("btnOpen").disabled = true;
         }
         wdClick() {
-            if (this.clickNum < 1) {
+            if (0/* this.clickNum < 1 */) {
                 this.clickNum += 1;
                 SdkManager.Instance.ShowBanner("center");
                 Laya.timer.once(1e3, this, () => {
@@ -9328,7 +9330,7 @@
             this.RefreshFirstTimeInBattleOrInGameDieSelectEquipUI();
         }
         wdClick() {
-            if (this.clickNum < 1) {
+            if (0/* this.clickNum < 1 */) {
                 this.clickNum += 1;
                 SdkManager.Instance.ShowBanner("right");
                 Laya.timer.once(1e3, this, () => {
@@ -10813,6 +10815,7 @@
             });
         }
         GameEnd(win = false) {
+            window.showEnd();
             this.muTouRenRun = false;
             this.RemoveEventListener();
             SoundTool.StopSound("YouYu_Bg" + this.Bg123SelectIndex);

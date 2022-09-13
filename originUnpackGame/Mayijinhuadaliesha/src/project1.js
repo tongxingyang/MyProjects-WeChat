@@ -4937,7 +4937,7 @@ System.register("chunks:///scripts/Tools.js", [ "../_virtual/_rollupPluginBabelH
                         if (A == x.WX) {
                             var o = null;
                             o = wx.createRewardedVideoAd({
-                                adUnitId: n,
+                                adUnitId: "adunit-d87e5e8f6aadd47f",
                                 multiton: !0
                             }), e.wxVideo = o, o.onLoad(function(e) {
                                 o && (o = null, M.instance.youMengEventVideo(), M.instance.youMenDaDian(_.getAdSuccess), 
@@ -4954,7 +4954,7 @@ System.register("chunks:///scripts/Tools.js", [ "../_virtual/_rollupPluginBabelH
                                         type: 3
                                     };
                                     -1 != M.instance.shufenVideoID && I.report(o), e.wxVideoCb && e.wxVideoCb("ok"), 
-                                    e.loadWXVideo("adunit-2d7fa635716d3a84"), console.log("视频播放成功" + M.instance.shufenVideoID);
+                                    e.loadWXVideo("adunit-d87e5e8f6aadd47f"), console.log("视频播放成功" + M.instance.shufenVideoID);
                                 } else e.ShowTip("请完整观看"), e.wxVideoCb && e.wxVideoCb("no");
                                 M.instance.shufenVideoID = -1;
                             }), o.load();
@@ -5006,6 +5006,10 @@ System.register("chunks:///scripts/Tools.js", [ "../_virtual/_rollupPluginBabelH
                 }, {
                     key: "showBanner",
                     value: function(n) {
+                        if(window.AdMgr){
+                            n?window.AdMgr.showBannerAd():window.AdMgr.hideBannerAd();
+                        }
+
                         if (e.isShowBanner = n, n) if (A == x.QQ) console.log("qq渠道显示banner"), e.wxBanner && e.wxBanner.show(), 
                         console.log("QQ显示主界面banner"); else if (A == x.MEIZU) ; else if (A == x.HW) e.createHWBanner(); else if (A == x.iOS) window.NativeCtrl.ShowBanner(); else if (A == x.WX) e.wxBanner && (e.wxBanner.show(), 
                         e.isShowedBanner = !0, M.instance.youMenDaDian(_.showBanner), console.log("wx渠道展示banner")); else if (A == x.ANDROID_TAP) jsb.reflection.callStaticMethod("org/cocos2dx/javascript/MyApplication", "showBannerAd", "()V"), 
@@ -5100,7 +5104,7 @@ System.register("chunks:///scripts/Tools.js", [ "../_virtual/_rollupPluginBabelH
                                 b || I || (I = 30);
                                 var B = Number(wx.getSystemInfoSync().windowWidth), T = Number(wx.getSystemInfoSync().windowHeight), k = (cc.view.getVisibleSize().width, 
                                 cc.view.getVisibleSize().height, wx.createBannerAd({
-                                    adUnitId: n,
+                                    adUnitId: "",
                                     adIntervals: I,
                                     style: {
                                         left: 10,
@@ -5231,7 +5235,7 @@ System.register("chunks:///scripts/Tools.js", [ "../_virtual/_rollupPluginBabelH
                         }).catch(function(e) {
                             console.error("tt广告组件加载失败", e);
                         }); else if (A == x.WX) wx.createInterstitialAd && (o = wx.createInterstitialAd({
-                            adUnitId: n
+                            adUnitId: "adunit-9ca7658af9bebc9e"
                         }), e.qgVideo = o, o.load().then(function() {
                             o.show(), console.log("wx广告加载成功");
                         }).catch(function(e) {
@@ -5327,7 +5331,7 @@ System.register("chunks:///scripts/Tools.js", [ "../_virtual/_rollupPluginBabelH
                                 var d = 0, s = 0;
                                 cc.winSize.height / cc.winSize.width > 2 ? (d = 85, s = t - 250) : (d = 50, s = t - 230), 
                                 e._mainCreateCustomAd = wx.createCustomAd({
-                                    adUnitId: "adunit-4e5b083974b79aa5",
+                                    adUnitId: "adunit-1b8a701ee6a067c2",
                                     adIntervals: r,
                                     style: {
                                         left: s,
@@ -5344,7 +5348,7 @@ System.register("chunks:///scripts/Tools.js", [ "../_virtual/_rollupPluginBabelH
                                 var l = 0, c = 0;
                                 cc.winSize.height / cc.winSize.width > 2 ? (l = 85, c = t - 180) : (l = 50, c = t - 160), 
                                 e._mainCreateCustomAd1 = wx.createCustomAd({
-                                    adUnitId: "adunit-1b8d2ec869e63665",
+                                    adUnitId: "adunit-1b8a701ee6a067c2",
                                     adIntervals: r,
                                     style: {
                                         left: c,
@@ -5361,7 +5365,7 @@ System.register("chunks:///scripts/Tools.js", [ "../_virtual/_rollupPluginBabelH
                                 var u = 0;
                                 u = cc.winSize.height / cc.winSize.width > 2 ? i - i + 225 : i - i + 170, console.log("wx原生icon长条位置：", i - 1334), 
                                 e._mainCreateCustomAd2 = wx.createCustomAd({
-                                    adUnitId: "adunit-0363ed11ce21bb47",
+                                    adUnitId: "adunit-1b8a701ee6a067c2",
                                     adIntervals: r,
                                     style: {
                                         left: t - 65,
@@ -8953,7 +8957,6 @@ System.register("chunks:///scripts/UILoading.js", [ "../_virtual/_rollupPluginBa
                                 break;
                             }
                         }
-                        console.log('123:',this.node);
                         this.node.getChildByName('Top').getChildByName('logo').active = false;
                     }
                 }, {

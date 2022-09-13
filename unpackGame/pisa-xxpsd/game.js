@@ -17,7 +17,7 @@ splash.start("default", "default", "false").then(function(r) {
     let task = wx.loadSubpackage({
         name: "js",
         success: () => {
-          //require("SGSDK/src/Main.js");
+          require("SGSDK/src/Main.js");
         }
     });
     task.onProgressUpdate(res => {

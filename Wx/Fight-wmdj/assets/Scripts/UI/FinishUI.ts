@@ -22,6 +22,7 @@ export class FinishUI extends Component {
     numArr: Label[] = []
 
     start() {
+        FdMgr.visibleGameBanner(false)
         this.winTitle.active = GameLogic.Share.isWin
         this.loseTitle.active = !GameLogic.Share.isWin
         this.numArr[0].string = GameLogic.Share.curGrade.toString()

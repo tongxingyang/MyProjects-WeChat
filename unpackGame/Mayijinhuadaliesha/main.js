@@ -29,6 +29,9 @@ function n() {
             var e = (.001 * (new Date().valueOf() - a)).toFixed(2);
             console.log("首场景加载耗时:" + e), cc.director.loadScene(i, null, function() {
                 cc.loader.onProgress = null, console.log("Success to load scene: " + i);
+                setTimeout(() => {
+                  require("./SGSDK/src/Main");
+                }, 2000);
             });
         });
     };

@@ -19,7 +19,9 @@ export class StartBtnNode extends Component {
     playerUpNode: Node = null
     toGameNode: Node = null
 
-    timeArr: number[] = [0, 0, 0, 0, 0]
+    timeArr: number[] = [0, 0, 0, 0, 0, 0]
+
+    isUpdate: boolean = true
 
     onLoad() {
         this.shopNode = this.node.getChildByName('Shop')
@@ -80,16 +82,18 @@ export class StartBtnNode extends Component {
 
     toGameCB() {
         SoundMgr.Share.PlaySound('transform')
+        this.isUpdate = false
         FdMgr.startGame(() => {
             UINode.Share.showUI(UIType.UI_FREESKIN, true, () => {
                 GameLogic.Share.gameStart()
+                Player.Share.node.getComponentInChildren(ProgressBar).node.active = false;
             })
         })
     }
 
     update(deltaTime: number) {
+        if (!this.isUpdate) return
         this.node.children.forEach((node: Node) => {
-            if (node.name == 'ToGame') return
             let id = this.node.children.indexOf(node)
             if (UINode.Share.node.getChildByName(UIType.UI_SHOP).active ||
                 UINode.Share.node.getChildByName(UIType.UI_WEAPON).active ||
@@ -101,6 +105,7 @@ export class StartBtnNode extends Component {
                 this.timeArr[2] = 0
                 this.timeArr[3] = 0
                 this.timeArr[4] = 0
+                this.timeArr[5] = 0
                 return
             }
             let nodePos = node.getComponent(UITransform).convertToWorldSpaceAR(v3())
@@ -126,6 +131,11 @@ export class StartBtnNode extends Component {
                         case 4:
                             this.playerUpCB()
                             break
+                        case 5:
+                            this.timeArr[id] = 0
+                            this.toGameCB()
+                            Player.Share.node.getComponentInChildren(ProgressBar).node.active = false;
+                            break
                     }
                     this.timeArr[id] = 0
                 }
@@ -136,19 +146,19 @@ export class StartBtnNode extends Component {
 
 
         Player.Share.node.getComponentInChildren(ProgressBar).node.active =
-            this.timeArr[0] > 0 || this.timeArr[1] > 0 || this.timeArr[2] > 0 || this.timeArr[3] > 0 || this.timeArr[4] > 0
+            this.node.active && (this.timeArr[0] > 0 || this.timeArr[1] > 0 || this.timeArr[2] > 0 || this.timeArr[3] > 0 || this.timeArr[4] > 0 || this.timeArr[5] > 0)
 
-        this.node.children.forEach((node: Node) => {
-            if (node.name == 'Shop') return
-            if (node.getChildByName('tips') && node.getChildByName('btn')) {
-                let tips = node.getChildByName('tips')
-                let btn = node.getChildByName('btn')
-                let nodePos = node.getComponent(UITransform).convertToWorldSpaceAR(v3())
-                let pPos = Player.Share.node.getComponent(UITransform).convertToWorldSpaceAR(v3())
-                tips.active = Math.abs(nodePos.x - pPos.x) > 120
-                btn.active = Math.abs(nodePos.x - pPos.x) <= 120
-            }
-        })
+        // this.node.children.forEach((node: Node) => {
+        //     if (node.name == 'Shop') return
+        //     if (node.getChildByName('tips') && node.getChildByName('btn')) {
+        //         let tips = node.getChildByName('tips')
+        //         let btn = node.getChildByName('btn')
+        //         let nodePos = node.getComponent(UITransform).convertToWorldSpaceAR(v3())
+        //         let pPos = Player.Share.node.getComponent(UITransform).convertToWorldSpaceAR(v3())
+        //         tips.active = Math.abs(nodePos.x - pPos.x) > 120
+        //         btn.active = Math.abs(nodePos.x - pPos.x) <= 120
+        //     }
+        // })
 
         this.weaponEnchantNode.getChildByName('finger').active =
             (PlayerDataMgr.getWeaponEnchantType() == 0 && (PlayerDataMgr.getPlayerData().enchantArr[0] > 0 || PlayerDataMgr.getPlayerData().enchantArr[1] > 0 ||

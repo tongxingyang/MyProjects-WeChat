@@ -80,7 +80,10 @@ export default class FdMgr {
     /**游戏加载--进入加载页调用 */
     static loadGame(cb?) {
         this.showReMen(() => {
-            this.showBox1(cb)
+            this.showBox1(() => {
+                cb && cb()
+                if (this.gameCount <= 1) this.visibleGameBanner(false)
+            })
         });
     }
 

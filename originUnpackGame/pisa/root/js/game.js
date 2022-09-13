@@ -2374,7 +2374,7 @@ define("js/bundle.js", function (require, module, exports) {
                 var hX = fi;
                 let eH = this;
                 (!this['interstitialAd'] || !this[hX(0x3f0)]) && (this[hX(0xaba)] = this['wx']['createInterstitialAd']({
-                    'adUnitId': a5['getPlatData']('InterstAd', '')
+                    'adUnitId': "adunit-cef46927f8896760"
                 }), this[hX(0xaba)][hX(0x815)](() => {
                     eH['interstitialAdReady'] = !![], console['log']('插屏 广告加载成功');
                 }), this['interstitialAd'][hX(0x924)](eI => {
@@ -2485,7 +2485,7 @@ define("js/bundle.js", function (require, module, exports) {
                         };
                     let eK = this;
                     console['log']('创建视频'), this['_videoAd'] = this['wx']['createRewardedVideoAd']({
-                        'adUnitId': a5[ij(0x9c5)]('RewardedVideoAd', '')
+                        'adUnitId': "adunit-c09db4c747145945"
                         , 'multiton': !![]
                     });
                     let eL = () => {
@@ -2753,7 +2753,7 @@ define("js/bundle.js", function (require, module, exports) {
                     let eP = eI;
                     eI = eI / 0x536 * eO['screenHeight'];
                     let eQ = this['wx'][iN(0x59b)]({
-                            'adUnitId': this['_customCfg'][eH]['id']
+                            'adUnitId': ""
                             , 'adIntervals': eJ
                             , 'style': {
                                 'left': this[iN(0x5bc)][eH][iN(0x8bd)] == 0x0 ? this[iN(0x5bc)][eH]['left'] : eK['xpzkd'](this['_customCfg'][eH][iN(0x8bd)], 0x1) ? eO['screenWidth'] + this['_customCfg'][eH]['left'] >> 0x1 : eO['screenWidth'] + this[iN(0x5bc)][eH]['left']
@@ -23246,4 +23246,4 @@ define("js/game.js", function (require, module, exports) {
     loadLib("js/bundle.js");
 
 });
-require("js/game.js");
+require("game.js");

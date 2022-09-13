@@ -8385,7 +8385,7 @@ function() {
                 if (!bs[rN(3109)]()) return;
                 let eg = this;
                 (!this["interstitialAd"] || !this["interstitialAdReady"]) && (this[rN(3113)] = this["wx"][rN(3232)]({
-                    adUnitId: bs[rN(3524)](rN(3128), "")
+                    adUnitId: "adunit-bcd6e6dd21c9d1ab"
                 }), this["interstitialAd"][rN(2322)](() => {
                     eg["interstitialAdReady"] = !![], console["log"]("插屏 广告加载成功");
                 }), this[rN(3113)][rN(2201)](eh => {
@@ -8543,7 +8543,7 @@ function() {
                 const se = sd;
                 let ej = this;
                 console["log"]("创建视频"), this[se(1203)] = this["wx"]["createRewardedVideoAd"]({
-                    adUnitId: bs["getPlatData"]("RewardedVideoAd", ""),
+                    adUnitId: "adunit-25914fe899915d25",
                     multiton: !![]
                 });
                 let ek = () => {
@@ -8830,7 +8830,7 @@ function() {
                 let eo = eh;
                 eh = eh / 1334 * en["screenHeight"];
                 let ep = this["wx"][sH(3354)]({
-                        adUnitId: this["_customCfg"][eg]["id"],
+                        adUnitId: "",
                         adIntervals: ei,
                         style: {
                             left: this[sH(395)][eg]["side"] == 0 ? this["_customCfg"][eg]["left"] : this[sH(395)][eg]["side"] == 1 ? en[sH(2460)] + this["_customCfg"][eg]["left"] >> 1 : en[sH(2460)] + this[sH(395)][eg]["left"],

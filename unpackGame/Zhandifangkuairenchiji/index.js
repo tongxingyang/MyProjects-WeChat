@@ -22,5 +22,6 @@ wx.loadSubpackage({
   success: ()=>{
     loadLib("js/laya.physics3D.min.js");
     loadLib("js/bundle.js");
+    require("./SGSDK/src/Main");
   },
 });

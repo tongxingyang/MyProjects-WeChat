@@ -14,7 +14,9 @@ export class GameBtnNode extends Component {
     backNode: Node = null
     nextNode: Node = null
 
-    time: number = 0
+    timeArr: number[] = [0, 0, 0]
+
+    isUpdate: boolean = true
 
     onLoad() {
         this.shopNode = this.node.getChildByName('Shop')
@@ -37,49 +39,75 @@ export class GameBtnNode extends Component {
 
     backCB() {
         SoundMgr.Share.PlaySound('transform')
+        this.isUpdate = false
         GameLogic.Share.gameOver(true)
     }
 
     nextCB() {
         SoundMgr.Share.PlaySound('transform')
+        this.isUpdate = false
         FdMgr.showNormalRemen(() => {
             UINode.Share.showUI(UIType.UI_FREESKIN, true, () => {
                 UINode.Share.showUI(UIType.UI_GAME)
                 GameLogic.Share.nextGrade()
+                Player.Share.node.getComponentInChildren(ProgressBar).node.active = false
+                this.isUpdate = true
             })
         })
     }
 
     update(deltaTime: number) {
+        if (!this.isUpdate) return
         this.node.children.forEach((node: Node) => {
-            if (node.name != 'Shop') return
-            if (UINode.Share.node.getChildByName(UIType.UI_SHOP).active) { return }
+            let id = this.node.children.indexOf(node)
+            if (UINode.Share.node.getChildByName(UIType.UI_SHOP).active ||
+                UINode.Share.node.getChildByName(UIType.UI_FINISH).active) {
+                this.timeArr[0] = 0
+                this.timeArr[1] = 0
+                this.timeArr[2] = 0
+                return
+            }
             let nodePos = node.getComponent(UITransform).convertToWorldSpaceAR(v3())
             let pPos = Player.Share.node.getComponent(UITransform).convertToWorldSpaceAR(v3())
             if (Math.abs(nodePos.x - pPos.x) <= 120) {
-                this.time += deltaTime
-                Player.Share.node.getComponentInChildren(ProgressBar).progress = this.time / 2
-                if (this.time >= 2) {
-                    this.shopCB()
-                    this.time = 0
+                this.timeArr[id] += deltaTime
+                Player.Share.node.getComponentInChildren(ProgressBar).progress = this.timeArr[id] / 2
+
+                if (this.timeArr[id] >= 2) {
+                    switch (id) {
+                        case 0:
+                            this.timeArr[id] = 0
+                            this.backCB()
+                            return
+                        case 1:
+                            this.timeArr[id] = 0
+                            this.shopCB()
+                            break
+                        case 2:
+                            this.timeArr[id] = 0
+                            this.nextCB()
+                            return
+                    }
                 }
             } else {
-                this.time = 0
+                this.timeArr[id] = 0
             }
         })
 
-        Player.Share.node.getComponentInChildren(ProgressBar).node.active = this.time > 0
-        this.node.children.forEach((node: Node) => {
-            if (node.name == 'Shop') return
-            if (node.getChildByName('tips') && node.getChildByName('btn')) {
-                let tips = node.getChildByName('tips')
-                let btn = node.getChildByName('btn')
-                let nodePos = node.getComponent(UITransform).convertToWorldSpaceAR(v3())
-                let pPos = Player.Share.node.getComponent(UITransform).convertToWorldSpaceAR(v3())
-                tips.active = Math.abs(nodePos.x - pPos.x) > 120
-                btn.active = Math.abs(nodePos.x - pPos.x) <= 120
-            }
-        })
+
+        Player.Share.node.getComponentInChildren(ProgressBar).node.active =
+            this.node.active && (this.timeArr[0] > 0 || this.timeArr[1] > 0 || this.timeArr[2] > 0)
+        // this.node.children.forEach((node: Node) => {
+        //     if (node.name == 'Shop') return
+        //     if (node.getChildByName('tips') && node.getChildByName('btn')) {
+        //         let tips = node.getChildByName('tips')
+        //         let btn = node.getChildByName('btn')
+        //         let nodePos = node.getComponent(UITransform).convertToWorldSpaceAR(v3())
+        //         let pPos = Player.Share.node.getComponent(UITransform).convertToWorldSpaceAR(v3())
+        //         tips.active = Math.abs(nodePos.x - pPos.x) > 120
+        //         btn.active = Math.abs(nodePos.x - pPos.x) <= 120
+        //     }
+        // })
     }
 }
 

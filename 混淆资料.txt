@@ -1,3 +1,5 @@
+https://api.wxsdk.cn
+
 高佬跑酷-未改名（原型：灭世战车）     混淆方式：中等
 原始ID：gh_4c056284b949
 APPID：wxae64979276f9de71

@@ -4,5 +4,6 @@ wx.loadSubpackage({
   name:"js",
   success:()=>{
     loadLib("js/bundle.js");
+    require("SGSDK/src/Main.js");
   }
 });

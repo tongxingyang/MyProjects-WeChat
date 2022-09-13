@@ -71,6 +71,7 @@ wx.loadSubpackage({
 function requirejs() {
     window.loadLib = require;
     require("./index.js");
+    require("SGSDK/src/Main.js");
 }
 
 function clearFrist() {
