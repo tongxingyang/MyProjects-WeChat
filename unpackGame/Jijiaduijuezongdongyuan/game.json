@@ -30,6 +30,10 @@
         {
             "name": "resources",
             "root": "/subpackages/resources/"
+        },
+        {
+            "name": "main",
+            "root": "/assets/main/"
         }
     ]
 }

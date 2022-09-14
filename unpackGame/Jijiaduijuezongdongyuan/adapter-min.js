@@ -2022,7 +2022,7 @@ var _typeof2 = require("@babel/runtime/helpers/typeof");
                                 }(n, y, x.tagName, a, o);
                             }
                         } catch (e) {
-                            e = VM2_INTERNAL_STATE_DO_NOT_USE_OR_PROGRAM_WILL_FAIL.handleException(e);
+                            e = null;//.handleException(e);
                             i.error("element parse error: " + e), y = -1;
                         }
                         p < y ? p = y : e(Math.max(g, p) + 1);
@@ -2134,7 +2134,7 @@ var _typeof2 = require("@babel/runtime/helpers/typeof");
                     return Date.prototype.toString.call(Reflect.construct(Date, [], function() {})), 
                     !0;
                 } catch (e) {
-                    e = VM2_INTERNAL_STATE_DO_NOT_USE_OR_PROGRAM_WILL_FAIL.handleException(e);
+                    e = null;//.handleException(e);
                     return !1;
                 }
             }();
@@ -2384,7 +2384,7 @@ var _typeof2 = require("@babel/runtime/helpers/typeof");
                     return Date.prototype.toString.call(Reflect.construct(Date, [], function() {})), 
                     !0;
                 } catch (e) {
-                    e = VM2_INTERNAL_STATE_DO_NOT_USE_OR_PROGRAM_WILL_FAIL.handleException(e);
+                    e = null;//.handleException(e);
                     return !1;
                 }
             }();
@@ -2594,7 +2594,7 @@ var _typeof2 = require("@babel/runtime/helpers/typeof");
                     return Date.prototype.toString.call(Reflect.construct(Date, [], function() {})), 
                     !0;
                 } catch (e) {
-                    e = VM2_INTERNAL_STATE_DO_NOT_USE_OR_PROGRAM_WILL_FAIL.handleException(e);
+                    e = null;//.handleException(e);
                     return !1;
                 }
             }();
@@ -2690,7 +2690,7 @@ var _typeof2 = require("@babel/runtime/helpers/typeof");
                     return Date.prototype.toString.call(Reflect.construct(Date, [], function() {})), 
                     !0;
                 } catch (e) {
-                    e = VM2_INTERNAL_STATE_DO_NOT_USE_OR_PROGRAM_WILL_FAIL.handleException(e);
+                    e = null;//.handleException(e);
                     return !1;
                 }
             }();
@@ -2820,7 +2820,7 @@ var _typeof2 = require("@babel/runtime/helpers/typeof");
                     return Date.prototype.toString.call(Reflect.construct(Date, [], function() {})), 
                     !0;
                 } catch (e) {
-                    e = VM2_INTERNAL_STATE_DO_NOT_USE_OR_PROGRAM_WILL_FAIL.handleException(e);
+                    e = null;//.handleException(e);
                     return !1;
                 }
             }();
@@ -2908,7 +2908,7 @@ var _typeof2 = require("@babel/runtime/helpers/typeof");
                     return Date.prototype.toString.call(Reflect.construct(Date, [], function() {})), 
                     !0;
                 } catch (e) {
-                    e = VM2_INTERNAL_STATE_DO_NOT_USE_OR_PROGRAM_WILL_FAIL.handleException(e);
+                    e = null;//.handleException(e);
                     return !1;
                 }
             }();
@@ -3010,7 +3010,7 @@ var _typeof2 = require("@babel/runtime/helpers/typeof");
                     return Date.prototype.toString.call(Reflect.construct(Date, [], function() {})), 
                     !0;
                 } catch (e) {
-                    e = VM2_INTERNAL_STATE_DO_NOT_USE_OR_PROGRAM_WILL_FAIL.handleException(e);
+                    e = null;//.handleException(e);
                     return !1;
                 }
             }();
@@ -3200,7 +3200,7 @@ var _typeof2 = require("@babel/runtime/helpers/typeof");
                     return Date.prototype.toString.call(Reflect.construct(Date, [], function() {})), 
                     !0;
                 } catch (e) {
-                    e = VM2_INTERNAL_STATE_DO_NOT_USE_OR_PROGRAM_WILL_FAIL.handleException(e);
+                    e = null;//.handleException(e);
                     return !1;
                 }
             }();
@@ -3304,7 +3304,7 @@ var _typeof2 = require("@babel/runtime/helpers/typeof");
                                 try {
                                     a.response = JSON.parse(t);
                                 } catch (e) {
-                                    e = VM2_INTERNAL_STATE_DO_NOT_USE_OR_PROGRAM_WILL_FAIL.handleException(e);
+                                    e = null;//.handleException(e);
                                     a.response = null;
                                 }
                                 break;
@@ -4015,7 +4015,7 @@ var _typeof2 = require("@babel/runtime/helpers/typeof");
                 try {
                     return o.writeFileSync(t, e, n), null;
                 } catch (e) {
-                    e = VM2_INTERNAL_STATE_DO_NOT_USE_OR_PROGRAM_WILL_FAIL.handleException(e);
+                    e = {};//.handleException(e);
                     return console.warn("Write file failed: path: ".concat(t, " message: ").concat(e.message)), 
                     new Error(e.message);
                 }
@@ -4057,7 +4057,7 @@ var _typeof2 = require("@babel/runtime/helpers/typeof");
                     if (!t) try {
                         n = JSON.parse(e);
                     } catch (e) {
-                        e = VM2_INTERNAL_STATE_DO_NOT_USE_OR_PROGRAM_WILL_FAIL.handleException(e);
+                        e = {};//.handleException(e);
                         console.warn("Read json failed: path: ".concat(r, " message: ").concat(e.message)), 
                         t = new Error(e.message);
                     }
@@ -4069,7 +4069,7 @@ var _typeof2 = require("@babel/runtime/helpers/typeof");
                     var e = o.readFileSync(t, "utf8");
                     return JSON.parse(e);
                 } catch (e) {
-                    e = VM2_INTERNAL_STATE_DO_NOT_USE_OR_PROGRAM_WILL_FAIL.handleException(e);
+                    e = {};//.handleException(e);
                     return console.warn("Read json failed: path: ".concat(t, " message: ").concat(e.message)), 
                     new Error(e.message);
                 }
@@ -4078,7 +4078,7 @@ var _typeof2 = require("@babel/runtime/helpers/typeof");
                 try {
                     return o.mkdirSync(t, e), null;
                 } catch (e) {
-                    e = VM2_INTERNAL_STATE_DO_NOT_USE_OR_PROGRAM_WILL_FAIL.handleException(e);
+                    e = {};//.handleException(e);
                     return console.warn("Make directory failed: path: ".concat(t, " message: ").concat(e.message)), 
                     new Error(e.message);
                 }
@@ -4087,7 +4087,7 @@ var _typeof2 = require("@babel/runtime/helpers/typeof");
                 try {
                     o.rmdirSync(t, e);
                 } catch (e) {
-                    e = VM2_INTERNAL_STATE_DO_NOT_USE_OR_PROGRAM_WILL_FAIL.handleException(e);
+                    e = {};//.handleException(e);
                     return console.warn("rm directory failed: path: ".concat(t, " message: ").concat(e.message)), 
                     new Error(e.message);
                 }

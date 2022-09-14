@@ -4217,11 +4217,11 @@
 			} ['show'](e7) {
 				const ko = eA;
 				super['show'](e7), this['list_game'] = this[ko(0xc59)]('list_game'), this[ko(0xdbe)] = this['getChild']('btn_close'), this[ko(0x14b)] ? this['list_game'][ko(0x793)]() : this[ko(0x2b6)] && this['list_game'][ko(0xbba)](), this['list_game'][ko(0x2e4)] = 'ui://' + a4[ko(0x48e)] + '/JumpGameItem', this['list_game'][ko(0xc64)] = Laya['Handler'][ko(0xf86)](this, this['_itemRender'], null, ![]), this['list_game']['numItems'] = this[ko(0x58f)][ko(0xe37)] || 0x0, b[ko(0xa47)](this[ko(0x7a4)]['numItems'], 0x0) && (this['_stopTimer'](), this['_startTimer']()), this['addEvent']();
-				this.visible=false;
+        this.parent.visible=false;
 			} [eA(0x11c)]() {
 				const kp = eA;
 				this[kp(0xd16)](), this[kp(0xaf5)](), super[kp(0x11c)]();
-				this.visible=false;
+				this.parent.visible=false;
 			} [eA(0x4fb)](e7, e8) {
 				e8['setData'](this['_gameData'][e7], !![]);
 			}
@@ -17274,7 +17274,10 @@
 			} ['onOpen']() {
 				const ND = eA;
         this['openData'] && this['openData'][0x0][ND(0xa3f)](), bm['Int']['on'](bl[ND(0xa63)], this[ND(0x2b4)], this), bm['Int']['on'](bl[ND(0xa3a)], this[ND(0xd84)], this), bm[ND(0xa48)]['on'](bl[ND(0xe7c)], this[ND(0x9fc)], this), bm['Int']['on'](bl[ND(0x5c9)], this[ND(0xd60)], this), bm['Int']['on'](bl['MONEY_DUIDUI'], this['_onChangeMoney3D'], this), bm['Int']['on'](bl[ND(0x8e3)], this['_tempHideBottomAd'], this), bm[ND(0xa48)]['on'](bl[ND(0x630)], this[ND(0x146)], this), this[ND(0x70f)][ND(0x9c5)] = ![], this[ND(0xb57)]['visible'] = ![], this['c_comp_jiesuoshengji'][ND(0x9c5)] = ![], this[ND(0x3ee)][ND(0x9c5)] = ![], this[ND(0x478)][ND(0x9c5)] = ![], this['InitTravl'](), this['c_comp_tipNode']['removeChildren'](0x0, this['c_comp_tipNode'][ND(0xa8d)], !![]), this['c_comp_moneyP']['removeChildren'](0x0, this[ND(0x365)][ND(0xa8d)], !![]), this[ND(0x74e)] = this[ND(0xa8b)][ND(0xc59)](ND(0x74e))[ND(0xc7a)], this['text_gold_account'] = this[ND(0xb57)][ND(0xc59)](ND(0xb22))['asTextField'], this[ND(0x81c)] = this[ND(0xce4)][ND(0xc59)]('text_money')['asTextField'], b[ND(0x394)](ac['type'], a5[ND(0x49a)]) ? this['c_btn_fenxiang']['visible'] = !![] : this[ND(0x913)][ND(0x9c5)] = ![], c1[ND(0xa56)][ND(0x50e)](!![]), c1['inst'][ND(0x9ea)](!![]), this[ND(0xbd2)] = cK['instance']['TipId'], ac[ND(0x16c)] && this['_showAlert']();
-				this.getChild("btn_more")['visible'] = false;
+        this.getChild("btn_more")['visible'] = false;
+        setTimeout(()=>{
+          Laya.stage.getChildAt(1).getChildAt(1).visible=false;
+        },2000);
 			} [eA(0x85b)]() {
 				const NE = eA;
 				this[NE(0x3d7)]['visible'] = ![], Laya['timer'][NE(0xe2e)](this, this[NE(0xe97)]), this[NE(0x3d7)]['offClick'](this, this['_hideAlert']), this[NE(0x3d7)][NE(0x9c5)] = !![], this['c_comp_zhiyin3']['getChild'](NE(0xecf))[NE(0x9c5)] = ![], this[NE(0x3d7)]['getChild'](NE(0x361))['text'] = '', this['_alertInt'] = b['FaVxo'](0x7d0, this['_strAlert'][NE(0xe37)]), this['_alertCount'] = 0x0, Laya['timer']['loop'](this[NE(0x5d9)], this, this[NE(0xe97)]);

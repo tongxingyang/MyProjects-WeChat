@@ -22,4 +22,16 @@ if (cc.sys.platform !== cc.sys.WECHAT_GAME_SUB) {
     cc.macro.CLEANUP_IMAGE_CACHE = true;
 }
 
-window.boot();
+var splash = require("./first-screen");
+splash.start("default", "default", "false").then(function(r) {
+  let task = wx.loadSubpackage({
+    name: "main",
+    success: () => {
+      splash.end();
+      window.boot();
+    }
+  });
+  task.onProgressUpdate(res => {
+    splash.setProgress(res.progress);
+  });
+});

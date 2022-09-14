@@ -3,93 +3,61 @@ https://api.wxsdk.cn
 高佬跑酷-未改名（原型：灭世战车）     混淆方式：中等
 原始ID：gh_4c056284b949
 APPID：wxae64979276f9de71
-生哥这款换成灭世战车的包~ @何天生 
 
-无限狂飙（原型：登山极限摩托狂飙）   混淆方式：字符串0.5+扁平流0.5+死代码0.4
+无限狂飙（原型：登山极限摩托狂飙）   混淆方式：中度
 AppID(小程序ID) ：wx9bb5bbdb18086d35 
-AppSecret(小程序密钥)：c1423242e179682ce473d66964740af3
 账号：ugakufk@snapmail.cc  
 密码：youxi1688
-还没开通流量主的 @何天生 
 
 暴走对决（天天史莱姆未改名   原型：变形机甲汽车）  混淆方式：中等花指令0.5+扁平流0.5  jshaman
 AppID(小程序ID) wx57334f50a9791f2c   
 登录邮箱 nikbad@snapmail.cc 
-原始ID gh_50f00114087a 
 登录密码 youxi1688
-密钥 69b7f8c06823fa4cc4c37b42264226f8
-@何天生 后台已配置好，权限域名已加，已开通流量主
 
 蚁兵王国（原型：蚂蚁指挥官）   混淆方式：混淆方式：字符串0.5+扁平流0.5+死代码0.4
 AppID(小程序ID)： wx1f1df064c244418d 
-AppSecret(小程序密钥)：f65b57b96c3d0852b9576342783a85c0
 账号：lahofodizn@snapmail.cc 
 密码：youxi1688
-还没开通流量主@何天生 
 
 超级作战（改：开个寿司店） 流量主未开通 @何天生          混淆方式：中等
 AppID(小程序ID)：wxebcf06f14561fded
-AppSecret(小程序密钥)：8089f754587a96e6273ec7f226f953ce
 账号：lvzhou20220411@snapmail.cc 
 密码：youxi1688
-原始ID：gh_72f708888ba6 
 
 抓鱼嘎嘎猛（捕鱼高高手）   混淆方式：0.75+0.75+0.4
 AppID(小程序ID) wx4a9056c45b74505b  
-AppSecret(小程序密钥)：90be8a9d1da0a9e8cdad1bf66c7137b8
 账号：voothefok@snapmail.cc
 密码：1688
 
 蚁兵崛起（蚂蚁进化大猎杀）  混淆方式：混淆方式：字符串0.5+扁平流0.5+死代码0.4
 AppID(小程序ID) wxd1b4081ff3df9ec0  
-AppSecret(小程序密钥)：54960520aa36948766b6360d52e667f2
 账号：lerumibe@snapmail.cc
 密码：youxi1688
-@何天生 
 
 征服星球（原型：战地方块人吃鸡）  混淆方式：字符串0.75+扁平流0.75+死代码0.4
 AppID(小程序ID)  wx5d3e9796ba520724   
 登录邮箱  lvzhou1006@snapmail.cc 
-原始ID  gh_5c532c5a3e91
  登录密码  youxi1688
-secret （密钥） dcf2aa1bd4934095ed34456efd75f3a5 
-后台配置已加，权限域名已加，已开通流量主@何天生 
 
 小小披萨店（上一个完美披萨店的马甲包，原型：黑娃披萨店） 混淆方式：中等
 AppID(小程序ID) ：wx9f9df5e3b1e1985f 
-AppSecret(小程序密钥)：5a022cec5e27d5dcadcb6f78a3f377f0 
 账号：jubmoew@snapmail.cc 
 密码：youxi1688
-还没开通流量主@何天生 
 
 全民披萨店（未开通流量主）  混淆方式：中等
 AppID(小程序ID)  wxd033684fb35e5cfc   
 登录邮箱  magbideut@snapmail.cc 
 登录密码   youxi1688
-原始ID  gh_6ca5ac924db3 
-密钥  ffde7a2e949bf41a7e85b8fa0d76e927
-麻烦上一个完美披萨店的马甲包@何天生 
 
-霸者出击（组装恐龙） 混淆方式：中等  jshaman
-banner1
-adunit-cfdfd82466dbaabe
-banner2
-adunit-fa57eb8c8969cd17
-banner3
-adunit-684791d3482f81eb
-banner4
-adunit-494493c2e7104ad9
-banner5
-adunit-674a392e855e8df9
-视频
-adunit-d2d26efe4dfa207b
-插屏
-adunit-9c978c8dcef29a3e
-游戏内格子
-adunit-5887d480a0f8792e
-侧边格子
-adunit-738d8bb67662bf87
-全屏格子
-adunit-3aa4c49835fee514
-可以接框架了@何天生 
+霸者出击（组装恐龙） 混淆方式：中等  
+
+勇猛机甲  （原型：机甲对决总动员）混淆方式：字符串0.1+扁平流1+死代码0
+appid: wx77a65edd254cdb99
+账号：lvzhou09@snapmail.cc
+密码：youxi1688 
+
+猛兽对决  （原型：百兽争霸）混淆方式：中等
+appid: wx9df3ebe82cc197f1
+账号：lvzhou010@snapmail.cc
+密码：youxi1688 
 

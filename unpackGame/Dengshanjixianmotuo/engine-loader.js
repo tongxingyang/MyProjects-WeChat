@@ -6,7 +6,7 @@ exports.loadEngine = void 0;
 
 function loadEngine(sub_name) {
     if (wx.loadSubpackage) {
-        _load(sub_name).then(function(result) {
+        _load(sub_name).then(function (result) {
             if (!result) {
                 loadEngine(sub_name);
             }
@@ -17,7 +17,7 @@ function loadEngine(sub_name) {
 }
 
 function _load(sub_name) {
-    return new Promise(function(resolve, reject) {
+    return new Promise(function (resolve, reject) {
         var t = new Date().getTime();
         var loadTask = wx.loadSubpackage({
             name: sub_name,
@@ -31,6 +31,19 @@ function _load(sub_name) {
             }
         });
         loadTask.onProgressUpdate(function(res) {});
+        // var splash = require("./first-screen");
+        // splash.start("default", "default", "false").then(function (r) {
+        //     let task = wx.loadSubpackage({
+        //         name: "sub_name",
+        //         success: () => {
+        //             splash.end();
+        //             resolve(true);
+        //         }
+        //     });
+        //     task.onProgressUpdate(res => {
+        //         splash.setProgress(res.progress);
+        //     });
+        // });
     });
 }
 

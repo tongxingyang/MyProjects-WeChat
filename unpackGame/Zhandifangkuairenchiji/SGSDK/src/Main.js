@@ -88,13 +88,14 @@ initSDK(() => {
   loopSchedule();
 });
 
-var showEnd = function(){
+var showEnd = function(cb){
   showRemenUI(() => {
     showBoxUI(() => {
       adMgr.hideBannerAd();
       if (window.ConfigData.data.is_showGameBanner) {
         adMgr.showBannerAd();
       }
+      cb&&cb();
     });
   });
 };

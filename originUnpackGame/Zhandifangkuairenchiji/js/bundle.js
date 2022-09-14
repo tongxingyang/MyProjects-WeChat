@@ -1,7 +1,7 @@
-(function() {
+(function () {
     "use strict";
     class Dispatcher {
-        constructor() {}
+        constructor() { }
         static AddListener(type, caller, listener, args = null) {
             Dispatcher._dspt.on(type, caller, listener, args);
         }
@@ -16,7 +16,7 @@
         }
     }
     Dispatcher._dspt = new Laya.EventDispatcher();
-    class EventType {}
+    class EventType { }
     EventType.OnPlayerAim = "OnPlayerAim";
     EventType.OnPlayerJump = "OnPlayerJump";
     EventType.OnPlayerCrouch = "OnPlayerCrouch";
@@ -355,16 +355,16 @@
             array.splice(targetIndex, 1);
         }
         static UiClickColor(ui) {
-            let blackMat = [ 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0 ];
+            let blackMat = [1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0];
             let blackFilter = new Laya.ColorFilter(blackMat);
             blackFilter.adjustBrightness(-100);
-            ui.filters = [ blackFilter ];
+            ui.filters = [blackFilter];
         }
         static UiSourceColor(ui) {
-            let blackMat = [ 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0 ];
+            let blackMat = [1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0];
             let blackFilter = new Laya.ColorFilter(blackMat);
             blackFilter.adjustBrightness(0);
-            ui.filters = [ blackFilter ];
+            ui.filters = [blackFilter];
         }
         static AddBtnEvent(bt, caller, callback, needPlayClickSound = true, ClickSoundPath = "res/Sounds/click.mp3") {
             bt.stateNum = 1;
@@ -387,10 +387,10 @@
         }
         static AddBtnEventNoFx(bt, caller, callback, needPlayClickSound = true, ClickSoundPath = "res/Sounds/click.mp3") {
             bt.stateNum = 1;
-            bt.on(Laya.Event.MOUSE_DOWN, caller, () => {});
-            bt.on(Laya.Event.MOUSE_OVER, caller, () => {});
-            bt.on(Laya.Event.MOUSE_OUT, caller, () => {});
-            bt.on(Laya.Event.MOUSE_UP, caller, () => {});
+            bt.on(Laya.Event.MOUSE_DOWN, caller, () => { });
+            bt.on(Laya.Event.MOUSE_OVER, caller, () => { });
+            bt.on(Laya.Event.MOUSE_OUT, caller, () => { });
+            bt.on(Laya.Event.MOUSE_UP, caller, () => { });
             bt.on(Laya.Event.CLICK, caller, e => {
                 callback(e);
                 if (needPlayClickSound == true) Laya.SoundManager.playSound(ClickSoundPath);
@@ -404,7 +404,7 @@
                     scaleY: .9
                 }, 50);
             });
-            bt.on(Laya.Event.MOUSE_OVER, caller, () => {});
+            bt.on(Laya.Event.MOUSE_OVER, caller, () => { });
             bt.on(Laya.Event.MOUSE_OUT, caller, () => {
                 Laya.Tween.to(bt, {
                     scaleX: 1,
@@ -590,7 +590,7 @@
             Laya.Tween.to(ui, {
                 scaleX: scale,
                 scaleY: scale
-            }, 1e3, Laya.Ease.linearNone, Laya.Handler.create(caller, function() {
+            }, 1e3, Laya.Ease.linearNone, Laya.Handler.create(caller, function () {
                 Tool.TweenToBig(ui, caller);
             }));
         }
@@ -598,7 +598,7 @@
             Laya.Tween.to(ui, {
                 scaleX: 1,
                 scaleY: 1
-            }, 1e3, Laya.Ease.linearNone, Laya.Handler.create(caller, function() {
+            }, 1e3, Laya.Ease.linearNone, Laya.Handler.create(caller, function () {
                 Tool.TweenToSmallLoopBig(ui, caller);
             }));
         }
@@ -734,7 +734,7 @@
         GetSc3dPath(sceneName) {
             return "res/Scenes/Conventional/" + sceneName + ".ls";
         }
-        OpenSc3D(sc3dName, caller, callback = (sc3d => {})) {
+        OpenSc3D(sc3dName, caller, callback = (sc3d => { })) {
             let sc3dResPath = this.GetSc3dPath(sc3dName);
             Laya.Scene3D.load(sc3dResPath, Laya.Handler.create(caller, sc3d => {
                 SceneMgr.Instance.curOpen3dScene = sc3d;
@@ -755,7 +755,7 @@
         GetPrefabPath(prefabName) {
             return "res/Prefabs/Conventional/" + prefabName + ".lh";
         }
-        LoadSp3d(sp3dName, caller, callback = (sp3d => {})) {
+        LoadSp3d(sp3dName, caller, callback = (sp3d => { })) {
             if (this.unityResMap.has(sp3dName)) {
                 let tempSp3d = this.unityResMap.get(sp3dName);
                 callback(tempSp3d);
@@ -777,14 +777,14 @@
             Laya.Resource.destroyUnusedResources();
         }
         SetUnlitTexture(skinnedMeshSp3d, textureResPath, caller) {
-            Laya.Texture2D.load(textureResPath, Laya.Handler.create(caller, function(tex) {
+            Laya.Texture2D.load(textureResPath, Laya.Handler.create(caller, function (tex) {
                 let mat = new Laya.UnlitMaterial();
                 mat.albedoTexture = tex;
                 skinnedMeshSp3d.skinnedMeshRenderer.material = mat;
             }));
         }
         SetStandardTexture(skinnedMeshSp3d, textureResPath, caller) {
-            Laya.Texture2D.load(textureResPath, Laya.Handler.create(caller, function(tex) {
+            Laya.Texture2D.load(textureResPath, Laya.Handler.create(caller, function (tex) {
                 let mat = new Laya.PBRStandardMaterial();
                 mat.albedoTexture = tex;
                 skinnedMeshSp3d.skinnedMeshRenderer.material = mat;
@@ -851,7 +851,7 @@
             DataTool.SetKv(k, v);
         }
     }
-    class Std {}
+    class Std { }
     Std.ScView_InitName = "InitScView";
     Std.ScView_MenuName = "MenuScView";
     Std.ScView_GameName = "GameScView";
@@ -1066,7 +1066,7 @@
     Std.UI_ad_cTopx = 0;
     Std.FreeTry = false;
     Std.m5qtUI = false;
-    class EnemyAni {}
+    class EnemyAni { }
     EnemyAni.Die = "die";
     EnemyAni.Idle = "idle";
     EnemyAni.Reload = "reload";
@@ -1369,9 +1369,9 @@
             this.isDragging = false;
             this.isFixedStick = true;
             this.stickDir = new Laya.Vector2(0, 0);
-            this.onStickDownCb = (() => {});
-            this.onStickUpOrOutCb = (() => {});
-            this.onStickMoveCb = (() => {});
+            this.onStickDownCb = (() => { });
+            this.onStickUpOrOutCb = (() => { });
+            this.onStickMoveCb = (() => { });
         }
         onAwake() {
             this.imgJoyStickRect = Laya.stage;
@@ -1550,7 +1550,7 @@
                 }
             }
         }
-        OpenUI(uiCtlerScript, callback = (param => {}), parent, isOnlyOne = true) {
+        OpenUI(uiCtlerScript, callback = (param => { }), parent, isOnlyOne = true) {
             let uiName = uiCtlerScript.name;
             if (!parent) {
                 parent = SceneMgr.Instance.GetCurSc2D();
@@ -1579,7 +1579,7 @@
             ResMgr.Instance.ClearRes(this.GetPrefabPath(k));
             Laya.Resource.destroyUnusedResources();
         }
-        LoadUIPrefab(uiName, callback = (uiPrefab => {})) {
+        LoadUIPrefab(uiName, callback = (uiPrefab => { })) {
             let uiPath = this.GetPrefabPath(uiName);
             Laya.loader.load(uiPath, Laya.Handler.create(this, uiPrefab => {
                 if (!uiPrefab) {
@@ -1590,7 +1590,7 @@
                 callback(uiPrefab);
             }));
         }
-        OpenUICommonOp(uiPrefab, uiCtlerScript, parent, callback = (ui => {})) {
+        OpenUICommonOp(uiPrefab, uiCtlerScript, parent, callback = (ui => { })) {
             let uiName = uiCtlerScript.name;
             let ui = uiPrefab.create();
             parent.addChild(ui);
@@ -1644,8 +1644,8 @@
             this.canDestroyInsertAd = false;
             this.isMidwayStopRecord = false;
             this.maxRecordTime = 60;
-            this.videoOverCallback = (() => {});
-            this.videoNotOverCallback = (() => {});
+            this.videoOverCallback = (() => { });
+            this.videoNotOverCallback = (() => { });
             this.VideoAdCallback = (res => {
                 if (res.isEnded) {
                     this.videoOverCallback();
@@ -1797,7 +1797,7 @@
                     query: "",
                     extra: {
                         videoPath: this.videoPath,
-                        videoTopics: [ this.shareRecordDesc ]
+                        videoTopics: [this.shareRecordDesc]
                     },
                     success() {
                         shareSuccessCallBack();
@@ -1848,11 +1848,11 @@
                     borderWidth: 0,
                     borderColor: "#13d3f8"
                 },
-                appLaunchOptions: [ {
+                appLaunchOptions: [{
                     appId: tAppId,
                     query: "foo=bar&baz=qux",
                     extraData: {}
-                } ],
+                }],
                 onNavigateToMiniGame(res) {
                     console.log("跳转其他小游戏", res);
                 }
@@ -1886,7 +1886,7 @@
         constructor() {
             super();
             this.allUIDic = new Map();
-            this.prefixArray = [ "img", "btn", "txt", "list", "box", "hsld", "ti" ];
+            this.prefixArray = ["img", "btn", "txt", "list", "box", "hsld", "ti"];
         }
         onAwake() {
             this.SetAllUINodesDic();
@@ -2075,8 +2075,8 @@
             this.bannerAdRight = null;
             this.videoAd = null;
             this.insertAd = null;
-            this.videoOverCallback = (() => {});
-            this.videoNotOverCallback = (() => {});
+            this.videoOverCallback = (() => { });
+            this.videoNotOverCallback = (() => { });
             this.pyqAd = null;
             this.customAdID_1 = null;
             this.customAdID_2 = null;
@@ -2129,10 +2129,10 @@
             this.InitPYQ();
         }
         InitBanner(Id, left) {
-            return null;
-            if (Id == "") return null;
+            //if (Id == "") return null;
+            let arr = ["adunit-6fe384664fab8f78","adunit-7c434f44f84c4035","adunit-a00e9a086610eb6d","adunit-678aa0e513c0b874","adunit-fcfb0329d9305e3f"]
             let bannerAd = wx.createBannerAd({
-                adUnitId: "adunit-6fe384664fab8f78",
+                adUnitId: arr[Math.floor(Math.random() * 5)],
                 adIntervals: 30,
                 style: {
                     left: 0,
@@ -2140,57 +2140,57 @@
                     width: Math.min(this.windowWidth, 300)
                 }
             });
-            bannerAd.onError(err => {});
+            bannerAd.onError(err => { });
             bannerAd.onResize(res => {
                 switch (left) {
-                  case "left":
-                    bannerAd.style.left = 0;
-                    bannerAd.style.top = this.windowHeight - res.height;
-                    break;
-
-                  case "center":
-                    bannerAd.style.left = (this.windowWidth - res.width) / 2;
-                    ;
-                    bannerAd.style.top = this.windowHeight - res.height;
-                    break;
-
-                  case "right":
-                    bannerAd.style.left = this.windowWidth - res.width;
-                    bannerAd.style.top = this.windowHeight - res.height;
-                    break;
+                    case "left":
+                        bannerAd.style.left = 0;
+                        bannerAd.style.top = this.windowHeight - res.height;
+                        break;
+  
+                    case "center":
+                        bannerAd.style.left = (this.windowWidth - res.width) / 2;
+                        ;
+                        bannerAd.style.top = this.windowHeight - res.height;
+                        break;
+  
+                    case "right":
+                        bannerAd.style.left = this.windowWidth - res.width;
+                        bannerAd.style.top = this.windowHeight - res.height;
+                        break;
                 }
             });
-            bannerAd.onLoad(() => {});
+            bannerAd.onLoad(() => { });
             return bannerAd;
         }
         ShowBannerAd(left) {
             switch (left) {
-              case "left":
-                if (this.bannerAdLeft) {
-                    this.bannerAdLeft.show();
-                    this.isShowbannerAdLeft = true;
-                } else {
-                    this.bannerAdLeft = this.InitBanner(this._adId.bannerAdID, "left");
-                }
-                break;
-
-              case "center":
-                if (this.bannerAdCenter) {
-                    this.bannerAdCenter.show();
-                    this.isShowbannerAdCenter = true;
-                } else {
-                    this.bannerAdCenter = this.InitBanner(this._adId.bannerAdID, "center");
-                }
-                break;
-
-              case "right":
-                if (this.bannerAdRight) {
-                    this.bannerAdRight.show();
-                    this.isShowbannerAdRight = true;
-                } else {
-                    this.bannerAdRight = this.InitBanner(this._adId.bannerAdID, "right");
-                }
-                break;
+                case "left":
+                    if (this.bannerAdLeft) {
+                        this.bannerAdLeft.show();
+                        this.isShowbannerAdLeft = true;
+                    } else {
+                        this.bannerAdLeft = this.InitBanner(this._adId.bannerAdID, "left");
+                    }
+                    break;
+  
+                case "center":
+                    if (this.bannerAdCenter) {
+                        this.bannerAdCenter.show();
+                        this.isShowbannerAdCenter = true;
+                    } else {
+                        this.bannerAdCenter = this.InitBanner(this._adId.bannerAdID, "center");
+                    }
+                    break;
+  
+                case "right":
+                    if (this.bannerAdRight) {
+                        this.bannerAdRight.show();
+                        this.isShowbannerAdRight = true;
+                    } else {
+                        this.bannerAdRight = this.InitBanner(this._adId.bannerAdID, "right");
+                    }
+                    break;
             }
         }
         HideBanner() {
@@ -2238,8 +2238,8 @@
             videoAd.onError(err => {
                 console.log("ShowVideo onError:" + JSON.stringify(err));
             });
-            videoAd.onLoad(() => {console.log('1234')});
-            videoAd.load().then(() => {});
+            videoAd.onLoad(() => { console.log('1234') });
+            videoAd.load().then(() => { });
             return videoAd;
         }
         ShowVideoAd(watchVideoFinishCallback, watchVideoNotFinishCallback) {
@@ -2260,16 +2260,16 @@
             let interstitialAd = wx.createInterstitialAd({
                 adUnitId: "adunit-d5a4eb9af86006e3"
             });
-            interstitialAd.onLoad(() => {});
+            interstitialAd.onLoad(() => { });
             interstitialAd.onError(err => {
                 console.log(`插屏展示失败 err:${JSON.stringify(err)}`);
             });
-            interstitialAd.onClose(res => {});
+            interstitialAd.onClose(res => { });
             return interstitialAd;
         }
         ShowInsertAd() {
             if (!this.insertAd) return;
-            this.insertAd.show().catch(err => {});
+            this.insertAd.show().catch(err => { });
         }
         ShakeDevice() {
             wx.vibrateShort({});
@@ -2298,12 +2298,12 @@
         HidePYQ() {
             this.pyqAd.hide();
         }
-        InitCustomAd(adID, style, onclose = (() => {})) {
+        InitCustomAd(adID, style, onclose = (() => { })) {
             // if (!adID) {
             //     return;
             // }
             let customAd = wx.createCustomAd({
-                adUnitId: "adunit-39a7462997bcc479",
+                adUnitId: adID,
                 style: style
             });
             customAd.onLoad(() => {
@@ -2326,95 +2326,95 @@
         }
         ShowCustomAd(adID, style) {
             switch (adID) {
-              case "1":
-                if (this.customAdID_1 == undefined || this.customAdID_1 == null) {
-                    this.customAdID_1 = this.InitCustomAd(this._adId.customAdIDV0, style);
-                    this.customAdID_1.show();
-                } else {
-                    this.customAdID_1.show();
-                }
-                break;
-
-              case "2":
-                if (this.customAdID_2 == undefined || this.customAdID_2 == null) {
-                    this.customAdID_2 = this.InitCustomAd(this._adId.customAdIDV1, style);
-                    this.customAdID_2.show();
-                } else {
-                    this.customAdID_2.show();
-                }
-                break;
-
-              case "3":
-                if (this.customAdID_3 == undefined || this.customAdID_3 == null) {
-                    this.customAdID_3 = this.InitCustomAd(this._adId.customAdIDS0, {
-                        left: 1030 * this.bizhi,
-                        top: 10 * this.bizhi,
-                        width: 72
-                    });
-                    this.customAdID_3.show();
-                } else {
-                    this.customAdID_3.show();
-                }
-                break;
-
-              case "4":
-                if (this.customAdID_4 == undefined || this.customAdID_4 == null) {
-                    this.customAdID_4 = this.InitCustomAd(this._adId.customAdIDM0, {
-                        left: Std.ui_width / 2 * this.bizhi - 364,
-                        top: Std.ui_height / 2 * this.bizhi - 192,
-                        width: 360
-                    });
-                    this.customAdID_4.show();
-                } else {
-                    this.customAdID_4.show();
-                }
-                break;
-
-              case "5":
-                if (this.customAdID_5 == undefined || this.customAdID_5 == null) {
-                    this.customAdID_5 = this.InitCustomAd(this._adId.customAdIDM1, {
-                        left: Std.ui_width / 2 * this.bizhi + 4,
-                        top: Std.ui_height / 2 * this.bizhi - 192,
-                        width: 360
-                    });
-                    this.customAdID_5.show();
-                } else {
-                    this.customAdID_5.show();
-                }
-                break;
+                case "1":
+                    if (this.customAdID_1 == undefined || this.customAdID_1 == null) {
+                        this.customAdID_1 = this.InitCustomAd("adunit-0eb4fb971f376167", style);
+                        this.customAdID_1.show();
+                    } else {
+                        this.customAdID_1.show();
+                    }
+                    break;
+  
+                case "2":
+                    if (this.customAdID_2 == undefined || this.customAdID_2 == null) {
+                        this.customAdID_2 = this.InitCustomAd("adunit-ef4bb76527da7760", style);
+                        this.customAdID_2.show();
+                    } else {
+                        this.customAdID_2.show();
+                    }
+                    break;
+  
+                case "3":
+                    if (this.customAdID_3 == undefined || this.customAdID_3 == null) {
+                        this.customAdID_3 = this.InitCustomAd("adunit-39a7462997bcc479", {
+                            left: wx.getSystemInfoSync().windowWidth-72,
+                            top: 10 * this.bizhi,
+                            width: 72
+                        });
+                        this.customAdID_3.show();
+                    } else {
+                        this.customAdID_3.show();
+                    }
+                    break;
+  
+                case "4":
+                    if (this.customAdID_4 == undefined || this.customAdID_4 == null) {
+                        this.customAdID_4 = this.InitCustomAd(this._adId.customAdIDM0, {
+                            left: Std.ui_width / 2 * this.bizhi - 364,
+                            top: Std.ui_height / 2 * this.bizhi - 192,
+                            width: 360
+                        });
+                        this.customAdID_4.show();
+                    } else {
+                        this.customAdID_4.show();
+                    }
+                    break;
+  
+                case "5":
+                    if (this.customAdID_5 == undefined || this.customAdID_5 == null) {
+                        this.customAdID_5 = this.InitCustomAd(this._adId.customAdIDM1, {
+                            left: Std.ui_width / 2 * this.bizhi + 4,
+                            top: Std.ui_height / 2 * this.bizhi - 192,
+                            width: 360
+                        });
+                        this.customAdID_5.show();
+                    } else {
+                        this.customAdID_5.show();
+                    }
+                    break;
             }
         }
         HideCustomAd(adID) {
             switch (adID) {
-              case "1":
-                if (this.customAdID_1) {
-                    this.customAdID_1.hide();
-                }
-                break;
-
-              case "2":
-                if (this.customAdID_2) {
-                    this.customAdID_2.hide();
-                }
-                break;
-
-              case "3":
-                if (this.customAdID_3) {
-                    this.customAdID_3.hide();
-                }
-                break;
-
-              case "4":
-                if (this.customAdID_4) {
-                    this.customAdID_4.hide();
-                }
-                break;
-
-              case "5":
-                if (this.customAdID_5) {
-                    this.customAdID_5.hide();
-                }
-                break;
+                case "1":
+                    if (this.customAdID_1) {
+                        this.customAdID_1.hide();
+                    }
+                    break;
+  
+                case "2":
+                    if (this.customAdID_2) {
+                        this.customAdID_2.hide();
+                    }
+                    break;
+  
+                case "3":
+                    if (this.customAdID_3) {
+                        this.customAdID_3.hide();
+                    }
+                    break;
+  
+                case "4":
+                    if (this.customAdID_4) {
+                        this.customAdID_4.hide();
+                    }
+                    break;
+  
+                case "5":
+                    if (this.customAdID_5) {
+                        this.customAdID_5.hide();
+                    }
+                    break;
             }
         }
         DestCustomAd(adID) {
@@ -2487,7 +2487,7 @@
         GetLaunchOptionsSync() {
             return wx.getLaunchOptionsSync();
         }
-        Login(func = (err => {})) {
+        Login(func = (err => { })) {
             wx.login({
                 success: res => {
                     func(res.code);
@@ -2498,7 +2498,7 @@
     }
     WeiXinSdk.Instance = null;
     var SdkChannel;
-    (function(SdkChannel) {
+    (function (SdkChannel) {
         SdkChannel[SdkChannel["TT"] = 0] = "TT";
         SdkChannel[SdkChannel["Oppo"] = 1] = "Oppo";
         SdkChannel[SdkChannel["Vivo"] = 2] = "Vivo";
@@ -2546,99 +2546,99 @@
         InitSdk(sdkChannel, data) {
             this._sdkChannel = sdkChannel;
             if (SdkManager.Instance.isDebugMode) return;
-            switch (this.sdkChannel) {
-              case SdkChannel.TT:
-                if (!TTSdk.Instance) {
-                    Laya.stage.addComponent(TTSdk);
-                    TTSdk.Instance.InitTTAd(data);
-                }
-                break;
-
-              case SdkChannel.WeiXinSdk:
-                if (!WeiXinSdk.Instance) {
-                    Laya.stage.addComponent(WeiXinSdk);
-                    WeiXinSdk.Instance.InitSdk(data);
-                }
-                break;
-
-              case SdkChannel.Android:
-                console.log("Android初始化");
-                SdkManager.Test = window.PlatformClass.createClass("demo.MainActivity");
-                break;
-
-              default:
-                break;
+            switch (SdkChannel.WeiXinSdk) {
+                case SdkChannel.TT:
+                    if (!TTSdk.Instance) {
+                        Laya.stage.addComponent(TTSdk);
+                        TTSdk.Instance.InitTTAd(data);
+                    }
+                    break;
+  
+                case SdkChannel.WeiXinSdk:
+                    if (!WeiXinSdk.Instance) {
+                        Laya.stage.addComponent(WeiXinSdk);
+                        WeiXinSdk.Instance.InitSdk(data);
+                    }
+                    break;
+  
+                case SdkChannel.Android:
+                    console.log("Android初始化");
+                    SdkManager.Test = window.PlatformClass.createClass("demo.MainActivity");
+                    break;
+  
+                default:
+                    break;
             }
         }
         ShowBanner(left) {
             if (SdkManager.Instance.isDebugMode) return;
             switch (this.sdkChannel) {
-              case SdkChannel.TT:
-                TTSdk.Instance.ShowBannerAd();
-                break;
-
-              case SdkChannel.WeiXinSdk:
-                WeiXinSdk.Instance.ShowBannerAd(left);
-                break;
-
-              case SdkChannel.Android:
-                SdkManager.Test.call("js2android", 97);
-                break;
-
-              default:
-                break;
+                case SdkChannel.TT:
+                    TTSdk.Instance.ShowBannerAd();
+                    break;
+  
+                case SdkChannel.WeiXinSdk:
+                    WeiXinSdk.Instance.ShowBannerAd(left);
+                    break;
+  
+                case SdkChannel.Android:
+                    SdkManager.Test.call("js2android", 97);
+                    break;
+  
+                default:
+                    break;
             }
         }
         HideBanner() {
             if (SdkManager.Instance.isDebugMode) return;
             switch (this.sdkChannel) {
-              case SdkChannel.TT:
-                TTSdk.Instance.HideBannerAd();
-                break;
-
-              case SdkChannel.WeiXinSdk:
-                WeiXinSdk.Instance.HideBanner();
-                break;
-
-              case SdkChannel.Android:
-                Dispatcher.Event(EventType.CloseNative);
-                SdkManager.Test.call("js2android", 90);
-                break;
-
-              default:
-                break;
+                case SdkChannel.TT:
+                    TTSdk.Instance.HideBannerAd();
+                    break;
+  
+                case SdkChannel.WeiXinSdk:
+                    WeiXinSdk.Instance.HideBanner();
+                    break;
+  
+                case SdkChannel.Android:
+                    Dispatcher.Event(EventType.CloseNative);
+                    SdkManager.Test.call("js2android", 90);
+                    break;
+  
+                default:
+                    break;
             }
         }
         DestBanner() {
             if (SdkManager.Instance.isDebugMode) return;
             switch (this.sdkChannel) {
-              case SdkChannel.WeiXinSdk:
-                WeiXinSdk.Instance.DestBanner();
-                break;
+                case SdkChannel.WeiXinSdk:
+                    WeiXinSdk.Instance.DestBanner();
+                    break;
             }
         }
-        ShowVideoAd(watchFinishCallback, watchNotFinishCallback = (() => {})) {
+        ShowVideoAd(watchFinishCallback, watchNotFinishCallback = (() => { })) {
             if (SdkManager.Instance.isDebugMode) {
                 watchFinishCallback();
                 return;
             }
             switch (this.sdkChannel) {
-              case SdkChannel.TT:
-                if (SdkManager.Instance.isDebugMode) watchFinishCallback(); else TTSdk.Instance.ShowVideoAd(watchFinishCallback, watchNotFinishCallback);
-                break;
-
-              case SdkChannel.WeiXinSdk:
-                if (SdkManager.Instance.isDebugMode) watchFinishCallback(); else WeiXinSdk.Instance.ShowVideoAd(watchFinishCallback, watchNotFinishCallback);
-                break;
-
-              case SdkChannel.Android:
-                SdkManager.watchFinishCallback = watchFinishCallback;
-                SdkManager.watchNotFinishCallback = watchNotFinishCallback;
-                SdkManager.Test.call("js2android", 99);
-                break;
-
-              default:
-                break;
+                case SdkChannel.TT:
+                    if (SdkManager.Instance.isDebugMode) watchFinishCallback(); else TTSdk.Instance.ShowVideoAd(watchFinishCallback, watchNotFinishCallback);
+                    break;
+  
+                case SdkChannel.WeiXinSdk:
+                    if (SdkManager.Instance.isDebugMode) watchFinishCallback(); else WeiXinSdk.Instance.ShowVideoAd(watchFinishCallback, watchNotFinishCallback);
+                    break;
+  
+                case SdkChannel.Android:
+                    SdkManager.watchFinishCallback = watchFinishCallback;
+                    SdkManager.watchNotFinishCallback = watchNotFinishCallback;
+                    SdkManager.Test.call("js2android", 99);
+                    break;
+  
+                default:
+                    break;
             }
         }
         moreGame() {
@@ -2664,138 +2664,138 @@
         StartRecordVideo() {
             if (SdkManager.Instance.isDebugMode) return;
             switch (this.sdkChannel) {
-              case SdkChannel.TT:
-                TTSdk.Instance.StartRecordVideo();
-                break;
-
-              default:
-                break;
+                case SdkChannel.TT:
+                    TTSdk.Instance.StartRecordVideo();
+                    break;
+  
+                default:
+                    break;
             }
         }
         StopRecordVideo() {
             if (SdkManager.Instance.isDebugMode) return;
             switch (this.sdkChannel) {
-              case SdkChannel.TT:
-                TTSdk.Instance.StopRecordVideo();
-                break;
-
-              default:
-                break;
+                case SdkChannel.TT:
+                    TTSdk.Instance.StopRecordVideo();
+                    break;
+  
+                default:
+                    break;
             }
         }
         StopRecordVideoNoTip() {
             if (SdkManager.Instance.isDebugMode) return;
             switch (this.sdkChannel) {
-              case SdkChannel.TT:
-                TTSdk.Instance.StopRecordNoTip();
-                break;
-
-              default:
-                break;
+                case SdkChannel.TT:
+                    TTSdk.Instance.StopRecordNoTip();
+                    break;
+  
+                default:
+                    break;
             }
         }
         ShareRecordVideo(shareSuccessCallBack, shareFailCallBack) {
             switch (this.sdkChannel) {
-              case SdkChannel.TT:
-                if (SdkManager.Instance.isDebugMode) {
-                    shareSuccessCallBack();
-                } else {
-                    TTSdk.Instance.ShareVideo(shareSuccessCallBack, shareFailCallBack);
-                }
-                break;
-
-              default:
-                break;
+                case SdkChannel.TT:
+                    if (SdkManager.Instance.isDebugMode) {
+                        shareSuccessCallBack();
+                    } else {
+                        TTSdk.Instance.ShareVideo(shareSuccessCallBack, shareFailCallBack);
+                    }
+                    break;
+  
+                default:
+                    break;
             }
         }
         ShakeDevice() {
             if (SdkManager.Instance.isDebugMode) return;
             switch (this.sdkChannel) {
-              case SdkChannel.TT:
-                TTSdk.Instance.ShakeDevice();
-                break;
-
-              case SdkChannel.WeiXinSdk:
-                WeiXinSdk.Instance.ShakeDevice();
-                break;
-
-              default:
-                break;
+                case SdkChannel.TT:
+                    TTSdk.Instance.ShakeDevice();
+                    break;
+  
+                case SdkChannel.WeiXinSdk:
+                    WeiXinSdk.Instance.ShakeDevice();
+                    break;
+  
+                default:
+                    break;
             }
         }
         ShareGameApp(shareAppSuccessCallBack, shareAppFailCallBack) {
             if (SdkManager.Instance.isDebugMode) return;
             switch (this.sdkChannel) {
-              case SdkChannel.TT:
-                TTSdk.Instance.ShareGame(shareAppSuccessCallBack, shareAppFailCallBack);
-                break;
-
-              default:
-                break;
+                case SdkChannel.TT:
+                    TTSdk.Instance.ShareGame(shareAppSuccessCallBack, shareAppFailCallBack);
+                    break;
+  
+                default:
+                    break;
             }
         }
         ShowInsertAd() {
             if (SdkManager.Instance.isDebugMode) return;
             switch (this.sdkChannel) {
-              case SdkChannel.TT:
-                TTSdk.Instance.ShowInsertAd();
-                break;
-
-              case SdkChannel.WeiXinSdk:
-                WeiXinSdk.Instance.ShowInsertAd();
-                break;
-
-              case SdkChannel.Android:
-                SdkManager.Test.call("js2android", 98);
-                break;
-
-              default:
-                break;
+                case SdkChannel.TT:
+                    TTSdk.Instance.ShowInsertAd();
+                    break;
+  
+                case SdkChannel.WeiXinSdk:
+                    WeiXinSdk.Instance.ShowInsertAd();
+                    break;
+  
+                case SdkChannel.Android:
+                    SdkManager.Test.call("js2android", 98);
+                    break;
+  
+                default:
+                    break;
             }
         }
         ShowNativeAd(clickBtnTxt, imgIcon, descTxt, imgLogo, adTitleTxt) {
             if (SdkManager.Instance.isDebugMode) return;
             switch (this.sdkChannel) {
-              default:
-                break;
+                default:
+                    break;
             }
         }
         OnNativeAdClicked() {
             if (SdkManager.Instance.isDebugMode) return;
             switch (this.sdkChannel) {
-              case SdkChannel.Android:
-                SdkManager.Test.call("js2android", 57);
-
-              default:
-                break;
+                case SdkChannel.Android:
+                    SdkManager.Test.call("js2android", 57);
+  
+                default:
+                    break;
             }
         }
         OnNativeAdCloseed() {
             if (SdkManager.Instance.isDebugMode) return;
             switch (this.sdkChannel) {
-              case SdkChannel.Android:
-                SdkManager.Test.call("js2android", 57);
-
-              default:
-                break;
+                case SdkChannel.Android:
+                    SdkManager.Test.call("js2android", 57);
+  
+                default:
+                    break;
             }
         }
         SelfClickOnTime() {
             if (SdkManager.Instance.isDebugMode) return;
             switch (this.sdkChannel) {
-              default:
-                break;
+                default:
+                    break;
             }
         }
         JumpToOtherGame(tAppId, imaPath, tleft, tTop, tWidth, tHeight) {
             if (SdkManager.Instance.isDebugMode) return;
             switch (this.sdkChannel) {
-              case SdkChannel.TT:
-                TTSdk.Instance.JumpToOtherGame(tAppId, imaPath, tleft, tTop, tWidth, tHeight);
-                break;
-
-              default:
-                break;
+                case SdkChannel.TT:
+                    TTSdk.Instance.JumpToOtherGame(tAppId, imaPath, tleft, tTop, tWidth, tHeight);
+                    break;
+  
+                default:
+                    break;
             }
         }
         ShowTTMoreGameBt() {
@@ -2806,93 +2806,93 @@
             if (SdkManager.Instance.isDebugMode) return;
             TTSdk.Instance.HideMoreGameBt();
         }
-        LoadSubPack(packName, cb = (() => {})) {
+        LoadSubPack(packName, cb = (() => { })) {
             if (this.isPCMode) {
                 cb();
                 return;
             }
             switch (this.sdkChannel) {
-              case SdkChannel.WeiXinSdk:
-                const loadTask = wx.loadSubpackage({
-                    name: packName,
-                    success: function(res) {
-                        console.log(res, "分包加载成功");
-                        cb();
-                    },
-                    fail: function(res) {
-                        console.log(res, "分包加载失败");
-                    }
-                });
-                loadTask.onProgressUpdate(res => {});
-                break;
-
-              case SdkChannel.Vivo:
-                break;
-
-              case SdkChannel.Oppo:
-                let subTask = qg.loadSubpackage({
-                    name: packName,
-                    success: function() {
-                        console.log(packName, "子包加载成功");
-                        cb();
-                    }
-                });
-                subTask.onProgressUpdate(function(res) {});
-                break;
-
-              case SdkChannel.Android:
-                cb();
-                break;
-
-              default:
-                break;
+                case SdkChannel.WeiXinSdk:
+                    const loadTask = wx.loadSubpackage({
+                        name: packName,
+                        success: function (res) {
+                            console.log(res, "分包加载成功");
+                            cb();
+                        },
+                        fail: function (res) {
+                            console.log(res, "分包加载失败");
+                        }
+                    });
+                    loadTask.onProgressUpdate(res => { });
+                    break;
+  
+                case SdkChannel.Vivo:
+                    break;
+  
+                case SdkChannel.Oppo:
+                    let subTask = qg.loadSubpackage({
+                        name: packName,
+                        success: function () {
+                            console.log(packName, "子包加载成功");
+                            cb();
+                        }
+                    });
+                    subTask.onProgressUpdate(function (res) { });
+                    break;
+  
+                case SdkChannel.Android:
+                    cb();
+                    break;
+  
+                default:
+                    break;
             }
         }
         ShowPYQ() {
             if (SdkManager.Instance.isDebugMode) return;
             switch (this.sdkChannel) {
-              case SdkChannel.WeiXinSdk:
-                WeiXinSdk.Instance.ShowPYQ();
-                break;
+                case SdkChannel.WeiXinSdk:
+                    WeiXinSdk.Instance.ShowPYQ();
+                    break;
             }
         }
         HidePYQ() {
             if (SdkManager.Instance.isDebugMode) return;
             switch (this.sdkChannel) {
-              case SdkChannel.WeiXinSdk:
-                WeiXinSdk.Instance.HidePYQ();
-                break;
+                case SdkChannel.WeiXinSdk:
+                    WeiXinSdk.Instance.HidePYQ();
+                    break;
             }
         }
         ShowCustomAd(adID, style) {
             if (SdkManager.Instance.isDebugMode) return;
             switch (this.sdkChannel) {
-              case SdkChannel.WeiXinSdk:
-                WeiXinSdk.Instance.ShowCustomAd(adID, style);
-                break;
+                case SdkChannel.WeiXinSdk:
+                    WeiXinSdk.Instance.ShowCustomAd(adID, style);
+                    break;
             }
         }
         HideCustomAd(adID) {
             if (SdkManager.Instance.isDebugMode) return;
             switch (this.sdkChannel) {
-              case SdkChannel.WeiXinSdk:
-                WeiXinSdk.Instance.HideCustomAd(adID);
-                break;
+                case SdkChannel.WeiXinSdk:
+                    WeiXinSdk.Instance.HideCustomAd(adID);
+                    break;
             }
         }
         DestCustom() {
             if (SdkManager.Instance.isDebugMode) return;
             switch (this.sdkChannel) {
-              case SdkChannel.WeiXinSdk:
-                WeiXinSdk.Instance.DestCustomAd();
-                break;
+                case SdkChannel.WeiXinSdk:
+                    WeiXinSdk.Instance.DestCustomAd();
+                    break;
             }
         }
-        Request(callback = (() => {})) {
+        Request(callback = (() => { })) {
             if (SdkManager.Instance.isDebugMode) return;
             switch (this.sdkChannel) {
-              case SdkChannel.WeiXinSdk:
-                return WeiXinSdk.Instance.Request(callback);
+                case SdkChannel.WeiXinSdk:
+                    return WeiXinSdk.Instance.Request(callback);
             }
         }
         GetSwitchData(str) {
@@ -2900,22 +2900,22 @@
                 return this._swdata.data[str];
             }
             switch (this.sdkChannel) {
-              case SdkChannel.WeiXinSdk:
-                return WeiXinSdk.Instance.GetSwitchData(str);
+                case SdkChannel.WeiXinSdk:
+                    return WeiXinSdk.Instance.GetSwitchData(str);
             }
         }
         GetSwitch() {
             if (SdkManager.Instance.isDebugMode) return;
             switch (this.sdkChannel) {
-              case SdkChannel.WeiXinSdk:
-                return WeiXinSdk.Instance.GetSwitch();
+                case SdkChannel.WeiXinSdk:
+                    return WeiXinSdk.Instance.GetSwitch();
             }
         }
-        Login(func = (err => {})) {
+        Login(func = (err => { })) {
             if (SdkManager.Instance.isDebugMode || SdkManager.Instance.isPCMode) return;
             switch (this.sdkChannel) {
-              case SdkChannel.WeiXinSdk:
-                return WeiXinSdk.Instance.Login(func);
+                case SdkChannel.WeiXinSdk:
+                    return WeiXinSdk.Instance.Login(func);
             }
         }
         GetLaunchOptionsSync() {
@@ -2936,7 +2936,7 @@
         Laya.Browser.window.SdkManager = SdkManager;
     }
     var CurrencyTypeEnum;
-    (function(CurrencyTypeEnum) {
+    (function (CurrencyTypeEnum) {
         CurrencyTypeEnum[CurrencyTypeEnum["Gold"] = 0] = "Gold";
         CurrencyTypeEnum[CurrencyTypeEnum["BlueDiamond"] = 1] = "BlueDiamond";
         CurrencyTypeEnum[CurrencyTypeEnum["RedDiamond"] = 2] = "RedDiamond";
@@ -2950,49 +2950,49 @@
         }
     }
     var ItemGetTypeEnum;
-    (function(ItemGetTypeEnum) {
+    (function (ItemGetTypeEnum) {
         ItemGetTypeEnum[ItemGetTypeEnum["Gold"] = 0] = "Gold";
         ItemGetTypeEnum[ItemGetTypeEnum["BlueDiamond"] = 1] = "BlueDiamond";
         ItemGetTypeEnum[ItemGetTypeEnum["RedDiamond"] = 2] = "RedDiamond";
         ItemGetTypeEnum[ItemGetTypeEnum["Weapon"] = 3] = "Weapon";
     })(ItemGetTypeEnum || (ItemGetTypeEnum = {}));
     var EquipShop;
-    (function(EquipShop) {
+    (function (EquipShop) {
         EquipShop[EquipShop["Buy"] = 0] = "Buy";
         EquipShop[EquipShop["Up"] = 1] = "Up";
         EquipShop[EquipShop["Viecle"] = 2] = "Viecle";
     })(EquipShop || (EquipShop = {}));
-    class UIDataMidLyaer {}
+    class UIDataMidLyaer { }
     UIDataMidLyaer.CurrencyCount = 0;
     UIDataMidLyaer.CurrencyType = CurrencyTypeEnum.Gold;
     UIDataMidLyaer.ItemGetCount = 0;
     UIDataMidLyaer.ItemGetType = ItemGetTypeEnum.Gold;
     UIDataMidLyaer.ItemGetEquipName = Std.WeaponName_None;
-    UIDataMidLyaer.ItemGetCb = (() => {});
+    UIDataMidLyaer.ItemGetCb = (() => { });
     UIDataMidLyaer.IsEquipShop_BuyEquip = EquipShop.Buy;
     UIDataMidLyaer.IsFirstTimeInBattleSelectEquipUI = false;
-    UIDataMidLyaer.WathAdCallback = (() => {});
-    UIDataMidLyaer.CancelCallback = (() => {});
+    UIDataMidLyaer.WathAdCallback = (() => { });
+    UIDataMidLyaer.CancelCallback = (() => { });
     UIDataMidLyaer.IsZombieModeWin = false;
     UIDataMidLyaer.YYModeSettlect = false;
-    UIDataMidLyaer.OpenTreasureChestCb = (() => {});
-    UIDataMidLyaer.OpenTreasureChestAgainCb = (() => {});
-    UIDataMidLyaer.CancelTreasureChestCb = (() => {});
+    UIDataMidLyaer.OpenTreasureChestCb = (() => { });
+    UIDataMidLyaer.OpenTreasureChestAgainCb = (() => { });
+    UIDataMidLyaer.CancelTreasureChestCb = (() => { });
     UIDataMidLyaer.Confirm_title = "";
     UIDataMidLyaer.Confirm_TxtData = "";
-    UIDataMidLyaer.Confirm_CancelCb = (() => {});
-    UIDataMidLyaer.Confirm_WatchAd = (() => {});
+    UIDataMidLyaer.Confirm_CancelCb = (() => { });
+    UIDataMidLyaer.Confirm_WatchAd = (() => { });
     UIDataMidLyaer.Confirm_QRbtn = false;
     UIDataMidLyaer.ConfirmPic_title = "";
     UIDataMidLyaer.ConfirmPic_pic = "";
     UIDataMidLyaer.ConfirmPic_TxtData = "";
-    UIDataMidLyaer.ConfirmPic_CancelCb = (() => {});
-    UIDataMidLyaer.ConfirmPic_WatchAd = (() => {});
+    UIDataMidLyaer.ConfirmPic_CancelCb = (() => { });
+    UIDataMidLyaer.ConfirmPic_WatchAd = (() => { });
     UIDataMidLyaer.TryUse_TxtData = Std.WeaponName_None;
     UIDataMidLyaer.TryUse_IsTryUsing = false;
     UIDataMidLyaer.TryUse_ShowTimes = 0;
-    UIDataMidLyaer.TryUse_CancelCb = (() => {});
-    UIDataMidLyaer.TryUse_WatchAd = (() => {});
+    UIDataMidLyaer.TryUse_CancelCb = (() => { });
+    UIDataMidLyaer.TryUse_WatchAd = (() => { });
     class SoundTool {
         static PlaySfx(sfxPath, volume) {
             let sc = Laya.SoundManager.playSound(sfxPath);
@@ -3228,8 +3228,8 @@
             return [];
         }
         GetWeaponPowerRecoilMagData(weaponName) {
-            if (weaponName == Std.WeaponName_None) return [ 0, 0, 0 ]; else if (weaponName == Std.WeaponName_Ak) return [ .5, .6, .3 ]; else if (weaponName == Std.WeaponName_M4) return [ .3, .4, .3 ]; else if (weaponName == Std.WeaponName_Acr) return [ .4, .5, .3 ]; else if (weaponName == Std.WeaponName_SgM870) return [ .8, .75, .15 ]; else if (weaponName == Std.WeaponName_SgSpas12) return [ .85, .8, .13 ]; else if (weaponName == Std.WeaponName_Sniper98k) return [ .7, .55, .2 ]; else if (weaponName == Std.WeaponName_SniperCheyTac) return [ .9, .7, .15 ]; else if (weaponName == Std.WeaponName_SniperM24) return [ .9, .75, .13 ]; else if (weaponName == Std.WeaponName_Revolver) return [ .7, .7, .2 ]; else if (weaponName == Std.WeaponName_Glock) return [ .15, .3, .3 ]; else if (weaponName == Std.WeaponName_M1911) return [ .1, .3, .4 ]; else if (weaponName == Std.WeaponName_SmgMp5) return [ .2, .24, .3 ]; else if (weaponName == Std.WeaponName_SmgTom) return [ .2, .3, .3 ]; else if (weaponName == Std.WeaponName_SmgUzi) return [ .25, .25, .3 ]; else if (weaponName == Std.WeaponName_Grenade) return [ .8, .1, .1 ]; else if (weaponName == Std.WeaponName_GrenadeBar) return [ .9, .1, .1 ]; else if (weaponName == Std.WeaponName_HpBox) return [ 0, 0, 0 ]; else if (weaponName == Std.WeaponName_AmmoBox) return [ 0, 0, 0 ]; else if (weaponName == Std.WeaponName_Rpg) return [ .88, .7, .1 ]; else if (weaponName == Std.WeaponName_FireGun) return [ .75, .75, .6 ]; else if (weaponName == Std.WeaponName_GLGun) return [ .85, .6, .2 ]; else if (weaponName == Std.WeaponName_LMG) return [ .66, .6, .9 ]; else if (weaponName == Std.WeaponName_Rocket) return [ .8, .3, .1 ]; else if (weaponName == Std.WeaponName_ViecleTanK) return [ .8, .8, .3 ]; else if (weaponName == Std.WeaponName_ViecleAirPlane) return [ .6, .7, .4 ];
-            return [ 0, 0, 0 ];
+            if (weaponName == Std.WeaponName_None) return [0, 0, 0]; else if (weaponName == Std.WeaponName_Ak) return [.5, .6, .3]; else if (weaponName == Std.WeaponName_M4) return [.3, .4, .3]; else if (weaponName == Std.WeaponName_Acr) return [.4, .5, .3]; else if (weaponName == Std.WeaponName_SgM870) return [.8, .75, .15]; else if (weaponName == Std.WeaponName_SgSpas12) return [.85, .8, .13]; else if (weaponName == Std.WeaponName_Sniper98k) return [.7, .55, .2]; else if (weaponName == Std.WeaponName_SniperCheyTac) return [.9, .7, .15]; else if (weaponName == Std.WeaponName_SniperM24) return [.9, .75, .13]; else if (weaponName == Std.WeaponName_Revolver) return [.7, .7, .2]; else if (weaponName == Std.WeaponName_Glock) return [.15, .3, .3]; else if (weaponName == Std.WeaponName_M1911) return [.1, .3, .4]; else if (weaponName == Std.WeaponName_SmgMp5) return [.2, .24, .3]; else if (weaponName == Std.WeaponName_SmgTom) return [.2, .3, .3]; else if (weaponName == Std.WeaponName_SmgUzi) return [.25, .25, .3]; else if (weaponName == Std.WeaponName_Grenade) return [.8, .1, .1]; else if (weaponName == Std.WeaponName_GrenadeBar) return [.9, .1, .1]; else if (weaponName == Std.WeaponName_HpBox) return [0, 0, 0]; else if (weaponName == Std.WeaponName_AmmoBox) return [0, 0, 0]; else if (weaponName == Std.WeaponName_Rpg) return [.88, .7, .1]; else if (weaponName == Std.WeaponName_FireGun) return [.75, .75, .6]; else if (weaponName == Std.WeaponName_GLGun) return [.85, .6, .2]; else if (weaponName == Std.WeaponName_LMG) return [.66, .6, .9]; else if (weaponName == Std.WeaponName_Rocket) return [.8, .3, .1]; else if (weaponName == Std.WeaponName_ViecleTanK) return [.8, .8, .3]; else if (weaponName == Std.WeaponName_ViecleAirPlane) return [.6, .7, .4];
+            return [0, 0, 0];
         }
         GetWepaonPriceByName(weaponName) {
             if (weaponName == Std.WeaponName_None) return 0; else if (weaponName == Std.WeaponName_Ak) return 0; else if (weaponName == Std.WeaponName_M4) return 1500; else if (weaponName == Std.WeaponName_Acr) return 1700; else if (weaponName == Std.WeaponName_SgM870) return 1400; else if (weaponName == Std.WeaponName_SgSpas12) return 1800; else if (weaponName == Std.WeaponName_Sniper98k) return 2e3; else if (weaponName == Std.WeaponName_SniperCheyTac) return 2500; else if (weaponName == Std.WeaponName_SniperM24) return 2200; else if (weaponName == Std.WeaponName_Revolver) return 1900; else if (weaponName == Std.WeaponName_Glock) return 900; else if (weaponName == Std.WeaponName_M1911) return 800; else if (weaponName == Std.WeaponName_SmgMp5) return 1300; else if (weaponName == Std.WeaponName_SmgTom) return 1300; else if (weaponName == Std.WeaponName_SmgUzi) return 1100; else if (weaponName == Std.WeaponName_Grenade) return 1200; else if (weaponName == Std.WeaponName_GrenadeBar) return 1300; else if (weaponName == Std.WeaponName_HpBox) return 2e3; else if (weaponName == Std.WeaponName_AmmoBox) return 2e3; else if (weaponName == Std.WeaponName_Rpg) return 2200; else if (weaponName == Std.WeaponName_FireGun) return 3e3; else if (weaponName == Std.WeaponName_GLGun) return 3e3; else if (weaponName == Std.WeaponName_LMG) return 3e3; else if (weaponName == Std.WeaponName_Rocket) return 2500;
@@ -3302,25 +3302,25 @@
         }
     }
     var GameLevelMode;
-    (function(GameLevelMode) {
+    (function (GameLevelMode) {
         GameLevelMode[GameLevelMode["NormalBattleMode"] = 0] = "NormalBattleMode";
         GameLevelMode[GameLevelMode["ZombieMode"] = 1] = "ZombieMode";
         GameLevelMode[GameLevelMode["YouYu"] = 2] = "YouYu";
     })(GameLevelMode || (GameLevelMode = {}));
     var GameYYMode;
-    (function(GameYYMode) {
+    (function (GameYYMode) {
         GameYYMode[GameYYMode["None"] = 0] = "None";
         GameYYMode[GameYYMode["MTR"] = 1] = "MTR";
         GameYYMode[GameYYMode["BLQ"] = 2] = "BLQ";
         GameYYMode[GameYYMode["HTB"] = 3] = "HTB";
     })(GameYYMode || (GameYYMode = {}));
     var BattleTeamEnum;
-    (function(BattleTeamEnum) {
+    (function (BattleTeamEnum) {
         BattleTeamEnum[BattleTeamEnum["Blue"] = 0] = "Blue";
         BattleTeamEnum[BattleTeamEnum["Red"] = 1] = "Red";
     })(BattleTeamEnum || (BattleTeamEnum = {}));
     var BattleModeMapEnum;
-    (function(BattleModeMapEnum) {
+    (function (BattleModeMapEnum) {
         BattleModeMapEnum[BattleModeMapEnum["AircraftCarrier"] = 0] = "AircraftCarrier";
         BattleModeMapEnum[BattleModeMapEnum["GameMainSc_Lake"] = 1] = "GameMainSc_Lake";
         BattleModeMapEnum[BattleModeMapEnum["GameMainSc_Port"] = 2] = "GameMainSc_Port";
@@ -3828,9 +3828,9 @@
                         var responseJson = JSON.parse(response);
                         if (responseJson.code == 200) {
                             console.log(JSON.stringify(responseJson));
-                        } else {}
-                    } else {}
-                } else {}
+                        } else { }
+                    } else { }
+                } else { }
             });
             let param = "";
             for (let key in data) {
@@ -3915,7 +3915,7 @@
             console.log(`当前游戏的场景：${SdkManager.Instance.getSceneID()}`);
             MyAjax.GameTimeData(30, SdkManager.Instance.getSceneID());
         }
-        onDestroy() {}
+        onDestroy() { }
         onUpdate() {
             this.gameTime = this.gameTime + Tool.DeltaTime();
             this.time += Laya.timer.delta;
@@ -4088,8 +4088,8 @@
                 console.log("可控对象:", key);
             }
         }
-        onDestroy() {}
-        onDisable() {}
+        onDestroy() { }
+        onDisable() { }
     }
     class TryUseWeaponPanel extends Lq_UIBase {
         constructor() {
@@ -4163,8 +4163,8 @@
                 width: 72
             });
             SdkManager.Instance.ShowCustomAd("2", {
-                left: Laya.Browser.clientWidth - 72 - 40 * Std.UI_ad_cTopx,
-                top: 80 * Std.UI_ad_cTopx,
+                left: Laya.Browser.clientWidth - 72,
+                top: 100,
                 width: 72
             });
             if (SdkManager.Instance.GetSwitchData("p5") <= 0) return;
@@ -4214,26 +4214,26 @@
         static ShowSmallItemGetTip(count, type) {
             UIDataMidLyaer.CurrencyCount = count;
             UIDataMidLyaer.CurrencyType = type;
-            UIMgr.Instance.OpenUI(SmallItemGetTipPanel, () => {}, SceneMgr.Instance.GetCurSc2D(), false);
+            UIMgr.Instance.OpenUI(SmallItemGetTipPanel, () => { }, SceneMgr.Instance.GetCurSc2D(), false);
         }
         static ShowSmallItemGetTipToStage(count, type) {
             UIDataMidLyaer.CurrencyCount = count;
             UIDataMidLyaer.CurrencyType = type;
-            UIMgr.Instance.OpenUI(SmallItemGetTipPanel, () => {}, Laya.stage, false);
+            UIMgr.Instance.OpenUI(SmallItemGetTipPanel, () => { }, Laya.stage, false);
         }
-        static ShowGetItemPanel(count, type, cb = (() => {}), equipName = Std.WeaponName_None) {
+        static ShowGetItemPanel(count, type, cb = (() => { }), equipName = Std.WeaponName_None) {
             UIDataMidLyaer.ItemGetType = type;
             UIDataMidLyaer.ItemGetCount = count;
             UIDataMidLyaer.ItemGetCb = cb;
             UIDataMidLyaer.ItemGetEquipName = equipName;
             UIMgr.Instance.OpenUI(AwardDeliveryPanel);
         }
-        static ShowZombieRecoverPanel(watchAdCb = (() => {}), cancelCb = (() => {})) {
+        static ShowZombieRecoverPanel(watchAdCb = (() => { }), cancelCb = (() => { })) {
             UIDataMidLyaer.WathAdCallback = watchAdCb;
             UIDataMidLyaer.CancelCallback = cancelCb;
             UIMgr.Instance.OpenUI(WatchAdTipPanel);
         }
-        static ShowConfirmPanel(title, content, watchAdCb = (() => {}), cancelCb = (() => {}), qrbool = false) {
+        static ShowConfirmPanel(title, content, watchAdCb = (() => { }), cancelCb = (() => { }), qrbool = false) {
             UIDataMidLyaer.Confirm_title = title;
             UIDataMidLyaer.Confirm_TxtData = content;
             UIDataMidLyaer.Confirm_CancelCb = cancelCb;
@@ -4241,7 +4241,7 @@
             UIDataMidLyaer.Confirm_QRbtn = qrbool;
             UIMgr.Instance.OpenUI(ConfirmPanel);
         }
-        static ShowConfirmPicPanel(title, content, pic, watchAdCb = (() => {}), cancelCb = (() => {})) {
+        static ShowConfirmPicPanel(title, content, pic, watchAdCb = (() => { }), cancelCb = (() => { })) {
             UIDataMidLyaer.ConfirmPic_title = title;
             UIDataMidLyaer.ConfirmPic_TxtData = content;
             UIDataMidLyaer.ConfirmPic_pic = pic;
@@ -4249,7 +4249,7 @@
             UIDataMidLyaer.ConfirmPic_WatchAd = watchAdCb;
             UIMgr.Instance.OpenUI(ConfirmPicPanel);
         }
-        static ShowTryUsePanel(content, watchAdCb = (() => {}), cancelCb = (() => {})) {
+        static ShowTryUsePanel(content, watchAdCb = (() => { }), cancelCb = (() => { })) {
             UIDataMidLyaer.TryUse_TxtData = content;
             UIDataMidLyaer.TryUse_CancelCb = cancelCb;
             UIDataMidLyaer.TryUse_WatchAd = watchAdCb;
@@ -4320,19 +4320,19 @@
     }
     var Sprite3D = Laya.Sprite3D;
     var AITeamEnum;
-    (function(AITeamEnum) {
+    (function (AITeamEnum) {
         AITeamEnum[AITeamEnum["Nome"] = 0] = "Nome";
         AITeamEnum[AITeamEnum["PlayerTeam"] = 1] = "PlayerTeam";
         AITeamEnum[AITeamEnum["EnemyTeam"] = 2] = "EnemyTeam";
     })(AITeamEnum || (AITeamEnum = {}));
     var AIDamageSource;
-    (function(AIDamageSource) {
+    (function (AIDamageSource) {
         AIDamageSource[AIDamageSource["Player"] = 0] = "Player";
         AIDamageSource[AIDamageSource["PlayerTeammate"] = 1] = "PlayerTeammate";
         AIDamageSource[AIDamageSource["DieCol"] = 2] = "DieCol";
     })(AIDamageSource || (AIDamageSource = {}));
     var AITypeEnum;
-    (function(AITypeEnum) {
+    (function (AITypeEnum) {
         AITypeEnum[AITypeEnum["NormalHumanType"] = 0] = "NormalHumanType";
         AITypeEnum[AITypeEnum["ZombieType"] = 1] = "ZombieType";
         AITypeEnum[AITypeEnum["ViecleType"] = 2] = "ViecleType";
@@ -4769,7 +4769,7 @@
                 });
             }
         }
-        InsFireBullet() {}
+        InsFireBullet() { }
         SetAIDifficulty() {
             let diff = GameLevelMgr.Instance.GetAiDifficulty();
             if (diff == 1) {
@@ -4881,7 +4881,7 @@
             if (playerSkinSp3d) {
                 let randIdx = Tool.RandomInt(3);
                 let skinPath = "res/Textures/ZombieSkins/zombieSkin" + randIdx + ".png";
-                Laya.Texture2D.load(skinPath, Laya.Handler.create(this, function(tex) {
+                Laya.Texture2D.load(skinPath, Laya.Handler.create(this, function (tex) {
                     let mat;
                     mat = new Laya.PBRStandardMaterial();
                     mat.albedoTexture = tex;
@@ -5007,7 +5007,7 @@
             this.num2 = this.numsp.meshRenderer.materials[3];
             this.num3 = this.numsp.meshRenderer.materials[1];
         }
-        GameStart() {}
+        GameStart() { }
         GameEnd() {
             this.isMatchOver = true;
             this.canMove = false;
@@ -5036,7 +5036,7 @@
                 }
             }
         }
-        InitAIYY(maxHp, moveSpeed, num) {}
+        InitAIYY(maxHp, moveSpeed, num) { }
         BeHit(damage, damageSource) {
             if (this.curHp <= 0) {
                 return;
@@ -5266,57 +5266,57 @@
             if (this.targetStr == "Zero" || this.curHp <= 0) return;
             let speed = 0;
             switch (this.targetStr) {
-              case "":
-                this.canMove = true;
-                this.targetStr = "Start";
-                this.anmt.crossFade(EnemyAni.YYWalk, 0);
-                this.targetSp3d = this.GameRoutePosArr_Node.getChildByName(this.targetStr).transform.position.clone();
-                this.tempSpeednum = .0015;
-                break;
-
-              case "End":
-                this.canMove = true;
-                this.targetStr = "Zero";
-                this.anmt.crossFade(EnemyAni.YYWalk, .1);
-                this.targetSp3d = this.GameEndPos_Sprite3D.transform.position;
-                this.tempSpeednum = .0015;
-                break;
-
-              case "Start":
-                let route = Math.random() >= .5 ? 1 : 0;
-                this.BLRoute += 1;
-                this.targetStr = "BL" + route;
-                this.anmt.crossFade(EnemyAni.YYJump, .1);
-                this.targetSp3d = this.GameRoutePosArr_Node.getChildByName(this.targetStr).transform.position.clone();
-                speed = Tool.DisV3(this.tran.position, this.targetSp3d);
-                this.tempSpeednum = speed * .0017;
-                break;
-
-              case "BL18":
-                this.targetStr = "End";
-                this.anmt.crossFade(EnemyAni.YYJump, .1);
-                this.targetSp3d = this.GameRoutePosArr_Node.getChildByName(this.targetStr).transform.position.clone();
-                speed = Tool.DisV3(this.tran.position, this.targetSp3d);
-                this.tempSpeednum = speed * .0017;
-                break;
-
-              case "BL19":
-                this.targetStr = "End";
-                this.anmt.crossFade(EnemyAni.YYJump, .1);
-                this.targetSp3d = this.GameRoutePosArr_Node.getChildByName(this.targetStr).transform.position.clone();
-                speed = Tool.DisV3(this.tran.position, this.targetSp3d);
-                this.tempSpeednum = speed * .0017;
-                break;
-
-              default:
-                let routes = this.BLRoute * 2 + (Math.random() >= .5 ? 1 : 0);
-                this.BLRoute += 1;
-                this.targetStr = "BL" + routes;
-                this.anmt.crossFade(EnemyAni.YYJump, .1);
-                this.targetSp3d = this.GameRoutePosArr_Node.getChildByName(this.targetStr).transform.position.clone();
-                speed = Tool.DisV3(this.tran.position, this.targetSp3d);
-                this.tempSpeednum = speed * .0017;
-                break;
+                case "":
+                    this.canMove = true;
+                    this.targetStr = "Start";
+                    this.anmt.crossFade(EnemyAni.YYWalk, 0);
+                    this.targetSp3d = this.GameRoutePosArr_Node.getChildByName(this.targetStr).transform.position.clone();
+                    this.tempSpeednum = .0015;
+                    break;
+  
+                case "End":
+                    this.canMove = true;
+                    this.targetStr = "Zero";
+                    this.anmt.crossFade(EnemyAni.YYWalk, .1);
+                    this.targetSp3d = this.GameEndPos_Sprite3D.transform.position;
+                    this.tempSpeednum = .0015;
+                    break;
+  
+                case "Start":
+                    let route = Math.random() >= .5 ? 1 : 0;
+                    this.BLRoute += 1;
+                    this.targetStr = "BL" + route;
+                    this.anmt.crossFade(EnemyAni.YYJump, .1);
+                    this.targetSp3d = this.GameRoutePosArr_Node.getChildByName(this.targetStr).transform.position.clone();
+                    speed = Tool.DisV3(this.tran.position, this.targetSp3d);
+                    this.tempSpeednum = speed * .0017;
+                    break;
+  
+                case "BL18":
+                    this.targetStr = "End";
+                    this.anmt.crossFade(EnemyAni.YYJump, .1);
+                    this.targetSp3d = this.GameRoutePosArr_Node.getChildByName(this.targetStr).transform.position.clone();
+                    speed = Tool.DisV3(this.tran.position, this.targetSp3d);
+                    this.tempSpeednum = speed * .0017;
+                    break;
+  
+                case "BL19":
+                    this.targetStr = "End";
+                    this.anmt.crossFade(EnemyAni.YYJump, .1);
+                    this.targetSp3d = this.GameRoutePosArr_Node.getChildByName(this.targetStr).transform.position.clone();
+                    speed = Tool.DisV3(this.tran.position, this.targetSp3d);
+                    this.tempSpeednum = speed * .0017;
+                    break;
+  
+                default:
+                    let routes = this.BLRoute * 2 + (Math.random() >= .5 ? 1 : 0);
+                    this.BLRoute += 1;
+                    this.targetStr = "BL" + routes;
+                    this.anmt.crossFade(EnemyAni.YYJump, .1);
+                    this.targetSp3d = this.GameRoutePosArr_Node.getChildByName(this.targetStr).transform.position.clone();
+                    speed = Tool.DisV3(this.tran.position, this.targetSp3d);
+                    this.tempSpeednum = speed * .0017;
+                    break;
             }
             this.tran.lookAt(this.targetSp3d, Tool.V3(0, 1, 0));
             this.tran.rotate(new Laya.Vector3(0, 180, 0), false, false);
@@ -5334,21 +5334,21 @@
             if (Tool.DisV3(this.tran.position, this.targetSp3d) <= .1) {
                 this.tran.position = this.targetSp3d.clone();
                 switch (this.targetStr) {
-                  case "End":
-                    this.AllotRoute();
-                    break;
-
-                  case "Zero":
-                    this.canMove = false;
-                    this.col.enabled = false;
-                    this.anmt.crossFade(EnemyAni.YYWin, 0);
-                    this.anmt.speed = 1;
-                    break;
-
-                  default:
-                    this.canMove = false;
-                    this.AllotRoute();
-                    break;
+                    case "End":
+                        this.AllotRoute();
+                        break;
+  
+                    case "Zero":
+                        this.canMove = false;
+                        this.col.enabled = false;
+                        this.anmt.crossFade(EnemyAni.YYWin, 0);
+                        this.anmt.speed = 1;
+                        break;
+  
+                    default:
+                        this.canMove = false;
+                        this.AllotRoute();
+                        break;
                 }
             }
         }
@@ -5411,7 +5411,7 @@
             } else if (team == BattleTeamEnum.Red) {
                 skinPath = "res/Textures/AISkins/redTeamSkin.png";
             }
-            Laya.Texture2D.load(skinPath, Laya.Handler.create(this, function(tex) {
+            Laya.Texture2D.load(skinPath, Laya.Handler.create(this, function (tex) {
                 let mat;
                 mat = new Laya.PBRStandardMaterial();
                 mat.albedoTexture = tex;
@@ -5549,7 +5549,7 @@
             for (let index = 1; index <= num; index++) {
                 tempArray.push(index);
             }
-            tempArray.sort(function() {
+            tempArray.sort(function () {
                 return .5 - Math.random();
             });
             this.numBu = new Array(30);
@@ -5578,7 +5578,7 @@
             }
             let spawnPosRoot = sc3d.getChildByName(Std.GameSc3dItem_YouyuModePos);
             if (!spawnPosRoot) return;
-            this.numBu = [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ];
+            this.numBu = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
             for (let index = 0; index < 10; index++) {
                 if (GameLevelMgr.Instance.BLQiaoRandomPos == index) continue;
                 ResMgr.Instance.LoadSp3d(Std.Prefab_AIYY, this, sp3d => {
@@ -5593,7 +5593,7 @@
         }
     }
     var DailyMissionTypeEnum;
-    (function(DailyMissionTypeEnum) {
+    (function (DailyMissionTypeEnum) {
         DailyMissionTypeEnum[DailyMissionTypeEnum["TotalKill100Enemy"] = 0] = "TotalKill100Enemy";
         DailyMissionTypeEnum[DailyMissionTypeEnum["Kill20EnemyInOne"] = 1] = "Kill20EnemyInOne";
         DailyMissionTypeEnum[DailyMissionTypeEnum["Play2BattleMatch"] = 2] = "Play2BattleMatch";
@@ -5607,7 +5607,7 @@
         constructor() {
             super();
             this.randFiveMissionArray = [];
-            this.allMissionArray = [ DailyMissionTypeEnum.Kill20EnemyInOne, DailyMissionTypeEnum.Play2BattleMatch, DailyMissionTypeEnum.Play2ZombieMatch, DailyMissionTypeEnum.Take10HeadShot, DailyMissionTypeEnum.TotalKill100Enemy, DailyMissionTypeEnum.TotalKill100Zombie, DailyMissionTypeEnum.UpdateOnceEquip, DailyMissionTypeEnum.Win5BattleMatch ];
+            this.allMissionArray = [DailyMissionTypeEnum.Kill20EnemyInOne, DailyMissionTypeEnum.Play2BattleMatch, DailyMissionTypeEnum.Play2ZombieMatch, DailyMissionTypeEnum.Take10HeadShot, DailyMissionTypeEnum.TotalKill100Enemy, DailyMissionTypeEnum.TotalKill100Zombie, DailyMissionTypeEnum.UpdateOnceEquip, DailyMissionTypeEnum.Win5BattleMatch];
             this.TotalKill100Enemy_Key = "TotalKill100Enemy_Key";
             this.Kill20EnemyInOne_Key = "Kill20EnemyInOne_Key";
             this.Play2BattleMatch_Key = "Play2BattleMatch_Key";
@@ -5629,9 +5629,9 @@
             this.dailyMisssion3_Key = "dailyMisssion3_Key";
             this.dailyMisssion4_Key = "dailyMisssion4_Key";
             this.dailyMisssion5_Key = "dailyMisssion5_Key";
-            this.missionProgressKeyArray = [ this.TotalKill100Enemy_Key, this.Kill20EnemyInOne_Key, this.Play2BattleMatch_Key, this.Play2ZombieMatch_Key, this.Win5BattleMatch_Key, this.TotalKill100Zombie_Key, this.UpdateOnceEquip_Key, this.Take10HeadShot_Key ];
-            this.missionClaimKeyArray = [ this.HsaClaim_TotalKill100Enemy_Key, this.HsaClaim_Kill20EnemyInOne_Key, this.HsaClaim_Play2BattleMatch_Key, this.HsaClaim_Play2ZombieMatch_Key, this.HsaClaim_Win5BattleMatch_Key, this.HsaClaim_TotalKill100Zombie_Key, this.HsaClaim_UpdateOnceEquip_Key, this.HsaClaim_Take10HeadShot_Key ];
-            this.missionSaveKeyArray = [ this.dailyMisssion1_Key, this.dailyMisssion2_Key, this.dailyMisssion3_Key, this.dailyMisssion4_Key, this.dailyMisssion5_Key ];
+            this.missionProgressKeyArray = [this.TotalKill100Enemy_Key, this.Kill20EnemyInOne_Key, this.Play2BattleMatch_Key, this.Play2ZombieMatch_Key, this.Win5BattleMatch_Key, this.TotalKill100Zombie_Key, this.UpdateOnceEquip_Key, this.Take10HeadShot_Key];
+            this.missionClaimKeyArray = [this.HsaClaim_TotalKill100Enemy_Key, this.HsaClaim_Kill20EnemyInOne_Key, this.HsaClaim_Play2BattleMatch_Key, this.HsaClaim_Play2ZombieMatch_Key, this.HsaClaim_Win5BattleMatch_Key, this.HsaClaim_TotalKill100Zombie_Key, this.HsaClaim_UpdateOnceEquip_Key, this.HsaClaim_Take10HeadShot_Key];
+            this.missionSaveKeyArray = [this.dailyMisssion1_Key, this.dailyMisssion2_Key, this.dailyMisssion3_Key, this.dailyMisssion4_Key, this.dailyMisssion5_Key];
             DailyMissionMgr.Instance = this;
         }
         onAwake() {
@@ -5875,7 +5875,7 @@
             return this.playerArnBlueMat;
         }
         SetPlayerArnBlueMat() {
-            Laya.Texture2D.load(this.blueArmPath, Laya.Handler.create(this, function(tex) {
+            Laya.Texture2D.load(this.blueArmPath, Laya.Handler.create(this, function (tex) {
                 let mat;
                 mat = new Laya.PBRStandardMaterial();
                 mat.albedoTexture = tex;
@@ -5888,7 +5888,7 @@
             return this.playerArnRedMat;
         }
         SetPlayerArnRedMat() {
-            Laya.Texture2D.load(this.redArmPath, Laya.Handler.create(this, function(tex) {
+            Laya.Texture2D.load(this.redArmPath, Laya.Handler.create(this, function (tex) {
                 let mat;
                 mat = new Laya.PBRStandardMaterial();
                 mat.albedoTexture = tex;
@@ -5901,7 +5901,7 @@
             return this.playerArmYouYu;
         }
         SetPlayerArmYouYuMat() {
-            Laya.Texture2D.load(this.youYuArmPath, Laya.Handler.create(this, function(tex) {
+            Laya.Texture2D.load(this.youYuArmPath, Laya.Handler.create(this, function (tex) {
                 let mat;
                 mat = new Laya.PBRStandardMaterial();
                 mat.albedoTexture = tex;
@@ -5960,7 +5960,7 @@
             bloom.color = new Laya.Color(231 / 255, 143 / 255, 10 / 255, 1);
             bloom.fastMode = true;
             camera.enableHDR = false;
-            Laya.Texture2D.load(dirtyPicPath, Laya.Handler.create(caller, function(tex) {
+            Laya.Texture2D.load(dirtyPicPath, Laya.Handler.create(caller, function (tex) {
                 bloom.dirtTexture = tex;
                 bloom.dirtIntensity = 2;
             }));
@@ -5992,7 +5992,7 @@
         }
     }
     var WeaponTypeEnum;
-    (function(WeaponTypeEnum) {
+    (function (WeaponTypeEnum) {
         WeaponTypeEnum[WeaponTypeEnum["None"] = 0] = "None";
         WeaponTypeEnum[WeaponTypeEnum["Pistol"] = 1] = "Pistol";
         WeaponTypeEnum[WeaponTypeEnum["Smg"] = 2] = "Smg";
@@ -6004,7 +6004,7 @@
         WeaponTypeEnum[WeaponTypeEnum["ShotGun"] = 8] = "ShotGun";
     })(WeaponTypeEnum || (WeaponTypeEnum = {}));
     var WeaponFireModeEnum;
-    (function(WeaponFireModeEnum) {
+    (function (WeaponFireModeEnum) {
         WeaponFireModeEnum[WeaponFireModeEnum["SingleMode"] = 0] = "SingleMode";
         WeaponFireModeEnum[WeaponFireModeEnum["AutoMode"] = 1] = "AutoMode";
     })(WeaponFireModeEnum || (WeaponFireModeEnum = {}));
@@ -6030,7 +6030,7 @@
             this.weaponTypeEnum = WeaponTypeEnum.None;
             this.weaponFireModeEnum = WeaponFireModeEnum.AutoMode;
             this.aimPos = new Laya.Vector3();
-            this.reloadFinishCb = (() => {});
+            this.reloadFinishCb = (() => { });
         }
         onAwake() {
             Dispatcher.AddListener(EventType.OnWeaponSingleFire, this, this.FireLogic);
@@ -6414,7 +6414,7 @@
         onAwake() {
             this.InitPlayerData();
         }
-        onDestroy() {}
+        onDestroy() { }
         GetPlayerData() {
             return this.playerLocalData;
         }
@@ -7097,25 +7097,25 @@
                 });
             } else {
                 switch (weaponIdx) {
-                  case 1:
-                    this.weapon1Parent.active = false;
-                    break;
-
-                  case 2:
-                    this.weapon2Parent.active = false;
-                    break;
-
-                  case 3:
-                    this.weapon3Parent.active = false;
-                    break;
-
-                  case 4:
-                    this.weapon4Parent.active = false;
-                    break;
-
-                  default:
-                    console.log("Weaponbug");
-                    break;
+                    case 1:
+                        this.weapon1Parent.active = false;
+                        break;
+  
+                    case 2:
+                        this.weapon2Parent.active = false;
+                        break;
+  
+                    case 3:
+                        this.weapon3Parent.active = false;
+                        break;
+  
+                    case 4:
+                        this.weapon4Parent.active = false;
+                        break;
+  
+                    default:
+                        console.log("Weaponbug");
+                        break;
                 }
             }
         }
@@ -7297,7 +7297,7 @@
             this.isPlayingAimAnm = false;
             this.isMatchOver = false;
             this.canSelfKill = true;
-            this.soundPathArray = [ "res/Sounds/fs1.mp3", "res/Sounds/fs2.mp3", "res/Sounds/fs3.mp3", "res/Sounds/fs4.mp3" ];
+            this.soundPathArray = ["res/Sounds/fs1.mp3", "res/Sounds/fs2.mp3", "res/Sounds/fs3.mp3", "res/Sounds/fs4.mp3"];
             this.GuoGuan = false;
         }
         onAwake() {
@@ -7688,8 +7688,8 @@
         constructor() {
             super();
             this.guideStep = 0;
-            this.guideOverCb = (() => {});
-            this.guideSteps = [ {
+            this.guideOverCb = (() => { });
+            this.guideSteps = [{
                 x: 363.5,
                 y: 317,
                 radius: 80,
@@ -7697,14 +7697,14 @@
                 tipx: 200,
                 tipy: 250,
                 tipStr: ""
-            } ];
+            }];
             GuideMgr.Instance = this;
         }
         onAwake() {
             this.Init();
             this.HideGudie();
         }
-        InitDataAndShowGuide(guideSteps, guideOverCb = (() => {})) {
+        InitDataAndShowGuide(guideSteps, guideOverCb = (() => { })) {
             if (!GuideMgr.JoinGuide) {
                 guideOverCb();
                 return;
@@ -7892,20 +7892,20 @@
         onEnable() {
             this.gameEndData = GameLevelMgr.Instance.GetGameEndData();
             switch (this.gameEndData.gameMode) {
-              case 0:
-                this.GetObj("img_icon").skin = this.gameEndData.gameWin ? "GameOver/BattleMode_Red.png" : "GameOver/BattleMode_Blue.png";
-                this.GetObj("img_pic").skin = this.gameEndData.gameWin ? "GameOver/BattleRed.png" : "GameOver/BattleBule.png";
-                break;
-
-              case 1:
-                this.GetObj("img_icon").skin = this.gameEndData.gameWin ? "GameOver/ZombieMode_true.png" : "GameOver/ZombieMode_false.png";
-                this.GetObj("img_pic").skin = "GameOver/Zombie.png";
-                break;
-
-              case 2:
-                this.GetObj("img_icon").skin = this.gameEndData.gameWin ? "GameOver/YYMode_true.png" : "GameOver/YYMode_false.png";
-                this.GetObj("img_pic").skin = "GameOver/YY.png";
-                break;
+                case 0:
+                    this.GetObj("img_icon").skin = this.gameEndData.gameWin ? "GameOver/BattleMode_Red.png" : "GameOver/BattleMode_Blue.png";
+                    this.GetObj("img_pic").skin = this.gameEndData.gameWin ? "GameOver/BattleRed.png" : "GameOver/BattleBule.png";
+                    break;
+  
+                case 1:
+                    this.GetObj("img_icon").skin = this.gameEndData.gameWin ? "GameOver/ZombieMode_true.png" : "GameOver/ZombieMode_false.png";
+                    this.GetObj("img_pic").skin = "GameOver/Zombie.png";
+                    break;
+  
+                case 2:
+                    this.GetObj("img_icon").skin = this.gameEndData.gameWin ? "GameOver/YYMode_true.png" : "GameOver/YYMode_false.png";
+                    this.GetObj("img_pic").skin = "GameOver/YY.png";
+                    break;
             }
             this.GetObj("txt_battleTime").text = "" + this.gameEndData.battleTime;
             this.GetObj("txt_killCount").text = "" + this.gameEndData.killCount;
@@ -7916,7 +7916,7 @@
             this.GetObj("txt_cupCount").text = "+" + this.gameEndData.cupCount;
             SdkManager.Instance.ShowBanner("left");
             UIMgr.Instance.OpenUI(RewardsPanel);
-            
+  
         }
         GiveAward(is5Ad) {
             let goldCount = this.gameEndData.goldCount * is5Ad;
@@ -8012,7 +8012,7 @@
             this.curHomeHp = 10;
             this.curZombieWave = 0;
             this.curWaveNeedKillCount = 0;
-            this.constCurWaveNeedKillCountArray = [ 8, 10, 14, 16, 18, 20 ];
+            this.constCurWaveNeedKillCountArray = [8, 10, 14, 16, 18, 20];
             this.perWaveDalay = 15e3;
             this.nextWaveCountTimer = 15;
             this.waveTimer = 0;
@@ -8053,7 +8053,7 @@
             if (DataTool.GetInt(Std.Guide_HasLearn_ZombieMode) == 0) {
                 this.imgPlayerCtlBg.visible = false;
                 this.imgCrossHairBg.visible = false;
-                GuideMgr.Instance.InitDataAndShowGuide([ {
+                GuideMgr.Instance.InitDataAndShowGuide([{
                     x: Laya.stage.width / 2 - 20,
                     y: Laya.stage.height / 2 - 30,
                     radius: 130,
@@ -8085,7 +8085,7 @@
                     tipx: 335,
                     tipy: 200,
                     tipStr: "这是第二处僵尸出生点。现在拿起武器，开始战斗吧！"
-                } ], () => {
+                }], () => {
                     DataTool.SetKv(Std.Guide_HasLearn_ZombieMode, 1);
                     Dispatcher.Event(EventType.OnOpenSelectAllWeaponsPanel);
                     CountSdkMgr.Instance.TrackEvent("guide3");
@@ -8754,7 +8754,7 @@
             if (this.nowSelectEquipIdx == 1) this.SetBtnSkin("btnSelectEquips1", "EquipShop/upgrade_btn_wpa2.png"); else if (this.nowSelectEquipIdx == 2) this.SetBtnSkin("btnSelectEquips2", "EquipShop/upgrade_btn_wpb2.png"); else if (this.nowSelectEquipIdx == 3) this.SetBtnSkin("btnSelectEquips3", "EquipShop/upgrade_btn_wpc2.png"); else if (this.nowSelectEquipIdx == 4) this.SetBtnSkin("btnSelectEquips4", "EquipShop/upgrade_btn_wpd2.png"); else if (this.nowSelectEquipIdx == 5) this.SetBtnSkin("btnSelectEquips5", "EquipShop/upgrade_btn_wpe2.png");
         }
         InitOther() {
-            UIMgr.Instance.OpenUI(CurrencyDataPanel, () => {}, this.GetImg("imgCurrencyBg"));
+            UIMgr.Instance.OpenUI(CurrencyDataPanel, () => { }, this.GetImg("imgCurrencyBg"));
             Dispatcher.Event(EventType.OnOpenOtherCurrencyPanelInMenuSc);
             Laya.Tween.from(this.GetImg("imgLeftSelectBg"), {
                 left: -500
@@ -8776,7 +8776,7 @@
                 this.RefreshBuyBtnUIState();
                 this.listEquipsData.refresh();
                 Dispatcher.Event(EventType.OnCurrencyChange);
-                PopMsgTool.ShowGetItemPanel(0, ItemGetTypeEnum.Weapon, () => {}, this.nowSelectEquipName);
+                PopMsgTool.ShowGetItemPanel(0, ItemGetTypeEnum.Weapon, () => { }, this.nowSelectEquipName);
                 CountSdkMgr.Instance.TrackEvent("equipmentShopBuy" + this.GetWeaponIndexByName(this.nowSelectEquipName));
             } else {
                 let wpName = WeaponInfoMgr.Instance.GetWeaponChnNameByName(this.nowSelectEquipName);
@@ -8785,7 +8785,7 @@
                     SdkManager.Instance.ShowVideoAd(() => {
                         DataTool.ModifyInt(WeaponInfoMgr.Instance.GetWatchAdUnlockLocalKey(this.nowSelectEquipName), 1);
                         if (WeaponInfoMgr.Instance.GetHasWatchAdUnlockWeaponCount(this.nowSelectEquipName) >= WeaponInfoMgr.Instance.GetUnlockWeaponWatchAdCount(this.nowSelectEquipName)) {
-                            PopMsgTool.ShowGetItemPanel(0, ItemGetTypeEnum.Weapon, () => {}, this.nowSelectEquipName);
+                            PopMsgTool.ShowGetItemPanel(0, ItemGetTypeEnum.Weapon, () => { }, this.nowSelectEquipName);
                         }
                         this.RefreshBuyBtnUIState();
                         this.listEquipsData.refresh();
@@ -8918,7 +8918,7 @@
             imgEquipIcon.skin = WeaponInfoMgr.Instance.GetWeaponIconByName(weaponIndexName);
             imgEquipFrame.skin = this.nowSelectEquipInnerIdx == index ? "EquipSelect/weaponset_btn_boxframe2.png" : "EquipSelect/reborn_btn_weaponframe.png";
             let glowFilter = new Laya.GlowFilter("#eaff00", 3, 0, 0);
-            imgEquipIcon.filters = [ glowFilter ];
+            imgEquipIcon.filters = [glowFilter];
             imgHasOwn.visible = this.HasOwnEquip(weaponIndexName) == true;
             watchAdBg.visible = UIDataMidLyaer.IsEquipShop_BuyEquip == EquipShop.Buy && this.HasOwnEquip(weaponIndexName) == false;
             this.RefreshAmmoAndHpBox();
@@ -9056,7 +9056,7 @@
                         GenGamePlayTool.PlayUnlockSfx();
                         PopMsgTool.PopMsg("解锁武器栏3！");
                         CountSdkMgr.Instance.TrackEvent("videComplete14");
-                    }, () => {});
+                    }, () => { });
                 });
             });
             this.AddBtnEvent("btnUnlockWeapon4Ad", () => {
@@ -9070,7 +9070,7 @@
                         GenGamePlayTool.PlayUnlockSfx();
                         PopMsgTool.PopMsg("解锁武器栏4！");
                         CountSdkMgr.Instance.TrackEvent("videComplete15");
-                    }, () => {});
+                    }, () => { });
                 });
             });
         }
@@ -9224,19 +9224,19 @@
             hzzxsdk.setDebugMode(bool);
         }
         GetGameConfig() {
-            hzzxsdk.getGameConfig(this.pid).then(gameConfig => {});
+            hzzxsdk.getGameConfig(this.pid).then(gameConfig => { });
         }
         GetGameVerContrLevel(num) {
             let codeVersion = "1";
-            hzzxsdk.getGameVerContrLevel(codeVersion, this.pid).then(verContrData => {});
+            hzzxsdk.getGameVerContrLevel(codeVersion, this.pid).then(verContrData => { });
         }
         CheckFission() {
             hzzxsdk.checkFission();
         }
-        GetShareObject() {}
+        GetShareObject() { }
         GetIconAd(num) {
             let score = 0;
-            hzzxsdk.getIconAd(0).then(ad => {});
+            hzzxsdk.getIconAd(0).then(ad => { });
         }
         GetRecommedAdList(isRandomSort = false, count = 0, score) {
             hzzxsdk.getRecommedAdList(isRandomSort, count, 0).then(adList => {
@@ -9273,7 +9273,7 @@
         onAwake() {
             this.SetAllUINodesDic();
             this.RefreshTryUseCache();
-            UIMgr.Instance.OpenUI(CurrencyDataPanel, () => {}, this.GetImg("imgCurrencyBg"));
+            UIMgr.Instance.OpenUI(CurrencyDataPanel, () => { }, this.GetImg("imgCurrencyBg"));
             this.InitGuide();
         }
         onStart() {
@@ -9378,7 +9378,7 @@
             }
             if (DataTool.GetInt(Std.Guide_HasLearn_MouseSensitivity) == 0) {
                 GameLevelMgr.Instance.SetIsPlayerInMouseGuide(true);
-                GuideMgr.Instance.InitDataAndShowGuide([ {
+                GuideMgr.Instance.InitDataAndShowGuide([{
                     x: 150,
                     y: 135,
                     radius: 100,
@@ -9386,7 +9386,7 @@
                     tipx: 300,
                     tipy: 115,
                     tipStr: "滑动灵敏度条可以调节手指滑动屏幕时的灵敏度！"
-                } ], () => {
+                }], () => {
                     DataTool.SetKv(Std.Guide_HasLearn_MouseSensitivity, 1);
                     GameLevelMgr.Instance.SetIsPlayerInMouseGuide(false);
                     TryUseWeaponTool.InitTryUseWeapon();
@@ -9396,7 +9396,7 @@
         }
         InitGuide() {
             if (DataTool.GetInt(Std.Guide_HasLearn_SelectAllEquipPage) == 0) {
-                GuideMgr.Instance.InitDataAndShowGuide([ {
+                GuideMgr.Instance.InitDataAndShowGuide([{
                     x: 266,
                     y: 205,
                     radius: 100,
@@ -9420,7 +9420,7 @@
                     tipx: 350,
                     tipy: 480,
                     tipStr: "特殊武器可以大大地提升战斗力，点击就可以立即解锁哦！"
-                } ], () => {
+                }], () => {
                     DataTool.SetKv(Std.Guide_HasLearn_SelectAllEquipPage, 1);
                 });
             }
@@ -9455,8 +9455,8 @@
                     width: 72
                 });
                 SdkManager.Instance.ShowCustomAd("2", {
-                    left: 80 / Std.UI_ad_cTopx + 40,
-                    top: 80 * Std.UI_ad_cTopx,
+                    left: Laya.Browser.clientWidth - 72,
+                    top: 100,
                     width: 72
                 });
             }
@@ -9533,10 +9533,10 @@
         }
         AddGlowFilter() {
             let glowFilter = new Laya.GlowFilter("#eaff00", 3, 0, 0);
-            this.GetImg("imgWeapon1Icon").filters = [ glowFilter ];
-            this.GetImg("imgWeapon2Icon").filters = [ glowFilter ];
-            this.GetImg("imgWeapon3Icon").filters = [ glowFilter ];
-            this.GetImg("imgWeapon4Icon").filters = [ glowFilter ];
+            this.GetImg("imgWeapon1Icon").filters = [glowFilter];
+            this.GetImg("imgWeapon2Icon").filters = [glowFilter];
+            this.GetImg("imgWeapon3Icon").filters = [glowFilter];
+            this.GetImg("imgWeapon4Icon").filters = [glowFilter];
         }
         RefreshAllWeaponLockState() {
             let playerLocalData = PlayerLocalDataMgr.Instance.GetPlayerData();
@@ -9691,7 +9691,7 @@
             imgWatchAdBg.visible = weaponIndexName != Std.WeaponName_None;
             imgWatchAdBg.visible = hasWatchTime < needWatchTime;
             let glowFilter = new Laya.GlowFilter("#eaff00", 3, 0, 0);
-            imgWeaponIcon.filters = [ glowFilter ];
+            imgWeaponIcon.filters = [glowFilter];
             let weaponOutFrame = cell.getChildByName("weaponOutFrame");
             weaponOutFrame.skin = this.nowRealSelectWeaponName == weaponIndexName ? this.selectFramePath : this.unSelectFramePath;
             this.RefreshAmmoAndHpBox();
@@ -9766,7 +9766,7 @@
         }
     }
     var ViecleTypeEnum;
-    (function(ViecleTypeEnum) {
+    (function (ViecleTypeEnum) {
         ViecleTypeEnum[ViecleTypeEnum["None"] = 0] = "None";
         ViecleTypeEnum[ViecleTypeEnum["AirPlane"] = 1] = "AirPlane";
         ViecleTypeEnum[ViecleTypeEnum["Tank"] = 2] = "Tank";
@@ -10236,7 +10236,7 @@
             this.maxTeammateCount = 5;
             this.maxEnemyCount = 5;
             this.tempMaxConstKill = 0;
-            this.randVoiceArray = [ "gogogo", "help", "sniperTip", "takeCover", "fireTip", "yesTip" ];
+            this.randVoiceArray = ["gogogo", "help", "sniperTip", "takeCover", "fireTip", "yesTip"];
             this.battleTime = 0;
             this.killCount = 0;
             this.dieTimes = 0;
@@ -10455,7 +10455,10 @@
             this.imgScoreBlueBar.width = maxWidth * (this.blueTeamScore / this.targetScore);
         }
         OpenBattleModeMatchOverPanel() {
-            UIMgr.Instance.OpenUI(SettlementPanel);
+            SdkManager.Instance.HideBanner();
+            window.showEnd(()=>{
+                UIMgr.Instance.OpenUI(SettlementPanel);
+            });
         }
         SetBattleEndData(redWin = true) {
             this.battleTime = GameTimeMgr.Instance.GetGameTime() - this.battleTime;
@@ -10701,7 +10704,7 @@
             this.AddEventListener();
             this.battleTime = GameTimeMgr.Instance.GetGameTime();
         }
-        LoadSc3D() {}
+        LoadSc3D() { }
         AddEventListener() {
             Dispatcher.AddListener(EventType.OnPlayerDie, this, this.PlayerDie);
             Dispatcher.AddListener(EventType.OnPlayetKillEnemyCountKill, this, this.OnPlayetKillEnemyCountKill);
@@ -10714,9 +10717,9 @@
             Dispatcher.RemoveListener(EventType.OnPlayerReborn, this, this.GameStart);
             Dispatcher.RemoveListener(EventType.YY_End, this, this.GameEnd);
         }
-        GetNeed() {}
-        GameStart() {}
-        GameEnd(win) {}
+        GetNeed() { }
+        GameStart() { }
+        GameEnd(win) { }
         OnPlayetKillEnemyCountKill() {
             this.killCount += 1;
             this.tempMaxConstKill += 1;
@@ -10744,7 +10747,7 @@
             super();
             this.time123 = 0;
             this.muTouRenRun = false;
-            this.Bg123TimeArr = [ 1688, 2019, 2139, 3356, 4135, 1606, 2327, 2693, 3631, 4807 ];
+            this.Bg123TimeArr = [1688, 2019, 2139, 3356, 4135, 1606, 2327, 2693, 3631, 4807];
             this.Bg123SelectIndex = 0;
         }
         onAwake() {
@@ -10815,7 +10818,6 @@
             });
         }
         GameEnd(win = false) {
-            window.showEnd();
             this.muTouRenRun = false;
             this.RemoveEventListener();
             SoundTool.StopSound("YouYu_Bg" + this.Bg123SelectIndex);
@@ -10825,10 +10827,14 @@
             this.blueDiamondCount = this.killCount * 2 + 5;
             this.cupCount = this.killCount;
             GameLevelMgr.Instance.SetBattleEndData(2, win, this.battleTime, this.killCount, this.dieTimes, this.maxConstKill, this.goldCount, this.blueDiamondCount, this.cupCount);
+            
             setTimeout(this.OpenBattleModeMatchOverPanel, 3e3);
         }
         OpenBattleModeMatchOverPanel() {
-            UIMgr.Instance.OpenUI(SettlementPanel);
+            SdkManager.Instance.HideBanner();
+            window.showEnd(()=>{
+                UIMgr.Instance.OpenUI(SettlementPanel);
+            });
         }
         OnPlayetKillEnemyCountKill() {
             this.killCount += 1;
@@ -10854,16 +10860,16 @@
             this.BL = 0;
             this.BL = num;
         }
-        onEnable() {}
-        GameStart() {}
-        GameEnd() {}
-        UpdateFireGunHitTimer() {}
-        InitAIYY(maxHp, moveSpeed, num) {}
+        onEnable() { }
+        GameStart() { }
+        GameEnd() { }
+        UpdateFireGunHitTimer() { }
+        InitAIYY(maxHp, moveSpeed, num) { }
         onDestroy() {
             Dispatcher.RemoveListener(EventType.YY_End, this, this.YY_End);
         }
-        onTriggerStay(col) {}
-        onStart() {}
+        onTriggerStay(col) { }
+        onStart() { }
         onCollisionEnter(col) {
             if (this.BL == 0) {
                 this.owner.active = false;
@@ -10961,7 +10967,10 @@
             setTimeout(this.OpenBattleModeMatchOverPanel, 3e3);
         }
         OpenBattleModeMatchOverPanel() {
-            UIMgr.Instance.OpenUI(SettlementPanel);
+            SdkManager.Instance.HideBanner();
+            window.showEnd(()=>{
+                UIMgr.Instance.OpenUI(SettlementPanel);
+            });
         }
     }
     class GameMainModeCtler extends Laya.Script {
@@ -11064,7 +11073,7 @@
             this.btnAimLeft = Tool.GetBtn(this.imgPlayerCtlBtnsBg, "btnAimLeft");
             this.btnReload = Tool.GetBtn(this.imgPlayerCtlBtnsBg, "btnReload");
             this.btnJump = Tool.GetBtn(this.imgPlayerCtlBtnsBg, "btnJump");
-            UIMgr.Instance.OpenUI(PlayerWeaponHpInfoPanel, () => {}, this.imgPlayerInfoBg);
+            UIMgr.Instance.OpenUI(PlayerWeaponHpInfoPanel, () => { }, this.imgPlayerInfoBg);
             this.imgPlayerDieObBg = Tool.GetImg(this.owner, "imgPlayerDieObBg");
             this.joystick = this.imgJoyStickRect.getComponent(JoyStick);
             this.InitSensitivityHslider();
@@ -11142,13 +11151,13 @@
                 MaterialMgr.Instance.SetPlayerArnBlueMat();
             } else if (mode == GameLevelMode.YouYu) {
                 switch (GameLevelMgr.Instance.GetYYGame()) {
-                  case GameYYMode.MTR:
-                    this.owner.addComponent(GameMainScViewCtlYouyuMutouRen);
-                    break;
-
-                  case GameYYMode.BLQ:
-                    this.owner.addComponent(GameMainScViewCtlYYBLQ);
-                    break;
+                    case GameYYMode.MTR:
+                        this.owner.addComponent(GameMainScViewCtlYouyuMutouRen);
+                        break;
+  
+                    case GameYYMode.BLQ:
+                        this.owner.addComponent(GameMainScViewCtlYYBLQ);
+                        break;
                 }
                 MaterialMgr.Instance.SetPlayerArmYouYuMat();
             }
@@ -11367,7 +11376,7 @@
                     } else if (GameLevelMgr.Instance.GetSelectMode() == GameLevelMode.YouYu) {
                         skinPath = "res/Textures/AISkins/youyuWanjia.png";
                     }
-                    Laya.Texture2D.load(skinPath, Laya.Handler.create(this, function(tex) {
+                    Laya.Texture2D.load(skinPath, Laya.Handler.create(this, function (tex) {
                         let mat;
                         mat = new Laya.PBRStandardMaterial();
                         mat.albedoTexture = tex;
@@ -11399,8 +11408,8 @@
             let joyStick = this.joystick;
             joyStick.EndDrag();
             joyStick.HideStick();
-            joyStick.onStickDownCb = (() => {});
-            joyStick.onStickUpOrOutCb = (() => {});
+            joyStick.onStickDownCb = (() => { });
+            joyStick.onStickUpOrOutCb = (() => { });
             InputMgr.Instance.SetCanInput(false);
             this.ShowPlayerDieAnm();
             this.PlayerDieTip();
@@ -11542,7 +11551,7 @@
             }, () => {
                 ViecleMgr.Instance.SetIsViecleFire(false);
             }, () => {
-                () => {};
+                () => { };
             });
             Laya.stage.on(Laya.Event.MOUSE_UP, this, e => {
                 if (InputMgr.Instance.GetNowFireTouchId() == e.touchId) {
@@ -11574,7 +11583,7 @@
                 InputMgr.Instance.SetIsFire(false);
                 Dispatcher.Event(EventType.OnPlayerRelaseFire);
             }, () => {
-                () => {};
+                () => { };
             });
             Tool.OnMouseDownUpOutNoFx(this.btnFireLeft, this, e => {
                 if (InputMgr.Instance.GetIsJumping()) {
@@ -11594,7 +11603,7 @@
                 InputMgr.Instance.SetIsFire(false);
                 Dispatcher.Event(EventType.OnPlayerRelaseFire);
             }, () => {
-                () => {};
+                () => { };
             });
             Tool.AddBtnEvent(Tool.GetBtn(this.imgPlayerCtlBtnsBg, "btnFire"), this, e => {
                 this.OnClickSingleFire();
@@ -11652,7 +11661,7 @@
                 }
                 Dispatcher.Event(EventType.OnRunBtnUp);
             }, () => {
-                () => {};
+                () => { };
             });
         }
         byChe() {
@@ -11696,8 +11705,8 @@
             let joyStick = this.joystick;
             joyStick.EndDrag();
             joyStick.HideStick();
-            joyStick.onStickDownCb = (() => {});
-            joyStick.onStickUpOrOutCb = (() => {});
+            joyStick.onStickDownCb = (() => { });
+            joyStick.onStickUpOrOutCb = (() => { });
             InputMgr.Instance.SetCanInput(false);
             this.DestroyPlayer();
             UIDataMidLyaer.IsFirstTimeInBattleSelectEquipUI = false;
@@ -11757,7 +11766,7 @@
             LoadingUIMgr.Instance = this;
         }
         ShowLoadingUI() {
-            UIMgr.Instance.OpenUI(LoadingPanel, () => {}, Laya.stage);
+            UIMgr.Instance.OpenUI(LoadingPanel, () => { }, Laya.stage);
         }
         HandCloseLoadingUI() {
             UIMgr.Instance.DestroyUI(LoadingPanel.name);
@@ -11915,8 +11924,8 @@
             super();
             SignMgr.Instance = this;
         }
-        onAwake() {}
-        onDestroy() {}
+        onAwake() { }
+        onDestroy() { }
     }
     class InitScViewCtl extends Laya.Script {
         constructor() {
@@ -12016,9 +12025,9 @@
             this.canUseFriendFire = false;
             this.selectedCircelUIPath = "Menu/BattleModeConfig/gameset_btn_check2.png";
             this.unselectCircelUIPath = "Menu/BattleModeConfig/gameset_btn_uncheck2.png";
-            this.allMapsArray = [ BattleModeMapEnum.AircraftCarrier, BattleModeMapEnum.GameMainSc_Lake, BattleModeMapEnum.GameMainSc_Port, BattleModeMapEnum.GameMainSc_City ];
-            this.mapIconsArray = [ "Menu/BattleModeConfig/map1.png", "Menu/BattleModeConfig/map2.png", "Menu/BattleModeConfig/map3.png", "Menu/BattleModeConfig/map4.png" ];
-            this.battleMapUnlockKeyArray = [ Std.BattleMapUnlock_Map1Key, Std.BattleMapUnlock_Map2Key, Std.BattleMapUnlock_Map3Key, Std.BattleMapUnlock_Map4Key ];
+            this.allMapsArray = [BattleModeMapEnum.AircraftCarrier, BattleModeMapEnum.GameMainSc_Lake, BattleModeMapEnum.GameMainSc_Port, BattleModeMapEnum.GameMainSc_City];
+            this.mapIconsArray = ["Menu/BattleModeConfig/map1.png", "Menu/BattleModeConfig/map2.png", "Menu/BattleModeConfig/map3.png", "Menu/BattleModeConfig/map4.png"];
+            this.battleMapUnlockKeyArray = [Std.BattleMapUnlock_Map1Key, Std.BattleMapUnlock_Map2Key, Std.BattleMapUnlock_Map3Key, Std.BattleMapUnlock_Map4Key];
         }
         onAwake() {
             this.SetAllUINodesDic();
@@ -12048,7 +12057,7 @@
                 let imgWinConditionPos = this.GetImg("imgWinCondition").localToGlobal(new Laya.Point(0, 0));
                 let tempX1 = imgWinConditionPos.x - 960;
                 let tempY1 = imgWinConditionPos.y + 10;
-                GuideMgr.Instance.InitDataAndShowGuide([ {
+                GuideMgr.Instance.InitDataAndShowGuide([{
                     x: tempX1,
                     y: tempY1,
                     radius: 50,
@@ -12120,7 +12129,7 @@
                     tipx: tempX - 320,
                     tipy: tempY - 280,
                     tipStr: "点击《开始游戏》按钮即可进入战斗！"
-                } ], () => {
+                }], () => {
                     DataTool.SetKv(Std.Guide_HasLearn_IsFirstIntoConfig, 1);
                     if (MidLayer.IsLeftSubPackLoadFinish() == false) {
                         return;
@@ -12325,12 +12334,12 @@
     class AchievePanel extends UIBase {
         constructor() {
             super();
-            this.achieveLocalKeyArray = [ Std.Achieve_Win1BattleModeKey, Std.Achieve_Win5BattleModeKey, Std.Achieve_Win1ZombieModeKey, Std.Achieve_Win5ZombieModeKey, Std.Achieve_UpdateEquip3TimesKey, Std.Achieve_UpdateEquip5TimesKey, Std.Achieve_Kill50EnemyKey, Std.Achieve_Kill100EnemyKey, Std.Achieve_Kill30ZombieKey, Std.Achieve_Kill50ZombieKey, Std.Achieve_Die10TimesKey, Std.Achieve_Die50TimesKey, Std.Achieve_HeadShot30TimesKey, Std.Achieve_HeadShot50TimesKey, Std.Achieve_GetBigAwardDrawKey ];
-            this.awardHasClaimTimesKeyArray = [ Std.AchieveClaim_Win1BattleModeKey, Std.AchieveClaim_Win5BattleModeKey, Std.AchieveClaim_Win1ZombieModeKey, Std.AchieveClaim_Win5ZombieModeKey, Std.AchieveClaim_UpdateEquip3TimesKey, Std.AchieveClaim_UpdateEquip5TimesKey, Std.AchieveClaim_Kill50EnemyKey, Std.AchieveClaim_Kill100EnemyKey, Std.AchieveClaim_Kill30ZombieKey, Std.AchieveClaim_Kill50ZombieKey, Std.AchieveClaim_Die10TimesKey, Std.AchieveClaim_Die50TimesKey, Std.AchieveClaim_HeadShot30TimesKey, Std.AchieveClaim_HeadShot50TimesKey, Std.AchieveClaim_GetBigAwardDrawKey ];
-            this.achieveDescArray = [ "赢得1局战场模式", "赢得5局战场模式", "完成1局僵尸模式", "完成5局僵尸模式", "进行3次装备升级", "进行5次装备升级", "击败50名对手", "击败100名对手", "击败30只僵尸", "击败50只僵尸", "阵亡10次", "阵亡50次", "爆头30次", "爆头50次", "抽奖中获得1次大奖" ];
-            this.awardIconTypeArray = [ CurrencyTypeEnum.Gold, CurrencyTypeEnum.Gold, CurrencyTypeEnum.Gold, CurrencyTypeEnum.BlueDiamond, CurrencyTypeEnum.BlueDiamond, CurrencyTypeEnum.RedDiamond, CurrencyTypeEnum.RedDiamond, CurrencyTypeEnum.Gold, CurrencyTypeEnum.RedDiamond, CurrencyTypeEnum.Gold, CurrencyTypeEnum.BlueDiamond, CurrencyTypeEnum.Gold, CurrencyTypeEnum.BlueDiamond, CurrencyTypeEnum.Gold, CurrencyTypeEnum.BlueDiamond ];
-            this.awardCountArray = [ 300, 1e3, 300, 300, 200, 100, 200, 1e3, 150, 800, 200, 600, 300, 900, 200 ];
-            this.awardTargetCountArray = [ 1, 5, 1, 5, 3, 5, 50, 100, 30, 50, 10, 50, 30, 50, 1 ];
+            this.achieveLocalKeyArray = [Std.Achieve_Win1BattleModeKey, Std.Achieve_Win5BattleModeKey, Std.Achieve_Win1ZombieModeKey, Std.Achieve_Win5ZombieModeKey, Std.Achieve_UpdateEquip3TimesKey, Std.Achieve_UpdateEquip5TimesKey, Std.Achieve_Kill50EnemyKey, Std.Achieve_Kill100EnemyKey, Std.Achieve_Kill30ZombieKey, Std.Achieve_Kill50ZombieKey, Std.Achieve_Die10TimesKey, Std.Achieve_Die50TimesKey, Std.Achieve_HeadShot30TimesKey, Std.Achieve_HeadShot50TimesKey, Std.Achieve_GetBigAwardDrawKey];
+            this.awardHasClaimTimesKeyArray = [Std.AchieveClaim_Win1BattleModeKey, Std.AchieveClaim_Win5BattleModeKey, Std.AchieveClaim_Win1ZombieModeKey, Std.AchieveClaim_Win5ZombieModeKey, Std.AchieveClaim_UpdateEquip3TimesKey, Std.AchieveClaim_UpdateEquip5TimesKey, Std.AchieveClaim_Kill50EnemyKey, Std.AchieveClaim_Kill100EnemyKey, Std.AchieveClaim_Kill30ZombieKey, Std.AchieveClaim_Kill50ZombieKey, Std.AchieveClaim_Die10TimesKey, Std.AchieveClaim_Die50TimesKey, Std.AchieveClaim_HeadShot30TimesKey, Std.AchieveClaim_HeadShot50TimesKey, Std.AchieveClaim_GetBigAwardDrawKey];
+            this.achieveDescArray = ["赢得1局战场模式", "赢得5局战场模式", "完成1局僵尸模式", "完成5局僵尸模式", "进行3次装备升级", "进行5次装备升级", "击败50名对手", "击败100名对手", "击败30只僵尸", "击败50只僵尸", "阵亡10次", "阵亡50次", "爆头30次", "爆头50次", "抽奖中获得1次大奖"];
+            this.awardIconTypeArray = [CurrencyTypeEnum.Gold, CurrencyTypeEnum.Gold, CurrencyTypeEnum.Gold, CurrencyTypeEnum.BlueDiamond, CurrencyTypeEnum.BlueDiamond, CurrencyTypeEnum.RedDiamond, CurrencyTypeEnum.RedDiamond, CurrencyTypeEnum.Gold, CurrencyTypeEnum.RedDiamond, CurrencyTypeEnum.Gold, CurrencyTypeEnum.BlueDiamond, CurrencyTypeEnum.Gold, CurrencyTypeEnum.BlueDiamond, CurrencyTypeEnum.Gold, CurrencyTypeEnum.BlueDiamond];
+            this.awardCountArray = [300, 1e3, 300, 300, 200, 100, 200, 1e3, 150, 800, 200, 600, 300, 900, 200];
+            this.awardTargetCountArray = [1, 5, 1, 5, 3, 5, 50, 100, 30, 50, 10, 50, 30, 50, 1];
         }
         onAwake() {
             this.SetAllUINodesDic();
@@ -12398,7 +12407,7 @@
                         CountSdkMgr.Instance.TrackEvent("videComplete1");
                     });
                 }
-            } else {}
+            } else { }
         }
         AddListElements() {
             let data = [];
@@ -12421,7 +12430,7 @@
             this.SetAllUINodesDic();
             this.AddBtnEvents();
             this.RefBtnForMissionToMap();
-            UIMgr.Instance.OpenUI(CurrencyDataPanel, () => {}, this.GetImg("imgCurrencyBg"));
+            UIMgr.Instance.OpenUI(CurrencyDataPanel, () => { }, this.GetImg("imgCurrencyBg"));
             Laya.Tween.from(this.GetImg("imgLeftRole"), {
                 left: -500
             }, 250, Laya.Ease.linearNone);
@@ -12549,7 +12558,7 @@
                 this.SetVisible("imgRightBg", false);
                 this.SetVisible("imgAchievePanelBg", true);
                 this.SetVisible("imgLeftRole", false);
-                UIMgr.Instance.OpenUI(AchievePanel, () => {}, this.GetImg("imgAchievePanelBg"));
+                UIMgr.Instance.OpenUI(AchievePanel, () => { }, this.GetImg("imgAchievePanelBg"));
             });
         }
         RefreshHasFinishMissionUI() {
@@ -12576,7 +12585,7 @@
         }
         GetHasFinishMissionCount() {
             let count = 0;
-            let allBtnsArray = [ this.GetBtn("btnCliam1"), this.GetBtn("btnCliam2"), this.GetBtn("btnCliam3"), this.GetBtn("btnCliam4"), this.GetBtn("btnCliam5") ];
+            let allBtnsArray = [this.GetBtn("btnCliam1"), this.GetBtn("btnCliam2"), this.GetBtn("btnCliam3"), this.GetBtn("btnCliam4"), this.GetBtn("btnCliam5")];
             for (let i = 0; i < allBtnsArray.length; i++) {
                 if (this.CheckSingleCliamBtnFinishState(allBtnsArray[i]) == true) {
                     count += 1;
@@ -12600,7 +12609,7 @@
         GetMissionTyepByBtn(btnName) {
             let key = DailyMissionTypeEnum.TotalKill100Enemy;
             let btn = this.GetBtn(btnName);
-            this.missionRefBtnMap.forEach(function(v, k) {
+            this.missionRefBtnMap.forEach(function (v, k) {
                 if (btn == v) {
                     key = k;
                 }
@@ -12717,7 +12726,7 @@
         }
         RefBtnForMissionToMap() {
             let localSaveMissionArray = DailyMissionMgr.Instance.GetLocalSave5Mission();
-            let btnsArray = [ this.GetBtn("btnCliam1"), this.GetBtn("btnCliam2"), this.GetBtn("btnCliam3"), this.GetBtn("btnCliam4"), this.GetBtn("btnCliam5") ];
+            let btnsArray = [this.GetBtn("btnCliam1"), this.GetBtn("btnCliam2"), this.GetBtn("btnCliam3"), this.GetBtn("btnCliam4"), this.GetBtn("btnCliam5")];
             for (let i = 0; i < localSaveMissionArray.length; i++) {
                 this.missionRefBtnMap.set(localSaveMissionArray[i], btnsArray[i]);
             }
@@ -12856,10 +12865,10 @@
         constructor() {
             super();
             this.perLvNeedKill = 50;
-            this.baseAwardsCountArray = [ 200, 200, 200, 200, 200, 200, 200, 200, 200, 200, 300, 300, 300, 300, 300, 300, 300, 300, 300, 300, 400, 400, 400, 400 ];
-            this.advAward1NameArray = [ Std.WeaponName_None, Std.WeaponName_None, Std.WeaponName_None, Std.WeaponName_None, Std.WeaponName_SmgUzi, Std.WeaponName_None, Std.WeaponName_None, Std.WeaponName_None, Std.WeaponName_None, Std.WeaponName_SgSpas12, Std.WeaponName_None, Std.WeaponName_None, Std.WeaponName_None, Std.WeaponName_None, Std.WeaponName_HpBox, Std.WeaponName_None, Std.WeaponName_None, Std.WeaponName_None, Std.WeaponName_None, Std.WeaponName_SniperM24, Std.WeaponName_None, Std.WeaponName_None, Std.WeaponName_None, Std.WeaponName_LMG ];
-            this.advAward2CountArray = [ 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 200, 200, 200, 200 ];
-            this.advAward3CountArray = [ 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 100, 100, 100, 100 ];
+            this.baseAwardsCountArray = [200, 200, 200, 200, 200, 200, 200, 200, 200, 200, 300, 300, 300, 300, 300, 300, 300, 300, 300, 300, 400, 400, 400, 400];
+            this.advAward1NameArray = [Std.WeaponName_None, Std.WeaponName_None, Std.WeaponName_None, Std.WeaponName_None, Std.WeaponName_SmgUzi, Std.WeaponName_None, Std.WeaponName_None, Std.WeaponName_None, Std.WeaponName_None, Std.WeaponName_SgSpas12, Std.WeaponName_None, Std.WeaponName_None, Std.WeaponName_None, Std.WeaponName_None, Std.WeaponName_HpBox, Std.WeaponName_None, Std.WeaponName_None, Std.WeaponName_None, Std.WeaponName_None, Std.WeaponName_SniperM24, Std.WeaponName_None, Std.WeaponName_None, Std.WeaponName_None, Std.WeaponName_LMG];
+            this.advAward2CountArray = [50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 200, 200, 200, 200];
+            this.advAward3CountArray = [20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 100, 100, 100, 100];
         }
         onAwake() {
             this.SetAllUINodesDic();
@@ -12960,7 +12969,7 @@
                 this.listRankAwards.refresh();
                 if (index == 4 || index == 9 || index == 14 || index == 19 || index == 23) {
                     DataTool.SetKv(WeaponInfoMgr.Instance.GetWatchAdUnlockLocalKey(this.advAward1NameArray[index]), WeaponInfoMgr.Instance.GetUnlockWeaponWatchAdCount(this.advAward1NameArray[index]));
-                    PopMsgTool.ShowGetItemPanel(0, ItemGetTypeEnum.Weapon, () => {}, this.advAward1NameArray[index]);
+                    PopMsgTool.ShowGetItemPanel(0, ItemGetTypeEnum.Weapon, () => { }, this.advAward1NameArray[index]);
                 } else {
                     Laya.timer.once(250, this, () => {
                         Dispatcher.Event(EventType.OnCurrencyChange, new CurrencyData(this.advAward2CountArray[index], CurrencyTypeEnum.BlueDiamond));
@@ -12987,7 +12996,7 @@
         InitGuide() {
             if (DataTool.GetInt(Std.Guide_HasLearn_RankInfo) == 0) {
                 CountSdkMgr.Instance.TrackEvent("guide6");
-                GuideMgr.Instance.InitDataAndShowGuide([ {
+                GuideMgr.Instance.InitDataAndShowGuide([{
                     x: 170,
                     y: 500,
                     radius: 100,
@@ -12995,7 +13004,7 @@
                     tipx: 290,
                     tipy: 410,
                     tipStr: "荣誉等级可以通过击败敌军来获取，每50次击败可以提升一级！"
-                } ], () => {
+                }], () => {
                     DataTool.SetKv(Std.Guide_HasLearn_RankInfo, 1);
                 });
             }
@@ -13014,7 +13023,7 @@
             this.SetImgSkin("imgRankIocn", "Rank/rank" + rank + ".png");
         }
         InitOther() {
-            UIMgr.Instance.OpenUI(CurrencyDataPanel, () => {}, this.GetImg("imgCurrencyBg"));
+            UIMgr.Instance.OpenUI(CurrencyDataPanel, () => { }, this.GetImg("imgCurrencyBg"));
             Dispatcher.Event(EventType.OnOpenOtherCurrencyPanelInMenuSc);
             Laya.Tween.from(this.GetImg("imgLeftItem"), {
                 left: -500
@@ -13024,7 +13033,7 @@
     class SignPanel extends UIBase {
         constructor() {
             super();
-            this.VIPArrayKey = [ "HasAdvSign1", "HasAdvSign2", "HasAdvSign3", "HasAdvSign4", "HasAdvSign5", "HasAdvSign6", "HasAdvSign7" ];
+            this.VIPArrayKey = ["HasAdvSign1", "HasAdvSign2", "HasAdvSign3", "HasAdvSign4", "HasAdvSign5", "HasAdvSign6", "HasAdvSign7"];
             this.hasSignTimes = 0;
             this.WeekToDay = 0;
             this.isSignVIP = 0;
@@ -13037,9 +13046,9 @@
             this.InitSignList();
             this.AddBtnEvents();
             Dispatcher.Event(EventType.OnOpenOtherCurrencyPanelInMenuSc);
-            UIMgr.Instance.OpenUI(CurrencyDataPanel, () => {}, this.GetImg("imgCurrecyBg"));
+            UIMgr.Instance.OpenUI(CurrencyDataPanel, () => { }, this.GetImg("imgCurrecyBg"));
         }
-        onDestroy() {}
+        onDestroy() { }
         GetNeed() {
             this.listSign = this.GetList("listSign");
         }
@@ -13182,7 +13191,7 @@
             });
         }
     }
-    let SignData = [ {
+    let SignData = [{
         NormalAward: 200,
         bludAward: 50,
         redAward: 50,
@@ -13238,7 +13247,7 @@
         bgSkin: "Sign/7days_pic_bg1.png",
         baseSkin: "Sign/7days_pic_txtjcjl2.png",
         VIPSkin: "Sign/7days_pic_txthhjl2.png"
-    } ];
+    }];
     class SpinDrawPanel extends UIBase {
         constructor() {
             super();
@@ -13274,8 +13283,8 @@
                 width: 72
             });
             SdkManager.Instance.ShowCustomAd("2", {
-                left: Laya.Browser.clientWidth - 72 - 40 * Std.UI_ad_cTopx,
-                top: 80 * Std.UI_ad_cTopx,
+                left: Laya.Browser.clientWidth - 72,
+                top: 100,
                 width: 72
             });
         }
@@ -13399,7 +13408,7 @@
                             GameTimeMgr.Instance.VideoGetSpinDarwAll(1);
                             CountSdkMgr.Instance.TrackEvent("videComplete10");
                         });
-                    }, () => {}, false);
+                    }, () => { }, false);
                 }
             });
             this.AddBtnEventScaleFx("btnDrawAd", () => {
@@ -13409,7 +13418,7 @@
                         GameTimeMgr.Instance.VideoGetSpinDarwAll(1);
                         CountSdkMgr.Instance.TrackEvent("videComplete10");
                     });
-                }, () => {}, false);
+                }, () => { }, false);
             });
         }
         DoDraw() {
@@ -13424,7 +13433,7 @@
             });
         }
         BigAward() {
-            let allAwardsTypeArray = [ ItemGetTypeEnum.Gold, ItemGetTypeEnum.BlueDiamond, ItemGetTypeEnum.RedDiamond ];
+            let allAwardsTypeArray = [ItemGetTypeEnum.Gold, ItemGetTypeEnum.BlueDiamond, ItemGetTypeEnum.RedDiamond];
             let randIdx = Tool.RandomInt(allAwardsTypeArray.length);
             let finalAward = allAwardsTypeArray[randIdx];
             if (finalAward == ItemGetTypeEnum.BlueDiamond) {
@@ -13499,7 +13508,7 @@
     class YouyuModeChoose extends UIBase {
         constructor() {
             super();
-            this.hasAdvUnlockArrayKey = [ "HasAdvYouYuUnlock1", "HasAdvYouYuUnlock2", "HasAdvYouYuUnlock3", "HasAdvYouYuUnlock4", "HasAdvYouYuUnlock5", "HasAdvYouYuUnlock6", "HasAdvYouYuUnlock7" ];
+            this.hasAdvUnlockArrayKey = ["HasAdvYouYuUnlock1", "HasAdvYouYuUnlock2", "HasAdvYouYuUnlock3", "HasAdvYouYuUnlock4", "HasAdvYouYuUnlock5", "HasAdvYouYuUnlock6", "HasAdvYouYuUnlock7"];
         }
         onAwake() {
             this.SetAllUINodesDic();
@@ -13515,7 +13524,7 @@
             }
             this.InitSignList();
             Dispatcher.Event(EventType.OnOpenOtherCurrencyPanelInMenuSc);
-            UIMgr.Instance.OpenUI(CurrencyDataPanel, () => {}, this.GetImg("imgCurrecyBg"));
+            UIMgr.Instance.OpenUI(CurrencyDataPanel, () => { }, this.GetImg("imgCurrecyBg"));
         }
         onEnable() {
             SdkManager.Instance.ShowCustomAd("1", {
@@ -13524,12 +13533,12 @@
                 width: 72
             });
             SdkManager.Instance.ShowCustomAd("2", {
-                left: Laya.Browser.clientWidth - 72 - 40 * Std.UI_ad_cTopx,
-                top: 80 * Std.UI_ad_cTopx,
+                left: Laya.Browser.clientWidth - 72,
+                top: 100,
                 width: 72
             });
         }
-        onDestroy() {}
+        onDestroy() { }
         GetNeed() {
             this.listSign = this.GetList("listSign");
         }
@@ -13581,13 +13590,13 @@
         }
         JoinGame(index) {
             switch (index) {
-              case 0:
-                GameLevelMgr.Instance.SetYYGame(GameYYMode.MTR);
-                break;
-
-              case 1:
-                GameLevelMgr.Instance.SetYYGame(GameYYMode.BLQ);
-                break;
+                case 0:
+                    GameLevelMgr.Instance.SetYYGame(GameYYMode.MTR);
+                    break;
+  
+                case 1:
+                    GameLevelMgr.Instance.SetYYGame(GameYYMode.BLQ);
+                    break;
             }
             Dispatcher.Event(EventType.OnStartBattleModeGame);
             LoadingUIMgr.Instance.ShowLoadingUI();
@@ -13605,9 +13614,9 @@
                         this.listSign.refresh();
                         CountSdkMgr.Instance.TrackEvent("videComplete27");
                     });
-                }, () => {}, false);
+                }, () => { }, false);
             } else {
-                PopMsgTool.ShowConfirmPanel("暂时未开放", "请期待后续更新", () => {}, () => {}, true);
+                PopMsgTool.ShowConfirmPanel("暂时未开放", "请期待后续更新", () => { }, () => { }, true);
             }
         }
     }
@@ -13723,7 +13732,7 @@
                 let targetPos = this.btnBattleMode.localToGlobal(new Laya.Point(this.btnBattleMode.x, this.btnBattleMode.y));
                 let tempX = targetPos.x - this.btnBattleMode.width / 2 - 80;
                 let tempY = targetPos.y - this.btnBattleMode.height / 2 + 40;
-                GuideMgr.Instance.InitDataAndShowGuide([ {
+                GuideMgr.Instance.InitDataAndShowGuide([{
                     x: tempX,
                     y: tempY,
                     radius: 150,
@@ -13731,7 +13740,7 @@
                     tipx: tempX - 250,
                     tipy: tempY + 160,
                     tipStr: "点击这里开始游戏！"
-                } ], () => {
+                }], () => {
                     DataTool.SetKv(Std.Guide_HasLearn_IsFirstIntoMenu, 1);
                     GameLevelMgr.Instance.SetSelectMode(GameLevelMode.NormalBattleMode);
                     UIMgr.Instance.OpenUI(BattleModeConfigPanel);
@@ -13743,7 +13752,7 @@
                         let targetPos = this.btnBattleMode.localToGlobal(new Laya.Point(this.btnBattleMode.x, this.btnBattleMode.y));
                         let tempX = targetPos.x - this.btnBattleMode.width / 2 + 315 - 27 - 20;
                         let tempY = targetPos.y - this.btnBattleMode.height / 2 + 110 + 112;
-                        GuideMgr.Instance.InitDataAndShowGuide([ {
+                        GuideMgr.Instance.InitDataAndShowGuide([{
                             x: tempX,
                             y: tempY,
                             radius: 100,
@@ -13751,7 +13760,7 @@
                             tipx: tempX - 250,
                             tipy: tempY + 70,
                             tipStr: "点击这里开始生化模式！"
-                        } ], () => {
+                        }], () => {
                             DataTool.SetKv(Std.Guide_HasLearn_OpenZombieMode, 1);
                             if (MidLayer.IsLeftSubPackLoadFinish() == false) {
                                 return;
@@ -13766,7 +13775,7 @@
                     if (DataTool.GetInt(Std.Guide_HasLearn_Currency) == 0) {
                         CountSdkMgr.Instance.TrackEvent("guide4");
                         let btnEquipShopPos = this.btnEquipShop.localToGlobal(new Laya.Point(0, 0));
-                        GuideMgr.Instance.InitDataAndShowGuide([ {
+                        GuideMgr.Instance.InitDataAndShowGuide([{
                             x: 230,
                             y: 30,
                             radius: 50,
@@ -13798,7 +13807,7 @@
                             tipx: btnEquipShopPos.x - 300,
                             tipy: btnEquipShopPos.y - 250,
                             tipStr: "战备商店可以购买新的武器和装备，快去商店里看看吧！"
-                        } ], () => {
+                        }], () => {
                             DataTool.SetKv(Std.Guide_HasLearn_Currency, 1);
                             DataTool.SetKv(Std.Guide_HasLearn_EquipShop, 1);
                             UIDataMidLyaer.IsEquipShop_BuyEquip = EquipShop.Buy;
@@ -13816,7 +13825,7 @@
         OnEquipShopClose() {
             if (DataTool.GetInt(Std.Guide_HasLearn_EquipShop) == 1 && DataTool.GetInt(Std.Guide_HasLearn_UpdateEquip) == 0) {
                 let btnUpdateEquipPos = this.btnUpdateEquip.localToGlobal(new Laya.Point(0, 0));
-                GuideMgr.Instance.InitDataAndShowGuide([ {
+                GuideMgr.Instance.InitDataAndShowGuide([{
                     x: btnUpdateEquipPos.x + this.btnUpdateEquip.width / 2,
                     y: btnUpdateEquipPos.y + this.btnUpdateEquip.height / 2,
                     radius: 100,
@@ -13824,7 +13833,7 @@
                     tipx: btnUpdateEquipPos.x - 150,
                     tipy: btnUpdateEquipPos.y + 200,
                     tipStr: "战备升级可以升级你的武器和装备，来提升你的火力，快去升级商店里看看吧！"
-                } ], () => {
+                }], () => {
                     DataTool.SetKv(Std.Guide_HasLearn_UpdateEquip, 1);
                     UIDataMidLyaer.IsEquipShop_BuyEquip = EquipShop.Up;
                     UIMgr.Instance.OpenUI(EquipShopPanel);
@@ -13905,7 +13914,7 @@
                 SdkManager.Instance.HidePYQ();
                 UIMgr.Instance.OpenUI(ExchangeItemPanel);
             });
-            Tool.AddBtnEventScale(this.btnSubGift, this, () => {});
+            Tool.AddBtnEventScale(this.btnSubGift, this, () => { });
             Tool.AddBtnEventScale(Tool.GetBtn(this.owner, "btnSign"), this, () => {
                 SdkManager.Instance.HideBanner();
                 SdkManager.Instance.HidePYQ();
@@ -13952,7 +13961,7 @@
                 }
             });
             Tool.AddBtnEventScale(this.btn_feedback, this, () => {
-                PopMsgTool.ShowConfirmPanel("客服QQ", "3409468140", () => {}, () => {}, true);
+                PopMsgTool.ShowConfirmPanel("客服QQ", "3409468140", () => { }, () => { }, true);
             });
         }
         RefreshAllRedDotState() {
@@ -13972,7 +13981,7 @@
         }
     }
     class GameConfig {
-        constructor() {}
+        constructor() { }
         static init() {
             var reg = Laya.ClassUtils.regClass;
             reg("Scripts/GamePlay/Weapon/WeaponFunc/CrossHairMove.ts", CrossHairMove);
@@ -13997,7 +14006,7 @@
     GameConfig.exportSceneToJson = true;
     GameConfig.init();
     var qudao;
-    (function(qudao) {
+    (function (qudao) {
         qudao[qudao["None"] = 0] = "None";
         qudao[qudao["Oppo"] = 2036] = "Oppo";
         qudao[qudao["Vivo"] = 2037] = "Vivo";
@@ -14048,7 +14057,7 @@
             };
             this.requestPost(the_url, the_data, callbackSuccess, callbackFail);
         }
-        update_openid(open_id = "", callbackSuccess = (() => {}), callbackFail = (() => {})) {
+        update_openid(open_id = "", callbackSuccess = (() => { }), callbackFail = (() => { })) {
             let the_url = "https://www.888xin.top/minigame/fankuairen/openIdNewInfo.php";
             let the_data = {
                 open_id: open_id
@@ -14147,7 +14156,7 @@
             for (let i = 0; i < Hzzxsdk.Init.BannerAdList.length; i++) {
                 if (Hzzxsdk.Init.BannerAdList[i].description == "Maxbanner") {
                     this.MaxBanner.skin = Hzzxsdk.Init.BannerAdList[i].banner;
-                    this.MaxBanner.on(Laya.Event.CLICK, this, this.AdClick, [ Hzzxsdk.Init.BannerAdList[i], 0 ]);
+                    this.MaxBanner.on(Laya.Event.CLICK, this, this.AdClick, [Hzzxsdk.Init.BannerAdList[i], 0]);
                     this.MaxBanId = Hzzxsdk.Init.BannerAdList[i].pid;
                     break;
                 }
@@ -14158,7 +14167,7 @@
                 } else if (Hzzxsdk.Init.BannerAdList[i].description == "Midbanner") {
                     if (cc >= 2) break;
                     this["MixBanner" + cc].skin = Hzzxsdk.Init.BannerAdList[i].banner;
-                    this["MixBanner" + cc].on(Laya.Event.CLICK, this, this.AdClick, [ Hzzxsdk.Init.BannerAdList[i], 0 ]);
+                    this["MixBanner" + cc].on(Laya.Event.CLICK, this, this.AdClick, [Hzzxsdk.Init.BannerAdList[i], 0]);
                     this["MixBanId" + cc] = Hzzxsdk.Init.BannerAdList[i].pid;
                     cc += 1;
                 }
@@ -14166,7 +14175,7 @@
             if (Hzzxsdk.Init.RewardedAdList.length <= 0) return;
             for (let i = 0; i < 9; i++) {
                 this["MaxIcon" + i].skin = Hzzxsdk.Init.RewardedAdList[i].icon;
-                this["MaxIcon" + i].on(Laya.Event.CLICK, this, this.AdClick, [ Hzzxsdk.Init.RewardedAdList[i], 0 ]);
+                this["MaxIcon" + i].on(Laya.Event.CLICK, this, this.AdClick, [Hzzxsdk.Init.RewardedAdList[i], 0]);
             }
         }
         AdClick(ad) {
@@ -14320,4 +14329,4 @@
         }
     }
     new Main();
-})();
+  })();

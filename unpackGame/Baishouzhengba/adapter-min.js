@@ -49,7 +49,7 @@ var _typeof2 = require("@babel/runtime/helpers/typeof");
             init: function init() {
                 this.cacheDir = o() + "/" + this.cacheDir;
                 var e = this.cacheDir + "/" + this.cachedFileName, t = i(e);
-                t instanceof Error || !t.version ? (t instanceof Error || d(this.cacheDir, !0), 
+                !t || !t.version ? (t instanceof Error || d(this.cacheDir, !0), 
                 this.cachedFiles = new cc.AssetManager.Cache(), c(this.cacheDir, !0), a(e, JSON.stringify({
                     files: this.cachedFiles._map,
                     version: this.version
