@@ -8,6 +8,7 @@ if (data.platform != "devtools") {
     first_scene.drawImg("first.jpg");
 }
 
+
 // 加载引擎
 setTimeout(function() {
     var loader = require("./engine-loader");

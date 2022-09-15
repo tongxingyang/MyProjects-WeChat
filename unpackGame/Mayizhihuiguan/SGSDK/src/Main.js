@@ -66,8 +66,10 @@ function showBoxUI(cb) {
 //循环套路
 function loopSchedule() {
   Laya.timer.once(window.ConfigData.data.mistouchtime * 1000, this, () => {
+    adMgr.visibleSingleGridAd(false);
     showRemenUI(() => {
       showBoxUI(() => {
+        adMgr.visibleSingleGridAd(true);
         adMgr.hideBannerAd();
         if (window.ConfigData.data.is_showGameBanner) {
           adMgr.showBannerAd();

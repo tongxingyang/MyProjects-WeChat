@@ -18,6 +18,7 @@ require("./libs/laya.wxmini.js");
 requirePlugin("layaPlugin/laya.core.js");
 
 requirePlugin("layaPlugin/laya.d3.js");
+require("./libs/laya.ui.min.js");
 
 let version = wx.getSystemInfoSync().SDKVersion;
 

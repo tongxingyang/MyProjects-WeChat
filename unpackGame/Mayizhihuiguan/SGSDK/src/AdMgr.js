@@ -193,7 +193,7 @@ var AdMgr = {
         adIntervals: 30,
         style: {
           left: i == 0 ? 0 : sysInfo.screenWidth - 65,
-          top: sysInfo.screenHeight * 0.35
+          top: sysInfo.screenHeight * 0.15
         }
       });
       grid.onError((err) => { ; console.log('屏幕单格子加载失败:', JSON.stringify(err)) })

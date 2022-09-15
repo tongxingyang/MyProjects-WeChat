@@ -4,7 +4,7 @@ https://api.wxsdk.cn
 原始ID：gh_4c056284b949
 APPID：wxae64979276f9de71
 
-无限狂飙（原型：登山极限摩托狂飙）   混淆方式：中度
+无限狂飙（原型：登山极限摩托狂飙）   混淆方式：1+0.5+0.6
 AppID(小程序ID) ：wx9bb5bbdb18086d35 
 账号：ugakufk@snapmail.cc  
 密码：youxi1688

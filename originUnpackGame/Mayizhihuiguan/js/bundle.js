@@ -9836,7 +9836,6 @@ function() {
                 this["on"](Laya["Event"][ut(1707)], this, this["_onMouseDown"]), this["on"](Laya[ut(3627)][ut(1413)], this, this["_onMouseUp"]),
                     this["on"](Laya["Event"][ut(3491)], this, this["_onMouseUp"]), this[ut(1018)]["onClick"](this, this[ut(1824)]);
                     this.visible = false;
-                    Laya.stage.getChildAt(1).getChildAt(0).getChildAt(1).getChildAt(0).getChildAt(21).visible = false;
             }
             ["removeEvent"]() {
                 const uu = ew;
@@ -20567,6 +20566,7 @@ function() {
                     ax[Rb(2913)]["on"](aw[Rb(3500)], this[Rb(748)], this), ax["Int"]["on"](aw["MUST_SHOW_MONEY"], this["onMustShowMoney"], this),
                     ax["Int"]["on"](Rb(512), this["onFlyNewScene"], this), ax["Int"]["on"](aw[Rb(2769)], this[Rb(1267)], this),
                     aU[Rb(1850)]["sendReport"](aS[Rb(1542)]);
+                    this.getChildAt(20)['visible']=false;
             }
             [ew(1714)](eg) {
                 const Rc = ew;
