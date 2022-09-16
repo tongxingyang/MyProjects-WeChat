@@ -1,0 +1,48 @@
+{
+    "1": [
+        {
+            "packName": "res",
+            "files": [
+                "res"
+            ]
+        },
+        {
+            "packName": "unity/LayaScene_S1",
+            "files": [
+                "unity/LayaScene_S1"
+            ]
+        },
+        {
+            "packName": "unity/LayaScene_Effect",
+            "files": [
+                "unity/LayaScene_Effect"
+            ]
+        },
+        {
+            "packName": "unity/LayaScene_Prefabs",
+            "files": [
+                "unity/LayaScene_Prefabs"
+            ]
+        }
+    ],
+    "2": [
+        {
+            "packName": "unity/LayaScene_Prefabs2",
+            "files": [
+                "unity/LayaScene_Prefabs2"
+            ]
+        },
+        {
+            "packName": "unity/LayaScene_PrefabsJunks",
+            "files": [
+                "unity/LayaScene_PrefabsJunks"
+            ]
+        },
+        {
+            "packName": "sound",
+            "files": [
+                "sound"
+            ]
+        }
+    ]
+}

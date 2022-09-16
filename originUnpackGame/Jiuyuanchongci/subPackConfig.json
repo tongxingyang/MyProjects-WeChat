@@ -1,0 +1,40 @@
+{
+    "1": [{
+        "packName": "LayaScene_Main",
+        "zipPath": "unity/LayaScene_Main",
+        "filePath": "res"
+    }],
+    "2": [{
+        "packName": "LayaScene_Player",
+        "zipPath": "unity/LayaScene_Player",
+        "filePath": "res"
+    }],
+    "3": [{
+        "packName": "LayaScene_Prefabs",
+        "zipPath": "unity/LayaScene_Prefabs",
+        "filePath": "res"
+    }],
+    "4": [{
+        "packName": "sound",
+        "zipPath": "",
+        "filePath": "res"
+    }],
+    "5": [{
+        "packName": "res",
+        "zipPath": "",
+        "filePath": "res"
+    }],
+    "6": [{
+        "packName": "wasm",
+        "zipPath": "",
+        "filePath": "res"
+    }],
+    "7": [{
+        "packName": "physics3D",
+        "zipPath": "",
+        "filePath": "res"
+    }]
+  
+  
+  
+  }

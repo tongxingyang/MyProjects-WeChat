@@ -51,13 +51,27 @@ AppID(小程序ID)  wxd033684fb35e5cfc
 
 霸者出击（组装恐龙） 混淆方式：中等  
 
-勇猛机甲  （原型：机甲对决总动员）混淆方式：字符串0.1+扁平流1+死代码0
+勇猛机甲  （原型：机甲对决总动员）混淆方式：字符串1+扁平流0.75+死代码0
 appid: wx77a65edd254cdb99
 账号：lvzhou09@snapmail.cc
 密码：youxi1688 
+assets\main\native\dd\dd958b5a-df48-4bb2-99bb-2191b02b2e1c.aeac1.png
 
 猛兽对决  （原型：百兽争霸）混淆方式：中等
 appid: wx9df3ebe82cc197f1
 账号：lvzhou010@snapmail.cc
 密码：youxi1688 
 
+暴富向钱冲（原型：开家大旅馆）  混淆方式：字符串0.75+扁平流0.5+死代码0.4
+APPID：wxeeebfe05c814438c
+这个主体上传个大旅馆的包哈 @何天生 
+
+抢救达人（原型：救援冲刺）   混淆方式：字符串0.75+扁平流0.75+死代码0.4
+AppID(小程序ID) ：wx6bf7cbfdead520cd
+账号：lvzhou22@snapmail.cc
+密码：youxi1688
+
+小小垃圾场（原型：模拟垃圾场）   混淆方式：字符串0.75+扁平流0.75+死代码0.4
+AppID(小程序ID)：wxb0363d068ab599d0
+账号：lvzhou012@snapmail.cc
+密码：youxi1688

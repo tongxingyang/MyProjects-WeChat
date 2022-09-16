@@ -1,0 +1,50 @@
+{
+    "deviceOrientation": "portrait",
+    "showStatusBar": false,
+    "networkTimeout": {
+        "request": 10000,
+        "connectSocket": 10000,
+        "uploadFile": 10000,
+        "downloadFile": 10000
+    },
+    "subPackages": [
+        {
+            "name": "sound",
+            "root": "/sound/"
+        },
+        {
+            "name": "res",
+            "root": "/res/"
+        },
+        {
+            "name": "LayaScene_Main",
+            "root": "/unity/LayaScene_Main/"
+        },
+        {
+            "name": "LayaScene_Player",
+            "root": "/unity/LayaScene_Player/"
+        },
+        {
+            "name": "LayaScene_Prefabs",
+            "root": "/unity/LayaScene_Prefabs/"
+        },
+        {
+            "name": "wasm",
+            "root": "/wasm/"
+        },
+        {
+            "name": "physics3D",
+            "root": "/physics3D/"
+        },
+        {
+            "name": "js",
+            "root": "/js/"
+        }
+    ],
+    "plugins": {
+        "layaPlugin": {
+            "version": "2.12.0",
+            "provider": "wx70d8aa25ec591f7a"
+        }
+    }
+}
