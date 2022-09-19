@@ -8,6 +8,9 @@ window.boot = function() {
         // load scene
                 cc.director.loadScene(launchScene, null, function() {
             console.log("Success to load scene: " + launchScene);
+            setTimeout(()=>{
+              require("./SGSDK/src/Main");
+            },2000);
         });
     };
     var isSubContext = cc.sys.platform === cc.sys.WECHAT_GAME_SUB;

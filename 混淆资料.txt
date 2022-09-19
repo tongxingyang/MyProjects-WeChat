@@ -9,7 +9,7 @@ AppID(小程序ID) ：wx9bb5bbdb18086d35
 账号：ugakufk@snapmail.cc  
 密码：youxi1688
 
-暴走对决（天天史莱姆未改名   原型：变形机甲汽车）  混淆方式：中等花指令0.5+扁平流0.5  jshaman
+暴走对决（天天史莱姆未改名   原型：变形机甲汽车）  混淆方式：中等花指令0.5+扁平流0.5  
 AppID(小程序ID) wx57334f50a9791f2c   
 登录邮箱 nikbad@snapmail.cc 
 登录密码 youxi1688
@@ -19,7 +19,7 @@ AppID(小程序ID)： wx1f1df064c244418d
 账号：lahofodizn@snapmail.cc 
 密码：youxi1688
 
-超级作战（改：开个寿司店） 流量主未开通 @何天生          混淆方式：中等
+超级作战（改：开个寿司店）          混淆方式：中等
 AppID(小程序ID)：wxebcf06f14561fded
 账号：lvzhou20220411@snapmail.cc 
 密码：youxi1688
@@ -55,7 +55,6 @@ AppID(小程序ID)  wxd033684fb35e5cfc
 appid: wx77a65edd254cdb99
 账号：lvzhou09@snapmail.cc
 密码：youxi1688 
-assets\main\native\dd\dd958b5a-df48-4bb2-99bb-2191b02b2e1c.aeac1.png
 
 猛兽对决  （原型：百兽争霸）混淆方式：中等
 appid: wx9df3ebe82cc197f1
@@ -71,7 +70,7 @@ AppID(小程序ID) ：wx6bf7cbfdead520cd
 账号：lvzhou22@snapmail.cc
 密码：youxi1688
 
-小小垃圾场（原型：模拟垃圾场）   混淆方式：字符串0.75+扁平流0.75+死代码0.4
+小小垃圾场（原型：模拟垃圾场）   混淆方式：字符串1+扁平流0.75+死代码0
 AppID(小程序ID)：wxb0363d068ab599d0
 账号：lvzhou012@snapmail.cc
 密码：youxi1688

@@ -2471,6 +2471,7 @@ window.__require = function e(t, a, n) {
                     m += c.Utils.getCardPower(e[h][0]);
                 }
                 this.node.getChildByName("bg1").getChildByName("myPowerBg").getChildByName("power").getComponent(cc.Label).string = "" + m;
+                this.node.getChildByName("bg1").getChildByName("myPowerBg").getComponent(cc.Widget).bottom = 230;
             }, t.prototype.vsNodeShow = function() {
                 var e = [];
                 e.push({
@@ -3601,7 +3602,7 @@ window.__require = function e(t, a, n) {
                 if (!this.native_ad) {
                     var n = d.wechat.wxCoordProjection(t || new cc.Rect(0, 0, 0, 0)), i = wx.getSystemInfoSync().screenWidth;
                     this.native_ad = wx.createCustomAd({
-                        adUnitId: e,
+                        adUnitId: "adunit-bd05308d7564344e",
                         style: {
                             top: n.top,
                             left: (i - 360) / 2
@@ -3909,7 +3910,7 @@ window.__require = function e(t, a, n) {
                     a.small_native = n / t < 1.875;
                     var i = wx.getSystemInfoSync(), o = (i.screenHeight - 1422 * i.screenWidth / 1080) / 2;
                     a.native_grid_ad = wx.createCustomAd({
-                        adUnitId: a.small_native ? this.native_grid_adIds[0] : this.native_grid_adIds[1],
+                        adUnitId: "adunit-bd05308d7564344e",
                         style: {
                             top: o,
                             left: 0
@@ -5121,8 +5122,8 @@ window.__require = function e(t, a, n) {
                                             w._game_config = t.data;
                                             var n = parseInt(w.getConfig("adBox")) || 1;
                                             console.log("adBox", n), w.adBoxValue = parseInt(w.getConfig("ad_box")) || 1, w.bannerValue = parseInt(w.getConfig("banner")) || 1, 
-                                            w.loadedVideo = parseInt(w.getConfig("loaded_video")) || 0, w.resultVideo = parseInt(w.getConfig("result_video")) || 0, 
-                                            w.gamestartVideo = parseInt(w.getConfig("gamestart_video")) || 0, w.levelstartVideo = parseInt(w.getConfig("levelstart_video")) || 0, 
+                                            w.loadedVideo = 0, w.resultVideo = 0, 
+                                            w.gamestartVideo = 0, w.levelstartVideo = 0, 
                                             console.log(w.adBoxValue + ":" + w.bannerValue + ":" + w.loadedVideo + ":" + w.resultVideo), 
                                             t.data.review && (o.wechat_review.remote_review = !0, a.wechat._is_review = !0), 
                                             e(!0);
@@ -5135,7 +5136,7 @@ window.__require = function e(t, a, n) {
                                 });
                             }), a.wechat._is_review = o.wechat_review.isReview, t && (console.log(t + "        !!"), 
                             this._rewardedVideoAd = wx.createRewardedVideoAd({
-                                adUnitId: t
+                                adUnitId: "adunit-16a5e7db6ed76e6a"
                             }), this._rewardedVideoAd.onError(function() {}), this._rewardedVideoAd.onLoad(function() {})), 
                             l ? (this.banner_id = l, N = wx.getSystemInfoSync(), this._bannerAd = wx.createBannerAd({
                                 adUnitId: l,
@@ -5179,7 +5180,7 @@ window.__require = function e(t, a, n) {
                             }
                             return _ = wx.getSystemInfoSync(), _.screenWidth, _.screenHeight, _.devicePixelRatio, 
                             y = _.safeArea, C = _.statusBarHeight, 0 == g && (this._fullGrid = wx.createInterstitialAd({
-                                adUnitId: s,
+                                adUnitId: "adunit-4050a161fd80b89d",
                                 style: {
                                     left: 0,
                                     top: 0
@@ -5190,7 +5191,7 @@ window.__require = function e(t, a, n) {
                             }), this._fullGrid.onClose(function() {
                                 w._fullGrid = null;
                             }), this._gridWall = wx.createCustomAd({
-                                adUnitId: u,
+                                adUnitId: "adunit-bd05308d7564344e",
                                 style: {
                                     left: 0,
                                     top: (y ? y.top : 10) + C + 30
@@ -5200,7 +5201,7 @@ window.__require = function e(t, a, n) {
                             }), this._gridWall.onClose(function() {
                                 w._gridWall = null;
                             }), this._is_review ? this._gridLine = null : (this._gridLine = wx.createCustomAd({
-                                adUnitId: d,
+                                adUnitId: "adunit-bd05308d7564344e",
                                 style: {
                                     left: 30,
                                     top: (y ? y.top : 10) + C + 20
@@ -5210,10 +5211,10 @@ window.__require = function e(t, a, n) {
                             }), this._gridLine.onClose(function() {
                                 w._gridLine = null, c.wechatGameWall.showLine();
                             })), N = wx.getSystemInfoSync(), this._gridAd2 = wx.createCustomAd({
-                                adUnitId: h,
+                                adUnitId: "adunit-95bb74fc84444bfb",
                                 style: {
                                     left: N.windowWidth - 70,
-                                    top: (y ? y.top : 10) + C
+                                    top: (y ? y.top : 10) + C-30
                                 }
                             }), this._gridAd2.onError(function(e) {
                                 console.log("gridAd err", JSON.stringify(e)), w._gridAd2 = null;
@@ -6466,6 +6467,7 @@ window.__require = function e(t, a, n) {
                     cc.director.getScene().getChildByName("Canvas").getComponent("menuScene").pkScene();
                 }) : 0 == this.battleType && (l.wechat.showGridAd2(), this.node.runAction(cc.removeSelf()));
             }, t.prototype.initResultNode = function(e, t, a) {
+                window.showEnd();
                 if (void 0 === a && (a = 0), this.getGold = a, this.battleType = e, 1 == t ? (this.node.getChildByName("win").getComponent(cc.AudioSource).play(), 
                 this.node.getChildByName("fontButton").active = !0, this.node.getChildByName("itemFrame").active = !0, 
                 this.node.getChildByName("button_double").active = !0, this.node.getChildByName("img_losepic").active = !1, 
@@ -6484,15 +6486,14 @@ window.__require = function e(t, a, n) {
                 this.node.getChildByName("itemFrame").runAction(cc.scaleTo(.4, 1))), this.node.getChildByName("itemFrame").getChildByName("itemNum").getComponent(cc.Label).string = "" + a, 
                 0 == t && (this.battleType = 0), (1 == e || 2 == e) && (l.wechat.hideBannerAd(), 
                 console.log(" _is_review is " + l.wechat._is_review), !l.wechat._is_review)) {
-                    if (console.log(" backTimes is " + c.DataManage.backTimes + "   adBoxValue is  " + l.wechat.adBoxValue), 
-                    c.DataManage.backTimes % l.wechat.adBoxValue == 0) this.node.getChildByName("adBox").getComponent("adBox").adBoxShow(cc.v2(0, 0)); else if (c.DataManage.backTimes > 0) {
+                    if (0) this.node.getChildByName("adBox").getComponent("adBox").adBoxShow(cc.v2(0, 0)); else if (c.DataManage.backTimes > 0) {
                         var n = l.wechat.getConfig("new_gamewall") || !1;
                         console.log(" newgamewall is " + n), n && this.onBtnShowGameWall();
                     }
                     c.DataManage.backTimes++;
                 }
             }, t.prototype.onBtnShowGameWall = function() {
-                var e = this, t = l.wechat.getConfig("new_gamewall") || !1;
+                var e = this, t = 0/* l.wechat.getConfig("new_gamewall") || !1 */;
                 console.log(" newgamewall is " + t), !l.wechat._is_review && t && (l.wechat.hideGridAd2(), 
                 l.wechat.showBannerAd(), console.log("OnBtnShowGameWall", !!this.game_wall), this.game_wall ? this.game_wall.show() : r.default.load().then(function(t) {
                     console.log("gamewall loaded"), e.game_wall = t.getComponent("gamewall"), e.node.addChild(t), 
@@ -6570,7 +6571,7 @@ window.__require = function e(t, a, n) {
                 this.node.runAction(cc.sequence(cc.delayTime(.5), cc.removeSelf()));
             }, t.prototype.enterBattle = function() {
                 var e = this;
-                r.wechat._is_review || 1 != r.wechat.resultVideo ? (this.node.getChildByName("click").getComponent(cc.AudioSource).play(), 
+                1 ? (this.node.getChildByName("click").getComponent(cc.AudioSource).play(), 
                 cc.director.loadScene("battleScene", function() {
                     for (var e = c.DataManage.enemyData, t = [], a = null, n = 0; n != c.DataManage.battleTeam.length; n++) {
                         a = c.Utils.getCardInfo(c.DataManage.battleTeam[n]), t.push([ a[0], a[1] ]);

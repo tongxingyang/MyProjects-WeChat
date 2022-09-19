@@ -1,4 +1,4 @@
-import { _decorator, Component, Node, v3, Vec3, tween, Camera, find, math } from 'cc';
+import { _decorator, Component, Node, v3, Vec3, tween, Camera, find, math, geometry, PhysicsSystem } from 'cc';
 import PlayerDataMgr from '../Mod/PlayerDataMgr';
 import { GameLogic } from './GameLogic';
 const { ccclass, property } = _decorator;
@@ -11,6 +11,7 @@ export class Car extends Component {
     camPos: Node = null
     targetNode: Node = null
     car: Node = null
+    rayP: Node = null
 
     roadPointArr: Vec3[] = []
     roadRotationArr: Vec3[] = []
@@ -19,13 +20,17 @@ export class Car extends Component {
     speed: number = 1
     dir: Vec3 = v3()
     preTargetPos: Vec3 = v3(0, 0, 0.1)
+    worldRay = null
+    isMoving: boolean = false
 
     onLoad() {
         Car.Share = this
         this.gameCam = this.getComponentInChildren(Camera)
         this.camPos = this.node.getChildByName('CamNode')
+        this.rayP = this.node.getChildByName('rayP')
         this.targetNode = GameLogic.Share.node.getChildByName('targetNode')
         this.car = this.node.children[0]
+        this.worldRay = new geometry.Ray()
     }
 
     start() {
@@ -65,8 +70,10 @@ export class Car extends Component {
     }
 
     move() {
-        let id = this.roadIndex
-        let id1 = this.roadIndex + 10
+        let nearId = this.getNearPoint()
+        if (nearId == -1 || nearId >= this.roadPointArr.length) return
+        let id = nearId
+        let id1 = id + 5
         if (id >= this.roadPointArr.length) id = this.roadPointArr.length - 1
         if (id1 >= this.roadPointArr.length) id1 = this.roadPointArr.length - 1
         let p1 = this.roadPointArr[id]
@@ -78,29 +85,34 @@ export class Car extends Component {
         this.dir = dir.clone()
         Vec3.multiplyScalar(dir, dir, this.speed)
         this.node.worldPosition = Vec3.add(dir, dir, this.node.worldPosition.clone())
-        if (Vec3.distance(p2, this.node.worldPosition) <= 1) {
-            this.roadIndex += 10
-        }
+        // if (Vec3.distance(p2, this.node.worldPosition) <= 0.5) {
+        //     this.roadIndex += 10
+        // }
 
-        let nearId = this.getNearPoint()
-        if (nearId == -1 || nearId + 5 >= this.roadPointArr.length) return
-        let nearP = this.roadPointArr[nearId + 40]
+        let lookId = nearId + 40
+        if (lookId >= this.roadPointArr.length) return
+        let nearP = this.roadPointArr[lookId]
         this.node.lookAt(nearP)
     }
 
     moveX(isLeft: boolean) {
+        this.isMoving = true
         let myPos = this.car.position.clone()
         myPos.x += isLeft ? -0.1 : 0.1
         if (myPos.x > 3) myPos.x = 3
         if (myPos.x < -3) myPos.x = -3
         this.car.position = myPos
+        //this.checkRay()
+    }
+    stopMove() {
+        this.isMoving = false
     }
 
     getNearPoint() {
         let arr = []
         for (let i = 0; i < this.roadPointArr.length; i++) {
             let p = this.roadPointArr[i]
-            if (Vec3.distance(this.node.worldPosition.clone(), p) > 1) continue
+            if (Vec3.distance(this.node.worldPosition.clone(), p) > 30) continue
             arr.push({
                 id: i,
                 dis: Vec3.distance(this.node.worldPosition.clone(), p)
@@ -111,8 +123,30 @@ export class Car extends Component {
         return arr[0].id
     }
 
+    checkRay() {
+        geometry.Ray.fromPoints(this.worldRay, this.rayP.children[0].worldPosition.clone(), this.rayP.children[1].worldPosition.clone())
+        const bResult = PhysicsSystem.instance.raycast(this.worldRay, 0xffffffff, 3, true);
+        if (bResult) {
+            const results = PhysicsSystem.instance.raycastResults;
+
+            for (let i = 0; i < results.length; i++) {
+                const result = results[i];
+                const collider = result.collider;
+                if (collider.node.name.search('Road') == -1) continue
+                const distance = result.distance;
+                const hitPoint = result.hitPoint;
+                const hitNormal = result.hitNormal;
+                this.car.worldPosition = hitPoint
+
+                break
+            }
+        }
+    }
+
     update(deltaTime: number) {
         this.move()
+        if (!this.isMoving)
+            this.checkRay()
     }
 }
 
