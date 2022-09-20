@@ -3520,7 +3520,7 @@ function s0b(a, b) {
             const jh = fb;
             let eE = this;
             (!this["interstitialAd"] || !this[jh(438)]) && (this[jh(1536)] = this["wx"]["createInterstitialAd"]({
-                adUnitId: am[jh(1242)](jh(3317), "")
+                adUnitId: "adunit-fccaf3be5e682715"
             }), this[jh(1536)]["onLoad"](() => {
                 const ji = jh;
                 eE[ji(438)] = !![], console[ji(427)]("插屏 广告加载成功");
@@ -3659,7 +3659,7 @@ function s0b(a, b) {
                 const jD = s0b;
                 let eH = this;
                 console["log"](jD(1624)), this["_videoAd"] = this["wx"]["createRewardedVideoAd"]({
-                    adUnitId: am["getPlatData"]("RewardedVideoAd", ""),
+                    adUnitId: "adunit-75b7e4c3c877a615",
                     multiton: !![]
                 });
                 let eI = () => {

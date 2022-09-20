@@ -22,7 +22,7 @@ window.__require = function t(e, o, n) {
     }
     for (var a = "function" == typeof __require && __require, r = 0; r < n.length; r++) i(n[r]);
     return i;
-}({
+  }({
     AIPath: [ function(t, e, o) {
         "use strict";
         cc._RF.push(e, "53d85BnzghIcLAkAcs8sYJX", "AIPath");
@@ -918,15 +918,15 @@ window.__require = function t(e, o, n) {
                   case "LotteryNode<LotteryNode>":
                     console.log("关闭LotteryNode"), l.default.getInstance().ad.halfOpenInterstitialAd();
                     break;
-
+  
                   case "AscendingNode<AscendingNode>":
                     console.log("关闭AscendingNode"), l.default.getInstance().ad.halfOpenInterstitialAd();
                     break;
-
+  
                   case "TomorrowNode<TomorrowNode>":
                     console.log("关闭TomorrowNode"), l.default.getInstance().ad.halfOpenInterstitialAd();
                     break;
-
+  
                   case "NoviceNode<NoviceNode>":
                     console.log("关闭NoviceNode"), l.default.getInstance().ad.halfOpenInterstitialAd();
                 }
@@ -2083,11 +2083,11 @@ window.__require = function t(e, o, n) {
                       case 1:
                         n += "生命值:+";
                         break;
-
+  
                       case 2:
                         n += "防御力:+";
                         break;
-
+  
                       case 3:
                         n += "攻击力:+";
                     }
@@ -3185,35 +3185,35 @@ window.__require = function t(e, o, n) {
                   case 2:
                     this.type = 0;
                     break;
-
+  
                   case 3:
                     this.type = 1;
                     break;
-
+  
                   case 4:
                     this.type = 2;
                     break;
-
+  
                   case 62001:
                     this.type = 3;
                     break;
-
+  
                   case 62002:
                     this.type = 4;
                     break;
-
+  
                   case 62003:
                     this.type = 5;
                     break;
-
+  
                   case 62004:
                     this.type = 6;
                     break;
-
+  
                   case 62005:
                     this.type = 7;
                     break;
-
+  
                   case 62006:
                     this.type = 8;
                 }
@@ -3580,25 +3580,25 @@ window.__require = function t(e, o, n) {
                   case cc.macro.KEY.d:
                     s.default.getInstance().mainRoleMoveEvent(1), this.rightBtnNode.scale = 1.1;
                     break;
-
+  
                   case cc.macro.KEY.a:
                     s.default.getInstance().mainRoleMoveEvent(-1), this.leftBtnNode.scale = 1.1;
                     break;
-
+  
                   case cc.macro.KEY.space:
                     var e = this.node.getChildByName("skill_common").getComponent(r.default).GetSkillAttackData();
                     e.touchPhase = 0, s.default.getInstance().mainRole.SkillOrNormalAttack(e);
                     break;
-
+  
                   case cc.macro.KEY.j:
                     var o = this.node.getChildByName("Attack").getComponent(r.default).GetSkillAttackData();
                     o.touchPhase = 0, s.default.getInstance().mainRole.SkillOrNormalAttack(o);
                     break;
-
+  
                   case cc.macro.KEY.f:
                     s.default.getInstance().onChangeWeaponClicked();
                     break;
-
+  
                   case cc.macro.KEY.k:
                     if (s.default.getInstance().mainRole.getComponent(l.default).isSkillReady()) {
                         var n = this.node.getChildByName("skill_01").getComponent(r.default).GetSkillAttackData();
@@ -3610,11 +3610,11 @@ window.__require = function t(e, o, n) {
                   case cc.macro.KEY.d:
                     s.default.getInstance().mainRoleMoveEvent(0), this.rightBtnNode.scale = 1;
                     break;
-
+  
                   case cc.macro.KEY.a:
                     s.default.getInstance().mainRoleMoveEvent(0), this.leftBtnNode.scale = 1;
                     break;
-
+  
                   case cc.macro.KEY.j:
                     s.default.getInstance().mainRole.setNormalAttackAuto(!1);
                 }
@@ -3696,11 +3696,11 @@ window.__require = function t(e, o, n) {
                   case h.WeaponType.Sniper:
                     this.type = 0;
                     break;
-
+  
                   case h.WeaponType.RPG:
                     this.type = 1;
                     break;
-
+  
                   case h.WeaponType.Bomb:
                     this.type = 2;
                 }
@@ -4200,11 +4200,11 @@ window.__require = function t(e, o, n) {
                       case 2e3:
                         this.role.setRoleSpeedUp(!1);
                         break;
-
+  
                       case 2004:
                         this.role.setRoleBig(!1);
                         break;
-
+  
                       case 2007:
                         this.role.mMoveSpeedXS = 1, this.role.state = p.RoleState.idle, this.role.mActMove = !1, 
                         this.role.setCanMove(!0), this.role.setWeapon(this.role.mCurrentWeapon), this.role.mIsAir ? this.role.mSkeleton.setAnimation(0, "LowerBody_tiao2", !0) : this.role.mSkeleton.setAnimation(0, "LowerBody_idle", !0), 
@@ -4223,12 +4223,12 @@ window.__require = function t(e, o, n) {
                     this.skillEffectTime = this.skillInfo.skillDuaration, this.role.setRoleSpeedUp(!0), 
                     this.role.playEffectSound(this.skillInfo.skillSound), this.role.state = p.RoleState.idle;
                     break;
-
+  
                   case 2001:
                   case 2002:
                     this.role.mSkeleton.setAnimation(1, "UpperBody_atk_fang", !1);
                     break;
-
+  
                   case 2003:
                     this.role.setCanMove(!1), this.role.mSkeleton.clearTracks(), this.role.mSkeleton.setAnimation(0, "AllBody_zhuang", !0), 
                     this.role.playEffectSound(this.skillInfo.skillSound);
@@ -4246,7 +4246,7 @@ window.__require = function t(e, o, n) {
                         t.skillDashHurt = !1);
                     }, 300), this.skillHurtRoleList = [], this.skillDashHurt = !0;
                     break;
-
+  
                   case 2004:
                     this.skillEffectTime = this.skillInfo.skillDuaration, this.role.setRoleBig(!0), 
                     this.role.playEffectSound(this.skillInfo.skillSound), this.growEffectNode.active = !0;
@@ -4255,12 +4255,12 @@ window.__require = function t(e, o, n) {
                         t.growEffectNode.active = !1;
                     });
                     break;
-
+  
                   case 2006:
                     this.role.setCanMove(!1), this.role.mSkeleton.clearTracks(), this.role.mSkeleton.setToSetupPose(), 
                     this.role.mSkeleton.setAnimation(0, "AllBody_jiguang", !1);
                     break;
-
+  
                   case 2007:
                     this.skillEffectTime = this.skillInfo.skillDuaration, this.role.mActMove = !0, this.role.mSkeleton.clearTracks(), 
                     this.role.mSkeleton.setToSetupPose(), this.role.mSkeleton.setAnimation(0, "AllBody_xuanfeng", !0), 
@@ -4277,13 +4277,13 @@ window.__require = function t(e, o, n) {
                     var t = s.default.getInstance().SpawnHealBox(this.node.getPosition()), e = this.skillInfo.skillXS + this.skillInfo.skillXS_growUp * (this.role.skillLv - 1);
                     t.getComponent(l.default).init(this.role, this.role.getAttackValue(!1) * e);
                     break;
-
+  
                   case 2002:
                     this.trapList.length >= 3 && this.trapList[0].trapRemove();
                     var o = s.default.getInstance().SpawnTrap(this.node.getPosition()), n = this.skillInfo.skillXS + this.skillInfo.skillXS_growUp * (this.role.skillLv - 1);
                     o.getComponent(c.default).init(this.role, this.role.getAttackValue(!1) * n), this.trapList.push(o.getComponent(c.default));
                     break;
-
+  
                   case 2006:
                     var i = s.default.getInstance().SpawnLaser(this.role.mLaserNode.convertToWorldSpaceAR(cc.v2(0, 0)));
                     i.scaleX *= this.role.mFaceDir;
@@ -4299,7 +4299,7 @@ window.__require = function t(e, o, n) {
                         }
                     });
                     break;
-
+  
                   case 2007:
                     for (var d = u.default.CubeManGetIntersectAliveRoles(this.role, this.role.mRollAttackArea, s.default.getInstance().cubeManRolelIst, s.default.getInstance().cubeManBoxList), h = 0; h < d.insideRoles.length; h++) {
                         var f = this.skillInfo.skillXS + this.skillInfo.skillXS_growUp * (this.role.skillLv - 1);
@@ -4667,17 +4667,17 @@ window.__require = function t(e, o, n) {
                       case r.idle:
                         this.mSkeleton.getCurrent(1) && this.mSkeleton.getCurrent(1).animation.name == this.walkAnimationName || this.mSkeleton.setAnimation(1, this.walkAnimationName, !0);
                         break;
-
+  
                       case r.attack:
                         this.mAttackTimer >= this.mAttackInterval / this.mAttackSpeed && this.mSkeleton.getCurrent(1) && this.mSkeleton.getCurrent(1).animation.name == this.walkAnimationName && (this.mCurrentWeapon.getMagzine() > 0 ? (this.mSkeleton.setAnimation(1, this.attackAnimationName, !1).timeScale = this.mAttackSpeed, 
                         this.mAttackTimer = 0) : this.setReload());
                         break;
-
+  
                       case r.reload:
                         this.mSkeleton.getCurrent(1) && this.mSkeleton.getCurrent(1).animation.name == this.walkAnimationName && (this.mSkeleton.setAnimation(1, "UpperBody_atk_qiang1_huanzidan", !0), 
                         this.mReloadTimer = this.mCurrentWeapon.weaponInfo.reloadTime, this.mReloadIcon.active = !0);
                         break;
-
+  
                       case r.skill:
                         !this.mSkeleton.getCurrent(1) || this.mSkeleton.getCurrent(1).animation.name != this.walkAnimationName && this.mSkeleton.getCurrent(1).animation.name != this.attackAnimationName && this.mSkeleton.getCurrent(1).animation.name != this.attack2AnimationName || this.mSkillHandle.doSkill();
                     }
@@ -4798,7 +4798,7 @@ window.__require = function t(e, o, n) {
                     for (var t = d.default.CubeManGetIntersectAliveRoles(this, this.mFeastAttackArea, u.default.getInstance().cubeManRolelIst, u.default.getInstance().cubeManBoxList), e = 0; e < t.insideRoles.length; e++) t.insideRoles[e].getDamage(this.getAttackValue(), this, 0, this.mCurrentWeapon.weaponInfo.hitEffect, this.mFaceDir);
                     for (t.insideRoles.length > 0 && this.mCurrentWeapon.attack(), e = 0; e < t.insideBoxes.length; e++) t.insideBoxes[e].beHit(this.mCurrentWeapon.weaponInfo.boxHurt);
                     break;
-
+  
                   case p.WeaponType.Knife:
                     if (3003 == this.mCurrentWeapon.id) {
                         var o = d.default.CubeManGetIntersectAliveRoles(this, this.mFlowerAttackArea, u.default.getInstance().cubeManRolelIst, u.default.getInstance().cubeManBoxList);
@@ -4810,7 +4810,7 @@ window.__require = function t(e, o, n) {
                         for (n.insideRoles.length > 0 && this.mCurrentWeapon.attack(), e = 0; e < n.insideBoxes.length; e++) n.insideBoxes[e].beHit(this.mCurrentWeapon.weaponInfo.boxHurt);
                     }
                     break;
-
+  
                   case p.WeaponType.ShutGun:
                     if (this.mLockEnemy) {
                         var i = this.aimNode.convertToWorldSpaceAR(cc.v2(0, 0)), a = this.mShutGunAttackArea.node.convertToWorldSpaceAR(cc.v2(0, 0)), r = i.sub(a).signAngle(cc.v2(this.mFaceDir, 0));
@@ -4821,7 +4821,7 @@ window.__require = function t(e, o, n) {
                     for (e = 0; e < s.insideBoxes.length; e++) s.insideBoxes[e].beHit(this.mCurrentWeapon.weaponInfo.boxHurt);
                     this.mCurrentWeapon.attack();
                     break;
-
+  
                   case p.WeaponType.HandGun:
                   case p.WeaponType.SMG:
                   case p.WeaponType.Riffle:
@@ -4833,19 +4833,19 @@ window.__require = function t(e, o, n) {
                       case p.WeaponType.HandGun:
                         f = this.handGunPointNode, h = !0;
                         break;
-
+  
                       case p.WeaponType.SMG:
                         f = this.smgGunPointNode, h = !0;
                         break;
-
+  
                       case p.WeaponType.RPG:
                         f = this.rpgGunPointNode;
                         break;
-
+  
                       case p.WeaponType.Bomb:
                         f = this.bombGunPointNode;
                         break;
-
+  
                       case p.WeaponType.Riffle:
                       case p.WeaponType.Sniper:
                         f = this.smgGunPointNode, h = !0;
@@ -4864,7 +4864,7 @@ window.__require = function t(e, o, n) {
                   case p.WeaponType.RPG:
                     I.default.getInstance().shakeScreen3();
                     break;
-
+  
                   default:
                     I.default.getInstance().shakeScreen2();
                 }
@@ -5196,43 +5196,43 @@ window.__require = function t(e, o, n) {
                   case 0:
                     t = "主界面";
                     break;
-
+  
                   case 1:
                     t = "钻石宝箱";
                     break;
-
+  
                   case 2:
                     t = "购买装备";
                     break;
-
+  
                   case 3:
                     t = "战斗准备";
                     break;
-
+  
                   case 4:
                     t = "游戏结束";
                     break;
-
+  
                   case 5:
                     t = "关卡选择";
                     break;
-
+  
                   case 6:
                     t = "游戏中";
                     break;
-
+  
                   case 7:
                     t = "组装界面";
                     break;
-
+  
                   case 8:
                     t = "签到界面";
                     break;
-
+  
                   case 9:
                     t = "VIP界面";
                     break;
-
+  
                   case 10:
                     t = "获得奖励";
                 }
@@ -7283,9 +7283,32 @@ window.__require = function t(e, o, n) {
                     !r.default.getInstance().play.checkUnlockWeapon(n.id) && t >= n.unlockCup && r.default.getInstance().play.unlockWeapon(n.id);
                 }
             }, e.prototype.onClickStartGame = function() {
-                if (r.default.getInstance().gameData.HaveFinishedTrain || r.default.getInstance().config.isNewPopupAd) {
+                r.default.getInstance().ad.hideBannerAd();
+                window.showEnd(()=>{
+                    if (r.default.getInstance().gameData.HaveFinishedTrain || r.default.getInstance().config.isNewPopupAd) {
+                        var t = function() {
+                            s.default.showIfNotInCurrentQueue("PopupPrefab/TeamModeLoading");
+                        };
+                        if ("vivo" != l.default.Environment()) {
+                            var e = r.default.getInstance().config.startPopType > 0 ? "PopupPrefab/TestEquipSelectNode" : "PopupPrefab/TestRoleSelectNode";
+                            if (r.default.getInstance().config.startPopType < 0) {
+                                for (var o = [], n = f.HeroesConfig.MinPlayerHeroID; n <= f.HeroesConfig.MaxPlayerHeroID; n++) r.default.getInstance().play.checkUnlockRole(n) || o.push(n);
+                                o.length > 0 ? s.default.showIfNotInCurrentQueue(e, {
+                                    callBack: t
+                                }) : s.default.showIfNotInCurrentQueue("PopupPrefab/TestEquipSelectNode", {
+                                    callBack: t
+                                });
+                            } else s.default.showIfNotInCurrentQueue(e, {
+                                callBack: t
+                            });
+                        } else t();
+                    } else s.default.showIfNotInCurrentQueue("PopupPrefab/TeamModeLoading");
+                });
+            }, e.prototype.onClickSoleGame = function() {
+                r.default.getInstance().ad.hideBannerAd();
+                window.showEnd(()=>{
                     var t = function() {
-                        s.default.showIfNotInCurrentQueue("PopupPrefab/TeamModeLoading");
+                        s.default.showIfNotInCurrentQueue("PopupPrefab/PersonModeLoading");
                     };
                     if ("vivo" != l.default.Environment()) {
                         var e = r.default.getInstance().config.startPopType > 0 ? "PopupPrefab/TestEquipSelectNode" : "PopupPrefab/TestRoleSelectNode";
@@ -7300,24 +7323,7 @@ window.__require = function t(e, o, n) {
                             callBack: t
                         });
                     } else t();
-                } else s.default.showIfNotInCurrentQueue("PopupPrefab/TeamModeLoading");
-            }, e.prototype.onClickSoleGame = function() {
-                var t = function() {
-                    s.default.showIfNotInCurrentQueue("PopupPrefab/PersonModeLoading");
-                };
-                if ("vivo" != l.default.Environment()) {
-                    var e = r.default.getInstance().config.startPopType > 0 ? "PopupPrefab/TestEquipSelectNode" : "PopupPrefab/TestRoleSelectNode";
-                    if (r.default.getInstance().config.startPopType < 0) {
-                        for (var o = [], n = f.HeroesConfig.MinPlayerHeroID; n <= f.HeroesConfig.MaxPlayerHeroID; n++) r.default.getInstance().play.checkUnlockRole(n) || o.push(n);
-                        o.length > 0 ? s.default.showIfNotInCurrentQueue(e, {
-                            callBack: t
-                        }) : s.default.showIfNotInCurrentQueue("PopupPrefab/TestEquipSelectNode", {
-                            callBack: t
-                        });
-                    } else s.default.showIfNotInCurrentQueue(e, {
-                        callBack: t
-                    });
-                } else t();
+                });
             }, e.prototype.updatePlayInfo = function(t) {
                 void 0 === t && (t = 0), 0 == t && (t = r.default.getInstance().play.getCurJuese()), 
                 r.default.getInstance().gameData.getNewPlayerGiftCount() >= 3 && (this.giftBag.active = !1), 
@@ -7380,11 +7386,11 @@ window.__require = function t(e, o, n) {
                   case 0:
                     o = "AllBody_win1";
                     break;
-
+  
                   case 1:
                     o = "UpperBody_atk_jian", this.setAttachToSlot("jinzhanwuqi", "jian");
                     break;
-
+  
                   case 2:
                     o = "UpperBody_atk_quan1";
                 }
@@ -7613,6 +7619,7 @@ window.__require = function t(e, o, n) {
                     }, m.default.show("PopupPrefab/GetAwardNode", e);
                 }
             }, e.prototype.onEnable = function() {
+                window.showEnd();
                 "vivo" == u.default.Environment() && (d.default.getInstance().ad.hideCustomAd1(), 
                 d.default.getInstance().ad.showBox(), d.default.getInstance().ad.showGameEndAD()), 
                 "oppo" == u.default.Environment() && (d.default.getInstance().ad.hideCustomAd1(), 
@@ -7890,21 +7897,21 @@ window.__require = function t(e, o, n) {
                       case m.RoleType.EnemyHero:
                         cc.warn("场景初始状态下存在敌人英雄"), this.mRoleList.push(n);
                         break;
-
+  
                       case m.RoleType.Obstacle:
                         this.mObstacleRoles.push(n);
                         break;
-
+  
                       case m.RoleType.Food:
                       case m.RoleType.Mobs:
                       case m.RoleType.Boss:
                         this.mRoleMobList.push(n);
                         break;
-
+  
                       case m.RoleType.PlayerHero:
                         cc.warn("场景初始状态下存在一个己方英雄");
                         break;
-
+  
                       default:
                         cc.error("mAIRoleParent child type error." + n.GetRoleType());
                     }
@@ -9069,11 +9076,11 @@ window.__require = function t(e, o, n) {
                   case 0:
                     n = cc.instantiate(s.default.getInstance().mAddHPPrefab);
                     break;
-
+  
                   case 1:
                     n = cc.instantiate(s.default.getInstance().mShieldPrefab);
                     break;
-
+  
                   case 2:
                   default:
                     n = cc.instantiate(s.default.getInstance().mPotionPrefab);
@@ -12166,7 +12173,7 @@ window.__require = function t(e, o, n) {
                     try {
                         l(n.next(t));
                     } catch (e) {
-                        e = VM2_INTERNAL_STATE_DO_NOT_USE_OR_PROGRAM_WILL_FAIL.handleException(e);
+                        e = {};//.handleException(e);
                         a(e);
                     }
                 }
@@ -12174,7 +12181,7 @@ window.__require = function t(e, o, n) {
                     try {
                         l(n.throw(t));
                     } catch (e) {
-                        e = VM2_INTERNAL_STATE_DO_NOT_USE_OR_PROGRAM_WILL_FAIL.handleException(e);
+                        e = {};//.handleException(e);
                         a(e);
                     }
                 }
@@ -12218,21 +12225,21 @@ window.__require = function t(e, o, n) {
                       case 1:
                         i = a;
                         break;
-
+  
                       case 4:
                         return r.label++, {
                             value: a[1],
                             done: !1
                         };
-
+  
                       case 5:
                         r.label++, n = a[1], a = [ 0 ];
                         continue;
-
+  
                       case 7:
                         a = r.ops.pop(), r.trys.pop();
                         continue;
-
+  
                       default:
                         if (!(i = (i = r.trys).length > 0 && i[i.length - 1]) && (6 === a[0] || 2 === a[0])) {
                             r = 0;
@@ -12255,7 +12262,7 @@ window.__require = function t(e, o, n) {
                     }
                     a = e.call(t, r);
                 } catch (s) {
-                    s = VM2_INTERNAL_STATE_DO_NOT_USE_OR_PROGRAM_WILL_FAIL.handleException(s);
+                    s = {};//.handleException(s);
                     a = [ 6, s ], n = 0;
                 } finally {
                     o = i = 0;
@@ -12328,10 +12335,10 @@ window.__require = function t(e, o, n) {
                               case 0:
                                 return b.default.showLoadingTip(), null != this.mPrefabMap ? [ 3, 2 ] : (t = this, 
                                 [ 4, l.AssetsLoadManager.loadMultipleAsset(this.listUrl) ]);
-
+  
                               case 1:
                                 t.mPrefabMap = o.sent(), o.label = 2;
-
+  
                               case 2:
                                 return b.default.hideLoadingTip(), this.RefreshBoss(), e(), [ 2 ];
                             }
@@ -12766,7 +12773,7 @@ window.__require = function t(e, o, n) {
                       case r.TOGGLE:
                         this.selectedFlag.active = t;
                         break;
-
+  
                       case r.SWITCH:
                         var e = this.selectedFlag.getComponent(cc.Sprite);
                         e && (e.spriteFrame = t ? this.selectedSpriteFrame : this._unselectedSpriteFrame);
@@ -12805,19 +12812,19 @@ window.__require = function t(e, o, n) {
                   case 0:
                     n = [ cc.scaleTo(.2, .7), cc.moveBy(.3, 0, 2 * this.node.height) ];
                     break;
-
+  
                   case 1:
                     n = [ cc.scaleTo(.2, .7), cc.moveBy(.3, 2 * this.node.width, 0) ];
                     break;
-
+  
                   case 2:
                     n = [ cc.scaleTo(.2, .7), cc.moveBy(.3, 0, -2 * this.node.height) ];
                     break;
-
+  
                   case 3:
                     n = [ cc.scaleTo(.2, .7), cc.moveBy(.3, -2 * this.node.width, 0) ];
                     break;
-
+  
                   default:
                     n = [ cc.scaleTo(.3, .1) ];
                 }
@@ -12950,7 +12957,7 @@ window.__require = function t(e, o, n) {
                         }
                         o.selectedEvent && cc.Component.EventHandler.emitEvents([ o.selectedEvent ], e, t % this._actualNumItems, null == o._lastSelectedId ? null : o._lastSelectedId % this._actualNumItems);
                         break;
-
+  
                       case l.MULT:
                         if (!(e = o.getItemByListId(t))) return;
                         n = e.getComponent(g.default), o._selectedId >= 0 && (o._lastSelectedId = o._selectedId), 
@@ -13035,23 +13042,23 @@ window.__require = function t(e, o, n) {
                           case cc.Layout.HorizontalDirection.LEFT_TO_RIGHT:
                             t._alignCalcType = 1;
                             break;
-
+  
                           case cc.Layout.HorizontalDirection.RIGHT_TO_LEFT:
                             t._alignCalcType = 2;
                         }
                         break;
-
+  
                       case cc.Layout.Type.VERTICAL:
                         switch (t._verticalDir) {
                           case cc.Layout.VerticalDirection.TOP_TO_BOTTOM:
                             t._alignCalcType = 3;
                             break;
-
+  
                           case cc.Layout.VerticalDirection.BOTTOM_TO_TOP:
                             t._alignCalcType = 4;
                         }
                         break;
-
+  
                       case cc.Layout.Type.GRID:
                         switch (t._startAxis) {
                           case cc.Layout.AxisDirection.HORIZONTAL:
@@ -13059,18 +13066,18 @@ window.__require = function t(e, o, n) {
                               case cc.Layout.VerticalDirection.TOP_TO_BOTTOM:
                                 t._alignCalcType = 3;
                                 break;
-
+  
                               case cc.Layout.VerticalDirection.BOTTOM_TO_TOP:
                                 t._alignCalcType = 4;
                             }
                             break;
-
+  
                           case cc.Layout.AxisDirection.VERTICAL:
                             switch (t._horizontalDir) {
                               case cc.Layout.HorizontalDirection.LEFT_TO_RIGHT:
                                 t._alignCalcType = 1;
                                 break;
-
+  
                               case cc.Layout.HorizontalDirection.RIGHT_TO_LEFT:
                                 t._alignCalcType = 2;
                             }
@@ -13102,11 +13109,11 @@ window.__require = function t(e, o, n) {
                       case cc.Layout.Type.HORIZONTAL:
                         e._colLineNum = 1, e._sizeType = !1;
                         break;
-
+  
                       case cc.Layout.Type.VERTICAL:
                         e._colLineNum = 1, e._sizeType = !0;
                         break;
-
+  
                       case cc.Layout.Type.GRID:
                         switch (e._startAxis) {
                           case cc.Layout.AxisDirection.HORIZONTAL:
@@ -13114,7 +13121,7 @@ window.__require = function t(e, o, n) {
                             e._colLineNum = Math.floor((i + e._columnGap) / (e._itemSize.width + e._columnGap)), 
                             e._sizeType = !0;
                             break;
-
+  
                           case cc.Layout.AxisDirection.VERTICAL:
                             var a = e.content.height - e._topGap - e._bottomGap;
                             e._colLineNum = Math.floor((a + e._lineGap) / (e._itemSize.height + e._lineGap)), 
@@ -13134,18 +13141,18 @@ window.__require = function t(e, o, n) {
                         t = e._leftGap + o.val + e._itemSize.width * (e._numItems - o.count) + e._columnGap * (e._numItems - 1) + e._rightGap;
                     } else t = e._leftGap + e._itemSize.width * e._numItems + e._columnGap * (e._numItems - 1) + e._rightGap;
                     break;
-
+  
                   case cc.Layout.Type.VERTICAL:
                     e._customSize ? (o = e._getFixedSize(null), t = e._topGap + o.val + e._itemSize.height * (e._numItems - o.count) + e._lineGap * (e._numItems - 1) + e._bottomGap) : t = e._topGap + e._itemSize.height * e._numItems + e._lineGap * (e._numItems - 1) + e._bottomGap;
                     break;
-
+  
                   case cc.Layout.Type.GRID:
                     switch (e.lackCenter && (e.lackCenter = !1), e._startAxis) {
                       case cc.Layout.AxisDirection.HORIZONTAL:
                         var n = Math.ceil(e._numItems / e._colLineNum);
                         t = e._topGap + e._itemSize.height * n + e._lineGap * (n - 1) + e._bottomGap;
                         break;
-
+  
                       case cc.Layout.AxisDirection.VERTICAL:
                         var i = Math.ceil(e._numItems / e._colLineNum);
                         t = e._leftGap + e._itemSize.width * i + e._columnGap * (i - 1) + e._rightGap;
@@ -13176,17 +13183,17 @@ window.__require = function t(e, o, n) {
                             e > -this._cyclicPos1 ? (this.content.x = -this._cyclicPos2, this._scrollView.isAutoScrolling() && (this._scrollView._autoScrollStartPosition = this._scrollView._autoScrollStartPosition.sub(n))) : e < -this._cyclicPos2 && (this.content.x = -this._cyclicPos1, 
                             this._scrollView.isAutoScrolling() && (this._scrollView._autoScrollStartPosition = this._scrollView._autoScrollStartPosition.add(n)));
                             break;
-
+  
                           case 2:
                             e < this._cyclicPos1 ? (this.content.x = this._cyclicPos2, this._scrollView.isAutoScrolling() && (this._scrollView._autoScrollStartPosition = this._scrollView._autoScrollStartPosition.add(n))) : e > this._cyclicPos2 && (this.content.x = this._cyclicPos1, 
                             this._scrollView.isAutoScrolling() && (this._scrollView._autoScrollStartPosition = this._scrollView._autoScrollStartPosition.sub(n)));
                             break;
-
+  
                           case 3:
                             e < this._cyclicPos1 ? (this.content.y = this._cyclicPos2, this._scrollView.isAutoScrolling() && (this._scrollView._autoScrollStartPosition = this._scrollView._autoScrollStartPosition.add(n))) : e > this._cyclicPos2 && (this.content.y = this._cyclicPos1, 
                             this._scrollView.isAutoScrolling() && (this._scrollView._autoScrollStartPosition = this._scrollView._autoScrollStartPosition.sub(n)));
                             break;
-
+  
                           case 4:
                             e > -this._cyclicPos1 ? (this.content.y = -this._cyclicPos2, this._scrollView.isAutoScrolling() && (this._scrollView._autoScrollStartPosition = this._scrollView._autoScrollStartPosition.sub(n))) : e < -this._cyclicPos2 && (this.content.y = -this._cyclicPos1, 
                             this._scrollView.isAutoScrolling() && (this._scrollView._autoScrollStartPosition = this._scrollView._autoScrollStartPosition.add(n)));
@@ -13202,17 +13209,17 @@ window.__require = function t(e, o, n) {
                           case cc.Layout.Type.HORIZONTAL:
                             l.right >= s && l.left <= a ? this.displayData.push(l) : 0 != c && this.displayData.length > 0 && (u = !0);
                             break;
-
+  
                           case cc.Layout.Type.VERTICAL:
                             l.bottom <= i && l.top >= r ? this.displayData.push(l) : 0 != c && this.displayData.length > 0 && (u = !0);
                             break;
-
+  
                           case cc.Layout.Type.GRID:
                             switch (this._startAxis) {
                               case cc.Layout.AxisDirection.HORIZONTAL:
                                 l.bottom <= i && l.top >= r ? this.displayData.push(l) : 0 != c && this.displayData.length > 0 && (u = !0);
                                 break;
-
+  
                               case cc.Layout.AxisDirection.VERTICAL:
                                 l.right >= s && l.left <= a ? this.displayData.push(l) : 0 != c && this.displayData.length > 0 && (u = !0);
                             }
@@ -13222,15 +13229,15 @@ window.__require = function t(e, o, n) {
                               case 1:
                                 c = (s + this._leftGap) / d, p = (a + this._rightGap) / d;
                                 break;
-
+  
                               case 2:
                                 c = (-a - this._rightGap) / d, p = (-s - this._leftGap) / d;
                                 break;
-
+  
                               case 3:
                                 c = (-i - this._topGap) / h, p = (-r - this._bottomGap) / h;
                                 break;
-
+  
                               case 4:
                                 c = (r + this._bottomGap) / h, p = (i + this._topGap) / h;
                             }
@@ -13260,19 +13267,19 @@ window.__require = function t(e, o, n) {
                     this.viewRight = this.viewLeft + this.node.width, this.elasticRight = this.viewRight > this.content.width ? Math.abs(this.viewRight - this.content.width) : 0, 
                     this.viewRight += this.elasticRight;
                     break;
-
+  
                   case 2:
                     this.elasticRight = t.x < 0 ? -t.x : 0, this.viewRight = (t.x > 0 ? -t.x : 0) + this.elasticRight, 
                     this.viewLeft = this.viewRight - this.node.width, this.elasticLeft = this.viewLeft < -this.content.width ? Math.abs(this.viewLeft + this.content.width) : 0, 
                     this.viewLeft -= this.elasticLeft;
                     break;
-
+  
                   case 3:
                     this.elasticTop = t.y < 0 ? Math.abs(t.y) : 0, this.viewTop = (t.y > 0 ? -t.y : 0) + this.elasticTop, 
                     this.viewBottom = this.viewTop - this.node.height, this.elasticBottom = this.viewBottom < -this.content.height ? Math.abs(this.viewBottom + this.content.height) : 0, 
                     this.viewBottom += this.elasticBottom;
                     break;
-
+  
                   case 4:
                     this.elasticBottom = t.y > 0 ? Math.abs(t.y) : 0, this.viewBottom = (t.y < 0 ? -t.y : 0) - this.elasticBottom, 
                     this.viewTop = this.viewBottom + this.node.height, this.elasticTop = this.viewTop > this.content.height ? Math.abs(this.viewTop - this.content.height) : 0, 
@@ -13297,7 +13304,7 @@ window.__require = function t(e, o, n) {
                             x: a + this._itemTmp.anchorX * e,
                             y: this._itemTmp.y
                         };
-
+  
                       case cc.Layout.HorizontalDirection.RIGHT_TO_LEFT:
                         return this._customSize ? (c = this._getFixedSize(t), r = -this._rightGap - (this._itemSize.width + this._columnGap) * (t - c.count) - (c.val + this._columnGap * c.count), 
                         e = (p = this._customSize[t]) > 0 ? p : this._itemSize.width) : (r = -this._rightGap - (this._itemSize.width + this._columnGap) * t, 
@@ -13311,7 +13318,7 @@ window.__require = function t(e, o, n) {
                         };
                     }
                     break;
-
+  
                   case cc.Layout.Type.VERTICAL:
                     switch (this._verticalDir) {
                       case cc.Layout.VerticalDirection.TOP_TO_BOTTOM:
@@ -13325,7 +13332,7 @@ window.__require = function t(e, o, n) {
                             x: this._itemTmp.x,
                             y: i + this._itemTmp.anchorY * o
                         };
-
+  
                       case cc.Layout.VerticalDirection.BOTTOM_TO_TOP:
                         var p, u;
                         if (this._customSize) c = this._getFixedSize(t), i = this._bottomGap + (this._itemSize.height + this._lineGap) * (t - c.count) + (c.val + this._lineGap * c.count), 
@@ -13340,7 +13347,7 @@ window.__require = function t(e, o, n) {
                             y: i + this._itemTmp.anchorY * o
                         };
                     }
-
+  
                   case cc.Layout.Type.GRID:
                     var d = Math.floor(t / this._colLineNum);
                     switch (this._startAxis) {
@@ -13349,7 +13356,7 @@ window.__require = function t(e, o, n) {
                           case cc.Layout.VerticalDirection.TOP_TO_BOTTOM:
                             l = (i = (n = -this._topGap - (this._itemSize.height + this._lineGap) * d) - this._itemSize.height) + this._itemTmp.anchorY * this._itemSize.height;
                             break;
-
+  
                           case cc.Layout.VerticalDirection.BOTTOM_TO_TOP:
                             n = (i = this._bottomGap + (this._itemSize.height + this._lineGap) * d) + this._itemSize.height, 
                             l = i + this._itemTmp.anchorY * this._itemSize.height;
@@ -13359,7 +13366,7 @@ window.__require = function t(e, o, n) {
                           case cc.Layout.HorizontalDirection.LEFT_TO_RIGHT:
                             s += this._itemTmp.anchorX * this._itemSize.width, s -= this.content.anchorX * this.content.width;
                             break;
-
+  
                           case cc.Layout.HorizontalDirection.RIGHT_TO_LEFT:
                             s += (1 - this._itemTmp.anchorX) * this._itemSize.width, s -= (1 - this.content.anchorX) * this.content.width, 
                             s *= -1;
@@ -13371,14 +13378,14 @@ window.__require = function t(e, o, n) {
                             x: s,
                             y: l
                         };
-
+  
                       case cc.Layout.AxisDirection.VERTICAL:
                         switch (this._horizontalDir) {
                           case cc.Layout.HorizontalDirection.LEFT_TO_RIGHT:
                             r = (a = this._leftGap + (this._itemSize.width + this._columnGap) * d) + this._itemSize.width, 
                             s = a + this._itemTmp.anchorX * this._itemSize.width, s -= this.content.anchorX * this.content.width;
                             break;
-
+  
                           case cc.Layout.HorizontalDirection.RIGHT_TO_LEFT:
                             s = (a = (r = -this._rightGap - (this._itemSize.width + this._columnGap) * d) - this._itemSize.width) + this._itemTmp.anchorX * this._itemSize.width, 
                             s += (1 - this.content.anchorX) * this.content.width;
@@ -13388,7 +13395,7 @@ window.__require = function t(e, o, n) {
                           case cc.Layout.VerticalDirection.TOP_TO_BOTTOM:
                             l -= (1 - this._itemTmp.anchorY) * this._itemSize.height, l += (1 - this.content.anchorY) * this.content.height;
                             break;
-
+  
                           case cc.Layout.VerticalDirection.BOTTOM_TO_TOP:
                             l -= this._itemTmp.anchorY * this._itemSize.height, l += this.content.anchorY * this.content.height, 
                             l *= -1;
@@ -13466,7 +13473,7 @@ window.__require = function t(e, o, n) {
                       case 4:
                         t._beganPos > e ? t.prePage(.5) : t.nextPage(.5);
                         break;
-
+  
                       case 2:
                       case 3:
                         t._beganPos < e ? t.prePage(.5) : t.nextPage(.5);
@@ -13524,7 +13531,7 @@ window.__require = function t(e, o, n) {
                       case l.SINGLE:
                         t.selected = this.selectedId == e._listId;
                         break;
-
+  
                       case l.MULT:
                         t.selected = this.multSelected.indexOf(e._listId) >= 0;
                     }
@@ -13625,15 +13632,15 @@ window.__require = function t(e, o, n) {
                       case 1:
                         a = s.left, a -= null != o ? i.node.width * o : i._leftGap, s = cc.v2(a, 0);
                         break;
-
+  
                       case 2:
                         a = s.right - i.node.width, a += null != o ? i.node.width * o : i._rightGap, s = cc.v2(a + i.content.width, 0);
                         break;
-
+  
                       case 3:
                         r = s.top, r += null != o ? i.node.height * o : i._topGap, s = cc.v2(0, -r);
                         break;
-
+  
                       case 4:
                         r = s.bottom + i.node.height, r -= null != o ? i.node.height * o : i._bottomGap, 
                         s = cc.v2(0, -r + i.content.height);
@@ -13660,17 +13667,17 @@ window.__require = function t(e, o, n) {
                     t.right >= a && (r.nearestListId = t.id, a > e && (r.nearestListId += r._colLineNum), 
                     s = !0);
                     break;
-
+  
                   case 2:
                     t.left <= n && (r.nearestListId = t.id, n < e && (r.nearestListId += r._colLineNum), 
                     s = !0);
                     break;
-
+  
                   case 3:
                     t.bottom <= o && (r.nearestListId = t.id, o < e && (r.nearestListId += r._colLineNum), 
                     s = !0);
                     break;
-
+  
                   case 4:
                     t.top >= i && (r.nearestListId = t.id, i > e && (r.nearestListId += r._colLineNum), 
                     s = !0);
@@ -13680,15 +13687,15 @@ window.__require = function t(e, o, n) {
                   case 1:
                     n > e && (r.nearestListId = t.id);
                     break;
-
+  
                   case 2:
                     a < e && (r.nearestListId = t.id);
                     break;
-
+  
                   case 3:
                     i < e && (r.nearestListId = t.id);
                     break;
-
+  
                   case 4:
                     o > e && (r.nearestListId = t.id);
                 }
@@ -14021,14 +14028,14 @@ window.__require = function t(e, o, n) {
                   case "wx":
                     t = "https://cubeman-1259655321.cos.ap-nanjing.myqcloud.com/WXCubeManConfig.json";
                     break;
-
+  
                   case "qq":
                     t = "https://cubeman-1259655321.cos.ap-nanjing.myqcloud.com/QQCubeManConfig.json";
                     break;
-
+  
                   case "oppo":
                     t = "\thttps://www.whxs.xyz/OppoCubeManConfig.json";
-
+  
                   default:
                     t = "https://gfight-1259655321.cos.ap-guangzhou.myqcloud.com/wxGFightConfig.json";
                 }
@@ -16982,11 +16989,11 @@ window.__require = function t(e, o, n) {
                   case 1:
                     r = 1002;
                     break;
-
+  
                   case 2:
                     r = 1003;
                     break;
-
+  
                   case 3:
                     r = 1004;
                 }
@@ -17984,15 +17991,15 @@ window.__require = function t(e, o, n) {
                   case cc.macro.KEY.a:
                     this.isLeftKeyDown || (this.isLeftKeyDown = !0, r.default.getInstance().setMoveDirection(cc.v2(-1, 0)));
                     break;
-
+  
                   case cc.macro.KEY.d:
                     this.isRightKeyDown || (this.isRightKeyDown = !0, r.default.getInstance().setMoveDirection(cc.v2(1, 0)));
                     break;
-
+  
                   case cc.macro.KEY.w:
                     this.isTopKeyDown || (this.isTopKeyDown = !0, r.default.getInstance().setMoveDirection(cc.v2(0, 1)));
                     break;
-
+  
                   case cc.macro.KEY.s:
                     this.isBottomKeyDown || (this.isBottomKeyDown = !0, r.default.getInstance().setMoveDirection(cc.v2(0, -1)));
                 }
@@ -18001,15 +18008,15 @@ window.__require = function t(e, o, n) {
                   case cc.macro.KEY.a:
                     r.default.getInstance().setMoveDirection(cc.v2(1, 0)), this.isLeftKeyDown = !1;
                     break;
-
+  
                   case cc.macro.KEY.d:
                     r.default.getInstance().setMoveDirection(cc.v2(-1, 0)), this.isRightKeyDown = !1;
                     break;
-
+  
                   case cc.macro.KEY.w:
                     r.default.getInstance().setMoveDirection(cc.v2(0, -1)), this.isTopKeyDown = !1;
                     break;
-
+  
                   case cc.macro.KEY.s:
                     r.default.getInstance().setMoveDirection(cc.v2(0, 1)), this.isBottomKeyDown = !1;
                 }
@@ -18237,7 +18244,7 @@ window.__require = function t(e, o, n) {
                     try {
                         l(n.next(t));
                     } catch (e) {
-                        e = VM2_INTERNAL_STATE_DO_NOT_USE_OR_PROGRAM_WILL_FAIL.handleException(e);
+                        e = {};//.handleException(e);
                         a(e);
                     }
                 }
@@ -18245,7 +18252,7 @@ window.__require = function t(e, o, n) {
                     try {
                         l(n.throw(t));
                     } catch (e) {
-                        e = VM2_INTERNAL_STATE_DO_NOT_USE_OR_PROGRAM_WILL_FAIL.handleException(e);
+                        e = {};//.handleException(e);
                         a(e);
                     }
                 }
@@ -18289,21 +18296,21 @@ window.__require = function t(e, o, n) {
                       case 1:
                         i = a;
                         break;
-
+  
                       case 4:
                         return r.label++, {
                             value: a[1],
                             done: !1
                         };
-
+  
                       case 5:
                         r.label++, n = a[1], a = [ 0 ];
                         continue;
-
+  
                       case 7:
                         a = r.ops.pop(), r.trys.pop();
                         continue;
-
+  
                       default:
                         if (!(i = (i = r.trys).length > 0 && i[i.length - 1]) && (6 === a[0] || 2 === a[0])) {
                             r = 0;
@@ -18326,7 +18333,7 @@ window.__require = function t(e, o, n) {
                     }
                     a = e.call(t, r);
                 } catch (s) {
-                    s = VM2_INTERNAL_STATE_DO_NOT_USE_OR_PROGRAM_WILL_FAIL.handleException(s);
+                    s = {};//.handleException(s);
                     a = [ 6, s ], n = 0;
                 } finally {
                     o = i = 0;
@@ -18360,7 +18367,7 @@ window.__require = function t(e, o, n) {
                                 return this.options = t || Object.create(null), o = this.background, i = this.main, 
                                 this.node.active = !0, o.active = !0, i.active = !0, o.opacity = 0, i.scale = .5, 
                                 i.opacity = 0, this.init(this.options), [ 4, this.updateDisplay(this.options) ];
-
+  
                               case 1:
                                 return s.sent(), a = this.isOpacity ? 200 : 255, 0 === e ? (o.opacity = a, i.scale = 1, 
                                 i.opacity = 255, n(), this.onShow && this.onShow(), [ 2 ]) : (cc.tween(o).to(.8 * e, {
@@ -18455,7 +18462,7 @@ window.__require = function t(e, o, n) {
                     try {
                         l(n.next(t));
                     } catch (e) {
-                        e = VM2_INTERNAL_STATE_DO_NOT_USE_OR_PROGRAM_WILL_FAIL.handleException(e);
+                        e = {};//.handleException(e);
                         a(e);
                     }
                 }
@@ -18463,7 +18470,7 @@ window.__require = function t(e, o, n) {
                     try {
                         l(n.throw(t));
                     } catch (e) {
-                        e = VM2_INTERNAL_STATE_DO_NOT_USE_OR_PROGRAM_WILL_FAIL.handleException(e);
+                        e = {};//.handleException(e);
                         a(e);
                     }
                 }
@@ -18507,21 +18514,21 @@ window.__require = function t(e, o, n) {
                       case 1:
                         i = a;
                         break;
-
+  
                       case 4:
                         return r.label++, {
                             value: a[1],
                             done: !1
                         };
-
+  
                       case 5:
                         r.label++, n = a[1], a = [ 0 ];
                         continue;
-
+  
                       case 7:
                         a = r.ops.pop(), r.trys.pop();
                         continue;
-
+  
                       default:
                         if (!(i = (i = r.trys).length > 0 && i[i.length - 1]) && (6 === a[0] || 2 === a[0])) {
                             r = 0;
@@ -18544,7 +18551,7 @@ window.__require = function t(e, o, n) {
                     }
                     a = e.call(t, r);
                 } catch (s) {
-                    s = VM2_INTERNAL_STATE_DO_NOT_USE_OR_PROGRAM_WILL_FAIL.handleException(s);
+                    s = {};//.handleException(s);
                     a = [ 6, s ], n = 0;
                 } finally {
                     o = i = 0;
@@ -18610,12 +18617,12 @@ window.__require = function t(e, o, n) {
                                     mode: s
                                 }, this._currentPopups.unshift(d)), h = this.getNodeFromCache(e, u), cc.isValid(h) ? [ 3, 2 ] : (this.loadStartCallback && this.loadStartCallback(), 
                                 [ 4, this.load(e) ])) : (this.push(e, o, s, c, p), r(a.Wait), [ 2 ]);
-
+  
                               case 1:
                                 if (f = v.sent(), this.loadFinishCallback && this.loadFinishCallback(), !cc.isValid(f)) return cc.warn("[PopupManager]", "弹窗加载失败", e), 
                                 u || this._currentPopups.shift(), r(a.Fail), [ 2 ];
                                 h = cc.instantiate(f), v.label = 2;
-
+  
                               case 2:
                                 return u || (this.current.node = h), this.container = cc.find(t.containerUrl), m = this.container, 
                                 o && null != o.ParentNodeUrl && (m = cc.find(o.ParentNodeUrl)), h.setParent(m), 
@@ -18630,7 +18637,7 @@ window.__require = function t(e, o, n) {
                                                 r(a.Done), [ 4, new Promise(function(e) {
                                                     cc.Canvas.instance.scheduleOnce(e, t.interval);
                                                 }) ];
-
+  
                                               case 1:
                                                 return o.sent(), u || this.next(), [ 2 ];
                                             }
@@ -18699,11 +18706,11 @@ window.__require = function t(e, o, n) {
                   case r.Once:
                     e.destroy(), this._nodeMap.has(t) && this._nodeMap.delete(t), this.release(t);
                     break;
-
+  
                   case r.Normal:
                     e.destroy(), this._nodeMap.has(t) && this._nodeMap.delete(t);
                     break;
-
+  
                   case r.Frequent:
                     e.removeFromParent(!1), this._nodeMap.has(t) || this._nodeMap.set(t, e);
                 }
@@ -19103,39 +19110,39 @@ window.__require = function t(e, o, n) {
                   case "黑铁":
                     n = 0;
                     break;
-
+  
                   case "青铜":
                     n = 1;
                     break;
-
+  
                   case "白银":
                     n = 2;
                     break;
-
+  
                   case "黄金":
                     n = 3;
                     break;
-
+  
                   case "铂金":
                     n = 4;
                     break;
-
+  
                   case "钻石":
                     n = 5;
                     break;
-
+  
                   case "星耀":
                     n = 6;
                     break;
-
+  
                   case "大师":
                     n = 7;
                     break;
-
+  
                   case "王者":
                     n = 8;
                     break;
-
+  
                   case "霸主":
                     n = 9;
                 }
@@ -19196,43 +19203,43 @@ window.__require = function t(e, o, n) {
                   case 1001:
                     e = "MainRole_JiaoSha";
                     break;
-
+  
                   case 1002:
                     e = "MainRole_JuSha";
                     break;
-
+  
                   case 1003:
                     e = "MainRole_ChuiTouSha";
                     break;
-
+  
                   case 1004:
                     e = "MainRole_JuChiSha";
                     break;
-
+  
                   case 1005:
                     e = "MainRole_zhangyu";
                     break;
-
+  
                   case 4001:
                     e = "Role_JiaoSha";
                     break;
-
+  
                   case 4002:
                     e = "Role_jusha";
                     break;
-
+  
                   case 4003:
                     e = "Role_chuiTouSha";
                     break;
-
+  
                   case 4004:
                     e = "Role_JuChiSha";
                     break;
-
+  
                   case 4005:
                     e = "Role_zhangyu";
                     break;
-
+  
                   default:
                     cc.warn("GetHeroPreabName ID error: " + t);
                 }
@@ -19243,59 +19250,59 @@ window.__require = function t(e, o, n) {
                   case 4100:
                     e = "GoldenFish";
                     break;
-
+  
                   case 4101:
                     e = "xia";
                     break;
-
+  
                   case 4102:
                     e = "pangxie";
                     break;
-
+  
                   case 4103:
                     e = "Turtle";
                     break;
-
+  
                   case 4104:
                     e = "CiTun";
                     break;
-
+  
                   case 4109:
                     e = "shuimu";
                     break;
-
+  
                   case 4110:
                     e = "niao";
                     break;
-
+  
                   case 4201:
                     e = "Mine";
                     break;
-
+  
                   case 4202:
                     e = "OilDrum";
                     break;
-
+  
                   case 4203:
                     e = "SwimMan";
                     break;
-
+  
                   case 4204:
                     e = "Boat";
                     break;
-
+  
                   case 4205:
                     e = "SwimWoman";
                     break;
-
+  
                   case 4207:
                     e = "xiaochou";
                     break;
-
+  
                   case 4211:
                     e = "dapangxie";
                     break;
-
+  
                   default:
                     var o = n.HeroesConfig.getInstance().GetRoleConfigDataByID(t);
                     null == o ? cc.warn("GetRolePrefabNameByID ID error: " + t) : e = o.ArtRes_Name;
@@ -20285,35 +20292,35 @@ window.__require = function t(e, o, n) {
                   case "62001":
                     this.type = 0;
                     break;
-
+  
                   case "62002":
                     this.type = 1;
                     break;
-
+  
                   case "62003":
                     this.type = 2;
                     break;
-
+  
                   case "62004":
                     this.type = 3;
                     break;
-
+  
                   case "62005":
                     this.type = 4;
                     break;
-
+  
                   case "62006":
                     this.type = 5;
                     break;
-
+  
                   case "4001":
                     this.type = 6;
                     break;
-
+  
                   case "4002":
                     this.type = 7;
                     break;
-
+  
                   case "1":
                     this.type = 8;
                 }
@@ -20391,7 +20398,7 @@ window.__require = function t(e, o, n) {
                     try {
                         l(n.next(t));
                     } catch (e) {
-                        e = VM2_INTERNAL_STATE_DO_NOT_USE_OR_PROGRAM_WILL_FAIL.handleException(e);
+                        e = {};//.handleException(e);
                         a(e);
                     }
                 }
@@ -20399,7 +20406,7 @@ window.__require = function t(e, o, n) {
                     try {
                         l(n.throw(t));
                     } catch (e) {
-                        e = VM2_INTERNAL_STATE_DO_NOT_USE_OR_PROGRAM_WILL_FAIL.handleException(e);
+                        e = {};//.handleException(e);
                         a(e);
                     }
                 }
@@ -20443,21 +20450,21 @@ window.__require = function t(e, o, n) {
                       case 1:
                         i = a;
                         break;
-
+  
                       case 4:
                         return r.label++, {
                             value: a[1],
                             done: !1
                         };
-
+  
                       case 5:
                         r.label++, n = a[1], a = [ 0 ];
                         continue;
-
+  
                       case 7:
                         a = r.ops.pop(), r.trys.pop();
                         continue;
-
+  
                       default:
                         if (!(i = (i = r.trys).length > 0 && i[i.length - 1]) && (6 === a[0] || 2 === a[0])) {
                             r = 0;
@@ -20480,7 +20487,7 @@ window.__require = function t(e, o, n) {
                     }
                     a = e.call(t, r);
                 } catch (s) {
-                    s = VM2_INTERNAL_STATE_DO_NOT_USE_OR_PROGRAM_WILL_FAIL.handleException(s);
+                    s = {};//.handleException(s);
                     a = [ 6, s ], n = 0;
                 } finally {
                     o = i = 0;
@@ -20535,13 +20542,13 @@ window.__require = function t(e, o, n) {
                               case 0:
                                 return f.default.showLoadingTip(), (t = []).push(m.RDAssetManager.TutorialBundleName), 
                                 [ 4, g.AssetsLoadManager.loadBundles(t) ];
-
+  
                               case 1:
                                 return o.sent(), (t = []).push(m.RDAssetManager.GamebundleName1), [ 4, g.AssetsLoadManager.loadBundles(t) ];
-
+  
                               case 2:
                                 return o.sent(), (t = []).push(m.RDAssetManager.GamebundleName2), [ 4, g.AssetsLoadManager.loadBundles(t) ];
-
+  
                               case 3:
                                 return o.sent(), f.default.hideLoadingTip(), u.default.showIfNotInCurrentQueue("PopupPrefab/LevelSelect", {
                                     roleId: h.default.getInstance().curFishID
@@ -21071,12 +21078,12 @@ window.__require = function t(e, o, n) {
                       case m.WeaponType.Feast:
                         n = this.mFeastAttackArea;
                         break;
-
+  
                       case m.WeaponType.Knife:
                       case m.WeaponType.Fish:
                         n = this.mSwordAttackArea;
                         break;
-
+  
                       case m.WeaponType.Flower:
                         n = this.mFlowerAttackArea;
                     }
@@ -21190,13 +21197,13 @@ window.__require = function t(e, o, n) {
                 switch (t) {
                   case f.AttackType.NormalAttack:
                     return this.mRole.mRoleData.mRoleCfgData.Be_hit_name;
-
+  
                   case f.AttackType.Skill1:
                     return this.mRole.mRoleData.Skill_1_Config.Be_hit_name;
-
+  
                   case f.AttackType.Skill2:
                     return this.mRole.mRoleData.Skill_2_Config.Be_hit_name;
-
+  
                   default:
                     cc.error("GetBeHitEffectNameByAttackType:" + t);
                 }
@@ -21514,15 +21521,15 @@ window.__require = function t(e, o, n) {
                 t) {
                   case n.NormalAttack:
                     break;
-
+  
                   case n.Skill1:
                     a *= p.SkillsConfig.getInstance().GetSkillConfigDataByID(this.mRoleCfgData.skill_id1).Attack_coeffi;
                     break;
-
+  
                   case n.Skill2:
                     a *= p.SkillsConfig.getInstance().GetSkillConfigDataByID(this.mRoleCfgData.skill_id2).Attack_coeffi;
                     break;
-
+  
                   default:
                     cc.warn("GetAttackForce Error Type.");
                 }
@@ -21538,15 +21545,15 @@ window.__require = function t(e, o, n) {
                           case d.EquipAttributeType.HP:
                             t.mExtraHPByParts += n;
                             break;
-
+  
                           case d.EquipAttributeType.Defense:
                             t.mExtraDefenseByParts += n;
                             break;
-
+  
                           case d.EquipAttributeType.Attack:
                             t.mExtraAFByParts += n;
                             break;
-
+  
                           default:
                             cc.warn("EquipAttributeType error.");
                         }
@@ -21566,39 +21573,39 @@ window.__require = function t(e, o, n) {
                   case 4212:
                     o = 240;
                     break;
-
+  
                   case 1002:
                   case 4213:
                     o = 260;
                     break;
-
+  
                   case 1003:
                   case 4214:
                     o = 240;
                     break;
-
+  
                   case 1004:
                   case 4215:
                     o = 240;
                     break;
-
+  
                   case 1005:
                     o = 300;
                     break;
-
+  
                   case l.HeroesConfig.HaiMa:
                     o = 480;
                     break;
-
+  
                   case l.HeroesConfig.HaiBao:
                     o = 240;
                     break;
-
+  
                   case l.HeroesConfig.BossZhangYu:
                   case l.HeroesConfig.BossPangXie:
                     o = 300;
                     break;
-
+  
                   default:
                     cc.warn("GetAttackDistance no set :" + e);
                 }
@@ -21613,46 +21620,46 @@ window.__require = function t(e, o, n) {
                   case 4212:
                     o = 640;
                     break;
-
+  
                   case 1002:
                   case 4213:
                     o = 450;
                     break;
-
+  
                   case 1003:
                   case 4214:
                     o = 550;
                     break;
-
+  
                   case 1004:
                   case 4215:
                     o = 550;
                     break;
-
+  
                   case 1005:
                     o = 640;
                     break;
-
+  
                   case 1006:
                     o = 250;
                     break;
-
+  
                   case 1007:
                     o = 280;
                     break;
-
+  
                   case l.HeroesConfig.HaiMa:
                     o = 480;
                     break;
-
+  
                   case l.HeroesConfig.BossZhangYu:
                     o = 640;
                     break;
-
+  
                   case l.HeroesConfig.BossPangXie:
                     o = 680;
                     break;
-
+  
                   default:
                     cc.warn("GetSkill1Distance no set");
                 }
@@ -21667,28 +21674,28 @@ window.__require = function t(e, o, n) {
                   case 4212:
                     o = 400;
                     break;
-
+  
                   case 1002:
                   case 4213:
                     o = 400;
                     break;
-
+  
                   case 1003:
                   case 4214:
                     o = 280;
                     break;
-
+  
                   case 1004:
                   case 4215:
                     o = 450;
                     break;
-
+  
                   case 1005:
                   case l.HeroesConfig.BossZhangYu:
                   case l.HeroesConfig.BossPangXie:
                     o = 400;
                     break;
-
+  
                   default:
                     cc.warn("GetSkill2Distance no set");
                 }
@@ -21887,21 +21894,21 @@ window.__require = function t(e, o, n) {
                       case 2:
                         this.UnLockType.children[0].active = !0;
                         break;
-
+  
                       case 3:
                         this.UnLockType.children[1].active = !0, this.UnLockType.children[1].getComponentInChildren(cc.Label).string = o.diamondCost + "";
                         break;
-
+  
                       case 4:
                         this.UnLockType.children[2].active = !0;
                         break;
-
+  
                       case 5:
                         this.UnLockType.children[3].active = !0, this.UnLockType.children[3].getComponentInChildren(r.default).setSpIndex(this.curJuese - 1e3);
                         var a = p.default.getInstance().play.getFragByJueseId(this.curJuese);
                         this.UnLockType.children[3].getComponentInChildren(cc.Label).string = a + "/" + o.diamondCost;
                         break;
-
+  
                       case 6:
                         this.UnLockType.getChildByName("superGiftBtn").active = !0;
                     }
@@ -22393,16 +22400,16 @@ window.__require = function t(e, o, n) {
                     var o = s.default.randomInt(0, this.mPathNames_bird.length - 1);
                     e = this.mPathNames_bird[o];
                     break;
-
+  
                   case r.HeroesConfig.SwimID:
                   case r.HeroesConfig.SwimID2:
                     o = s.default.randomInt(0, this.mPathNames_swim.length - 1), e = this.mPathNames_swim[o];
                     break;
-
+  
                   case r.HeroesConfig.BoatID:
                     o = s.default.randomInt(0, this.mPathNames_boat.length - 1), e = this.mPathNames_boat[o];
                     break;
-
+  
                   default:
                     cc.warn("adsadas");
                 }
@@ -22619,19 +22626,19 @@ window.__require = function t(e, o, n) {
                     var n = this.mBodyArmature.getAttachment("jinzhanwuqi", "jian");
                     e.setAttachment(n);
                     break;
-
+  
                   case c.WeaponType.Fish:
                     n = this.mBodyArmature.getAttachment("jinzhanwuqi", "xianyu"), e.setAttachment(n);
                     break;
-
+  
                   case c.WeaponType.Flower:
                     n = this.mBodyArmature.getAttachment("jinzhanwuqi", "shirenhua"), e.setAttachment(n);
                     break;
-
+  
                   case c.WeaponType.SMG:
                     n = this.mBodyArmature.getAttachment("qiang", "chongfengqiang"), o.setAttachment(n);
                     break;
-
+  
                   case c.WeaponType.HandGun:
                     n = this.mBodyArmature.getAttachment("qiang", "1/shouqiang"), o.setAttachment(n);
                 }
@@ -22659,11 +22666,11 @@ window.__require = function t(e, o, n) {
                   case r.Flying:
                     this.node.parent = s.default.getInstance().mRoleLowerLayer;
                     break;
-
+  
                   case r.Attacking:
                     this.mIsEvil ? this.node.parent = s.default.getInstance().mRoleMiddleLayer : this.node.parent = s.default.getInstance().mRoleUpperLayer;
                     break;
-
+  
                   default:
                     cc.error("animateState error");
                 }
@@ -22857,11 +22864,11 @@ window.__require = function t(e, o, n) {
                   case 7:
                     e = m.SelectSkillType.MainSkills, o.push(this.Skill_1_ID), o.push(this.Skill_2_ID);
                     break;
-
+  
                   case 2:
                     e = m.SelectSkillType.CommonSkills, o = u.SkillsConfig.getInstance().CommonSKills.slice();
                     break;
-
+  
                   case 4:
                   case 6:
                     e = m.SelectSkillType.CommonBuffSkills, o = u.SkillsConfig.getInstance().CommonBuffSKills.slice();
@@ -23048,13 +23055,13 @@ window.__require = function t(e, o, n) {
                 switch (t) {
                   case 1:
                     return this.attackAnimationName;
-
+  
                   case 2:
                     return this.attackAnimationName2;
-
+  
                   case 3:
                     return this.attackAnimationName3;
-
+  
                   default:
                     cc.warn("getAttackNameByIndex index error");
                 }
@@ -24628,7 +24635,7 @@ window.__require = function t(e, o, n) {
                   case 2003:
                     e = this.mSkillIndicators[1];
                     break;
-
+  
                   default:
                     e = this.mSkillIndicators[3];
                 }
@@ -25062,19 +25069,19 @@ window.__require = function t(e, o, n) {
                   case h.WeaponType.HandGun:
                     e = this.handGunBulletPrefab;
                     break;
-
+  
                   case h.WeaponType.RPG:
                     e = this.rpgBulletPrefab;
                     break;
-
+  
                   case h.WeaponType.SMG:
                     e = this.smgBulletPrefab;
                     break;
-
+  
                   case h.WeaponType.Bomb:
                     e = this.bombPrefab;
                     break;
-
+  
                   case h.WeaponType.Riffle:
                   case h.WeaponType.Sniper:
                     e = this.smgBulletPrefab;
@@ -25969,11 +25976,11 @@ window.__require = function t(e, o, n) {
                       case "1":
                         i.diamondNumber = Number(n[1]), u.default.show("PopupPrefab/GetAwardNode", i);
                         break;
-
+  
                       case "2":
                         i.goldNumber = Number(n[1]), u.default.show("PopupPrefab/GetAwardNode", i);
                         break;
-
+  
                       default:
                         var a = {
                             onCloseCallBack: function() {
@@ -27298,11 +27305,11 @@ window.__require = function t(e, o, n) {
                   case 1:
                     p = 1002, this.labelTip.string = "解锁VIP1后，次日开放VIP2";
                     break;
-
+  
                   case 2:
                     p = 1003, this.labelTip.string = "解锁VIP2后，次日开放VIP3";
                     break;
-
+  
                   case 3:
                     p = 1004, this.nextLvNode.active = !1, this.labelTip.string = "当前为最高等级VIP";
                 }
@@ -27868,88 +27875,88 @@ window.__require = function t(e, o, n) {
                   case 3001:
                     o.push([ "jinzhanwuqi", "jian" ]);
                     break;
-
+  
                   case 3002:
                     o.push([ "jinzhanwuqi", "xianyu" ]);
                     break;
-
+  
                   case 3003:
                     o.push([ "wuqi/pen", "wuqi/pen" ]), o.push([ "wuqi/yezi_1", "wuqi/yezi_1" ]), o.push([ "wuqi/shuzhi", "wuqi/shuzhi" ]), 
                     o.push([ "wuqi/tou", "wuqi/tou" ]), o.push([ "wuqi/yezi_2", "wuqi/yezi_2" ]), o.push([ "xiaba", "wuqi/xiaba" ]);
                     break;
-
+  
                   case 3004:
                     o.push([ "qiang2", "1/shouqiang" ]);
                     break;
-
+  
                   case 3005:
                     o.push([ "qiang1", "chongfengqiang" ]);
                     break;
-
+  
                   case 3006:
                     o.push([ "shoulei", e ? "shoulei_wofang" : "shoulei_difang" ]);
                     break;
-
+  
                   case 3007:
                     o.push([ "qiang_huojiantong", "wuqi/huojiantong" ]), o.push([ "qiang_huojiantongtou", "wuqi_x/huojiantong_huojiantou" ]);
                     break;
-
+  
                   case 3008:
                     o.push([ "jinzhanwuqi", "wuqi_x/langyabang" ]);
                     break;
-
+  
                   case 3009:
                     o.push([ "qiang2", "wuqi_x/shamozhiying" ]);
                     break;
-
+  
                   case 3010:
                     o.push([ "qiang2", "wuqi_x/huanying" ]);
                     break;
-
+  
                   case 3011:
                     o.push([ "shoulei", e ? "wuqi_x/shoulei2_wofang" : "wuqi_x/shoulei2_difang" ]);
                     break;
-
+  
                   case 3012:
                     o.push([ "qiang1", "wuqi_x/cfq_leishe" ]);
                     break;
-
+  
                   case 3013:
                     o.push([ "qiang1", "wuqi_x/huangjin_UZI" ]);
                     break;
-
+  
                   case 3014:
                     o.push([ "qiang1", "wuqi_x/tupolingdu" ]);
                     break;
-
+  
                   case 3015:
                     o.push([ "qiang3_SanDanQiang", "wuqi_x/sdq_m3" ]);
                     break;
-
+  
                   case 3016:
                     o.push([ "qiang3_SanDanQiang", "wuqi_x/sdq_shanguang" ]);
                     break;
-
+  
                   case 3017:
                     o.push([ "qiang4_BuQiang", "wuqi_x/bq_ak47" ]);
                     break;
-
+  
                   case 3018:
                     o.push([ "qiang4_BuQiang", "wuqi_x/bq_scar-h" ]);
                     break;
-
+  
                   case 3019:
                     o.push([ "qiang_huojiantong", "wuqi_x/p_rpg" ]), o.push([ "qiang_huojiantongtou", "wuqi_x/p_rpg_huojiantou" ]);
                     break;
-
+  
                   case 3020:
                     o.push([ "qiang5_JuJiQiang", "wuqi_x/jjq_98k" ]);
                     break;
-
+  
                   case 3021:
                     o.push([ "qiang5_JuJiQiang", "wuqi_x/jjq_awm" ]);
                     break;
-
+  
                   case 3022:
                     o.push([ "qiang4_BuQiang", "wuqi_x/bq_M4" ]);
                 }
@@ -27960,54 +27967,54 @@ window.__require = function t(e, o, n) {
                   case 3e3:
                     e.push("UpperBody_idle_quan"), e.push("UpperBody_atk_quan1"), e.push("UpperBody_atk_quan2");
                     break;
-
+  
                   case 3001:
                   case 3002:
                   case 3008:
                     e.push("UpperBody_idle_jian"), e.push("UpperBody_atk_jian"), e.push("UpperBody_atk_jian2");
                     break;
-
+  
                   case 3003:
                     e.push("UpperBody_idle_shirenhua"), e.push("UpperBody_atk_shirenhua"), e.push("");
                     break;
-
+  
                   case 3004:
                   case 3009:
                   case 3010:
                     e.push("UpperBody_idle_qiang2"), e.push("UpperBody_atk_qiang2"), e.push("");
                     break;
-
+  
                   case 3005:
                   case 3012:
                   case 3013:
                   case 3014:
                     e.push("UpperBody_idle_qiang1"), e.push("UpperBody_atk_qiang1"), e.push("");
                     break;
-
+  
                   case 3006:
                   case 3011:
                     e.push("UpperBody_idle_shoulei"), e.push("UpperBody_atk_shoulei"), e.push("");
                     break;
-
+  
                   case 3007:
                   case 3019:
                     e.push("UpperBody_idle_qiang_huojiantong"), e.push("UpperBody_atk_qiang_huojiantong"), 
                     e.push("");
                     break;
-
+  
                   case 3015:
                   case 3016:
                     e.push("UpperBody_idle_qiang3_SanDanQiang"), e.push("UpperBody_atk_qiang3_SanDanQiang"), 
                     e.push("");
                     break;
-
+  
                   case 3017:
                   case 3018:
                   case 3022:
                     e.push("UpperBody_idle_qiang4_BuQiang"), e.push("UpperBody_atk_qiang4_BuQiang"), 
                     e.push("");
                     break;
-
+  
                   case 3020:
                   case 3021:
                     e.push("UpperBody_idle_qiang5_JuJiQiang"), e.push("UpperBody_atk_qiang5_JuJiQiang2"), 
@@ -28157,12 +28164,12 @@ window.__require = function t(e, o, n) {
                 o.unlockType) {
                   case 1:
                     break;
-
+  
                   case 2:
                     "tt" == m.default.Environment() ? t[o.unlockType].getChildByName("count").getComponent(cc.Label).string = l.default.getInstance().play.getWeaponVideoCount(this.curWeaponId) + "/" + o.unlockCount : l.default.getInstance().config.isSp ? t[o.unlockType].getChildByName("count").getComponent(cc.Label).string = l.default.getInstance().play.getWeaponVideoCount(this.curWeaponId) + "/" + o.unlockCount : (t[o.unlockType].active = !1, 
                     t[1].active = !0, t[1].getChildByName("count").getComponent(cc.Label).string = 8 * o.unlockCount + "");
                     break;
-
+  
                   case 3:
                     t[o.unlockType].getChildByName("icon").getComponent(u.default).setSpIndex(3010 == this.curWeaponId ? 0 : 1), 
                     t[o.unlockType].getChildByName("count").getComponent(cc.Label).string = l.default.getInstance().play.getWeaponFragCount(this.curWeaponId) + "/" + o.unlockCount;
@@ -28328,35 +28335,35 @@ window.__require = function t(e, o, n) {
                   case 0:
                     e = this.mSkeleton.getAttachment("wuqi", "image/jiaonang");
                     break;
-
+  
                   case p.WeaponType.Knife:
                     e = this.mSkeleton.getAttachment("wuqi", "image/1_jinzhan");
                     break;
-
+  
                   case p.WeaponType.HandGun:
                     e = this.mSkeleton.getAttachment("wuqi", "image/2_shouqiang");
                     break;
-
+  
                   case p.WeaponType.SMG:
                     e = this.mSkeleton.getAttachment("wuqi", "image/4_chongfengqiang");
                     break;
-
+  
                   case p.WeaponType.Bomb:
                     e = this.mSkeleton.getAttachment("wuqi", "image/3_touzhi");
                     break;
-
+  
                   case p.WeaponType.RPG:
                     e = this.mSkeleton.getAttachment("wuqi", "image/7_huojian");
                     break;
-
+  
                   case p.WeaponType.ShutGun:
                     e = this.mSkeleton.getAttachment("wuqi", "image/5_sandanqiang");
                     break;
-
+  
                   case p.WeaponType.Riffle:
                     e = this.mSkeleton.getAttachment("wuqi", "image/6_buqiang");
                     break;
-
+  
                   case p.WeaponType.Sniper:
                     e = this.mSkeleton.getAttachment("wuqi", "image/8_jujiqiang");
                 }
@@ -28733,7 +28740,7 @@ window.__require = function t(e, o, n) {
                 if (!this.isDebug()) {
                     var e = wx.getSystemInfoSync();
                     this.bannerAd = wx.createBannerAd({
-                        adUnitId: this.bannerId,
+                        adUnitId: "adunit-d1d25a4ce7f0d5f6",
                         adIntervals: 30,
                         style: {
                             left: 0,
@@ -28770,7 +28777,7 @@ window.__require = function t(e, o, n) {
                 if (!this.isDebug()) {
                     var e = wx.getSystemInfoSync();
                     this.bannerAd2 = wx.createBannerAd({
-                        adUnitId: this.bannerId2,
+                        adUnitId: "adunit-1c45ac155c5ae874",
                         adIntervals: 30,
                         style: {
                             left: 0,
@@ -28799,7 +28806,7 @@ window.__require = function t(e, o, n) {
                 if (!this.isDebug() && !this.videoAd) {
                     var t = this;
                     this.videoAd = wx.createRewardedVideoAd({
-                        adUnitId: t.videoid
+                        adUnitId: "adunit-84ac69d8e5e3e254"
                     }), this.videoAd.onLoad(function() {
                         console.log("微信广告onLoad");
                     }), this.videoAd.onError(function(e) {
@@ -28829,7 +28836,7 @@ window.__require = function t(e, o, n) {
                 } else this.bindRewardedVideoAd(); else r.default.showPrompt("广告未开启！");
             }, e.prototype.bindInterstitialAd = function() {
                 this.isDebug() || this.interstitialAd || (this.interstitialAd = wx.createInterstitialAd({
-                    adUnitId: this.interstitialid
+                    adUnitId: "adunit-246ff8c773476f1e"
                 }), this.interstitialAd.onLoad(function() {
                     console.log("插屏 广告加载成功");
                 }), this.interstitialAd.onError(function(t) {
@@ -28850,7 +28857,7 @@ window.__require = function t(e, o, n) {
                 if (!this.isDebug() && !this.boxAd) {
                     var t = this, e = wx.getSystemInfoSync(), o = e.windowWidth, n = e.windowHeight;
                     this.boxAd = wx.createCustomAd({
-                        adUnitId: this.boxAdId,
+                        adUnitId: "adunit-5286478b1fdc311e",
                         adIntervals: 3e3,
                         style: {
                             left: .5 * o - 175,
@@ -28882,7 +28889,7 @@ window.__require = function t(e, o, n) {
                 if (!this.isDebug() && !this.customAd) {
                     var t = wx.getSystemInfoSync(), e = t.windowWidth, o = t.windowHeight;
                     this.customAd = wx.createCustomAd({
-                        adUnitId: this.customId,
+                        adUnitId: "adunit-20b8f97fd47b55c6",
                         style: {
                             left: e / 2 - 95,
                             top: o - 82,
@@ -28898,7 +28905,7 @@ window.__require = function t(e, o, n) {
                 if (!this.isDebug() && !this.customAd2) {
                     var t = wx.getSystemInfoSync(), e = t.windowWidth;
                     t.windowHeight, this.customAd2 = wx.createCustomAd({
-                        adUnitId: this.customId2,
+                        adUnitId: "adunit-20b8f97fd47b55c6",
                         style: {
                             left: e - 60,
                             top: 50,
@@ -28914,7 +28921,7 @@ window.__require = function t(e, o, n) {
                 if (!this.isDebug() && !this.customAd3) {
                     var t = wx.getSystemInfoSync(), e = t.windowWidth;
                     t.windowHeight, this.customAd3 = wx.createCustomAd({
-                        adUnitId: this.customId3,
+                        adUnitId: "adunit-20b8f97fd47b55c6",
                         style: {
                             left: e - 170,
                             top: 50,
@@ -28931,7 +28938,7 @@ window.__require = function t(e, o, n) {
                 if (!this.isDebug() && !this.customAd4) {
                     var t = wx.getSystemInfoSync(), e = t.windowWidth;
                     t.windowHeight, this.customAd4 = wx.createCustomAd({
-                        adUnitId: this.customId4,
+                        adUnitId: "adunit-20b8f97fd47b55c6",
                         style: {
                             left: e / 2 + 290,
                             top: 50,
@@ -28950,7 +28957,7 @@ window.__require = function t(e, o, n) {
                 if (!this.isDebug() && !this.customAd5) {
                     var t = wx.getSystemInfoSync();
                     t.windowWidth, t.windowHeight, this.customAd5 = wx.createCustomAd({
-                        adUnitId: this.customId5,
+                        adUnitId: "adunit-7357424079626007",
                         style: {
                             left: 50,
                             top: 40,
@@ -29148,23 +29155,23 @@ window.__require = function t(e, o, n) {
                   case 81101:
                     e.push("lian");
                     break;
-
+  
                   case 81102:
                     e.push("tou");
                     break;
-
+  
                   case 81103:
                     e.push("huzi1"), e.push("huzi2"), e.push("huzi3");
                     break;
-
+  
                   case 81104:
                     e.push("zuoshou");
                     break;
-
+  
                   case 81105:
                     e.push("youshou");
                     break;
-
+  
                   case 81106:
                     e.push("houtui1"), e.push("houtui2"), e.push("houtui3"), e.push("houtui4"), e.push("houtui5"), 
                     e.push("houtui6");
@@ -29177,23 +29184,23 @@ window.__require = function t(e, o, n) {
                   case 81101:
                     o.push("81101");
                     break;
-
+  
                   case 81102:
                     o.push("81102");
                     break;
-
+  
                   case 81103:
                     o.push("81103_1"), o.push("81103_2"), o.push("81103_3");
                     break;
-
+  
                   case 81104:
                     o.push("81104");
                     break;
-
+  
                   case 81105:
                     o.push("81105");
                     break;
-
+  
                   case 81106:
                     o.push("81106_1"), o.push("81106_2"), o.push("81106_3"), o.push("81106_4"), o.push("81106_5"), 
                     o.push("81106_6");
@@ -29207,23 +29214,23 @@ window.__require = function t(e, o, n) {
                   case 81101:
                     e.push("lian2");
                     break;
-
+  
                   case 81102:
                     e.push("tou2");
                     break;
-
+  
                   case 81103:
                     e.push("huzi1_a"), e.push("huzi2_a"), e.push("huzi3_a");
                     break;
-
+  
                   case 81104:
                     e.push("zuoshou2");
                     break;
-
+  
                   case 81105:
                     e.push("youshou2");
                     break;
-
+  
                   case 81106:
                     e.push("houtui1_a"), e.push("houtui2_a"), e.push("houtui3_a"), e.push("houtui4_a"), 
                     e.push("houtui5_a"), e.push("houtui6_a");
@@ -29235,51 +29242,51 @@ window.__require = function t(e, o, n) {
                   case "lian2":
                     e = "81101_a";
                     break;
-
+  
                   case "tou2":
                     e = "81102_a";
                     break;
-
+  
                   case "huzi1_a":
                     e = "81103_1_a";
                     break;
-
+  
                   case "huzi2_a":
                     e = "81103_2_a";
                     break;
-
+  
                   case "huzi3_a":
                     e = "81103_3_a";
                     break;
-
+  
                   case "zuoshou2":
                     e = "81104_a";
                     break;
-
+  
                   case "youshou2":
                     e = "81105_a";
                     break;
-
+  
                   case "houtui1_a":
                     e = "81106_1_a";
                     break;
-
+  
                   case "houtui2_a":
                     e = "81106_2_a";
                     break;
-
+  
                   case "houtui3_a":
                     e = "81106_3_a";
                     break;
-
+  
                   case "houtui4_a":
                     e = "81106_4_a";
                     break;
-
+  
                   case "houtui5_a":
                     e = "81106_5_a";
                     break;
-
+  
                   case "houtui6_a":
                     e = "81106_6_a";
                 }
@@ -30566,39 +30573,39 @@ window.__require = function t(e, o, n) {
                   case "kwaigame":
                     console.log("********-----------------快手--------------------*************"), this.ad = new y.kwaiSdkManager();
                     break;
-
+  
                   case "tt":
                     console.log("********-----------------头条--------------------*************"), this.ad = new m.default();
                     break;
-
+  
                   case "wx":
                     console.log("********-----------------微信小程序--------------------*************"), 
                     this.ad = new _.WxAdManger();
                     break;
-
+  
                   case "oppo":
                     console.log("********-----------------oppo小游戏--------------------*************"), 
                     this.ad = new g.oppoSdkManager();
                     break;
-
+  
                   case "vivo":
                     console.log("********-----------------vivo小游戏--------------------*************"), 
                     this.ad = new S.vivoSdkManager();
                     break;
-
+  
                   case "ios":
                     console.log("********-----------------ios--------------------*************"), this.ad = new b.default();
                     break;
-
+  
                   case "android":
                     console.log("********-----------------android--------------------*************"), 
                     this.ad = new b.default();
                     break;
-
+  
                   case "qq":
                     console.log("********-----------------qq--------------------*************"), this.ad = new f.qqSdk();
                     break;
-
+  
                   default:
                     console.log("********-----------------本地--------------------*************"), this.ad = new p.adManger();
                 }
@@ -31049,11 +31056,11 @@ window.__require = function t(e, o, n) {
                           case 1:
                             o.push("生命: +" + t.value);
                             break;
-
+  
                           case 2:
                             o.push("防御: +" + t.value);
                             break;
-
+  
                           case 3:
                             o.push("攻击: +" + t.value);
                         }
@@ -32801,7 +32808,7 @@ window.__require = function t(e, o, n) {
                 if (!this.isDebug() && !this.videoAd) {
                     var t = this;
                     this.videoAd = wx.createRewardedVideoAd({
-                        adUnitId: t.videoid
+                        adUnitId: "adunit-84ac69d8e5e3e254"
                     }), this.videoAd.onLoad(function() {
                         console.log("微信广告onLoad");
                     }), this.videoAd.onError(function(e) {
@@ -33243,7 +33250,7 @@ window.__require = function t(e, o, n) {
                             this.cancelBtn && (this.cancelBtn.active = !1), this.skillSwipeArea && (this.skillSwipeArea.active = !1), 
                             this.mSkillID;
                             break;
-
+  
                           case 1:
                           case 3:
                             var p = this.skillImage.getComponent(l.default);
@@ -33255,7 +33262,7 @@ window.__require = function t(e, o, n) {
                             var d = this.GetSkillDistance();
                             this.range.active = !0, this.range.width = 2 * d, this.range.height = 2 * d, this.range.setPosition(n);
                             break;
-
+  
                           case 2:
                           case 4:
                             this.range.active = !0, this.skillImage.width = 2 * this.skillData.range, this.skillImage.height = 2 * this.skillData.range;
@@ -33288,7 +33295,7 @@ window.__require = function t(e, o, n) {
                               case 5:
                                 this.skillImage.angle = this.vectorsToDegress(n);
                                 break;
-
+  
                               case 2:
                               case 4:
                                 var d = s.default.getInstance().mainRole.node.getPosition();
@@ -33333,14 +33340,14 @@ window.__require = function t(e, o, n) {
                         e = t.mLockEnemy.node.convertToWorldSpaceAR(cc.v2(0, 0)).sub(o).normalize();
                     }
                     return e;
-
+  
                   case 2:
                     if (this.skillImage.active) {
                         var n = s.default.getInstance().mainRole.node.getPosition();
                         return this.skillImage.getPosition().sub(n).normalize();
                     }
                     return cc.v2(0, 0);
-
+  
                   default:
                     return cc.v2(0, 0);
                 }
@@ -33364,14 +33371,14 @@ window.__require = function t(e, o, n) {
                         this.range.setPosition(e);
                     }
                     break;
-
+  
                   case 1:
                   case 3:
                   case 5:
                     e = s.default.getInstance().mainRole.node.getPosition().add(cc.v2(0, 85)), this.skillImage.setPosition(e), 
                     this.range && this.range.setPosition(e);
                     break;
-
+  
                   case 2:
                   case 4:
                     if (null != this._touchingPos) {
@@ -33608,7 +33615,7 @@ window.__require = function t(e, o, n) {
                     var t = tt.getSystemInfoSync();
                     this.windowWidth = t.windowWidth, this.windowHeight = t.windowHeight, console.log("手机型号为 ${res.model}");
                 } catch (e) {
-                    e = VM2_INTERNAL_STATE_DO_NOT_USE_OR_PROGRAM_WILL_FAIL.handleException(e);
+                    e = {};//.handleException(e);
                     console.log("获取系统信息失败");
                 }
             }, e.prototype.bindBannerAd = function() {
@@ -34392,4 +34399,4 @@ window.__require = function t(e, o, n) {
         }();
         o.wxYMSDKManager = n, cc._RF.pop();
     }, {} ]
-}, {}, [ "CocosPathfind", "CocosNavMesh", "channel", "common-types", "jsastar", "build-polys-from-grid-map.test", "build-polys-from-grid-map", "point-queue", "rectangle-hull", "line", "polygon", "vector-2", "nav-mesh.test", "navgraph", "navmesh", "navpoly", "utils.test", "utils", "Seeker", "easystar", "instance", "node", "CubeManBGMove", "CubeManBox", "CubeManBtnUI", "CubeManGameScene", "CubeManHealBox", "CubeManMap", "CubeManShakeScreen", "CubeManSkillHandle", "CubeManTopUINode", "CubeManTrap", "CubeManTutorialNode", "CubeRole", "ExpConfig", "JumpPointNode", "LevelUpConfig", "PathFindMap", "PathTest", "SwitchVideoIcon", "BaoxiangConfig", "CommodityNode", "CubeManGameAd", "DaysSignInNode", "DrawBox", "DuanweiJIangliConfig", "FreeCountNode", "GameJieSuan", "GameShopNode", "GetAwardNode", "GetBoxAward", "GiveRewardNode", "GroupGameResult", "LevelUpRewardNode", "LuckyDrawNode", "PersonGameResult", "PersonModeLoading", "PlayerGiftNode", "RanDomDrawNode", "RankRewardNode", "RankShowView", "RewardCommonView", "RewardSuperView", "RoleGetNode", "RoleInfoNode", "ShopConfig", "ShopNode", "SuperGiftNode", "TeamModeLoading", "TestEquipSelectNode", "TestRoleSelectNode", "WeaponInfoItem", "WeaponInfoNode", "tuichuBtn", "updateCell", "updateSkillBook", "WaiteToDestory", "WeaponSpawnNode", "testPicture", "AIPath", "Die", "Dodge", "Faint", "Fly", "Freeze", "Medical", "NormalAttack", "RunQuick", "RunToNearTarget", "RunToTarget", "Skill1", "Skill2", "StunBack", "StunFarAndFaint", "Teleportation", "WaitSeconds", "Wander", "EnemyAroundTeleportDistance", "EnemyInRangeAttack", "EnemyInRangeSkill1", "EnemyInRangeSkill2", "EnemyInsight", "EnemyLeftLessThan", "IsAddHPNear", "IsCollideObstacle", "IsDead", "IsFaint", "IsFreeze", "IsGroupMode", "IsHpLower", "IsItemNear", "IsNotAttacking", "IsReadyToFly", "IsSkillAvailable", "IsStoneNear", "IsStunBack", "IsStunFarAndFaint", "MobInRangeAttack", "TreasureInRangeAttack", "WoodenBoxInRange", "MaxSeconds", "RandomLimiter", "RandomMaxSeconds", "RandomRepeat", "GConstants", "AStar", "AStarMath", "AddDeskIcon", "AddGoldTest", "MySprite", "CameraFollow", "CollectableItem", "CommonFuncs", "AssetsLoadManager", "Effect", "EffectPool", "IPausable", "PoolManager", "CubeManBullet", "JumpPoint", "VirtruilGrivity", "Weapon", "WeaponItem", "CustomAd", "CustomAdPos", "BTPFsConfig", "DuanWeiConfig", "EquipConfig", "GameConstants", "GameData", "GamingExpConfig", "GlobalConfig", "HerosConfig", "LevelConfig", "RankRewardConfig", "SkillsConfig", "SoundConfig", "WeaponConfig", "FarBg", "FarbgScroll", "CntDown", "CommonBuffInfo", "DamageText", "GamingUI", "HeroRevive", "NoRectButton", "SelectSkillPanel", "SkillCard", "SkillIndicator", "Tutorial", "WhoKilledWho", "GameScene", "Helloworld", "Joystick", "LoadingScene", "EventName", "InterfaceAd", "MainDataManager", "ManisSdk", "NavigateManager", "ShareVideoNode", "StatisticsManager", "VivoSdkManager", "WxAdManger", "adManger", "audioManger", "config", "configManager", "customManager", "dbManager", "displayManager", "gameDataStorage", "gameManager", "kwaiSdkManager", "ohayooSDK", "oppoSdkManager", "oppoSdsTwo", "playerManager - 副本", "playerManager", "qqSdkManager", "ttAdManager", "uiManager", "utilsManager", "webManager", "wxYMSDKManager", "Map", "MathTools", "MovementUtilities", "ObstacleBody", "IKolaSDK", "OppoStaticManager", "SHA256", "PathInterpolator", "PlayerKeyboardInput", "ConfirmPopup", "PopupBase", "PopupManager", "RDAssetManager", "CocosRVO", "RVOController", "agent", "common", "kdtree", "simulator", "ChuitoushaRolePackShow", "EquipmentNode", "GameControl", "JiaoshaRolePackShow", "JuchishaRolePackShow", "JushaRolePackShow", "MiddleNode", "RightButtonNode", "RolePackShow", "SelectHeroItem", "SelectHeroNode", "TopUINode", "ZhangyuRolePackShow", "itemDrag", "RoleWapsManager", "AddStone", "BoxData", "Cloud", "AddHP", "GoldenFish", "ItemRole", "Potion", "RoleBird", "Shield", "PlayerRole", "RoleMovement", "Role", "RoleAI", "SlowRoleAI", "RoleAttackHandle", "BoxerRoleAttackHandle", "BraveSoldierAI", "BraveSoldierAttackHandle", "ChuiTouShaAttackHandle", "CitunAttackHandle", "GunnerAI", "GunnerAttackHandle", "HaiBaoAttackHandle", "HaiMaAttackHandle", "IceShooterAttackHandle", "IceShooterRoleAI", "JiaoShaAttackHandle", "JuChiShaAttackHandle", "JuShaAttackHandle", "MineAttackHandle", "MonkAI", "MonkAttackHandle", "OctopusAttackHandle", "OilDrumAttackHandle", "PangXieAttackHandle", "SpearRoleAI", "SpearRoleAttackHandle", "WarriorRoleAttackHandle", "RoleData", "DamagingArea", "JiaoShaFire", "JiaoShaMissile", "JuChiShaBullet", "JuShaSkill2Bullet", "LightingBullet", "RoleState", "TreasureBox", "WoodenBox", "SceneNavigator", "ScreenScrollManager", "SearchPathJob", "BigIceArrow", "BoxOpenParticle", "BulletSkill", "EffectsManager", "FireAroundSkill", "HitEffect", "Missile", "MissileBomb", "MonkSkill2", "NormalArrow", "NormalBullet", "SpawnManager", "StackFSM", "StencilSprite", "Tools", "AdPosition", "AppidIcon", "AppidPosition", "BackLayer", "BannerTrapNode", "BuyEquipNode", "ChiJiBox", "CustomNativeAd", "EnergyStoneShop", "EveryDayWinPrize", "FreeGoldNode", "GameBannerAD", "GameResult", "GetSuipianNode", "GiveGlodAndMasonryNode", "GoalsInfo", "HeroRankMatchItem", "HeroRankMatchView", "HeroRankView", "HeroRankingListAI", "HeroUpgradeView", "InviteButton", "LevelNode", "LevelSelectDialog", "List", "ListItem", "LoadYinsiNode", "LoadingTip", "LotteryNode", "MainHero", "MainNode", "MainScene", "MoreGame", "MyButton", "NavigateBoxNode", "NavigateNode", "NewPlayerGiftNode", "OneGoalInfo", "OneRoleInfo", "OpenChiJiBox", "OppoMoreGame", "OppoVipNode", "PauseNode", "PopupClose", "PvERevive", "PvpLoading", "PvpLoadingItemView", "PvpShow", "RankRewardItemView", "RankRewardView", "RolesInfo", "ShowGameAd", "SignUpNode", "ThroughInputEvents ", "TrainningNode", "UnlockRoleNode", "UpdateLv", "VipRewardNode", "YinSiNode", "bagDragItem", "huodejiangli", "lvShow", "selectEffect", "tip", "updateDiamond", "updateGold", "updateRank", "updateRankHongDian", "BezierMovement", "BezierPathManager", "LinearMovement", "NavMove", "PathFindMove", "PathManager", "SpineMovement", "SplineInterpolator", "SplineMove", "Error", "Failer", "Runner", "Succeeder", "Wait", "indexAct", "b3.functions", "MemPriority", "MemSequence", "Parallel", "ParallelComplete", "ParallelSelector", "Priority", "Sequence", "WeightMemSelector", "indexCom", "constants", "Action", "BaseNode", "BehaviorTree", "Blackboard", "Composite", "Condition", "Decorator", "Tick", "Inverter", "Limiter", "MaxTime", "RepeatUntilFailure", "RepeatUntilSuccess", "Repeater", "indexDec", "main", "PathFinding", "DiagonalMovement", "Grid", "Heuristic", "Node", "Util", "AStarFinder", "BestFirstFinder", "BiAStarFinder", "BiBestFirstFinder", "BiBreadthFirstFinder", "BiDijkstraFinder", "BreadthFirstFinder", "DijkstraFinder", "IDAStarFinder", "JPFAlwaysMoveDiagonally", "JPFMoveDiagonallyIfAtMostOneObstacle", "JPFMoveDiagonallyIfNoObstacles", "JPFNeverMoveDiagonally", "JumpPointFinder", "JumpPointFinderBase", "heap", "playingDataManager", "skillBtn" ]);
+  }, {}, [ "CocosPathfind", "CocosNavMesh", "channel", "common-types", "jsastar", "build-polys-from-grid-map.test", "build-polys-from-grid-map", "point-queue", "rectangle-hull", "line", "polygon", "vector-2", "nav-mesh.test", "navgraph", "navmesh", "navpoly", "utils.test", "utils", "Seeker", "easystar", "instance", "node", "CubeManBGMove", "CubeManBox", "CubeManBtnUI", "CubeManGameScene", "CubeManHealBox", "CubeManMap", "CubeManShakeScreen", "CubeManSkillHandle", "CubeManTopUINode", "CubeManTrap", "CubeManTutorialNode", "CubeRole", "ExpConfig", "JumpPointNode", "LevelUpConfig", "PathFindMap", "PathTest", "SwitchVideoIcon", "BaoxiangConfig", "CommodityNode", "CubeManGameAd", "DaysSignInNode", "DrawBox", "DuanweiJIangliConfig", "FreeCountNode", "GameJieSuan", "GameShopNode", "GetAwardNode", "GetBoxAward", "GiveRewardNode", "GroupGameResult", "LevelUpRewardNode", "LuckyDrawNode", "PersonGameResult", "PersonModeLoading", "PlayerGiftNode", "RanDomDrawNode", "RankRewardNode", "RankShowView", "RewardCommonView", "RewardSuperView", "RoleGetNode", "RoleInfoNode", "ShopConfig", "ShopNode", "SuperGiftNode", "TeamModeLoading", "TestEquipSelectNode", "TestRoleSelectNode", "WeaponInfoItem", "WeaponInfoNode", "tuichuBtn", "updateCell", "updateSkillBook", "WaiteToDestory", "WeaponSpawnNode", "testPicture", "AIPath", "Die", "Dodge", "Faint", "Fly", "Freeze", "Medical", "NormalAttack", "RunQuick", "RunToNearTarget", "RunToTarget", "Skill1", "Skill2", "StunBack", "StunFarAndFaint", "Teleportation", "WaitSeconds", "Wander", "EnemyAroundTeleportDistance", "EnemyInRangeAttack", "EnemyInRangeSkill1", "EnemyInRangeSkill2", "EnemyInsight", "EnemyLeftLessThan", "IsAddHPNear", "IsCollideObstacle", "IsDead", "IsFaint", "IsFreeze", "IsGroupMode", "IsHpLower", "IsItemNear", "IsNotAttacking", "IsReadyToFly", "IsSkillAvailable", "IsStoneNear", "IsStunBack", "IsStunFarAndFaint", "MobInRangeAttack", "TreasureInRangeAttack", "WoodenBoxInRange", "MaxSeconds", "RandomLimiter", "RandomMaxSeconds", "RandomRepeat", "GConstants", "AStar", "AStarMath", "AddDeskIcon", "AddGoldTest", "MySprite", "CameraFollow", "CollectableItem", "CommonFuncs", "AssetsLoadManager", "Effect", "EffectPool", "IPausable", "PoolManager", "CubeManBullet", "JumpPoint", "VirtruilGrivity", "Weapon", "WeaponItem", "CustomAd", "CustomAdPos", "BTPFsConfig", "DuanWeiConfig", "EquipConfig", "GameConstants", "GameData", "GamingExpConfig", "GlobalConfig", "HerosConfig", "LevelConfig", "RankRewardConfig", "SkillsConfig", "SoundConfig", "WeaponConfig", "FarBg", "FarbgScroll", "CntDown", "CommonBuffInfo", "DamageText", "GamingUI", "HeroRevive", "NoRectButton", "SelectSkillPanel", "SkillCard", "SkillIndicator", "Tutorial", "WhoKilledWho", "GameScene", "Helloworld", "Joystick", "LoadingScene", "EventName", "InterfaceAd", "MainDataManager", "ManisSdk", "NavigateManager", "ShareVideoNode", "StatisticsManager", "VivoSdkManager", "WxAdManger", "adManger", "audioManger", "config", "configManager", "customManager", "dbManager", "displayManager", "gameDataStorage", "gameManager", "kwaiSdkManager", "ohayooSDK", "oppoSdkManager", "oppoSdsTwo", "playerManager - 副本", "playerManager", "qqSdkManager", "ttAdManager", "uiManager", "utilsManager", "webManager", "wxYMSDKManager", "Map", "MathTools", "MovementUtilities", "ObstacleBody", "IKolaSDK", "OppoStaticManager", "SHA256", "PathInterpolator", "PlayerKeyboardInput", "ConfirmPopup", "PopupBase", "PopupManager", "RDAssetManager", "CocosRVO", "RVOController", "agent", "common", "kdtree", "simulator", "ChuitoushaRolePackShow", "EquipmentNode", "GameControl", "JiaoshaRolePackShow", "JuchishaRolePackShow", "JushaRolePackShow", "MiddleNode", "RightButtonNode", "RolePackShow", "SelectHeroItem", "SelectHeroNode", "TopUINode", "ZhangyuRolePackShow", "itemDrag", "RoleWapsManager", "AddStone", "BoxData", "Cloud", "AddHP", "GoldenFish", "ItemRole", "Potion", "RoleBird", "Shield", "PlayerRole", "RoleMovement", "Role", "RoleAI", "SlowRoleAI", "RoleAttackHandle", "BoxerRoleAttackHandle", "BraveSoldierAI", "BraveSoldierAttackHandle", "ChuiTouShaAttackHandle", "CitunAttackHandle", "GunnerAI", "GunnerAttackHandle", "HaiBaoAttackHandle", "HaiMaAttackHandle", "IceShooterAttackHandle", "IceShooterRoleAI", "JiaoShaAttackHandle", "JuChiShaAttackHandle", "JuShaAttackHandle", "MineAttackHandle", "MonkAI", "MonkAttackHandle", "OctopusAttackHandle", "OilDrumAttackHandle", "PangXieAttackHandle", "SpearRoleAI", "SpearRoleAttackHandle", "WarriorRoleAttackHandle", "RoleData", "DamagingArea", "JiaoShaFire", "JiaoShaMissile", "JuChiShaBullet", "JuShaSkill2Bullet", "LightingBullet", "RoleState", "TreasureBox", "WoodenBox", "SceneNavigator", "ScreenScrollManager", "SearchPathJob", "BigIceArrow", "BoxOpenParticle", "BulletSkill", "EffectsManager", "FireAroundSkill", "HitEffect", "Missile", "MissileBomb", "MonkSkill2", "NormalArrow", "NormalBullet", "SpawnManager", "StackFSM", "StencilSprite", "Tools", "AdPosition", "AppidIcon", "AppidPosition", "BackLayer", "BannerTrapNode", "BuyEquipNode", "ChiJiBox", "CustomNativeAd", "EnergyStoneShop", "EveryDayWinPrize", "FreeGoldNode", "GameBannerAD", "GameResult", "GetSuipianNode", "GiveGlodAndMasonryNode", "GoalsInfo", "HeroRankMatchItem", "HeroRankMatchView", "HeroRankView", "HeroRankingListAI", "HeroUpgradeView", "InviteButton", "LevelNode", "LevelSelectDialog", "List", "ListItem", "LoadYinsiNode", "LoadingTip", "LotteryNode", "MainHero", "MainNode", "MainScene", "MoreGame", "MyButton", "NavigateBoxNode", "NavigateNode", "NewPlayerGiftNode", "OneGoalInfo", "OneRoleInfo", "OpenChiJiBox", "OppoMoreGame", "OppoVipNode", "PauseNode", "PopupClose", "PvERevive", "PvpLoading", "PvpLoadingItemView", "PvpShow", "RankRewardItemView", "RankRewardView", "RolesInfo", "ShowGameAd", "SignUpNode", "ThroughInputEvents ", "TrainningNode", "UnlockRoleNode", "UpdateLv", "VipRewardNode", "YinSiNode", "bagDragItem", "huodejiangli", "lvShow", "selectEffect", "tip", "updateDiamond", "updateGold", "updateRank", "updateRankHongDian", "BezierMovement", "BezierPathManager", "LinearMovement", "NavMove", "PathFindMove", "PathManager", "SpineMovement", "SplineInterpolator", "SplineMove", "Error", "Failer", "Runner", "Succeeder", "Wait", "indexAct", "b3.functions", "MemPriority", "MemSequence", "Parallel", "ParallelComplete", "ParallelSelector", "Priority", "Sequence", "WeightMemSelector", "indexCom", "constants", "Action", "BaseNode", "BehaviorTree", "Blackboard", "Composite", "Condition", "Decorator", "Tick", "Inverter", "Limiter", "MaxTime", "RepeatUntilFailure", "RepeatUntilSuccess", "Repeater", "indexDec", "main", "PathFinding", "DiagonalMovement", "Grid", "Heuristic", "Node", "Util", "AStarFinder", "BestFirstFinder", "BiAStarFinder", "BiBestFirstFinder", "BiBreadthFirstFinder", "BiDijkstraFinder", "BreadthFirstFinder", "DijkstraFinder", "IDAStarFinder", "JPFAlwaysMoveDiagonally", "JPFMoveDiagonallyIfAtMostOneObstacle", "JPFMoveDiagonallyIfNoObstacles", "JPFNeverMoveDiagonally", "JumpPointFinder", "JumpPointFinderBase", "heap", "playingDataManager", "skillBtn" ]);
