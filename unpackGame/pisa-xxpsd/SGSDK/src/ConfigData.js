@@ -1,5 +1,5 @@
 window.ConfigData = {
-  version: '1.0.1',// 游戏版本号
+  version: '1.0.2',// 游戏版本号
   appid: '648',// 此项目在云平台的appid
   secret: '3hb2c1k7m0edjine67ds6cfnns2te23c',// 此项目在云平台的secret, 用于与后端通信签名
   portrait: true,//游戏横竖屏
@@ -17,5 +17,7 @@ window.ConfigData = {
     showRemen: false,             //热门推荐页
     remenBanner: false,           //热门推荐页banner闪烁
     is_showGameBanner:false,      //游戏内banner开关
+    bannerBox_level:1,
+    bannerBox_interval_level:0
   }
 }

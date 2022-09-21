@@ -2,24 +2,45 @@ export default class SGConfig {
     static version: string = '1.0.0'
     static appid: string = ''
     static secret: string = ''
+    static isPortrait: boolean = true
     static data: ConfigData = null
     static _wx: any = Laya.Browser.window['wx']
     static isWechat: boolean = Laya.Browser.onWeiXin
 
-    static initConfigData(d: any) {
-        this.data = new ConfigData()
-        for (let key in this.data) {
-            this.data[key] = d[key]
-        }
+    static initConfigData(cb: Function) {
+        window['wxsdk'].init({
+            version: this.version, // 当前的小游戏版本号，只能以数字
+            appid: this.appid, // 此项目在云平台的appid
+            secret: this.secret, // 此项目在云平台的secret, 用于与后端通信签名
+            share: {
+                title: '你能过得了这一关吗？', // 默认分享文案
+                image: 'https://game-oss.smallshark.cn/game/20211119/1216327431258.jpg?imageslim', // 默认分享图片
+            },
+        })
+        window['wxsdk'].onInit(() => {
+            let d = window['wxsdk'].conf
+            this.data = new ConfigData()
+            for (let key in this.data) {
+                this.data[key] = d[key]
+            }
+            if (this.data.channel_ditch && !window['wxsdk'].user.channel) {
+                this.data.allowMistouch = false;
+            }
+            if (!this.data.allowMistouch) {
+                for (let key in this.data) {
+                    if (typeof (this.data[key]) === 'boolean') this.data[key] = false
+                }
+            }
+            console.log('参数:', this.data)
+            cb && cb()
+        })
+        window['wxsdk'].login();
+
     }
 
     static get canTrapAll() {
         if (!this.isWechat) return false
         return this.data.allowMistouch && this.allowScene && this.version.split('.')[2] <= this.data.version.split('.')[2];
-    }
-
-    static getBoolValueByKey(key: string) {
-        return this.canTrapAll && this.data[key]
     }
 
     /**屏蔽场景值 */
@@ -40,14 +61,17 @@ class ConfigData {
     channel_ditch: boolean = false
     sceneList: string = ''
 
-    boxGridIds: string[] = []
-    fullGridIds: string[] = []
-    overGridIds: string[] = []
-    singleGridIds: string[] = []
-    sideGridIds: string[] = []
-    interstitialIds: string[] = []
-    videoIds: string[] = []
-    bannerIds: string[] = []
+    front_banner_ids: string[] = []
+    front_video_ids: string[] = []
+    front_chaping_ids: string[] = []
+    front_box_ids: string[] = []
+    front_more_gezi_ids: string[] = []
+    front_duilian_gezi_ids: string[] = []
+    front_dangezi_ids: string[] = []
+    front_duogezi_ids: string[] = []
+    front_more_dangezi_ids: string[] = []
+
+    front_pifu_picture: string = ''
 
     front_small_remen_number: number = 2
     front_video_begin_level: number = 1
@@ -67,6 +91,12 @@ class ConfigData {
     front_box_dangezi_refresh_num: number = 5
     front_gezi_time: number = 800
     remenBanner_count: number = 1
+    refresh_banner_time: number = 5
+    updateBanner: number = 3
+    front_gezi_number: number = 1
+    front_box_before_times: number = 1
+    front_box_dangezi_times: number = 1
+    front_box_second_times: number = 1
 
     front_video_before_switch: boolean = false
     front_small_remen_switch: boolean = false
@@ -77,7 +107,6 @@ class ConfigData {
     front_video_begin_switch: boolean = false
     front_tuijian_remen_switch: boolean = false
     front_tuijian_wuchu_switch: boolean = false
-    front_pifu_picture: boolean = false
     front_pifu_cancel_switch: boolean = false
     front_pifu_switch: boolean = false
     front_video_cancel_switch: boolean = false

@@ -1,21 +1,20 @@
 import SGAD from "./SGAD";
-import SGMgr, { BoxType } from "./SGMgr";
+import SGConfig from "./SGConfig";
+import SGMgr from "./SGMgr";
+import SGUtils from "./SGUtils";
 
 /**误触页1 */
 export default class SGBoxBottom extends Laya.Scene {
-    /**关闭回调 */
     ccb: Function;
-    /**当前值 */
-    progressValue: number = 0;
-    /**触发次数 */
     clickCount: number = 1;
-
-    /**误触按钮 */
     btnClick: Laya.Image;
+    box: Laya.Image;
+    triggerNum: number = 0.7
+    index: number = 0
+    type: number = 1
+    wuchuCount: number = 1
 
-    pressBar: Laya.ProgressBar;
-    light: Laya.Image;
-    imgSushi: Laya.Image;
+    pBar: Laya.ProgressBar;
     hadShowBanner: boolean = false
     onShowCB: Function = null
 
@@ -23,13 +22,31 @@ export default class SGBoxBottom extends Laya.Scene {
         this.size(Laya.stage.width, Laya.stage.height); //屏幕适配
     }
 
-    onOpened(data) {
-        if (data && data.ccb) {
-            this.ccb = data.ccb;
+    onOpened(param) {
+        if (param && param.ccb) {
+            this.ccb = param.ccb;
         }
+        if (param && param.index) {
+            this.index = param.index;
+        }
+        switch (this.index) {
+            case 0:
+                this.type = SGConfig.data.front_box_dangezi_number
+                this.wuchuCount = SGConfig.data.front_box_dangezi_times
+                break
+            case 1:
+                this.type = SGConfig.data.front_box_second_number
+                this.wuchuCount = SGConfig.data.front_box_second_times
+                break
+        }
+        this.triggerNum = SGUtils.getRangeNumer(0.3, 0.8);
         SGAD.hideBannerAd();
-        this.btnClick.on(Laya.Event.CLICK, this, this.onPress)
+        SGUtils.addClickEvent(this.btnClick, this, this.onPress)
         Laya.timer.frameLoop(1, this, this.reFreshUI);
+
+        if (SGConfig.isPortrait) {
+            this.pBar.centerY = 300
+        }
 
         this.onShowCB = () => {
             this.close()
@@ -43,44 +60,48 @@ export default class SGBoxBottom extends Laya.Scene {
         if (Laya.Browser.onWeiXin) {
             Laya.Browser.window['wx'].offShow(this.onShowCB)
         }
-        SGAD.hideBannerAd();
         Laya.timer.clearAll(this)
-        SGMgr.visibleVideoBanner(false, false)
+        SGAD.hideBannerAd();
+        SGAD.visibleFirstBoxGridAd(false)
         Laya.timer.once(100, this, () => {
             this.ccb && this.ccb()
         })
     }
 
     public onPress() {
-        this.progressValue += SGMgr.wuchuProgressStepAdd;
+        this.pBar.value += 0.2;
+        Laya.Tween.to(this.box, { scaleX: 1.1, scaleY: 1.1 }, 100, null, Laya.Handler.create(this, () => {
+            Laya.Tween.to(this.box, { scaleX: 1, scaleY: 1 }, 100);
+        }));
 
-        if (this.progressValue >= SGMgr.wuchuProgressValue && !this.hadShowBanner) { //触发误触
+        if (this.pBar.value >= this.triggerNum && !this.hadShowBanner) { //触发误触
             this.hadShowBanner = true
             this.clickCount++
-            SGMgr.randTouchProgress(); //更新目标值
+            this.triggerNum = SGUtils.getRangeNumer(0.3, 0.8);
+            if (this.type == 1) {
+                SGAD.visibleFirstBoxGridAd(true)
+            } else if (this.type == 2) {
+                SGAD.showBannerAd()
+            }
 
             Laya.timer.once(1000, this, () => {
-                if (this.clickCount >= SGMgr.jsonConfig.bannerBox_count) {
+                if (this.clickCount >= this.wuchuCount) {
                     this.close();
                 }
                 else {
-
                     this.hadShowBanner = false
-                    this.pressBar.value = 0
-                    this.progressValue = 0
+                    this.pBar.value = 0
+                    if (this.type == 1) {
+                        SGAD.visibleFirstBoxGridAd(false)
+                    } else if (this.type == 2) {
+                        SGAD.hideBannerAd()
+                    }
                 }
             });
         }
-
-        this.pressBar.value = this.progressValue;
-
     }
 
     public reFreshUI() {
-        if (this.progressValue > SGMgr.wuchuProgressFrameSub) {
-            this.progressValue -= SGMgr.wuchuProgressFrameSub;
-        }
-        this.pressBar.value = this.progressValue;
-        this.light.rotation += 1;
+        this.pBar.value -= 0.01;
     }
 }

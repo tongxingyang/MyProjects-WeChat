@@ -13,10 +13,12 @@ var AdMgr = {
   bannerIdArr: [],
   fullGridId: [],
   singleGridId: [],
+  interstitialId:[],
   initAd(cb) {
     this.initBanner();
     this.createFullGrid();
     this.createSingleGrid();
+    this.createInterstitialAd();
     let func = () => {
       if (this.isFullGridAdLoaded) {
         Laya.timer.clear(this, func);
@@ -208,6 +210,20 @@ var AdMgr = {
     for (let i = 0; i < this.singleGridAd.length; i++) {
       v ? this.singleGridAd[i].show() : this.singleGridAd[i].hide()
     }
+  },
+
+  //插屏
+  intersititialAd: null,
+  createInterstitialAd() {
+    this.intersititialAd = wx.createInterstitialAd({
+      adUnitId: this.interstitialId[0]
+    })
+    this.intersititialAd.onError((err) => { });
+    this.intersititialAd.onLoad(() => { });
+    this.intersititialAd.load();
+  },
+  showInterstitialAd(){
+    this.intersititialAd.show();
   },
 
 }

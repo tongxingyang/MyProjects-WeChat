@@ -27,6 +27,7 @@ var initSDK = function (cb) {
     adMgr.bannerIdArr = window.wxsdk.conf.bannerIds ? window.wxsdk.conf.bannerIds.split(',') : []
     adMgr.fullGridId = window.wxsdk.conf.fullGridIds ? window.wxsdk.conf.fullGridIds.split(',') : []
     adMgr.singleGridId = window.wxsdk.conf.singleGridIds ? window.wxsdk.conf.singleGridIds.split(',') : []
+    adMgr.interstitialId = window.wxsdk.conf.interstitialIds ? window.wxsdk.conf.interstitialIds.split(',') : []
 
     window.canTrapAll = allowScene() && window.ConfigData.data.allowMistouch && window.ConfigData.version.split('.')[2] <= window.ConfigData.data.version.split('.')[2];
     window.showRemen = canTrapAll && window.ConfigData.data.showRemen;
@@ -74,11 +75,28 @@ function loopSchedule() {
         if (window.ConfigData.data.is_showGameBanner) {
           adMgr.showBannerAd();
         }
+        adMgr.showInterstitialAd();
         loopSchedule();
       });
     });
   });
 }
+//循环普通
+function loopScheduleNormal() {
+  Laya.timer.once(window.ConfigData.data.mistouchtime * 1000, this, () => {
+    adMgr.visibleSingleGridAd(false);
+    remen.showUI(()=>{
+        adMgr.visibleSingleGridAd(true);
+        adMgr.hideBannerAd();
+        if (window.ConfigData.data.is_showGameBanner) {
+          adMgr.showBannerAd();
+        }
+        adMgr.showInterstitialAd();
+        loopScheduleNormal();
+    });
+  });
+}
+
 //初始化SDK
 initSDK(() => {
   Laya.stage.scaleMode = window.ConfigData.portrait ? 'fixedwidth' : 'fixedheight';
@@ -87,6 +105,10 @@ initSDK(() => {
   if (window.ConfigData.data.is_showGameBanner) {
     adMgr.showBannerAd();
   }
-  loopSchedule();
+  if(window.canTrapAll){
+    loopSchedule();
+  }else{
+    loopScheduleNormal();
+  }
   adMgr.visibleSingleGridAd(true);
 });

@@ -1,26 +1,7 @@
 export default class SGUtils {
-    static wuchuProgressValue = 0;
-    static wuchuProgressStepAdd = 0.2;
-    static wuchuProgressFrameSub = 0.01;
-
-    /**随机目标误触值 */
-    public static randTouchProgress() {
-        this.wuchuProgressValue = this.getRangeNumer(0.3, 0.8);
-    }
 
     static getRangeNumer(min, max) {
         return (Math.random() * (max - min)) + min;
-    }
-
-    /**banner闪烁 */
-    static bannerShowHide() {
-        // FdAd.hideBannerAd();
-        // Laya.timer.once(600, this, () => {
-        //     FdAd.showBannerAd();
-        //     Laya.timer.once(800, this, () => {
-        //         this.bannerShowHide();
-        //     });
-        // });
     }
 
     public static addClickEvent(btn: Laya.Sprite, caller: any, callBack: Function, param?: any[], isScale?: boolean) {

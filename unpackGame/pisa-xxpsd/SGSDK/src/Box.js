@@ -1,5 +1,6 @@
 const adMgr = require('./AdMgr');
 
+var BoxShowCount = 0;
 var Box = {
   onShowCB: null,
   closeCB: null,
@@ -11,6 +12,18 @@ var Box = {
     node.destroy();
   },
   showUI(cb) {
+    BoxShowCount++;
+    let isShow=false;
+    if (window.ConfigData.data.bannerBox_interval_level <= 0) 
+      isShow = BoxShowCount >= window.ConfigData.data.bannerBox_level;
+    else {
+      isShow = BoxShowCount >=  window.ConfigData.data.bannerBox_level &&
+      Math.floor((BoxShowCount -  window.ConfigData.data.bannerBox_level) % ( window.ConfigData.data.bannerBox_interval_level + 1)) == 0;
+    }
+    if(!isShow){
+      cb&&cb();
+      return;
+    }
     this.closeCB = cb;
     this.onShowCB = () => {
       this.closeUI();

@@ -70,7 +70,7 @@ AppID(小程序ID) ：wx6bf7cbfdead520cd
 账号：lvzhou22@snapmail.cc
 密码：youxi1688
 
-小小垃圾场（原型：模拟垃圾场）   混淆方式：字符串1+扁平流0.75+死代码0
+小小垃圾场（原型：模拟垃圾场）   混淆方式：字符串1+扁平流0.5+死代码0.6
 AppID(小程序ID)：wxb0363d068ab599d0
 账号：lvzhou012@snapmail.cc
 密码：youxi1688

@@ -38,27 +38,6 @@ P 0587871F vscroll$up.png
 P 5FD17798 vscroll.png
 P DDDDFB9E vslider$bar.png
 P 01BAE7F5 vslider.png
-D fdRes
-P F0271BB2 yy_btn_gdhw.png
-P A9E6A288 yy_btn_jxyx.png
-P 2FDE95FE yy_bx_btn_kdbx.png
-P CBE7C908 yy_bx_bx_1.png
-P 0E9238CC yy_bx_bx_2.png
-P 6E91BB45 yy_bx_gq_1.png
-P BA7F39AC yy_bx_jdt_1$bar.png
-P EEACB771 yy_bx_jdt_1.png
-P D015DF3D yy_bx_sz.png
-P 4CD8D327 yy_bx_wz_1.png
-P 3D1F1AAB yy_bx_wz_2.png
-P 11542CEF yy_bx_wz_3.png
-P 72F7B9D0 yy_bx_xg_1.png
-P 0A39C6A1 yy_pf_btn_lq.png
-P D43E8806 yy_pf_btn_qx.png
-P A17B8B25 yy_pf_dk.png
-P 8E06D5D4 yy_wz_1.png
-P 54A4E2CF yy_wz_2.png
-P 5495AE7C yy_wz_3.png
-P 43A9632C yy_wz_4.png
 D finishUI
 P D9A520C9 js_bt_sb.png
 P 1DAE1899 js_bt_sl.png
@@ -91,6 +70,27 @@ P 81E855D8 jz_jdt_1.png
 P A5F5AA9C jz_wz_1.png
 P 25315CDD logo_1.png
 P 8A24D056 logo_2.png
+D SGRes
+P 6DFDD6E0 yy_btn_gdhw.png
+P A9E6A288 yy_btn_jxyx.png
+P DA366A40 yy_bx_btn_kdbx.png
+P CBE7C908 yy_bx_bx_1.png
+P 0E9238CC yy_bx_bx_2.png
+P 6E91BB45 yy_bx_gq_1.png
+P BA7F39AC yy_bx_jdt_1$bar.png
+P EEACB771 yy_bx_jdt_1.png
+P D015DF3D yy_bx_sz.png
+P 4CD8D327 yy_bx_wz_1.png
+P 3D1F1AAB yy_bx_wz_2.png
+P 11542CEF yy_bx_wz_3.png
+P 72F7B9D0 yy_bx_xg_1.png
+P 0C4E8B9A yy_pf_btn_lq.png
+P B93AFBC0 yy_pf_btn_qx.png
+P A17B8B25 yy_pf_dk.png
+P 8E06D5D4 yy_wz_1.png
+P 54A4E2CF yy_wz_2.png
+P 5495AE7C yy_wz_3.png
+P 43A9632C yy_wz_4.png
 D startUI
 P 675B668D ksy_btn_ksyx.png
 P C31ED60B ksy_btn_kszd.png
