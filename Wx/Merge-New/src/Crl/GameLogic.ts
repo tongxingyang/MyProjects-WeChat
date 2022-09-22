@@ -74,7 +74,7 @@ export default class GameLogic {
         this._light.shadowCascadesMode = Laya.ShadowCascadesMode.NoCascades;
         // Set shadow normal bias.
         this._light.shadowNormalBias = 0;
-        this._light.transform.rotate(new Laya.Vector3(0,-40,0),false,false)
+        this._light.transform.rotate(new Laya.Vector3(0, -40, 0), false, false)
 
         // //雾化代码
         // this._scene.enableFog = true;
@@ -308,7 +308,7 @@ export default class GameLogic {
         this.isStartGame = false
         Laya.Scene.close('MyScenes/GameUI.scene')
         Laya.timer.once(2000, this, () => {
-            SGMgr.showGameOver(() => {
+            SGMgr.gameOver(() => {
                 Laya.Scene.open('MyScenes/FinishUI.scene')
             })
         })

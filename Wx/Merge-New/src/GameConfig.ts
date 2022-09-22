@@ -9,9 +9,13 @@ import UpDownLoop from "./Mod/UpDownLoop"
 import SelectUI from "./View/SelectUI"
 import ScaleLoop from "./Libs/ScaleLoop"
 import StartUI from "./View/StartUI"
-import Box1 from "./FanDong/Box1"
-import HomeUI from "./FanDong/HomeUI"
-import Remen from "./FanDong/Remen"
+import SGBoxBottom from "./SGSDK/SGBoxBottom"
+import SGScale from "./SGSDK/SGScale"
+import SGRotate from "./SGSDK/SGRotate"
+import SGBoxMiddle from "./SGSDK/SGBoxMiddle"
+import SGHomeUI from "./SGSDK/SGHomeUI"
+import SGRemen from "./SGSDK/SGRemen"
+import SGSkin from "./SGSDK/SGSkin"
 /*
 * 游戏初始化配置;
 */
@@ -22,7 +26,7 @@ export default class GameConfig{
     static screenMode:string="vertical";
     static alignV:string="top";
     static alignH:string="left";
-    static startScene:any="SGScene/SGBoxBottom.scene";
+    static startScene:any="SGScene/SGHomeUI.scene";
     static sceneRoot:string="";
     static debug:boolean=false;
     static stat:boolean=false;
@@ -41,9 +45,13 @@ export default class GameConfig{
         reg("View/SelectUI.ts",SelectUI);
         reg("Libs/ScaleLoop.ts",ScaleLoop);
         reg("View/StartUI.ts",StartUI);
-        reg("FanDong/Box1.ts",Box1);
-        reg("FanDong/HomeUI.ts",HomeUI);
-        reg("FanDong/Remen.ts",Remen);
+        reg("SGSDK/SGBoxBottom.ts",SGBoxBottom);
+        reg("SGSDK/SGScale.ts",SGScale);
+        reg("SGSDK/SGRotate.ts",SGRotate);
+        reg("SGSDK/SGBoxMiddle.ts",SGBoxMiddle);
+        reg("SGSDK/SGHomeUI.ts",SGHomeUI);
+        reg("SGSDK/SGRemen.ts",SGRemen);
+        reg("SGSDK/SGSkin.ts",SGSkin);
     }
 }
 GameConfig.init();

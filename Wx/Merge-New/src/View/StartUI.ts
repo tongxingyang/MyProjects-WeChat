@@ -14,7 +14,7 @@ export default class StartUI extends Laya.Scene {
         SoundMgr.instance.playMusic('bgm')
         this.size(Laya.stage.displayWidth, Laya.stage.displayHeight)
         Utility.addClickEvent(this.startBtn, this, this.startBtnCB)
-        SGMgr.inHomePage()
+        SGMgr.inHome()
     }
     onClosed() {
     }

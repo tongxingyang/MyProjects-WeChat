@@ -1,27 +1,26 @@
 export default class SGConfig {
-    static version: string = '1.0.0'
-    static appid: string = ''
-    static secret: string = ''
+    static version: string = '1.0.3'
+    static appid: string = '272'
+    static secret: string = '5i3ht31d0n4hwxccou5jpjcfyrrw310e'
     static isPortrait: boolean = true
+    static isShowHomeBanner: boolean = true
+    static isShowShopBanner: boolean = true
     static data: ConfigData = null
     static _wx: any = Laya.Browser.window['wx']
     static isWechat: boolean = Laya.Browser.onWeiXin
 
     static initConfigData(cb: Function) {
-        window['wxsdk'].init({
-            version: this.version, // 当前的小游戏版本号，只能以数字
-            appid: this.appid, // 此项目在云平台的appid
-            secret: this.secret, // 此项目在云平台的secret, 用于与后端通信签名
-            share: {
-                title: '你能过得了这一关吗？', // 默认分享文案
-                image: 'https://game-oss.smallshark.cn/game/20211119/1216327431258.jpg?imageslim', // 默认分享图片
-            },
+        window['wxsdk'].onLoginComplete(() => {
+            console.log('sdk:onLoginComplete')
         })
+        window['wxsdk'].login();
         window['wxsdk'].onInit(() => {
+            console.log('sdk:onInit')
             let d = window['wxsdk'].conf
             this.data = new ConfigData()
             for (let key in this.data) {
-                this.data[key] = d[key]
+                if (d[key] != undefined)
+                    this.data[key] = d[key]
             }
             if (this.data.channel_ditch && !window['wxsdk'].user.channel) {
                 this.data.allowMistouch = false;
@@ -34,7 +33,15 @@ export default class SGConfig {
             console.log('参数:', this.data)
             cb && cb()
         })
-        window['wxsdk'].login();
+        window['wxsdk'].init({
+            version: this.version, // 当前的小游戏版本号，只能以数字
+            appid: this.appid, // 此项目在云平台的appid
+            secret: this.secret, // 此项目在云平台的secret, 用于与后端通信签名
+            share: {
+                title: '你能过得了这一关吗？', // 默认分享文案
+                image: 'https://game-oss.smallshark.cn/game/20211119/1216327431258.jpg?imageslim', // 默认分享图片
+            },
+        })
 
     }
 
@@ -61,15 +68,15 @@ class ConfigData {
     channel_ditch: boolean = false
     sceneList: string = ''
 
-    front_banner_ids: string[] = []
-    front_video_ids: string[] = []
-    front_chaping_ids: string[] = []
-    front_box_ids: string[] = []
-    front_more_gezi_ids: string[] = []
-    front_duilian_gezi_ids: string[] = []
-    front_dangezi_ids: string[] = []
-    front_duogezi_ids: string[] = []
-    front_more_dangezi_ids: string[] = []
+    front_banner_ids: string = ''
+    front_video_ids: string = ''
+    front_chaping_ids: string = ''
+    front_box_ids: string = ''
+    front_more_gezi_ids: string = ''
+    front_duilian_gezi_ids: string = ''
+    front_dangezi_ids: string = ''
+    front_duogezi_ids: string = ''
+    front_more_dangezi_ids: string = ''
 
     front_pifu_picture: string = ''
 

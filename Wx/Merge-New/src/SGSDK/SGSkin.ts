@@ -1,5 +1,6 @@
 import SGAD from "./SGAD"
 import SGConfig from "./SGConfig"
+import { SceneType } from "./SGMgr"
 import SGUtils from "./SGUtils"
 
 export default class SGSkin extends Laya.Scene {
@@ -42,7 +43,7 @@ export default class SGSkin extends Laya.Scene {
         if (SGConfig.data.front_pifu_cancel_switch) {
             this.showAd()
         } else {
-            this.close()
+            Laya.Scene.close(SceneType.SGSkin)
         }
     }
 
@@ -54,15 +55,15 @@ export default class SGSkin extends Laya.Scene {
                 mask: false,//是否显示透明蒙层，防止触摸穿透，默认：false  
                 icon: 'none', //图标，支持"success"、"loading"  
             })
-            this.close()
+            Laya.Scene.close(SceneType.SGSkin)
         }, () => {
             this.showWxVirtual()
-        })
+        }, null, true)
     }
 
     showWxVirtual() {
         if (!SGConfig.data.front_video_tanchuang_switch) {
-            this.close()
+            Laya.Scene.close(SceneType.SGSkin)
             return
         }
         Laya.Browser.window.wx.showModal({
@@ -77,7 +78,7 @@ export default class SGSkin extends Laya.Scene {
                             mask: false,//是否显示透明蒙层，防止触摸穿透，默认：false  
                             icon: 'none', //图标，支持"success"、"loading"  
                         })
-                    }, null, () => { this.close() })
+                    }, null, () => { Laya.Scene.close(SceneType.SGSkin) })
                 } else if (res.cancel) {
                     if (SGConfig.data.front_video_cancel_switch) {
                         SGAD.showVideoAd(() => {
@@ -87,9 +88,9 @@ export default class SGSkin extends Laya.Scene {
                                 mask: false,//是否显示透明蒙层，防止触摸穿透，默认：false  
                                 icon: 'none', //图标，支持"success"、"loading"  
                             })
-                        }, null, () => { this.close() })
+                        }, null, () => { Laya.Scene.close(SceneType.SGSkin) })
                     } else {
-                        this.close()
+                        Laya.Scene.close(SceneType.SGSkin)
                     }
                 }
             }

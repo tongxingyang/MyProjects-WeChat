@@ -1,5 +1,6 @@
 import SGAD from "./SGAD"
 import SGConfig from "./SGConfig"
+import SGMgr from "./SGMgr"
 import SGUtils from "./SGUtils"
 
 export default class SGHomeUI extends Laya.Scene {
@@ -20,8 +21,7 @@ export default class SGHomeUI extends Laya.Scene {
     }
 
     remenCB() {
-        SGAD.hideBannerAd()
-        SGAD.visibleSideGridAd(false)
+        SGMgr.moreGame()
 
     }
 }

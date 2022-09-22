@@ -21,8 +21,15 @@ export default class SGBoxMiddle extends Laya.Scene {
         if (param && param.ccb) {
             this.ccb = param.ccb;
         }
-        SGUtils.addClickEvent(this.box, this, this.boxBtnCB)
-        this.triggerNum = SGUtils.getRangeNumer(0.3, 0.8);
+        //SGUtils.addClickEvent(this.box, this, this.boxBtnCB)
+        this.box.on(Laya.Event.MOUSE_DOWN, this, () => {
+            this.boxBtnCB()
+            this.box.scale(1.1,1.1)
+        })
+        this.box.on(Laya.Event.MOUSE_UP, this, () => {
+            this.box.scale(1,1)
+        })
+        this.triggerNum = SGUtils.getRangeNumer(0.2, 0.6);
         Laya.timer.frameLoop(1, this, this.reFreshUI);
 
         SGAD.showBannerAd()
@@ -34,7 +41,7 @@ export default class SGBoxMiddle extends Laya.Scene {
         }
     }
 
-    onClose() {
+    onClosed() {
         if (Laya.Browser.onWeiXin) {
             Laya.Browser.window['wx'].offShow(this.onShowCB)
         }
@@ -44,18 +51,21 @@ export default class SGBoxMiddle extends Laya.Scene {
         Laya.timer.once(100, this, () => {
             this.ccb && this.ccb()
         })
+        Laya.timer.once(1000, this, () => {
+            SGAD.visibleMidBoxGridAd(false)
+        })
     }
 
     boxBtnCB() {
-        this.curProgress += 0.2;
+        this.curProgress += 0.15;
 
         if (this.curProgress >= this.triggerNum && !this.hadShowBanner) { //触发误触
             this.hadShowBanner = true
             this.clickCount++
-            this.triggerNum = SGUtils.getRangeNumer(0.3, 0.8);
+            this.triggerNum = SGUtils.getRangeNumer(0.2, 0.6);
             SGAD.visibleMidBoxGridAd(true)
 
-            Laya.timer.once(1000, this, () => {
+            Laya.timer.once(2000, this, () => {
                 if (this.clickCount >= SGConfig.data.front_box_before_times) {
                     this.close();
                 }
@@ -69,7 +79,7 @@ export default class SGBoxMiddle extends Laya.Scene {
     }
 
     reFreshUI() {
-        this.curProgress -= 0.01;
+        this.curProgress -= 0.0115;
         if (this.curProgress < 0) this.curProgress = 0
     }
 }

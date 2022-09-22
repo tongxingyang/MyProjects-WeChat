@@ -2,8 +2,6 @@ import GameLogic from "../Crl/GameLogic"
 import WxApi from "../Libs/WxApi"
 import SoundMgr from "../Mod/SoundMgr"
 import SGMgr from "../SGSDK/SGMgr"
-import PlayerDataMgr from "../Libs/PlayerDataMgr"
-import Utility from "../Mod/Utility"
 
 export default class LoadingUI extends Laya.Scene {
     constructor() {
@@ -12,19 +10,33 @@ export default class LoadingUI extends Laya.Scene {
 
     bar: Laya.ProgressBar
 
+    resLoaded: boolean = false
+    sdkInited: boolean = false
+
     //perNum: Laya.Label
 
     onOpened() {
         this.size(Laya.stage.displayWidth, Laya.stage.displayHeight)
-        SGMgr.init(() => {
-            if (Laya.Browser.onWeiXin)
-                this.loadSubpackage()
-            else
-                this.loadRes()
-        })
+        if (Laya.Browser.onWeiXin)
+            this.loadSubpackage()
+        else
+            this.loadRes()
 
         Laya.timer.frameLoop(1, this, () => {
-            this.bar.value += 0.01
+            this.bar.value += 0.002
+
+            if (this.resLoaded && this.sdkInited) {
+                SoundMgr.instance.initLoading(() => {
+                    GameLogic.Share.initScene()
+                })
+                Laya.timer.clearAll(this)
+            }
+        })
+
+        SGMgr.init(() => {
+            SGMgr.showLoading(() => {
+                this.sdkInited = true
+            })
         })
     }
 
@@ -82,12 +94,9 @@ export default class LoadingUI extends Laya.Scene {
         Laya.loader.create(resUrl, Laya.Handler.create(this, this.onComplete), Laya.Handler.create(this, this.onProgress));
     }
 
+
     onComplete() {
-        SGMgr.loadGame(() => {
-            SoundMgr.instance.initLoading(() => {
-                GameLogic.Share.initScene()
-            })
-        })
+        this.resLoaded = true
     }
 
     onProgress(value) {

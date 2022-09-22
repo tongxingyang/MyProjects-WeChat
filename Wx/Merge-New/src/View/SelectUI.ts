@@ -39,6 +39,8 @@ export default class SelectUI extends Laya.Scene {
         }
         this.initList();
         (this.startBtn.getChildAt(0) as Laya.Animation).visible = PlayerDataMgr.getPlayerData().grade == 1;
+
+        SGAD.showBannerAd()
     }
 
     onClosed() {

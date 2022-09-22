@@ -1,1 +1,0 @@
-{"type":"Scene","props":{"width":750,"runtime":"FanDong/HomeUI.ts","mouseThrough":true,"mouseEnabled":true,"height":1334},"compId":2,"child":[{"type":"Image","props":{"var":"remenBtn","skin":"fdRes/yy_btn_gdhw.png","centerX":0,"bottom":450,"anchorY":0.5,"anchorX":0.5},"compId":3}],"loadList":["fdRes/yy_btn_gdhw.png"],"loadList3D":[]}

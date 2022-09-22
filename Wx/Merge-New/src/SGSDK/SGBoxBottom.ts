@@ -39,9 +39,16 @@ export default class SGBoxBottom extends Laya.Scene {
                 this.wuchuCount = SGConfig.data.front_box_second_times
                 break
         }
-        this.triggerNum = SGUtils.getRangeNumer(0.3, 0.8);
+        this.triggerNum = SGUtils.getRangeNumer(0.2, 0.6);
         SGAD.hideBannerAd();
-        SGUtils.addClickEvent(this.btnClick, this, this.onPress)
+        //SGUtils.addClickEvent(this.btnClick, this, this.onPress)
+        this.btnClick.on(Laya.Event.MOUSE_DOWN, this, () => {
+            this.onPress()
+            this.btnClick.scale(1.1,1.1)
+        })
+        this.btnClick.on(Laya.Event.MOUSE_UP, this, () => {
+            this.btnClick.scale(1,1)
+        })
         Laya.timer.frameLoop(1, this, this.reFreshUI);
 
         if (SGConfig.isPortrait) {
@@ -63,13 +70,18 @@ export default class SGBoxBottom extends Laya.Scene {
         Laya.timer.clearAll(this)
         SGAD.hideBannerAd();
         SGAD.visibleFirstBoxGridAd(false)
+        SGAD.visibleSecondBoxGridAd(false)
         Laya.timer.once(100, this, () => {
             this.ccb && this.ccb()
+        })
+        Laya.timer.once(1000, this, () => {
+            SGAD.visibleFirstBoxGridAd(false)
+            SGAD.visibleSecondBoxGridAd(false)
         })
     }
 
     public onPress() {
-        this.pBar.value += 0.2;
+        this.pBar.value += 0.15;
         Laya.Tween.to(this.box, { scaleX: 1.1, scaleY: 1.1 }, 100, null, Laya.Handler.create(this, () => {
             Laya.Tween.to(this.box, { scaleX: 1, scaleY: 1 }, 100);
         }));
@@ -77,14 +89,14 @@ export default class SGBoxBottom extends Laya.Scene {
         if (this.pBar.value >= this.triggerNum && !this.hadShowBanner) { //触发误触
             this.hadShowBanner = true
             this.clickCount++
-            this.triggerNum = SGUtils.getRangeNumer(0.3, 0.8);
+            this.triggerNum = SGUtils.getRangeNumer(0.2, 0.6);
             if (this.type == 1) {
-                SGAD.visibleFirstBoxGridAd(true)
+                this.index == 0 ? SGAD.visibleFirstBoxGridAd(true) : SGAD.visibleSecondBoxGridAd(true)
             } else if (this.type == 2) {
                 SGAD.showBannerAd()
             }
 
-            Laya.timer.once(1000, this, () => {
+            Laya.timer.once(2000, this, () => {
                 if (this.clickCount >= this.wuchuCount) {
                     this.close();
                 }
@@ -93,6 +105,7 @@ export default class SGBoxBottom extends Laya.Scene {
                     this.pBar.value = 0
                     if (this.type == 1) {
                         SGAD.visibleFirstBoxGridAd(false)
+                        SGAD.visibleSecondBoxGridAd(false)
                     } else if (this.type == 2) {
                         SGAD.hideBannerAd()
                     }
@@ -102,6 +115,6 @@ export default class SGBoxBottom extends Laya.Scene {
     }
 
     public reFreshUI() {
-        this.pBar.value -= 0.01;
+        this.pBar.value -= 0.0125;
     }
 }

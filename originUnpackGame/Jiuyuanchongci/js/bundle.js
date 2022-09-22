@@ -21569,7 +21569,7 @@ function s0b(a, b) {
                 bC["instance"]["has"](bA[SP(1916)], eG) ? this["getController"]("c1")[SP(1749)] = 0 : this["getController"]("c1")[SP(1749)] = 1, 
                 this[SP(2876)][SP(811)] = "" + eG;
             }
-            console[SP(427)]("---", !am[SP(3266)], am["isOffCitys"]()), am[SP(3184)]() && a[SP(3580)](am[SP(2461)]["ShowTriggerOpen"], 0) && !am["isCurrentVersion"] && !am["isOffCitys"]() && am[SP(1361)](this, eH => {
+            console[SP(427)]("---", !am[SP(3266)], am["isOffCitys"]()), am[SP(3184)]() && a[SP(3580)](am[SP(2461)]["ShowTriggerOpen"], 0) && !am["isCurrentVersion"] && false && am[SP(1361)](this, eH => {
                 const SQ = SP;
                 eH && this[SQ(1157)]();
             }, "解锁");
@@ -21765,7 +21765,7 @@ function s0b(a, b) {
             const Tb = fb;
             this["side"] = eE, this[Tb(3342)] = cH[Tb(3106)][Tb(919)](this[Tb(3863)][Tb(1484)]), 
             this["zhaopians"] = cH["instance"]["getAssistantZhaoping"](this["side"][Tb(1484)]), 
-            this[Tb(1618)](), am[Tb(3184)]() && am[Tb(2461)]["ShowTriggerOpen"] == 0 && !am["isCurrentVersion"] && !am[Tb(3205)]() && am[Tb(1361)](this, eF => {
+            this[Tb(1618)](), am[Tb(3184)]() && am[Tb(2461)]["ShowTriggerOpen"] == 0 && !am["isCurrentVersion"] && false && am[Tb(1361)](this, eF => {
                 const Tc = Tb;
                 eF && this[Tc(1157)]();
             }, "招聘");

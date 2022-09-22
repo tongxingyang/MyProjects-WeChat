@@ -54,14 +54,14 @@ export default class FinishUI extends Laya.Scene {
             PlayerDataMgr.setPlayerData()
         }
 
-        SGMgr.inFinish(GameLogic.Share.isWin ? this.nextBtn : this.restartBtn)
+        SGMgr.inFinish()
     }
 
     onClosed() {
     }
 
     closeCB() {
-        SGMgr.closeFinish(() => {
+        SGMgr.backToHome(() => {
             if (GameLogic.Share.isWin) {
                 PlayerDataMgr.getPlayerData().grade++
                 PlayerDataMgr.setPlayerData()

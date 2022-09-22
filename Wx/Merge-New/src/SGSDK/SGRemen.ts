@@ -66,13 +66,18 @@ export default class SGRemen extends Laya.Scene {
         Laya.timer.clearAll(this)
         SGAD.hideBannerAd()
         SGAD.visibleFullSingleGridAd(false);
+        SGAD.visibleFullGridAd(false)
         Laya.timer.once(100, this, () => {
             this.ccb && this.ccb()
+        })
+        Laya.timer.once(1000, this, () => {
+            SGAD.visibleFullSingleGridAd(false);
+            SGAD.visibleFullGridAd(false)
         })
     }
 
     showHide() {
-        if (this.type == 1) {
+        if (this.type == 2) {
             SGAD.hideBannerAd();
             Laya.timer.once(SGConfig.data.front_gezi_time, this, () => {
                 SGAD.showBannerAd();
@@ -80,7 +85,7 @@ export default class SGRemen extends Laya.Scene {
                     this.showHide();
                 });
             });
-        } else if (this.type == 2) {
+        } else if (this.type == 1) {
             SGAD.visibleFullSingleGridAd(true)
             Laya.timer.once(SGConfig.data.front_gezi_time, this, () => {
                 SGAD.visibleFullSingleGridAd(false)

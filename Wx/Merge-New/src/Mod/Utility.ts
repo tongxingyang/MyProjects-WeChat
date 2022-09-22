@@ -191,13 +191,14 @@ export default class Utility {
     }
 
     public static ScaleTo(node: Laya.Sprite3D, duration: number, des: Laya.Vector3, cb: Function) {
+        if (!node || !node.transform || !node.transform.localScale) return
         var rotationOld = node.transform.localScale;
         Laya.Tween.to(node.transform.localScale, {
             x: des.x,
             y: des.y,
             z: des.z,
             update: new Laya.Handler(this, function () {
-                if (node)
+                if (node && node.transform && node.transform.localScale)
                     node.transform.localScale = rotationOld;
             })
         }, duration, Laya.Ease.cubicOut, Laya.Handler.create(this, function () {
