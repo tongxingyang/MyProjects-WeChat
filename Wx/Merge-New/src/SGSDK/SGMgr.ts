@@ -128,7 +128,18 @@ export default class SGMgr {
                             SGAD.showInterstitialAd()
                         })
                     }
+                    this.gameCount++
                 })
+            })
+        } else {
+            this.showRemen(3, () => {
+                cb && cb()
+                if (SGConfig.data.front_chaping_home_switch) {
+                    Laya.timer.once(500, this, () => {
+                        SGAD.showInterstitialAd()
+                    })
+                }
+                this.gameCount++
             })
         }
     }
