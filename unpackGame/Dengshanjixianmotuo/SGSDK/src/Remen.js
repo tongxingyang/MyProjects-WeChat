@@ -3,7 +3,6 @@ const Utils = require('./Utils');
 
 var getSprite = (src, size) => {
   let node = new cc.Node();
-  node.group = 'ui';
   let sp = node.addComponent(cc.Sprite);
   Utils.getSpriteFrame(src).then((sf) => {
     sp.spriteFrame = sf;
@@ -14,14 +13,16 @@ var getSprite = (src, size) => {
 }
 
 var scheduler = null;
-var winSize = cc.v2(cc.view.getVisibleSize().width, cc.view.getVisibleSize().height);
+var winSize = cc.size(wx.getSystemInfoSync().windowWidth * 2, wx.getSystemInfoSync().windowHeight * 2);
 var Remen = {
   showUI(cb) {
     let root = new cc.Node();
-    root.group = 'ui';
     root.name = 'SGNode';
+    root.group = 'ui';
     root.zIndex = 9999;
-    root.position = cc.v3(winSize.x / 2, winSize.y / 2);
+    root.position = cc.v3(cc.view.getVisibleSize().width / 2, cc.view.getVisibleSize().height / 2);
+    let s = window.ConfigData.portrait ? cc.view.getVisibleSize().width / winSize.width : cc.view.getVisibleSize().height / winSize.height;
+    root.setScale(s, s, 1);
     if (!root) {
       cb && cb();
       return;
@@ -41,16 +42,16 @@ var Remen = {
     }
     adMgr.visibleFullGridAd(true);
 
-    let panel = getSprite("SGSDK/res/bg.png", cc.size(winSize.x, winSize.y));
+    let panel = getSprite("SGSDK/res/bg.png", cc.size(winSize.width, winSize.height));
     panel.on('touchstart', () => {}, this);
     panel.parent = root;
 
     let title = getSprite("SGSDK/res/rmtj_1.png");
-    title.position = cc.v3(0, winSize.y / 2 - 50);
+    title.position = cc.v3(0, winSize.height / 2 - 50);
     root.addChild(title);
 
     let continueBtn = getSprite("SGSDK/res/jxyx_1.png");
-    continueBtn.position = cc.v3(0, -winSize.y / 2 + 80);
+    continueBtn.position = cc.v3(0, -winSize.height / 2 + 80);
     root.addChild(continueBtn);
     continueBtn.on('touchstart', () => {
       continueBtn.setScale(1.1, 1.1, 1);

@@ -57,7 +57,7 @@ export default class SGMgr {
                 SGAD.showBannerAd()
             if (SGConfig.data.front_side_switch)
                 SGAD.visibleSideGridAd(true)
-        })
+        }, true)
     }
     static startGame(cb?: Function) {
         if (!Laya.Browser.onWeiXin) {
@@ -87,6 +87,8 @@ export default class SGMgr {
         if (!Laya.Browser.onWeiXin) { return }
         if (SGConfig.data.front_game_banner_switch)
             SGAD.showBannerAd()
+        else
+            SGAD.hideBannerAd()
         if (SGConfig.data.front_game_dangezi_switch)
             SGAD.visibleGameGridAd(true);
     }
@@ -145,7 +147,7 @@ export default class SGMgr {
     }
 
     //热门页
-    private static showRemen(index: RemenIndex, cb?: Function) {
+    private static showRemen(index: RemenIndex, cb?: Function, isMust: boolean = false) {
         let v = false
         switch (index) {
             case RemenIndex.RM_rmxyx:
@@ -161,7 +163,7 @@ export default class SGMgr {
                 v = SGConfig.data.front_order_remen_switch
                 break
         }
-        if (v) {
+        if (v || isMust) {
             Laya.Scene.open(SceneType.SGRemen, false, { ccb: cb, index: index })
         } else {
             cb && cb()

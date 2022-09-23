@@ -1610,7 +1610,7 @@
                     SGAD.showBannerAd();
                 if (SGConfig.data.front_side_switch)
                     SGAD.visibleSideGridAd(true);
-            });
+            }, true);
         }
         static startGame(cb) {
             if (!Laya.Browser.onWeiXin) {
@@ -1643,6 +1643,8 @@
             }
             if (SGConfig.data.front_game_banner_switch)
                 SGAD.showBannerAd();
+            else
+                SGAD.hideBannerAd();
             if (SGConfig.data.front_game_dangezi_switch)
                 SGAD.visibleGameGridAd(true);
         }
@@ -1702,7 +1704,7 @@
                 });
             }
         }
-        static showRemen(index, cb) {
+        static showRemen(index, cb, isMust = false) {
             let v = false;
             switch (index) {
                 case RemenIndex.RM_rmxyx:
@@ -1718,7 +1720,7 @@
                     v = SGConfig.data.front_order_remen_switch;
                     break;
             }
-            if (v) {
+            if (v || isMust) {
                 Laya.Scene.open(SceneType.SGRemen, false, { ccb: cb, index: index });
             }
             else {
@@ -3128,7 +3130,7 @@
     class SGBoxBottom extends Laya.Scene {
         constructor() {
             super(...arguments);
-            this.clickCount = 1;
+            this.clickCount = 0;
             this.triggerNum = 0.7;
             this.index = 0;
             this.type = 1;
@@ -3265,7 +3267,7 @@
     class SGBoxMiddle extends Laya.Scene {
         constructor() {
             super(...arguments);
-            this.clickCount = 1;
+            this.clickCount = 0;
             this.triggerNum = 0.7;
             this.curProgress = 0;
             this.hadShowBanner = false;
@@ -3293,6 +3295,7 @@
             if (Laya.Browser.onWeiXin) {
                 Laya.Browser.window['wx'].onShow(this.onShowCB);
             }
+            this.scaleLoop(this.finger, 1.2, 200);
         }
         onClosed() {
             if (Laya.Browser.onWeiXin) {
@@ -3331,6 +3334,13 @@
             this.curProgress -= 0.0115;
             if (this.curProgress < 0)
                 this.curProgress = 0;
+        }
+        scaleLoop(node, rate, t) {
+            var tw = Laya.Tween.to(node, { scaleX: rate, scaleY: rate }, t, null, new Laya.Handler(this, () => {
+                Laya.Tween.to(node, { scaleX: 1, scaleY: 1 }, t, null, new Laya.Handler(this, () => {
+                    this.scaleLoop(node, rate, t);
+                }));
+            }));
         }
     }
 
@@ -3561,7 +3571,7 @@
     GameConfig.screenMode = "vertical";
     GameConfig.alignV = "top";
     GameConfig.alignH = "left";
-    GameConfig.startScene = "SGScene/SGHomeUI.scene";
+    GameConfig.startScene = "SGScene/SGBoxMiddle.scene";
     GameConfig.sceneRoot = "";
     GameConfig.debug = false;
     GameConfig.stat = false;

@@ -17,5 +17,7 @@ window.ConfigData = {
     showRemen: false,             //热门推荐页
     remenBanner: false,           //热门推荐页banner闪烁
     is_showGameBanner:false,      //游戏内banner开关
+    bannerBox_level:1,
+    bannerBox_interval_level:0
   }
 }

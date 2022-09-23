@@ -6,7 +6,7 @@ import SGUtils from "./SGUtils";
 /**误触页1 */
 export default class SGBoxBottom extends Laya.Scene {
     ccb: Function;
-    clickCount: number = 1;
+    clickCount: number = 0;
     btnClick: Laya.Image;
     box: Laya.Image;
     triggerNum: number = 0.7

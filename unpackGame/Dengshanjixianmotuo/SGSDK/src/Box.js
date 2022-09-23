@@ -3,7 +3,6 @@ const Utils = require('./Utils');
 
 var getSprite = (src, size) => {
   let node = new cc.Node();
-  node.group = 'ui';
   let sp = node.addComponent(cc.Sprite);
   Utils.getSpriteFrame(src).then((sf) => {
     sp.spriteFrame = sf;
@@ -13,8 +12,9 @@ var getSprite = (src, size) => {
   return node;
 }
 
+var BoxShowCount = 0;
 var scheduler = null;
-var winSize = cc.v2(cc.view.getVisibleSize().width, cc.view.getVisibleSize().height);
+var winSize = cc.size(wx.getSystemInfoSync().windowWidth * 2, wx.getSystemInfoSync().windowHeight * 2);
 var Box = {
   progress: 0,
   onShowCB: null,
@@ -27,11 +27,25 @@ var Box = {
     node.destroy();
   },
   showUI(cb) {
+    BoxShowCount++;
+    let isShow=false;
+    if (window.ConfigData.data.bannerBox_interval_level <= 0) 
+      isShow = BoxShowCount >= window.ConfigData.data.bannerBox_level;
+    else {
+      isShow = BoxShowCount >=  window.ConfigData.data.bannerBox_level &&
+      Math.floor((BoxShowCount -  window.ConfigData.data.bannerBox_level) % ( window.ConfigData.data.bannerBox_interval_level + 1)) == 0;
+    }
+    if(!isShow){
+      cb&&cb();
+      return;
+    }
     let root = new cc.Node();
-    root.group = 'ui';
     root.name = 'SGNode';
+    root.group = 'ui';
     root.zIndex = 9999;
-    root.position = cc.v3(winSize.x / 2, winSize.y / 2);
+    root.position = cc.v3(cc.view.getVisibleSize().width / 2, cc.view.getVisibleSize().height / 2);
+    let s = window.ConfigData.portrait ? cc.view.getVisibleSize().width / winSize.width : cc.view.getVisibleSize().height / winSize.height;
+    root.setScale(s, s, 1);
     if (!root) {
       cb && cb();
       return;
@@ -52,15 +66,15 @@ var Box = {
     adMgr.hideBannerAd();
     adMgr.visibleFullGridAd(false);
 
-    let panel = getSprite("SGSDK/res/bg.png", cc.size(winSize.x, winSize.y));
+    let panel = getSprite("SGSDK/res/bg.png", cc.size(winSize.width, winSize.height));
     panel.on('touchstart', () => {}, this);
     panel.parent = root;
 
     let title1 = getSprite("SGSDK/res/jx_wz_01.png");
-    title1.position = cc.v3(0, winSize.y / 2 - 100);
+    title1.position = cc.v3(0, winSize.height / 2 - 100);
     root.addChild(title1);
     let title2 = getSprite("SGSDK/res/jx_wz_02.png");
-    title2.position = cc.v3(0, winSize.y / 2 - 200);
+    title2.position = cc.v3(0, winSize.height / 2 - 200);
     root.addChild(title2);
     let light = getSprite("SGSDK/res/jx_tx_01.png");
     light.position = cc.v3(0, 0);
@@ -80,8 +94,8 @@ var Box = {
     if (!window.ConfigData.portrait) {
       title1.setScale(0.8, 0.8, 1);
       title2.setScale(0.8, 0.8, 1);
-      title1.position = cc.v3(0, winSize.y / 2 - 50);
-      title2.position = cc.v3(0, winSize.y / 2 - 120);
+      title1.position = cc.v3(0, winSize.height / 2 - 50);
+      title2.position = cc.v3(0, winSize.height / 2 - 120);
       light.setScale(1, 1, 1);
       box.setScale(0.6, 0.6, 1);
       barBg.setScale(0.7, 0.7, 1);
@@ -89,7 +103,7 @@ var Box = {
     }
 
     let continueBtn = getSprite("SGSDK/res/jx_an_01.png");
-    continueBtn.position = cc.v3(0, -winSize.y / 2 + 70);
+    continueBtn.position = cc.v3(0, -winSize.height / 2 + 70);
     root.addChild(continueBtn);
     let btnTips = getSprite("SGSDK/res/jx_kd_01.png");
     btnTips.setAnchorPoint(cc.v2(0, 0));

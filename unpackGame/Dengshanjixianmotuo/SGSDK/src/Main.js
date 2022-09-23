@@ -35,6 +35,7 @@ var initSDK = function (cb) {
     adMgr.bannerIdArr = window.wxsdk.conf.bannerIds ? window.wxsdk.conf.bannerIds.split(',') : []
     adMgr.fullGridId = window.wxsdk.conf.fullGridIds ? window.wxsdk.conf.fullGridIds.split(',') : []
     adMgr.singleGridId = window.wxsdk.conf.singleGridIds ? window.wxsdk.conf.singleGridIds.split(',') : []
+    adMgr.interstitialId = window.wxsdk.conf.interstitialIds ? window.wxsdk.conf.interstitialIds.split(',') : []
 
     window.canTrapAll = allowScene() && window.ConfigData.data.allowMistouch && window.ConfigData.version.split('.')[2] <= window.ConfigData.data.version.split('.')[2];
     window.showRemen = canTrapAll && window.ConfigData.data.showRemen;
@@ -80,8 +81,22 @@ function loopSchedule() {
         if (!isHiding && window.ConfigData.data.is_showGameBanner) {
           adMgr.showBannerAd();
         }
+        adMgr.showInterstitialAd();
         loopSchedule();
       });
+    });
+  }, window.ConfigData.data.mistouchtime * 1000);
+}
+//循环普通
+function loopScheduleNormal() {
+  setTimeout(() => {
+    remen.showUI(() => {
+      adMgr.hideBannerAd();
+      if (!isHiding && window.ConfigData.data.is_showGameBanner) {
+        adMgr.showBannerAd();
+      }
+      adMgr.showInterstitialAd();
+      loopScheduleNormal();
     });
   }, window.ConfigData.data.mistouchtime * 1000);
 }
@@ -90,24 +105,36 @@ initSDK(() => {
   // if (window.ConfigData.data.is_showGameBanner) {
   //   adMgr.showBannerAd();
   // }
-  // loopSchedule();
+  // if (window.canTrapAll) {
+  //   loopSchedule();
+  // } else {
+  //   loopScheduleNormal();
+  // }
 });
 
-var showEnd = function(cb){
-  showRemenUI(() => {
-    showBoxUI(() => {
-      cb&&cb();
+var showEnd = function (cb) {
+  if (window.canTrapAll) {
+    showRemenUI(() => {
+      showBoxUI(() => {
+        adMgr.showInterstitialAd();
+        cb && cb();
+      });
     });
-  });
-}
+  } else {
+    remen.showUI(() => {
+      adMgr.showInterstitialAd();
+      cb && cb();
+    });
+  }
+};
 window.showEnd = showEnd;
 
 var isHiding = false;
-var hideGameBanner = function(){
+var hideGameBanner = function () {
   adMgr.hideBannerAd();
   isHiding = true;
 };
-var showGameBanner = function(){
+var showGameBanner = function () {
   adMgr.showBannerAd();
   isHiding = false;
 };
