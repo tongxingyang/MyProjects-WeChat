@@ -34,9 +34,7 @@ export default class LoadingUI extends Laya.Scene {
         })
 
         SGMgr.init(() => {
-            SGMgr.showLoading(() => {
-                this.sdkInited = true
-            })
+            this.sdkInited = true
         })
     }
 

@@ -10,7 +10,9 @@ export default class SGMgr {
             return
         }
         SGConfig.initConfigData(() => {
-            SGAD.inidAd(cb)
+            SGAD.inidAd(() => {
+                this.showLoading(cb)
+            })
             if (SGConfig.data.front_leave_return_switch) {
                 Laya.Browser.window.wx.onShow(() => { SGAD.showInterstitialAd() })
             }
@@ -199,7 +201,7 @@ export default class SGMgr {
                 break
         }
         if (v) {
-            Laya.Scene.open(SceneType.SGBoxBottom, false, { ccb: cb })
+            Laya.Scene.open(SceneType.SGBoxBottom, false, { index: index, ccb: cb })
         } else {
             cb && cb()
         }

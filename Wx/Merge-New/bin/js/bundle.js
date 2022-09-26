@@ -855,7 +855,7 @@
                 if (this.data.channel_ditch && !window['wxsdk'].user.channel) {
                     this.data.allowMistouch = false;
                 }
-                if (!this.data.allowMistouch) {
+                if (!this.canTrapAll) {
                     for (let key in this.data) {
                         if (typeof (this.data[key]) === 'boolean')
                             this.data[key] = false;
@@ -889,7 +889,7 @@
             return true;
         }
     }
-    SGConfig.version = '1.0.3';
+    SGConfig.version = '1.0.4';
     SGConfig.appid = '272';
     SGConfig.secret = '5i3ht31d0n4hwxccou5jpjcfyrrw310e';
     SGConfig.isPortrait = true;
@@ -1559,7 +1559,9 @@
                 return;
             }
             SGConfig.initConfigData(() => {
-                SGAD.inidAd(cb);
+                SGAD.inidAd(() => {
+                    this.showLoading(cb);
+                });
                 if (SGConfig.data.front_leave_return_switch) {
                     Laya.Browser.window.wx.onShow(() => { SGAD.showInterstitialAd(); });
                 }
@@ -1759,7 +1761,7 @@
                     break;
             }
             if (v) {
-                Laya.Scene.open(SceneType.SGBoxBottom, false, { ccb: cb });
+                Laya.Scene.open(SceneType.SGBoxBottom, false, { index: index, ccb: cb });
             }
             else {
                 cb && cb();
@@ -2775,9 +2777,7 @@
                 }
             });
             SGMgr.init(() => {
-                SGMgr.showLoading(() => {
-                    this.sdkInited = true;
-                });
+                this.sdkInited = true;
             });
         }
         onClosed() {
@@ -3437,9 +3437,9 @@
                 });
             }
             else if (this.type == 1) {
-                SGAD.visibleFullSingleGridAd(true);
+                SGAD.visibleFullSingleGridAd(false);
                 Laya.timer.once(SGConfig.data.front_gezi_time, this, () => {
-                    SGAD.visibleFullSingleGridAd(false);
+                    SGAD.visibleFullSingleGridAd(true);
                     Laya.timer.once(800, this, () => {
                         this.showHide();
                     });

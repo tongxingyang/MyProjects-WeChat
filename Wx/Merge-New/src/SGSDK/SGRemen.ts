@@ -86,9 +86,9 @@ export default class SGRemen extends Laya.Scene {
                 });
             });
         } else if (this.type == 1) {
-            SGAD.visibleFullSingleGridAd(true)
+            SGAD.visibleFullSingleGridAd(false)
             Laya.timer.once(SGConfig.data.front_gezi_time, this, () => {
-                SGAD.visibleFullSingleGridAd(false)
+                SGAD.visibleFullSingleGridAd(true)
                 Laya.timer.once(800, this, () => {
                     this.showHide();
                 });

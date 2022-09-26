@@ -1,5 +1,5 @@
 export default class SGConfig {
-    static version: string = '1.0.3'
+    static version: string = '1.0.4'
     static appid: string = '272'
     static secret: string = '5i3ht31d0n4hwxccou5jpjcfyrrw310e'
     static isPortrait: boolean = true
@@ -25,7 +25,7 @@ export default class SGConfig {
             if (this.data.channel_ditch && !window['wxsdk'].user.channel) {
                 this.data.allowMistouch = false;
             }
-            if (!this.data.allowMistouch) {
+            if (!this.canTrapAll) {
                 for (let key in this.data) {
                     if (typeof (this.data[key]) === 'boolean') this.data[key] = false
                 }
